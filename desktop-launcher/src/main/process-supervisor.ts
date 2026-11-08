@@ -279,21 +279,30 @@ export class ProcessSupervisor {
       // Khởi chạy an toàn bằng npm run dev hoặc npx tsx
       this.logger.info('launcher', `Khởi tạo tiến trình máy chủ Backend tại: ${serverDir}`);
 
-      // Windows npm / npx command
-      const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-      const child = spawn(npmCmd, ['run', 'dev'], {
-        cwd: serverDir,
-        env: {
-          ...process.env,
-          PORT: port.toString(),
-          HOST: '127.0.0.1',
-          LANG: 'vi_VN.UTF-8',
-          LC_ALL: 'vi_VN.UTF-8',
-          PYTHONIOENCODING: 'utf-8',
-        },
-        shell: false,
-        stdio: ['ignore', 'pipe', 'pipe'],
-      });
+      // Windows cần shell: true để thực thi file .cmd mà không bị lỗi spawn EINVAL
+      const isWin = process.platform === 'win32';
+      const childEnv = {
+        ...process.env,
+        PORT: port.toString(),
+        HOST: '127.0.0.1',
+        LANG: 'vi_VN.UTF-8',
+        LC_ALL: 'vi_VN.UTF-8',
+        PYTHONIOENCODING: 'utf-8',
+      };
+
+      const child = isWin
+        ? spawn('npm run dev', {
+            cwd: serverDir,
+            env: childEnv,
+            shell: true,
+            stdio: ['ignore', 'pipe', 'pipe'],
+          })
+        : spawn('npm', ['run', 'dev'], {
+            cwd: serverDir,
+            env: childEnv,
+            shell: false,
+            stdio: ['ignore', 'pipe', 'pipe'],
+          });
 
       this.serverProc = child;
       this.serverInfo.pid = child.pid || null;
@@ -385,17 +394,26 @@ export class ProcessSupervisor {
 
       this.logger.info('launcher', `Khởi tạo tiến trình Vite Web Client tại: ${clientDir}`);
 
-      const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-      const child = spawn(npmCmd, ['run', 'dev', '--', '--port', port.toString(), '--host', '127.0.0.1'], {
-        cwd: clientDir,
-        env: {
-          ...process.env,
-          LANG: 'vi_VN.UTF-8',
-          LC_ALL: 'vi_VN.UTF-8',
-        },
-        shell: false,
-        stdio: ['ignore', 'pipe', 'pipe'],
-      });
+      const isWin = process.platform === 'win32';
+      const clientEnv = {
+        ...process.env,
+        LANG: 'vi_VN.UTF-8',
+        LC_ALL: 'vi_VN.UTF-8',
+      };
+
+      const child = isWin
+        ? spawn(`npm run dev -- --port ${port} --host 127.0.0.1`, {
+            cwd: clientDir,
+            env: clientEnv,
+            shell: true,
+            stdio: ['ignore', 'pipe', 'pipe'],
+          })
+        : spawn('npm', ['run', 'dev', '--', '--port', port.toString(), '--host', '127.0.0.1'], {
+            cwd: clientDir,
+            env: clientEnv,
+            shell: false,
+            stdio: ['ignore', 'pipe', 'pipe'],
+          });
 
       this.clientProc = child;
       this.clientInfo.pid = child.pid || null;

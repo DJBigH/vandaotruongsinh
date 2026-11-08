@@ -486,21 +486,31 @@ export class SetupManager {
     cwd: string
   ): Promise<void> {
     return new Promise((resolve, reject) => {
-      const cmdName = process.platform === 'win32' ? `${command}.cmd` : command;
+      const isWin = process.platform === 'win32';
+      const fullCmd = `${command} ${args.join(' ')}`;
 
-      this.sendInfoLog(`> [${path.basename(cwd)}] ${command} ${args.join(' ')}`);
+      this.sendInfoLog(`> [${path.basename(cwd)}] ${fullCmd}`);
 
-      const child = spawn(cmdName, args, {
-        cwd,
-        env: {
-          ...process.env,
-          LANG: 'vi_VN.UTF-8',
-          LC_ALL: 'vi_VN.UTF-8',
-          PYTHONIOENCODING: 'utf-8',
-        },
-        shell: false,
-        stdio: ['ignore', 'pipe', 'pipe'],
-      });
+      const childEnv = {
+        ...process.env,
+        LANG: 'vi_VN.UTF-8',
+        LC_ALL: 'vi_VN.UTF-8',
+        PYTHONIOENCODING: 'utf-8',
+      };
+
+      const child = isWin
+        ? spawn(fullCmd, {
+            cwd,
+            env: childEnv,
+            shell: true,
+            stdio: ['ignore', 'pipe', 'pipe'],
+          })
+        : spawn(command, args, {
+            cwd,
+            env: childEnv,
+            shell: false,
+            stdio: ['ignore', 'pipe', 'pipe'],
+          });
 
       this.activeChildProcess = child;
 

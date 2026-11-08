@@ -19,12 +19,58 @@ function resolveAppDataDir(): string {
 }
 
 function resolveProjectDir(): string {
+  const isCandidate = (dir: string) => {
+    try {
+      return (
+        Boolean(dir) &&
+        fs.existsSync(path.join(dir, 'server')) &&
+        fs.existsSync(path.join(dir, 'client'))
+      );
+    } catch {
+      return false;
+    }
+  };
+
+  const candidates: string[] = [];
+
+  // 1. Thư mục thực thi hiện tại (CWD khi chạy từ script .bat hoặc terminal)
+  candidates.push(process.cwd());
+
+  // 2. Thư mục Portable Executable nếu chạy bản portable VanDaoLauncher.exe
+  if (process.env.PORTABLE_EXECUTABLE_DIR) {
+    candidates.push(path.resolve(process.env.PORTABLE_EXECUTABLE_DIR, '../..'));
+    candidates.push(path.resolve(process.env.PORTABLE_EXECUTABLE_DIR, '..'));
+    candidates.push(process.env.PORTABLE_EXECUTABLE_DIR);
+  }
+
+  // 3. Thư mục chứa file exe thực thi (vd: dist-packaged/win-unpacked)
+  if (process.execPath) {
+    const exeDir = path.dirname(process.execPath);
+    candidates.push(path.resolve(exeDir, '../../..'));
+    candidates.push(path.resolve(exeDir, '../..'));
+    candidates.push(path.resolve(exeDir, '..'));
+  }
+
+  // 4. Thư mục Electron app path
   if (app && typeof app.getAppPath === 'function') {
     try {
-      return path.resolve(app.getAppPath(), '..');
+      const appPath = app.getAppPath();
+      candidates.push(path.resolve(appPath, '../../../..'));
+      candidates.push(path.resolve(appPath, '../../..'));
+      candidates.push(path.resolve(appPath, '../..'));
+      candidates.push(path.resolve(appPath, '..'));
     } catch {}
   }
-  return path.resolve(__dirname, '../../..');
+
+  // 5. Thư mục tương đối với code __dirname (src/main hoặc dist/main)
+  candidates.push(path.resolve(__dirname, '../../..'));
+  candidates.push(path.resolve(__dirname, '../..'));
+
+  for (const c of candidates) {
+    if (isCandidate(c)) return c;
+  }
+
+  return process.cwd();
 }
 
 export class SettingsManager {
@@ -93,6 +139,12 @@ export class SettingsManager {
         const data = fs.readFileSync(this.settingsFilePath, 'utf8');
         const parsed = JSON.parse(data);
         this.settings = { ...this.settings, ...parsed };
+
+        // Nếu projectDir đã lưu không còn tồn tại hoặc thiếu server/client, tự động nhận diện lại
+        if (!fs.existsSync(path.join(this.settings.projectDir, 'server'))) {
+          this.settings.projectDir = resolveProjectDir();
+          this.saveSettings();
+        }
       } else {
         this.saveSettings();
       }
