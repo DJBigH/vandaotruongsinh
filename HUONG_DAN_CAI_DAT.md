@@ -17,20 +17,30 @@ Trước khi bắt đầu, hãy đảm bảo máy tính của bạn đã cài đ
 
 ---
 
-## 2. Các Bước Cài Đặt Từ Đầu (Step-by-Step Setup)
+## 2. Các Bước Cài Đặt (Setup Guide)
 
-### Bước 1: Sao chép mã nguồn (Clone Repository)
-
-Mở terminal (PowerShell, Command Prompt hoặc Git Bash) và chạy lệnh:
-
-```bash
-git clone https://github.com/DJBigH/tutien_game.git
-cd tutien_game
-```
+Dự án hỗ trợ 2 hình thức cài đặt: **Cài đặt tự động bằng Launcher Desktop (Khuyên dùng)** hoặc **Cài đặt thủ công bằng Terminal**.
 
 ---
 
-### Bước 2: Cài đặt thư viện phụ thuộc (Install Dependencies)
+### CÁCH 1: CÀI ĐẶT TỰ ĐỘNG BẰNG DESKTOP LAUNCHER (KHUYÊN DÙNG — 1 CLICK)
+
+Đây là cách đơn giản và nhanh nhất sau khi clone mã nguồn:
+
+1. Mở file **`CHAY_LAUNCHER.bat`** hoặc **`KHOI_DONG_GAME.bat`** ở thư mục gốc (hoặc mở trực tiếp file `desktop-launcher\dist-packaged\win-unpacked\VanDaoLauncher.exe`).
+2. Trên thanh điều hướng của Launcher, chuyển sang tab **🛠️ Cài Đặt Tự Động**.
+3. Xác nhận thư mục dự án (hoặc bấm **📂 Chọn Thư Mục...** trỏ đến nơi bạn vừa clone).
+4. Bấm nút **🚀 BẮT ĐẦU CÀI ĐẶT TỰ ĐỘNG**:
+   - Launcher sẽ **tự động kiểm tra**: Node.js, npm, các gói thư viện (`node_modules`), file cấu hình `.env`, Prisma Client và CSDL.
+   - **Tự động chỉ cài đặt những gì còn thiếu**, không tải lại các thành phần đã có sẵn, giúp tối ưu thời gian.
+   - Hiển thị trực tiếp log dòng lệnh (Live Terminal) thời gian thực.
+5. Khi hoàn tất, bấm **⚔️ Vào Game Ngay!** để bắt đầu trải nghiệm!
+
+---
+
+### CÁCH 2: CÀI ĐẶT THỦ CÔNG BẰNG DÒNG LỆNH (MANUAL CLI)
+
+#### Bước 2.1: Cài đặt thư viện phụ thuộc (Install Dependencies)
 
 Dự án gồm có 3 phân hệ chính: Backend (`server`), Frontend (`client`), và Trình khởi chạy Desktop (`desktop-launcher`). Bạn có thể cài đặt tự động bằng các lệnh sau:
 

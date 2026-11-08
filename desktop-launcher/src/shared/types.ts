@@ -123,6 +123,58 @@ export interface SystemStatusSnapshot {
   };
 }
 
+// ============================================================
+// AUTO-SETUP WIZARD TYPES (Cài Đặt Tự Động Cho Người Mới Clone)
+// ============================================================
+
+export interface SetupInspection {
+  projectDir: string;
+  isValidProjectDir: boolean;
+  nodeVersion: string | null;
+  npmVersion: string | null;
+  hasSharedFolder: boolean;
+  hasServerFolder: boolean;
+  hasClientFolder: boolean;
+  hasSharedModules: boolean;
+  hasServerModules: boolean;
+  hasClientModules: boolean;
+  hasServerEnv: boolean;
+  isDbRunning: boolean;
+  missingItems: string[];
+  isReadyToPlay: boolean;
+}
+
+export type SetupStepStatus = 'PENDING' | 'RUNNING' | 'SUCCESS' | 'WARNING' | 'ERROR' | 'SKIPPED';
+
+export interface SetupStep {
+  id: string;
+  title: string;
+  status: SetupStepStatus;
+  message?: string;
+  durationMs?: number;
+}
+
+export interface SetupProgressPayload {
+  activeStepId: string | null;
+  steps: SetupStep[];
+  isComplete: boolean;
+  hasError: boolean;
+  errorMessage?: string;
+  isReadyToPlay?: boolean;
+}
+
+export interface SetupLogPayload {
+  text: string;
+  stream: 'stdout' | 'stderr' | 'info';
+  timestamp: string;
+}
+
+export interface SetupRunOptions {
+  projectDir?: string;
+  forceReinstall?: boolean;
+  syncDatabase?: boolean;
+}
+
 // IPC Channel Names
 export const IPC_CHANNELS = {
   GET_STATUS: 'launcher:get-status',
@@ -146,4 +198,10 @@ export const IPC_CHANNELS = {
   EXPORT_LOG_AI_ZIP: 'launcher:export-log-ai-zip',
   SHOW_ITEM_IN_FOLDER: 'launcher:show-item-in-folder',
   SELECT_FOLDER: 'launcher:select-folder',
+  // Kênh IPC mới cho Cài Đặt Tự Động (Auto-Setup)
+  INSPECT_SETUP: 'launcher:inspect-setup',
+  RUN_AUTO_SETUP: 'launcher:run-auto-setup',
+  CANCEL_AUTO_SETUP: 'launcher:cancel-auto-setup',
+  SETUP_PROGRESS: 'launcher:setup-progress',
+  SETUP_LOG: 'launcher:setup-log',
 } as const;

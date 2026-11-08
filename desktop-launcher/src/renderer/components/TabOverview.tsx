@@ -10,6 +10,7 @@ interface TabOverviewProps {
   onRestartService: (name: ServiceName) => void;
   onCheckDatabase: () => void;
   onOpenExportModal: () => void;
+  onNavigateToSetup?: () => void;
   isProcessing: boolean;
   isCheckingDb: boolean;
 }
@@ -21,6 +22,7 @@ export const TabOverview: React.FC<TabOverviewProps> = ({
   onRestartService,
   onCheckDatabase,
   onOpenExportModal,
+  onNavigateToSetup,
   isProcessing,
   isCheckingDb,
 }) => {
@@ -77,6 +79,38 @@ export const TabOverview: React.FC<TabOverviewProps> = ({
       </div>
 
       {/* Quick Instruction & System Info */}
+      {onNavigateToSetup && (
+        <div
+          style={{
+            background: 'linear-gradient(90deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.15))',
+            border: '1px solid #10b981',
+            borderRadius: '8px',
+            padding: '12px 18px',
+            marginBottom: '16px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '12px',
+          }}
+        >
+          <div>
+            <div style={{ color: '#34d399', fontWeight: 700, fontSize: '13px' }}>
+              🛠️ CÀI ĐẶT DỰ ÁN CHO NGƯỜI MỚI CLONE:
+            </div>
+            <div style={{ color: 'var(--text-muted)', fontSize: '12px', marginTop: '2px' }}>
+              Nếu bạn vừa clone mã nguồn về, hãy dùng tính năng Cài Đặt Tự Động để launcher tự kiểm tra và cài đặt trọn gói.
+            </div>
+          </div>
+          <button
+            className="btn btn-primary"
+            style={{ padding: '6px 14px', fontSize: '12px', whiteSpace: 'nowrap' }}
+            onClick={onNavigateToSetup}
+          >
+            🚀 Mở Cài Đặt Tự Động
+          </button>
+        </div>
+      )}
+
       <div
         style={{
           background: 'rgba(15, 28, 53, 0.5)',

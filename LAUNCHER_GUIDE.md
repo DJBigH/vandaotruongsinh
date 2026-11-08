@@ -40,7 +40,24 @@ Launcher Desktop được thiết kế riêng cho game ARPG 2D Vạn Đạo Trư
 
 ---
 
-### 2.2. Thẻ "Nhật ký" (Logs Live Streaming)
+### 2.2. Thẻ "Cài Đặt Tự Động" (Auto-Setup Wizard)
+- **Dành riêng cho người mới clone dự án về máy tính:**
+  - Cho phép trỏ hoặc chọn thư mục mã nguồn dự án qua nút **"📂 Chọn Thư Mục..."**.
+  - **Tự động quét và phát hiện thành phần còn thiếu:**
+    - Kiểm tra Node.js & npm runtime.
+    - Kiểm tra cấu hình `server/.env` (tự tạo từ `.env.example` nếu chưa có).
+    - Kiểm tra các gói phụ thuộc `node_modules` ở cả 3 phân hệ: `shared/`, `server/`, `client/`.
+    - Kiểm tra cổng CSDL PostgreSQL (5432).
+  - **Cơ chế cài đặt thông minh:**
+    - **Chỉ cài những phần còn thiếu**, không tải lại các thành phần đã có sẵn giúp tiết kiệm thời gian và băng thông mạng.
+    - Tùy chọn cài đặt lại từ đầu (Force Clean Install) khi cần làm sạch môi trường.
+    - Tự động sinh mã Prisma Client, đồng bộ bảng CSDL (`prisma db push`) và nạp dữ liệu mẫu ban đầu (`seed`) nếu PostgreSQL đang hoạt động.
+    - Cửa sổ dòng lệnh trực tiếp (Live Terminal) hiển thị tiến trình npm / prisma thời gian thực, có nút sao chép log và xóa màn hình.
+  - Sau khi cài đặt hoàn tất, hiển thị nút **"⚔️ Khởi Động Và Vào Game Ngay!"** để vào game tức thì.
+
+---
+
+### 2.3. Thẻ "Nhật ký" (Logs Live Streaming)
 - Tự động bắt toàn bộ luồng xuất chuẩn (`stdout`/`stderr`) từ cả Launcher, Server và Client.
 - Bộ đệm vòng tròn (Circular Buffer) lưu 2,000 dòng gần nhất trong bộ nhớ và tự động ghi vào tệp `%APPDATA%/VanDaoTruongSinh/logs/`.
 - **Bộ lọc đa chiều:**

@@ -15,8 +15,8 @@
     "test:p3": "cd server && npx tsx src/tests/phase3-test.ts",
     "test:arpg": "cd server && npx tsx src/tests/arpg-test.ts",
     "test:sec": "cd server && npx tsx src/tests/security-test.ts",
-    "test:launcher": "cd desktop-launcher && npx tsx src/tests/launcher-core-test.ts && npx tsx src/tests/vietnamese-encoding-test.ts",
-    "test:all": "cd server && npx tsx src/tests/arpg-test.ts && npx tsx src/tests/security-test.ts && npx tsx src/tests/phase3-test.ts && cd ../desktop-launcher && npx tsx src/tests/launcher-core-test.ts && npx tsx src/tests/vietnamese-encoding-test.ts"
+    "test:launcher": "cd desktop-launcher && npx tsx src/tests/launcher-core-test.ts && npx tsx src/tests/vietnamese-encoding-test.ts && npx tsx src/tests/auto-setup-test.ts",
+    "test:all": "cd server && npx tsx src/tests/arpg-test.ts && npx tsx src/tests/security-test.ts && npx tsx src/tests/phase3-test.ts && cd ../desktop-launcher && npx tsx src/tests/launcher-core-test.ts && npx tsx src/tests/vietnamese-encoding-test.ts && npx tsx src/tests/auto-setup-test.ts"
   },
   "keywords": [
     "tu-tien",

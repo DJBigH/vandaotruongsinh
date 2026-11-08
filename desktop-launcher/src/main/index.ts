@@ -12,6 +12,7 @@ import { ProcessSupervisor } from './process-supervisor';
 import { TrayManager } from './tray-manager';
 import { SystemDiagnostics } from './system-diagnostics';
 import { AiLogExporter } from './ai-log-exporter';
+import { SetupManager } from './setup-manager';
 
 let mainWindow: BrowserWindow | null = null;
 let isQuitting = false;
@@ -232,5 +233,20 @@ function registerIpcHandlers(
     });
     if (res.canceled || res.filePaths.length === 0) return null;
     return res.filePaths[0];
+  });
+
+  // Cài Đặt Tự Động (Auto-Setup Wizard)
+  const setupManager = SetupManager.getInstance();
+
+  ipcMain.handle(IPC_CHANNELS.INSPECT_SETUP, async (_, targetDir?: string) => {
+    return setupManager.inspectEnvironment(targetDir);
+  });
+
+  ipcMain.handle(IPC_CHANNELS.RUN_AUTO_SETUP, async (_, options) => {
+    return setupManager.runAutoSetup(options);
+  });
+
+  ipcMain.handle(IPC_CHANNELS.CANCEL_AUTO_SETUP, async () => {
+    return setupManager.cancelAutoSetup();
   });
 }

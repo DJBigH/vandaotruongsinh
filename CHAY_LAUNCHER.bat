@@ -17,4 +17,11 @@ if exist "desktop-launcher\dist-packaged\VanDaoLauncher.exe" (
 echo [THÔNG BÁO] Chưa tìm thấy file VanDaoLauncher.exe đã đóng gói.
 echo Đang khởi chạy launcher ở chế độ phát triển...
 cd desktop-launcher
+
+if not exist "node_modules\" (
+    echo [THÔNG BÁO] Đang cài đặt thư viện cho Desktop Launcher...
+    call npm install
+)
+
+npm run build:main
 npm run start

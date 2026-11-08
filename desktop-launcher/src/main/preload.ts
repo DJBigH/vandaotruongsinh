@@ -15,6 +15,10 @@ import {
   SystemStatusSnapshot,
   ExportLogResult,
   LogEntry,
+  SetupInspection,
+  SetupProgressPayload,
+  SetupLogPayload,
+  SetupRunOptions,
 } from '../shared/types';
 
 const api = {
@@ -94,6 +98,29 @@ const api = {
   },
   selectFolder: (): Promise<string | null> => {
     return ipcRenderer.invoke(IPC_CHANNELS.SELECT_FOLDER);
+  },
+
+  // Cài Đặt Tự Động (Auto-Setup Wizard)
+  inspectSetup: (projectDir?: string): Promise<SetupInspection> => {
+    return ipcRenderer.invoke(IPC_CHANNELS.INSPECT_SETUP, projectDir);
+  },
+  runAutoSetup: (
+    options: SetupRunOptions
+  ): Promise<{ success: boolean; message: string; inspection: SetupInspection }> => {
+    return ipcRenderer.invoke(IPC_CHANNELS.RUN_AUTO_SETUP, options);
+  },
+  cancelAutoSetup: (): Promise<{ success: boolean; message: string }> => {
+    return ipcRenderer.invoke(IPC_CHANNELS.CANCEL_AUTO_SETUP);
+  },
+  onSetupProgress: (callback: (payload: SetupProgressPayload) => void) => {
+    const handler = (_: any, payload: SetupProgressPayload) => callback(payload);
+    ipcRenderer.on(IPC_CHANNELS.SETUP_PROGRESS, handler);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.SETUP_PROGRESS, handler);
+  },
+  onSetupLog: (callback: (log: SetupLogPayload) => void) => {
+    const handler = (_: any, log: SetupLogPayload) => callback(log);
+    ipcRenderer.on(IPC_CHANNELS.SETUP_LOG, handler);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.SETUP_LOG, handler);
   },
 };
 

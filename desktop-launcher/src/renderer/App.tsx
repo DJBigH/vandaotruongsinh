@@ -8,6 +8,7 @@ import {
 } from '../shared/types';
 import { Header } from './components/Header';
 import { TabOverview } from './components/TabOverview';
+import { TabSetup } from './components/TabSetup';
 import { TabLogs } from './components/TabLogs';
 import { TabDiagnostics } from './components/TabDiagnostics';
 import { TabSettings } from './components/TabSettings';
@@ -25,7 +26,7 @@ export const App: React.FC = () => {
   const [settings, setSettings] = useState<LauncherSettings | null>(null);
   const [diagnostics, setDiagnostics] = useState<DiagnosticReport | null>(null);
 
-  const [activeTab, setActiveTab] = useState<'overview' | 'logs' | 'diagnostics' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'setup' | 'logs' | 'diagnostics' | 'settings'>('overview');
   const [isExportModalOpen, setIsExportModalOpen] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [isCheckingDb, setIsCheckingDb] = useState<boolean>(false);
@@ -35,6 +36,11 @@ export const App: React.FC = () => {
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3000);
+  };
+
+  const handleStartAllAndPlay = async () => {
+    setActiveTab('overview');
+    await handleStartAll();
   };
 
   useEffect(() => {
@@ -217,6 +223,12 @@ export const App: React.FC = () => {
           📊 Tổng Quan
         </button>
         <button
+          className={`tab-btn tab-btn-setup ${activeTab === 'setup' ? 'active' : ''}`}
+          onClick={() => setActiveTab('setup')}
+        >
+          🛠️ Cài Đặt Tự Động
+        </button>
+        <button
           className={`tab-btn ${activeTab === 'logs' ? 'active' : ''}`}
           onClick={() => setActiveTab('logs')}
         >
@@ -249,8 +261,18 @@ export const App: React.FC = () => {
             onRestartService={handleRestartService}
             onCheckDatabase={handleCheckDatabase}
             onOpenExportModal={() => setIsExportModalOpen(true)}
+            onNavigateToSetup={() => setActiveTab('setup')}
             isProcessing={isProcessing}
             isCheckingDb={isCheckingDb}
+          />
+        )}
+
+        {activeTab === 'setup' && (
+          <TabSetup
+            initialProjectDir={settings?.projectDir}
+            onNavigateToOverview={() => setActiveTab('overview')}
+            onStartAllAndPlay={handleStartAllAndPlay}
+            showToast={showToast}
           />
         )}
 
