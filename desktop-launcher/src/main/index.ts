@@ -77,8 +77,6 @@ if (!gotTheLock) {
       const candidates = [
         path.join(__dirname, '../../build/tray-icon.png'),
         path.join(process.resourcesPath, 'build/tray-icon.png'),
-        path.join(__dirname, '../../build/tray_icon_16.png'),
-        path.join(process.resourcesPath, 'build/tray_icon_16.png'),
         iconPath
       ];
       for (const p of candidates) {
