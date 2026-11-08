@@ -1,6 +1,6 @@
 import React from 'react';
 import { SystemStatusSnapshot } from '../../shared/types';
-import iconSvg from '../assets/icon.svg';
+import { BrandIcon } from './BrandIcon';
 
 interface HeaderProps {
   status: SystemStatusSnapshot | null;
@@ -28,7 +28,7 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="launcher-header">
       <div className="brand-section">
-        <img src={iconSvg} alt="Vạn Đạo Trường Sinh" className="brand-icon-img" />
+        <BrandIcon className="brand-icon-img" size={40} />
         <div>
           <div className="brand-title">VẠN ĐẠO TRƯỜNG SINH</div>
           <div className="brand-subtitle">
