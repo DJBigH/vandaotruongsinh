@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Radial aura background gradient -->
+    <radialGradient id="navyAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0f2b48" />
+      <stop offset="60%" stop-color="#081426" />
+      <stop offset="100%" stop-color="#040914" />
+    </radialGradient>
+
+    <!-- Celestial sword blade glow gradient -->
+    <linearGradient id="bladeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="50%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#00f2fe" />
+    </linearGradient>
+
+    <!-- Warm talisman gold gradient -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="35%" stop-color="#fbbf24" />
+      <stop offset="70%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#78350f" />
+    </linearGradient>
+
+    <!-- Spiritual cyan glow filter -->
+    <filter id="cyanGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- 1. Circular Medallion Base (Deep Celestial Navy) -->
+  <circle cx="256" cy="256" r="236" fill="url(#navyAura)" stroke="url(#goldGrad)" stroke-width="8" />
+
+  <!-- 2. Concentric Dao Spiritual Rings & Bagua Trigram Accents -->
+  <circle cx="256" cy="256" r="212" fill="none" stroke="#00f2fe" stroke-width="2.5" opacity="0.6" stroke-dasharray="12 6" />
+  <circle cx="256" cy="256" r="190" fill="none" stroke="url(#goldGrad)" stroke-width="3" opacity="0.85" />
+  <circle cx="256" cy="256" r="140" fill="none" stroke="#00f2fe" stroke-width="2" opacity="0.5" filter="url(#cyanGlow)" />
+
+  <!-- 3. Four Cardinal Daoist Rune Marks -->
+  <g stroke="url(#goldGrad)" stroke-width="4" stroke-linecap="round">
+    <!-- North -->
+    <line x1="256" y1="28" x2="256" y2="44" />
+    <!-- South -->
+    <line x1="256" y1="468" x2="256" y2="484" />
+    <!-- West -->
+    <line x1="28" y1="256" x2="44" y2="256" />
+    <!-- East -->
+    <line x1="468" y1="256" x2="484" y2="256" />
+  </g>
+
+  <!-- 4. Celestial Flying Sword (Phi Kiếm) Motif -->
+  <!-- Sword Qi Aura (Outer Cyan Glow) -->
+  <path d="M 256,52 L 286,280 L 256,330 L 226,280 Z" fill="#00f2fe" opacity="0.3" filter="url(#cyanGlow)" />
+
+  <!-- Main Blade Body -->
+  <path d="M 256,58 L 278,285 L 256,310 L 234,285 Z" fill="url(#bladeGrad)" stroke="#00f2fe" stroke-width="2" />
+
+  <!-- Blade Central Fuller Line -->
+  <line x1="256" y1="72" x2="256" y2="295" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" />
+
+  <!-- Golden Winged Dragon Crossguard -->
+  <path d="M 256,310 
+           C 285,310 320,320 334,338 
+           C 305,338 275,328 256,336 
+           C 237,328 207,338 178,338 
+           C 192,320 227,310 256,310 Z" 
+        fill="url(#goldGrad)" stroke="#78350f" stroke-width="2" />
+
+  <!-- Sword Hilt (Grip) wrapped in spiritual silk -->
+  <rect x="250" y="336" width="12" height="64" rx="3" fill="#1e293b" stroke="url(#goldGrad)" stroke-width="2" />
+  <line x1="250" y1="350" x2="262" y2="350" stroke="#fbbf24" stroke-width="2" />
+  <line x1="250" y1="365" x2="262" y2="365" stroke="#fbbf24" stroke-width="2" />
+  <line x1="250" y1="380" x2="262" y2="380" stroke="#fbbf24" stroke-width="2" />
+
+  <!-- Golden Pommel with Cyan Spiritual Gem -->
+  <circle cx="256" cy="412" r="16" fill="url(#goldGrad)" stroke="#78350f" stroke-width="2" />
+  <circle cx="256" cy="412" r="7" fill="#00f2fe" filter="url(#cyanGlow)" />
+  <circle cx="256" cy="412" r="3" fill="#ffffff" />
+</svg>

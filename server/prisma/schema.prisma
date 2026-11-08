@@ -1,0 +1,252 @@
+// ============================================================
+// VẠN ĐẠO TRƯỜNG SINH - Prisma Schema
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// === Enums ===
+
+enum Role {
+  PLAYER
+  CONTENT_EDITOR
+  GAME_MASTER
+  OWNER
+}
+
+enum CultPath {
+  SWORD
+  SPELL
+  BODY
+}
+
+enum QStatus {
+  AVAILABLE
+  ACTIVE
+  COMPLETED
+  TURNED_IN
+}
+
+// === Models ===
+
+model Account {
+  id           String      @id @default(uuid()) @db.Uuid
+  username     String      @unique @db.VarChar(50)
+  email        String      @unique @db.VarChar(255)
+  passwordHash String      @db.VarChar(255)
+  role         Role        @default(PLAYER)
+  isBanned     Boolean     @default(false)
+  lastLoginAt  DateTime?
+  createdAt    DateTime    @default(now())
+
+  characters   Character[]
+  auditLogs    AuditLog[]  @relation("AdminAuditLogs")
+
+  @@index([username])
+  @@index([email])
+  @@map("accounts")
+}
+
+model Character {
+  id                 String    @id @default(uuid()) @db.Uuid
+  accountId          String    @db.Uuid
+  name               String    @unique @db.VarChar(30)
+  cultivationPath    CultPath
+  realmIndex         Int       @default(0)
+  realmTier          Int       @default(0)
+  cultivationExp     BigInt    @default(0)
+  exp                BigInt    @default(0)
+  level              Int       @default(1)
+  stats              Json      // CharacterStats JSON
+  currentMapId       String    @default("map_thanh_khe") @db.VarChar(100)
+  positionX          Float     @default(0)
+  positionY          Float     @default(0)
+  gold               Int       @default(0)
+  appearance         Int       @default(0)
+  slot               Int       @default(0) // 0, 1, 2 (3 ô nhân vật độc lập)
+  isActive           Boolean   @default(true)
+  
+  // Phase 2 additions
+  sectId             String?   @db.VarChar(50)
+  sectContribution   Int       @default(0)
+  sectRank           String    @default("Đệ Tử Ngoại Môn") @db.VarChar(50)
+  lastOfflineClaimAt DateTime  @default(now())
+  activePetId        String?   @db.Uuid
+
+  createdAt          DateTime  @default(now())
+
+  account            Account          @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  inventory          InventoryItem[]
+  skills             CharacterSkill[]
+  quests             CharacterQuest[]
+  storyFlags         StoryFlag[]
+  combatSessions     CombatSession[]
+  rewardClaims       RewardClaim[]
+  caveAbode          CaveAbode?
+  pets               CharacterPet[]
+
+  @@index([accountId])
+  @@index([name])
+  @@map("characters")
+}
+
+model InventoryItem {
+  id          String   @id @default(uuid()) @db.Uuid
+  characterId String   @db.Uuid
+  templateId  String   @db.VarChar(100)
+  quantity    Int      @default(1)
+  isEquipped  Boolean  @default(false)
+  isLocked    Boolean  @default(false)
+  slotType    String?  @db.VarChar(50)
+  createdAt   DateTime @default(now())
+
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@index([characterId])
+  @@index([characterId, templateId])
+  @@map("inventory_items")
+}
+
+model CharacterSkill {
+  id          String   @id @default(uuid()) @db.Uuid
+  characterId String   @db.Uuid
+  skillId     String   @db.VarChar(100)
+  level       Int      @default(1)
+  isEquipped  Boolean  @default(false)
+
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, skillId])
+  @@index([characterId])
+  @@map("character_skills")
+}
+
+model CharacterQuest {
+  id          String    @id @default(uuid()) @db.Uuid
+  characterId String    @db.Uuid
+  questId     String    @db.VarChar(100)
+  status      QStatus   @default(ACTIVE)
+  progress    Json      @default("[]") // QuestObjective[] progress
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, questId])
+  @@index([characterId])
+  @@map("character_quests")
+}
+
+model StoryFlag {
+  id          String @id @default(uuid()) @db.Uuid
+  characterId String @db.Uuid
+  flagKey     String @db.VarChar(100)
+  flagValue   String @db.VarChar(255)
+
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, flagKey])
+  @@index([characterId])
+  @@map("story_flags")
+}
+
+model CombatSession {
+  id          String   @id @default(uuid()) @db.Uuid
+  characterId String   @db.Uuid
+  state       Json     // CombatState JSON
+  currentTurn Int      @default(0)
+  isActive    Boolean  @default(true)
+  monsterId   String?  @db.VarChar(100)
+  bossId      String?  @db.VarChar(100)
+  createdAt   DateTime @default(now())
+
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@index([characterId])
+  @@index([characterId, isActive])
+  @@map("combat_sessions")
+}
+
+model RewardClaim {
+  id          String   @id @default(uuid()) @db.Uuid
+  characterId String   @db.Uuid
+  eventKey    String   @db.VarChar(255)
+  claimedAt   DateTime @default(now())
+
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, eventKey])
+  @@index([characterId])
+  @@map("reward_claims")
+}
+
+model CaveAbode {
+  id                   String    @id @default(uuid()) @db.Uuid
+  characterId          String    @unique @db.Uuid
+  spiritGatheringLevel Int       @default(1)
+  herbFieldLevel       Int       @default(1)
+  alchemyLabLevel      Int       @default(1)
+  farmSlots            Json      @default("[]") // FarmSlot[]
+
+  character            Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@map("cave_abodes")
+}
+
+model CharacterPet {
+  id            String    @id @default(uuid()) @db.Uuid
+  characterId   String    @db.Uuid
+  petTemplateId String    @db.VarChar(100)
+  level         Int       @default(1)
+  exp           Int       @default(0)
+  affinity      Int       @default(0)
+  isActive      Boolean   @default(false)
+
+  character     Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, petTemplateId])
+  @@index([characterId])
+  @@map("character_pets")
+}
+
+model AuditLog {
+  id            String   @id @default(uuid()) @db.Uuid
+  adminId       String   @db.Uuid
+  adminUsername String   @db.VarChar(50)
+  action        String   @db.VarChar(100)
+  targetType    String   @db.VarChar(50)
+  targetId      String   @db.VarChar(255)
+  beforeData    Json?
+  afterData     Json?
+  reason        String   @db.Text
+  createdAt     DateTime @default(now())
+
+  admin         Account  @relation("AdminAuditLogs", fields: [adminId], references: [id])
+
+  @@index([adminId])
+  @@index([createdAt])
+  @@index([targetType, targetId])
+  @@map("audit_logs")
+}
+
+model ContentVersion {
+  id          String   @id @default(uuid()) @db.Uuid
+  contentType String   @db.VarChar(50)
+  contentId   String   @db.VarChar(100)
+  version     Int      @default(1)
+  data        Json
+  publishedBy String   @db.Uuid
+  publishedAt DateTime @default(now())
+  isActive    Boolean  @default(true)
+
+  @@unique([contentType, contentId, version])
+  @@index([contentType, contentId])
+  @@index([isActive])
+  @@map("content_versions")
+}

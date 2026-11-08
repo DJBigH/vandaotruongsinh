@@ -1,0 +1,614 @@
+// ============================================================
+// VẠN ĐẠO TRƯỜNG SINH - 20 Boss Chiến Thuật Đa Giai Đoạn (Bosses)
+// 8 Boss Chương | 6 Boss Ẩn/Phụ | 6 Boss Thử Thách Sau Cốt Truyện
+// ============================================================
+
+import { CharacterStats, ItemQuality } from '@shared';
+import { MonsterDrop } from './monsters';
+
+export interface BossPhase {
+  phaseNumber: number;
+  triggerHpPercent: number; // e.g. 0.5 = triggers at 50% HP
+  name: string;
+  statMultiplier: Partial<CharacterStats>;
+  specialSkill: string;
+  dialogue: string;
+}
+
+export interface BossTemplate {
+  id: string;
+  name: string;
+  title: string;
+  description: string;
+  chapter: number;
+  isEndgame?: boolean;
+  spriteKey: string;
+  stats: CharacterStats;
+  phases: BossPhase[];
+  expReward: number;
+  goldReward: number;
+  cultivationExpReward: number;
+  drops: MonsterDrop[];
+}
+
+export const BOSS_TEMPLATES: Record<string, BossTemplate> = {
+  // ==========================================
+  // 8 BOSS CỐT TRUYỆN CHÍNH (Chương 1 -> 8)
+  // ==========================================
+  boss_001: {
+    id: 'boss_001',
+    name: 'Xích Nha Lang Vương',
+    title: 'Thú Vương Bìa Rừng',
+    description: 'Lang vương biến dị nhờ hấp thụ mảnh Thiên Thư rơi rụng, nanh vuốt đỏ rực như máu.',
+    chapter: 1,
+    spriteKey: 'boss_001',
+    stats: { hp: 350, maxHp: 350, mp: 60, maxMp: 60, atk: 25, def: 8, spd: 12, critRate: 15, critDmg: 50, resist: 10 },
+    expReward: 150,
+    goldReward: 80,
+    cultivationExpReward: 200,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.4,
+        name: 'Cuồng Bạo Lang Vương',
+        statMultiplier: { atk: 35, spd: 16, critRate: 25 },
+        specialSkill: 'Huyết Nguyệt Cuồng Trảm',
+        dialogue: 'Graooo! Máu tươi của các ngươi sẽ nuôi dưỡng nanh vuốt của ta!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_002', chance: 0.5, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_006', chance: 0.4, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_015', chance: 1.0, minQuantity: 1, maxQuantity: 1 },
+    ],
+  },
+
+  boss_003: {
+    id: 'boss_003',
+    name: 'Huyền Giáp Linh Quy',
+    title: 'Hộ Trận Linh Thú',
+    description: 'Thần quy ngàn năm thủ hộ mạch nước Thanh Vân Tông, mai rùa khắc trận pháp phòng hộ tuyệt đối.',
+    chapter: 2,
+    spriteKey: 'boss_003',
+    stats: { hp: 650, maxHp: 650, mp: 100, maxMp: 100, atk: 38, def: 28, spd: 8, critRate: 10, critDmg: 40, resist: 30 },
+    expReward: 350,
+    goldReward: 180,
+    cultivationExpReward: 480,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.5,
+        name: 'Huyền Vũ Hóa Thân',
+        statMultiplier: { def: 42, resist: 50 },
+        specialSkill: 'Huyền Thủy Hộ Thể',
+        dialogue: 'Hậu bối, đao kiếm phàm trần sao có thể phá vỡ mai rùa nghìn năm của lão phu!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_017', chance: 0.4, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_055', chance: 1.0, minQuantity: 2, maxQuantity: 3 },
+      { itemTemplateId: 'item_049', chance: 0.3, minQuantity: 1, maxQuantity: 1 },
+    ],
+  },
+
+  boss_005: {
+    id: 'boss_005',
+    name: 'Xích Luyện Đan Sư',
+    title: 'Kẻ Phản Bội Đan Đạo',
+    description: 'Trưởng lão Đan Hà Môn đắm chìm vào cấm thuật luyện đan bằng hồn phách tu sĩ.',
+    chapter: 3,
+    spriteKey: 'boss_005',
+    stats: { hp: 1100, maxHp: 1100, mp: 200, maxMp: 200, atk: 68, def: 32, spd: 15, critRate: 18, critDmg: 55, resist: 35 },
+    expReward: 650,
+    goldReward: 320,
+    cultivationExpReward: 880,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.5,
+        name: 'Hóa Ma Đan Thể',
+        statMultiplier: { atk: 90, critRate: 28 },
+        specialSkill: 'Cửu Chuyển Huyết Đan Diệt Diễm',
+        dialogue: 'Cấm đan đã thành! Hôm nay các ngươi sẽ thành dược dẫn cho bước đột phá của ta!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_022', chance: 0.4, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_036', chance: 0.2, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_050', chance: 0.5, minQuantity: 1, maxQuantity: 2 },
+    ],
+  },
+
+  boss_007: {
+    id: 'boss_007',
+    name: 'Cổ Kiếm Tôn Giả',
+    title: 'Chủ Nhân Kiếm Trũng',
+    description: 'Tàn hồn thủ hộ di tích kiếm cổ, thử thách kiếm đạo của những kẻ bước vào mảnh Thiên Thư thứ hai.',
+    chapter: 4,
+    spriteKey: 'boss_004',
+    stats: { hp: 1800, maxHp: 1800, mp: 250, maxMp: 250, atk: 110, def: 52, spd: 22, critRate: 25, critDmg: 65, resist: 40 },
+    expReward: 1100,
+    goldReward: 550,
+    cultivationExpReward: 1500,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.45,
+        name: 'Vạn Kiếm Nhập Thể',
+        statMultiplier: { atk: 145, spd: 28, critRate: 35 },
+        specialSkill: 'Thiên Kiếm Tuyệt Sát Trận',
+        dialogue: 'Kiếm ý không tạp niệm! Đón lấy một kiếm cuối cùng này của ta!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_021', chance: 0.4, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_043', chance: 0.5, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_063', chance: 0.4, minQuantity: 1, maxQuantity: 1 },
+    ],
+  },
+
+  boss_008: {
+    id: 'boss_008',
+    name: 'U Minh Quỷ Đế',
+    title: 'Chúa Tể Cõi Tử',
+    description: 'Thống lĩnh tà tu vùng U Minh, nắm giữ bí mật về những ký ức bị tước đoạt trong Thiên Khế.',
+    chapter: 5,
+    spriteKey: 'boss_006',
+    stats: { hp: 2800, maxHp: 2800, mp: 350, maxMp: 350, atk: 165, def: 75, spd: 24, critRate: 28, critDmg: 70, resist: 50 },
+    expReward: 1800,
+    goldReward: 900,
+    cultivationExpReward: 2450,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.4,
+        name: 'Minh Hoàng Giáng Thế',
+        statMultiplier: { atk: 215, def: 95, critRate: 35 },
+        specialSkill: 'Bách Quỷ Dạ Hành Trảm Hồn',
+        dialogue: 'Chính đạo tự xưng quang minh nhưng tước đi ký ức của vạn sinh linh, ai mới thật sự là ma?',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_023', chance: 0.35, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_065', chance: 0.4, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_066', chance: 0.5, minQuantity: 1, maxQuantity: 1 },
+    ],
+  },
+
+  boss_009: {
+    id: 'boss_009',
+    name: 'Kính Tâm Ma Hoàng',
+    title: 'Bản Thể Trong Gương',
+    description: 'Hóa thân tâm ma của chính nhân vật, phản chiếu mọi nỗi sợ, nuối tiếc và tham vọng sâu kín nhất.',
+    chapter: 6,
+    spriteKey: 'boss_004',
+    stats: { hp: 4200, maxHp: 4200, mp: 500, maxMp: 500, atk: 230, def: 105, spd: 30, critRate: 32, critDmg: 75, resist: 60 },
+    expReward: 2700,
+    goldReward: 1350,
+    cultivationExpReward: 3680,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.5,
+        name: 'Vô Tận Chấp Niệm',
+        statMultiplier: { atk: 300, spd: 36, critDmg: 95 },
+        specialSkill: 'Lục Đạo Tâm Ma Tuyệt Diệt',
+        dialogue: 'Ta chính là ngươi! Ngươi càng muốn quên, ta càng bất diệt!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_038', chance: 0.4, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_067', chance: 0.4, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_068', chance: 0.5, minQuantity: 1, maxQuantity: 2 },
+    ],
+  },
+
+  boss_010: {
+    id: 'boss_010',
+    name: 'Long Mạch Chân Long',
+    title: 'Hóa Thân Linh Mạch',
+    description: 'Chân long cổ xưa phong ấn bên dưới đỉnh Thiên Sơn, bảo hộ long mạch của toàn cõi nhân gian.',
+    chapter: 7,
+    spriteKey: 'boss_003',
+    stats: { hp: 6000, maxHp: 6000, mp: 650, maxMp: 650, atk: 320, def: 145, spd: 32, critRate: 35, critDmg: 80, resist: 70 },
+    expReward: 4000,
+    goldReward: 2000,
+    cultivationExpReward: 5460,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.4,
+        name: 'Thiên Nộ Long Ngâm',
+        statMultiplier: { atk: 410, def: 180, critRate: 40 },
+        specialSkill: 'Cửu Tiêu Long Tức',
+        dialogue: 'Long mạch cạn kiệt, thiên địa sẽ sụp đổ! Hãy chứng minh ngươi đủ tư cách kế thừa vận mệnh này!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_024', chance: 0.4, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_071', chance: 0.4, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_072', chance: 0.5, minQuantity: 1, maxQuantity: 2 },
+    ],
+  },
+
+  boss_011: {
+    id: 'boss_011',
+    name: 'Thiên Khế Chấp Pháp Giả',
+    title: 'Người Canh Giữ Giao Ước',
+    description: 'Thần linh cổ xưa thi hành Thiên Khế, kẻ quyết định định đoạt tương lai của thế giới.',
+    chapter: 8,
+    spriteKey: 'boss_001',
+    stats: { hp: 8800, maxHp: 8800, mp: 900, maxMp: 900, atk: 450, def: 200, spd: 38, critRate: 40, critDmg: 90, resist: 80 },
+    expReward: 6000,
+    goldReward: 3000,
+    cultivationExpReward: 8200,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.6,
+        name: 'Thiên Khế Thần Uy',
+        statMultiplier: { atk: 560, def: 240, spd: 42 },
+        specialSkill: 'Quy Tắc Phán Quyết: Trảm Ký Ức',
+        dialogue: 'Thiên Khế bảo hộ trật tự ngàn năm, phàm nhân như ngươi sao dám vọng tưởng sửa đổi ý trời!',
+      },
+      {
+        phaseNumber: 3,
+        triggerHpPercent: 0.25,
+        name: 'Thái Sơ Tuyệt Diệt Cảnh',
+        statMultiplier: { atk: 680, critRate: 50, critDmg: 110 },
+        specialSkill: 'Vạn Cổ Quy Khư',
+        dialogue: 'Nếu giao ước bị phá vỡ, cả thế giới này sẽ chìm trong biển máu!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_025', chance: 0.5, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_073', chance: 0.5, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_074', chance: 1.0, minQuantity: 2, maxQuantity: 3 },
+    ],
+  },
+
+  // ==========================================
+  // 6 BOSS ẨN & NHIỆM VỤ PHỤ
+  // ==========================================
+  boss_002: {
+    id: 'boss_002',
+    name: 'Cổ Thụ Yêu',
+    title: 'Thụ Yêu Ngàn Năm',
+    description: 'Cây cổ thụ tu luyện thành tinh dưới thung lũng sâu, rễ cây hút cạn sinh lực mọi sinh vật.',
+    chapter: 1,
+    spriteKey: 'boss_002',
+    stats: { hp: 480, maxHp: 480, mp: 80, maxMp: 80, atk: 28, def: 18, spd: 6, critRate: 8, critDmg: 35, resist: 20 },
+    expReward: 200,
+    goldReward: 100,
+    cultivationExpReward: 270,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.5,
+        name: 'Vạn Mộc Bất Diệt',
+        statMultiplier: { def: 26, hp: 550 },
+        specialSkill: 'Hút Máu Bàng Căn',
+        dialogue: 'Rừng già là lãnh địa của ta, huyết nhục của ngươi sẽ làm phân bón!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_008', chance: 0.5, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_012', chance: 1.0, minQuantity: 3, maxQuantity: 5 },
+    ],
+  },
+
+  boss_004: {
+    id: 'boss_004',
+    name: 'Thanh Vân Kiếm Si',
+    title: 'Kẻ Cuồng Kiếm Mất Trí',
+    description: 'Đồng môn tài hoa từng đột phá thất bại, bị tước sạch ký ức hóa điên trong Kiếm Trũng.',
+    chapter: 2,
+    spriteKey: 'boss_004',
+    stats: { hp: 850, maxHp: 850, mp: 120, maxMp: 120, atk: 55, def: 22, spd: 18, critRate: 22, critDmg: 55, resist: 25 },
+    expReward: 480,
+    goldReward: 240,
+    cultivationExpReward: 650,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.45,
+        name: 'Loạn Kiếm Phong Ba',
+        statMultiplier: { atk: 72, spd: 24 },
+        specialSkill: 'Điên Loạn Trảm',
+        dialogue: 'Ta là ai? Ta đã quên tên mình... nhưng thanh kiếm này nhớ rõ sát chiêu!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_016', chance: 0.5, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_057', chance: 1.0, minQuantity: 2, maxQuantity: 3 },
+    ],
+  },
+
+  boss_006: {
+    id: 'boss_006',
+    name: 'U Hỏa Huyết Hạt',
+    title: 'Độc Thú Hỏa Đàm',
+    description: 'Bọ cạp khổng lồ ngâm mình trong nham thạch lửa tím dưới vực sâu Đan Hà Cốc.',
+    chapter: 3,
+    spriteKey: 'boss_006',
+    stats: { hp: 1350, maxHp: 1350, mp: 150, maxMp: 150, atk: 82, def: 42, spd: 16, critRate: 20, critDmg: 50, resist: 35 },
+    expReward: 800,
+    goldReward: 400,
+    cultivationExpReward: 1100,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.4,
+        name: 'Độc Hỏa Liệt Diễm',
+        statMultiplier: { atk: 105, critRate: 30 },
+        specialSkill: 'Huyết Hạt Vĩ Thứ',
+        dialogue: 'Kè kè... Nọc độc u hỏa sẽ thiêu đốt kinh mạch ngươi thành tro bụi!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_056', chance: 1.0, minQuantity: 2, maxQuantity: 3 },
+      { itemTemplateId: 'item_028', chance: 0.35, minQuantity: 1, maxQuantity: 1 },
+    ],
+  },
+
+  boss_012: {
+    id: 'boss_012',
+    name: 'Tàn Kiếm Tông Sư',
+    title: 'Kiếm Đạo Ẩn Sĩ',
+    description: 'Bậc thầy kiếm thuật ẩn cư tại thạch thất Cổ Kiếm, rèn luyện kiếm tâm suốt ba trăm năm.',
+    chapter: 4,
+    spriteKey: 'boss_004',
+    stats: { hp: 2200, maxHp: 2200, mp: 300, maxMp: 300, atk: 135, def: 60, spd: 25, critRate: 28, critDmg: 65, resist: 45 },
+    expReward: 1400,
+    goldReward: 700,
+    cultivationExpReward: 1900,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.5,
+        name: 'Nhân Kiếm Hợp Nhất',
+        statMultiplier: { atk: 175, critRate: 40 },
+        specialSkill: 'Vô Chiêu Thắng Hữu Chiêu',
+        dialogue: 'Kiếm chiêu hữu hình dễ phá, kiếm ý vô hình bất diệt!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_027', chance: 0.4, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_037', chance: 0.35, minQuantity: 1, maxQuantity: 1 },
+    ],
+  },
+
+  boss_013: {
+    id: 'boss_013',
+    name: 'Hoàng Tuyền Minh Xà',
+    title: 'Cổ Xà Đáy Vực',
+    description: 'Rắn thần chín đầu bơi trong sông Hoàng Tuyền dưới lòng U Minh, nuốt trọn linh hồn vất vưởng.',
+    chapter: 5,
+    spriteKey: 'boss_003',
+    stats: { hp: 3400, maxHp: 3400, mp: 400, maxMp: 400, atk: 190, def: 85, spd: 26, critRate: 30, critDmg: 70, resist: 55 },
+    expReward: 2200,
+    goldReward: 1100,
+    cultivationExpReward: 3000,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.45,
+        name: 'Cửu Đầu Thôn Hồn',
+        statMultiplier: { atk: 250, spd: 32 },
+        specialSkill: 'Hoàng Tuyền Hủ Cốt Lạc',
+        dialogue: 'Linh hồn của ngươi sẽ trở thành thức ăn nuôi dưỡng chín đầu rắn của ta!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_031', chance: 0.4, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_058', chance: 1.0, minQuantity: 3, maxQuantity: 5 },
+    ],
+  },
+
+  boss_014: {
+    id: 'boss_014',
+    name: 'Băng Sương Huyễn Phượng',
+    title: 'Phượng Hoàng Đỉnh Tuyết',
+    description: 'Linh điểu thần thánh ngự trị trên đỉnh tuyết Thiên Sơn, sở hữu ngọn lửa băng thanh lọc thế gian.',
+    chapter: 7,
+    spriteKey: 'boss_005',
+    stats: { hp: 5000, maxHp: 5000, mp: 600, maxMp: 600, atk: 280, def: 120, spd: 34, critRate: 35, critDmg: 75, resist: 65 },
+    expReward: 3400,
+    goldReward: 1700,
+    cultivationExpReward: 4600,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.4,
+        name: 'Niết Bàn Băng Diễm',
+        statMultiplier: { atk: 360, spd: 40, critRate: 45 },
+        specialSkill: 'Băng Phượng Tê Thiên',
+        dialogue: 'Ánh lửa băng giá sẽ đông cứng mọi tham lam trần thế của ngươi!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_035', chance: 0.5, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_059', chance: 1.0, minQuantity: 3, maxQuantity: 5 },
+    ],
+  },
+
+  // ==========================================
+  // 6 BOSS THỬ THÁCH SAU CỐT TRUYỆN (TRẤN YÊU THÁP)
+  // ==========================================
+  boss_015: {
+    id: 'boss_015',
+    name: 'Thái Cổ Hỗn Độn Ma Viên',
+    title: 'Trấn Yêu Tháp - Tầng 1',
+    description: 'Viễn cổ ma hầu bị phong ấn ngàn vạn năm, một gậy có thể đánh sụp non sông.',
+    chapter: 8,
+    isEndgame: true,
+    spriteKey: 'boss_005',
+    stats: { hp: 10000, maxHp: 10000, mp: 800, maxMp: 800, atk: 520, def: 220, spd: 35, critRate: 35, critDmg: 85, resist: 75 },
+    expReward: 7500,
+    goldReward: 3800,
+    cultivationExpReward: 10200,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.5,
+        name: 'Hỗn Độn Cuồng Nộ',
+        statMultiplier: { atk: 680, spd: 42, critRate: 45 },
+        specialSkill: 'Khai Thiên Phách Địa Bổng',
+        dialogue: 'Gào! Ngươi dám quấy rầy giấc ngủ ngàn năm của lão Tôn!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_074', chance: 1.0, minQuantity: 3, maxQuantity: 5 },
+      { itemTemplateId: 'item_036', chance: 0.6, minQuantity: 1, maxQuantity: 1 },
+    ],
+  },
+
+  boss_016: {
+    id: 'boss_016',
+    name: 'Cửu U Minh Hoàng',
+    title: 'Trấn Yêu Tháp - Tầng 2',
+    description: 'Thống ngự chín tầng địa ngục cổ đại, pháp lực ma đạo cái thế vô song.',
+    chapter: 8,
+    isEndgame: true,
+    spriteKey: 'boss_006',
+    stats: { hp: 12500, maxHp: 12500, mp: 1000, maxMp: 1000, atk: 600, def: 250, spd: 38, critRate: 38, critDmg: 90, resist: 80 },
+    expReward: 9500,
+    goldReward: 4800,
+    cultivationExpReward: 13000,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.45,
+        name: 'Cửu U Tuyệt Vực',
+        statMultiplier: { atk: 780, critRate: 50, critDmg: 110 },
+        specialSkill: 'U Minh Diệt Hồn Lôi',
+        dialogue: 'Dưới chân bản tọa, linh hồn thần phật cũng phải quỳ gối xưng thần!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_031', chance: 0.7, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_073', chance: 1.0, minQuantity: 2, maxQuantity: 3 },
+    ],
+  },
+
+  boss_017: {
+    id: 'boss_017',
+    name: 'Diệt Thế Lôi Long',
+    title: 'Trấn Yêu Tháp - Tầng 3',
+    description: 'Thần long sinh ra từ kiếp lôi diệt thế, hơi thở mang theo sấm sét phá hủy chư thiên.',
+    chapter: 8,
+    isEndgame: true,
+    spriteKey: 'boss_003',
+    stats: { hp: 16000, maxHp: 16000, mp: 1200, maxMp: 1200, atk: 700, def: 280, spd: 42, critRate: 40, critDmg: 95, resist: 85 },
+    expReward: 12000,
+    goldReward: 6000,
+    cultivationExpReward: 16500,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.4,
+        name: 'Thiên Phạt Lôi Kiếp',
+        statMultiplier: { atk: 920, spd: 48, critRate: 55 },
+        specialSkill: 'Cửu Trọng Diệt Thế Lôi Trận',
+        dialogue: 'Lôi kiếp giáng thế, vạn vật giai diệt! Chết đi!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_037', chance: 0.8, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_074', chance: 1.0, minQuantity: 4, maxQuantity: 6 },
+    ],
+  },
+
+  boss_018: {
+    id: 'boss_018',
+    name: 'Hư Không Thôn Thiên Thú',
+    title: 'Trấn Yêu Tháp - Tầng 4',
+    description: 'Hung thú viễn cổ lang thang trong kẽ nứt vũ trụ, há miệng có thể nuốt cả một tinh cầu.',
+    chapter: 8,
+    isEndgame: true,
+    spriteKey: 'boss_001',
+    stats: { hp: 20000, maxHp: 20000, mp: 1500, maxMp: 1500, atk: 820, def: 320, spd: 40, critRate: 42, critDmg: 100, resist: 90 },
+    expReward: 15000,
+    goldReward: 7500,
+    cultivationExpReward: 20500,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.4,
+        name: 'Hư Không Vực Sâu',
+        statMultiplier: { atk: 1050, def: 380 },
+        specialSkill: 'Hỗn Độn Thôn Thiên Thệ',
+        dialogue: 'Tất cả đạo pháp, tất cả linh khí... đều thuộc về cái bụng đói vô tận của ta!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_068', chance: 1.0, minQuantity: 5, maxQuantity: 8 },
+      { itemTemplateId: 'item_072', chance: 1.0, minQuantity: 3, maxQuantity: 5 },
+    ],
+  },
+
+  boss_019: {
+    id: 'boss_019',
+    name: 'Bất Diệt Kiếm Tổ',
+    title: 'Trấn Yêu Tháp - Tầng 5',
+    description: 'Tổ sư khai sơn sáng lập kiếm đạo nhân gian, bản thân đã dung hợp hoàn toàn vào quy luật kiếm.',
+    chapter: 8,
+    isEndgame: true,
+    spriteKey: 'boss_004',
+    stats: { hp: 25000, maxHp: 25000, mp: 2000, maxMp: 2000, atk: 980, def: 360, spd: 46, critRate: 48, critDmg: 110, resist: 92 },
+    expReward: 19000,
+    goldReward: 9500,
+    cultivationExpReward: 26000,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.5,
+        name: 'Vô Ngã Vô Kiếm',
+        statMultiplier: { atk: 1250, spd: 54, critRate: 60 },
+        specialSkill: 'Khai Thiên Nhất Kiếm Định Càn Khôn',
+        dialogue: 'Đến đây đi! Để lão phu xem kiếm đạo hậu thế đã đạt tới cảnh giới nào!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_025', chance: 1.0, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_048', chance: 0.8, minQuantity: 1, maxQuantity: 1 },
+    ],
+  },
+
+  boss_020: {
+    id: 'boss_020',
+    name: 'Vạn Đạo Thiên Tôn',
+    title: 'Đỉnh Phong Thần Thoại - Đỉnh Tháp',
+    description: 'Chúa tể khai sinh vạn đạo quy luật của trời đất, thử thách tối thượng dành cho tu sĩ cảnh giới Độ Kiếp.',
+    chapter: 8,
+    isEndgame: true,
+    spriteKey: 'boss_001',
+    stats: { hp: 35000, maxHp: 35000, mp: 3000, maxMp: 3000, atk: 1200, def: 420, spd: 50, critRate: 50, critDmg: 120, resist: 95 },
+    expReward: 30000,
+    goldReward: 15000,
+    cultivationExpReward: 41000,
+    phases: [
+      {
+        phaseNumber: 2,
+        triggerHpPercent: 0.6,
+        name: 'Thiên Đạo Vận Chuyển',
+        statMultiplier: { atk: 1500, def: 500, spd: 56 },
+        specialSkill: 'Vạn Đạo Quy Nhất Tuyệt Diệt Quang',
+        dialogue: 'Ngươi đã vượt qua muôn ngàn hiểm nguy để bước lên đỉnh cao này... Giờ hãy chứng kiến đạo pháp chân chính!',
+      },
+      {
+        phaseNumber: 3,
+        triggerHpPercent: 0.25,
+        name: 'Vạn Đạo Trường Sinh',
+        statMultiplier: { atk: 1850, critRate: 65, critDmg: 150 },
+        specialSkill: 'Trường Sinh Vĩnh Kiếp Diệt',
+        dialogue: 'Trường sinh là con đường nghịch thiên! Đỡ lấy chiêu này để chứng đạo trường tồn!',
+      },
+    ],
+    drops: [
+      { itemTemplateId: 'item_025', chance: 1.0, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_036', chance: 1.0, minQuantity: 1, maxQuantity: 1 },
+      { itemTemplateId: 'item_074', chance: 1.0, minQuantity: 10, maxQuantity: 20 },
+    ],
+  },
+};

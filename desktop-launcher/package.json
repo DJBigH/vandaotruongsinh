@@ -1,0 +1,61 @@
+{
+  "name": "desktop-launcher",
+  "version": "1.0.0",
+  "description": "Trình khởi chạy có giao diện desktop cho Vạn Đạo Trường Sinh",
+  "main": "dist/main/index.js",
+  "author": "BigK",
+  "license": "ISC",
+  "type": "commonjs",
+  "scripts": {
+    "dev:renderer": "vite",
+    "build:renderer": "vite build",
+    "build:main": "tsc -p tsconfig.node.json",
+    "build": "npm run build:renderer && npm run build:main",
+    "start": "electron .",
+    "package:dir": "npm run build && electron-builder --dir",
+    "package": "npm run build && electron-builder"
+  },
+  "build": {
+    "appId": "com.vandaotruongsinh.launcher",
+    "productName": "VanDaoLauncher",
+    "directories": {
+      "output": "dist-packaged"
+    },
+    "files": [
+      "dist/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "build",
+        "to": "build",
+        "filter": ["*.ico", "*.png"]
+      }
+    ],
+    "win": {
+      "target": [
+        "dir",
+        "portable"
+      ],
+      "icon": "build/icon.ico"
+    },
+    "portable": {
+      "artifactName": "VanDaoLauncher.exe"
+    }
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.8",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "electron": "^45.2.3",
+    "electron-builder": "^26.18.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.6"
+  },
+  "dependencies": {
+    "adm-zip": "^0.6.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
+}

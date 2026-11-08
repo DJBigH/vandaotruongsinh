@@ -1,0 +1,110 @@
+import apiClient from './client';
+import type { ApiResponse, AdminDashboard, AuditLogEntry, PaginatedResponse } from '@shared/index';
+
+// === Dashboard ===
+export async function getDashboard(): Promise<ApiResponse<AdminDashboard>> {
+  const res = await apiClient.get('/admin/dashboard');
+  return res.data;
+}
+
+// === Player Management ===
+export interface AdminPlayerInfo {
+  id: string;
+  username: string;
+  email: string;
+  role: string;
+  isBanned: boolean;
+  lastLogin: string;
+  character?: {
+    id: string;
+    name: string;
+    cultivationPath: string;
+    realmIndex: number;
+    realmTier: number;
+    level: number;
+    gold: number;
+  };
+}
+
+export interface AdminPlayerDetail extends AdminPlayerInfo {
+  character?: AdminPlayerInfo['character'] & {
+    stats: any;
+    inventory: any[];
+    quests: any[];
+    storyFlags: Record<string, string>;
+  };
+}
+
+export async function getPlayers(page: number, pageSize: number, search?: string): Promise<ApiResponse<PaginatedResponse<AdminPlayerInfo>>> {
+  const res = await apiClient.get('/admin/players', { params: { page, pageSize, search } });
+  return res.data;
+}
+
+export async function getPlayerDetail(playerId: string): Promise<ApiResponse<AdminPlayerDetail>> {
+  const res = await apiClient.get(`/admin/players/${playerId}`);
+  return res.data;
+}
+
+export async function banPlayer(playerId: string, reason: string): Promise<ApiResponse> {
+  const res = await apiClient.post(`/admin/players/${playerId}/ban`, { reason });
+  return res.data;
+}
+
+export async function unbanPlayer(playerId: string): Promise<ApiResponse> {
+  const res = await apiClient.post(`/admin/players/${playerId}/unban`);
+  return res.data;
+}
+
+export async function adjustResources(
+  playerId: string,
+  adjustments: { gold?: number; exp?: number; cultivationExp?: number },
+  reason: string,
+): Promise<ApiResponse> {
+  const res = await apiClient.post(`/admin/players/${playerId}/adjust`, { adjustments, reason });
+  return res.data;
+}
+
+// === Content Management ===
+export interface ContentItem {
+  id: string;
+  type: string;
+  name: string;
+  data: any;
+  version: number;
+  updatedAt: string;
+}
+
+export async function getContent(type: string, page: number, search?: string): Promise<ApiResponse<PaginatedResponse<ContentItem>>> {
+  const res = await apiClient.get(`/admin/content/${type}`, { params: { page, search } });
+  return res.data;
+}
+
+export async function getContentItem(type: string, id: string): Promise<ApiResponse<ContentItem>> {
+  const res = await apiClient.get(`/admin/content/${type}/${id}`);
+  return res.data;
+}
+
+export async function saveContent(type: string, id: string, data: any): Promise<ApiResponse<ContentItem>> {
+  const res = await apiClient.put(`/admin/content/${type}/${id}`, data);
+  return res.data;
+}
+
+export async function createContent(type: string, data: any): Promise<ApiResponse<ContentItem>> {
+  const res = await apiClient.post(`/admin/content/${type}`, data);
+  return res.data;
+}
+
+export async function getContentVersions(type: string, id: string): Promise<ApiResponse<{ version: number; updatedAt: string; admin: string }[]>> {
+  const res = await apiClient.get(`/admin/content/${type}/${id}/versions`);
+  return res.data;
+}
+
+// === Audit Logs ===
+export async function getAuditLogs(
+  page: number,
+  pageSize: number,
+  filters?: { admin?: string; action?: string; startDate?: string; endDate?: string },
+): Promise<ApiResponse<PaginatedResponse<AuditLogEntry>>> {
+  const res = await apiClient.get('/admin/audit-logs', { params: { page, pageSize, ...filters } });
+  return res.data;
+}
