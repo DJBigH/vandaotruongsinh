@@ -113,14 +113,14 @@ export default function HUD() {
         </div>
       </div>
 
-      {/* Top Right: Currency & Quick Admin */}
+      {/* Top Right: Currency, Character Slots & Quick Admin */}
       <div style={{
         pointerEvents: 'auto',
         position: 'absolute',
         top: 16,
         right: 16,
         display: 'flex',
-        gap: '12px',
+        gap: '10px',
         alignItems: 'center',
       }}>
         <div style={{
@@ -139,6 +139,30 @@ export default function HUD() {
           <span>{character?.gold ?? 0}</span>
           <span style={{ fontSize: '0.75rem', color: '#cfd8dc' }}>Linh Thạch</span>
         </div>
+
+        {/* 3 Character Slots Modal Trigger */}
+        <button
+          onClick={() => setShowSlotsModal(true)}
+          title="Quản lý và chuyển đổi 3 Đạo Thân (Nhân vật)"
+          style={{
+            background: 'linear-gradient(135deg, #1e3a8a, #2563eb)',
+            border: '1px solid #60a5fa',
+            borderRadius: '8px',
+            padding: '8px 12px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            color: '#fff',
+            fontWeight: 'bold',
+            fontSize: '0.85rem',
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(37, 99, 235, 0.4)',
+            transition: 'all 0.15s',
+          }}
+        >
+          <span>👤</span>
+          <span>3 Đạo Thân</span>
+        </button>
 
         {isStaff && (
           <button
@@ -335,11 +359,11 @@ export default function HUD() {
         })}
       </div>
 
-      {/* System Navigation Dock (Đặt ở góc dưới bên phải, tách biệt hoàn toàn với thanh kỹ năng) */}
+      {/* System Navigation Dock (Đặt phía trên thanh kỹ năng ở góc phải, đảm bảo không bao giờ che thanh kỹ năng ở màn hình 1366x768) */}
       <div style={{
         pointerEvents: 'auto',
         position: 'absolute',
-        bottom: 16,
+        bottom: 84,
         right: 16,
         zIndex: 50,
         display: 'flex',
@@ -368,18 +392,18 @@ export default function HUD() {
           <span>{menuCollapsed ? '📜 Mở Menu Hệ Thống (12)' : '🔽 Thu Gọn Menu'}</span>
         </button>
 
-        {/* Menu Items Container */}
+        {/* Menu Items Container (Bố cục 4 cột gọn gàng, bề ngang chỉ 310px, hoàn toàn thoáng đãng) */}
         {!menuCollapsed && (
           <div style={{
-            background: 'rgba(13, 19, 29, 0.92)',
+            background: 'rgba(13, 19, 29, 0.94)',
             border: '1px solid #37474f',
-            borderRadius: '14px',
+            borderRadius: '12px',
             padding: '8px 10px',
             display: 'grid',
-            gridTemplateColumns: 'repeat(6, auto)',
+            gridTemplateColumns: 'repeat(4, 1fr)',
             gap: '6px',
             boxShadow: '0 4px 20px rgba(0,0,0,0.6)',
-            maxWidth: '560px',
+            width: '310px',
           }}>
             {[
               { key: 'inventory', label: '🎒 Túi' },
@@ -414,26 +438,6 @@ export default function HUD() {
                 {btn.label}
               </button>
             ))}
-
-            {/* 3 Character Slots button inside dock */}
-            <button
-              onClick={() => setShowSlotsModal(true)}
-              style={{
-                gridColumn: 'span 6',
-                background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)',
-                color: '#fff',
-                border: '1px solid #60a5fa',
-                padding: '6px 12px',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                fontSize: '0.8rem',
-                textAlign: 'center',
-                boxShadow: '0 2px 6px rgba(59, 130, 246, 0.3)',
-              }}
-            >
-              👤 Đổi 3 Đạo Thân (Tài Khoản)
-            </button>
           </div>
         )}
       </div>

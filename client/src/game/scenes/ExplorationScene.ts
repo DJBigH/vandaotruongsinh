@@ -588,10 +588,14 @@ export default class ExplorationScene extends Phaser.Scene {
       this.playPlayerActionAnim('attack');
     } else if (this.lastActionIntent.startsWith('SKILL')) {
       this.playPlayerActionAnim('cast');
-      if (this.lastActionIntent === 'SKILL_4') {
-        this.spawnGiantSwordPlunge(pointer.worldX, pointer.worldY);
+      if (this.lastActionIntent === 'SKILL_1') {
+        this.spawnSwordBeamWave(aimAngle);
+      } else if (this.lastActionIntent === 'SKILL_2') {
+        this.spawnWideCleaveSlash(aimAngle);
       } else if (this.lastActionIntent === 'SKILL_3') {
         this.spawnShieldAura();
+      } else if (this.lastActionIntent === 'SKILL_4') {
+        this.spawnGiantSwordPlunge(pointer.worldX, pointer.worldY);
       }
     } else if (this.lastActionIntent === 'DODGE') {
       this.playPlayerActionAnim('dodge');
@@ -989,6 +993,60 @@ export default class ExplorationScene extends Phaser.Scene {
     });
   }
 
+  // Skill 1: Thanh Phong Kiếm Khí (Flying Piercing Sword Beam)
+  private spawnSwordBeamWave(aimAngle: number) {
+    if (!this.player) return;
+    const startX = this.player.x + Math.cos(aimAngle) * 20;
+    const startY = this.player.y + Math.sin(aimAngle) * 20;
+
+    const beam = this.add.graphics().setDepth(2250);
+    beam.lineStyle(4, 0x38bdf8, 0.95);
+    beam.fillStyle(0xffffff, 1);
+    beam.strokeCircle(startX, startY, 14);
+    beam.fillCircle(startX, startY, 7);
+
+    const destX = startX + Math.cos(aimAngle) * 220;
+    const destY = startY + Math.sin(aimAngle) * 220;
+
+    this.tweens.add({
+      targets: beam,
+      x: destX - startX,
+      y: destY - startY,
+      alpha: 0,
+      duration: 320,
+      ease: 'Power1',
+      onComplete: () => beam.destroy(),
+    });
+  }
+
+  // Skill 2: Huyền Thiên Nhất Kiếm (Wide 160-degree Sweeping Cleave)
+  private spawnWideCleaveSlash(aimAngle: number) {
+    if (!this.player) return;
+    const arc = this.add.graphics().setDepth(2250);
+    const startAngle = aimAngle - Math.PI / 3;
+    const endAngle = aimAngle + Math.PI / 3;
+
+    arc.lineStyle(5, 0x10b981, 0.95);
+    arc.beginPath();
+    arc.arc(this.player.x, this.player.y, 55, startAngle, endAngle, false);
+    arc.strokePath();
+
+    arc.lineStyle(3, 0xffffff, 1.0);
+    arc.beginPath();
+    arc.arc(this.player.x, this.player.y, 57, startAngle + 0.1, endAngle - 0.1, false);
+    arc.strokePath();
+
+    this.tweens.add({
+      targets: arc,
+      scaleX: 1.4,
+      scaleY: 1.4,
+      alpha: 0,
+      duration: 260,
+      onComplete: () => arc.destroy(),
+    });
+  }
+
+  // Skill 4: Vạn Kiếm Quy Tông (Celestial Giant Sword Plunge with Expanding Bagua Array)
   private spawnGiantSwordPlunge(x: number, y: number) {
     if (!this.textures.exists('vfx_giant_sword')) return;
     const sword = this.add.sprite(x, y - 240, 'vfx_giant_sword');
@@ -1005,9 +1063,31 @@ export default class ExplorationScene extends Phaser.Scene {
       onComplete: () => {
         this.cameras.main.shake(220, 0.009);
 
+        // Ground shockwave
         const shockwave = this.add.graphics().setDepth(2350);
         shockwave.lineStyle(3, 0x00e5ff, 0.9);
         shockwave.strokeCircle(x, y, 20);
+
+        // Expanding Golden Bagua Array on Ground (như ảnh tham chiếu Panel 3!)
+        if (this.textures.exists('prop_bagua_array')) {
+          const bagua = this.add.sprite(x, y, 'prop_bagua_array');
+          bagua.setOrigin(0.5, 0.5);
+          bagua.setDepth(y - 2);
+          bagua.setScale(0.3);
+          bagua.setAlpha(0.9);
+          bagua.setTint(0xffd700);
+
+          this.tweens.add({
+            targets: bagua,
+            scaleX: 1.6,
+            scaleY: 1.3,
+            alpha: 0,
+            angle: 90,
+            duration: 650,
+            ease: 'Power2',
+            onComplete: () => bagua.destroy(),
+          });
+        }
 
         this.tweens.add({
           targets: sword,

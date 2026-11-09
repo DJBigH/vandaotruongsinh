@@ -118,6 +118,16 @@ async function start() {
   }
 }
 
-start();
+const isMain = Boolean(
+  process.argv[1] &&
+  (process.argv[1].endsWith('index.ts') ||
+   process.argv[1].endsWith('index.js') ||
+   process.argv[1].includes('src/index') ||
+   process.argv[1].includes('src\\index'))
+);
+
+if (isMain) {
+  start();
+}
 
 export { prisma, buildServer };

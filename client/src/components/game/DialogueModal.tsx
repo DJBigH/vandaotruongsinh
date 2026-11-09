@@ -19,7 +19,7 @@ export default function DialogueModal() {
   return (
     <div style={{
       position: 'absolute',
-      bottom: 80,
+      bottom: 92,
       left: '50%',
       transform: 'translateX(-50%)',
       width: '740px',
@@ -29,7 +29,7 @@ export default function DialogueModal() {
       borderRadius: '12px',
       padding: '24px',
       boxShadow: '0 8px 32px rgba(0,0,0,0.8)',
-      zIndex: 100,
+      zIndex: 200,
       color: '#e2e8f0',
     }}>
       {/* Speaker Name Tag */}
