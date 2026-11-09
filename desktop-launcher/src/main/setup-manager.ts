@@ -86,7 +86,15 @@ export class SetupManager {
 
     // 5. Kiểm tra kết nối CSDL PostgreSQL (cổng 5432)
     const settings = this.settingsManager.getSettings();
-    const isDbRunning = await this.probeTcpPort(settings.dbHost || '127.0.0.1', settings.dbPort || 5432, 2000);
+    let isDbRunning = await this.probeTcpPort(settings.dbHost || '127.0.0.1', settings.dbPort || 5432, 2000);
+    if (!isDbRunning && process.platform === 'win32') {
+      try {
+        const { execSync } = require('child_process');
+        execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 6000, stdio: 'ignore' });
+        await new Promise(r => setTimeout(r, 1200));
+        isDbRunning = await this.probeTcpPort(settings.dbHost || '127.0.0.1', settings.dbPort || 5432, 2000);
+      } catch (e) {}
+    }
 
     // 6. Kiểm tra Prisma Client
     const hasPrismaClient = fs.existsSync(path.join(projectDir, 'server', 'node_modules', '.prisma', 'client')) ||
@@ -322,8 +330,17 @@ export class SetupManager {
           this.sendInfoLog(`⚠️ Cảnh báo sinh mã Prisma: ${genErr.message}`);
         }
 
-        // 6.2. Kiểm tra xem PostgreSQL cổng 5432 có mở không
-        const isDbUp = await this.probeTcpPort(settings.dbHost || '127.0.0.1', settings.dbPort || 5432, 2500);
+        // 6.2. Kiểm tra xem PostgreSQL cổng 5432 có mở không (tự động thử bật WSL nếu có)
+        let isDbUp = await this.probeTcpPort(settings.dbHost || '127.0.0.1', settings.dbPort || 5432, 2500);
+        if (!isDbUp && process.platform === 'win32') {
+          try {
+            const { execSync } = require('child_process');
+            this.sendInfoLog('Đang tự động đánh thức PostgreSQL trong WSL Ubuntu...');
+            execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 6000, stdio: 'ignore' });
+            await new Promise(r => setTimeout(r, 1200));
+            isDbUp = await this.probeTcpPort(settings.dbHost || '127.0.0.1', settings.dbPort || 5432, 2500);
+          } catch (e) {}
+        }
 
         if (!isDbUp) {
           step.status = 'WARNING';

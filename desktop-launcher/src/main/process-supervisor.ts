@@ -666,7 +666,22 @@ export class ProcessSupervisor {
     this.databaseInfo.state = 'CHECKING';
     this.broadcastStatus();
 
-    const diag = await SystemDiagnostics.checkDatabase(settings.dbHost, settings.dbPort);
+    let diag = await SystemDiagnostics.checkDatabase(settings.dbHost, settings.dbPort);
+
+    // Tự động phát hiện và kích hoạt PostgreSQL trong WSL Ubuntu nếu bị từ chối kết nối
+    if (diag.status !== 'PASS' && process.platform === 'win32') {
+      try {
+        const { execSync } = require('child_process');
+        this.logger.info('launcher', 'Đang tự động đánh thức dịch vụ PostgreSQL trong WSL Ubuntu...');
+        execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 6000, stdio: 'ignore' });
+        // Chờ 1.2s để wslrelay kết nối cổng 5432
+        await new Promise(r => setTimeout(r, 1200));
+        diag = await SystemDiagnostics.checkDatabase(settings.dbHost, settings.dbPort);
+      } catch (err: any) {
+        this.logger.warn('launcher', `Không thể kích hoạt tự động PostgreSQL qua WSL: ${err.message}`);
+      }
+    }
+
     this.databaseInfo.lastCheckedTime = Date.now();
 
     if (diag.status === 'PASS') {
