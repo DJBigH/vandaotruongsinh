@@ -658,6 +658,8 @@ export interface EntitySnapshot {
   id: string;
   name: string;
   type: 'PLAYER' | 'MONSTER' | 'BOSS' | 'NPC' | 'PET';
+  templateId?: string;
+  stats?: { spd?: number };
   x: number;
   y: number;
   vx: number;

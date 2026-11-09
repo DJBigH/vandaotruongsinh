@@ -23,6 +23,7 @@ export default function HUD() {
   } = useGameStore();
 
   const [showSlotsModal, setShowSlotsModal] = useState(false);
+  const [menuCollapsed, setMenuCollapsed] = useState(false);
   const [realtimeHp, setRealtimeHp] = useState<number | null>(null);
   const [realtimeMp, setRealtimeMp] = useState<number | null>(null);
   const [cooldowns, setCooldowns] = useState<{
@@ -216,21 +217,22 @@ export default function HUD() {
         ))}
       </div>
 
-      {/* Real-time ARPG Action & Cooldown Bar */}
+      {/* Real-time ARPG Action & Cooldown Bar (Luôn ở chính giữa phía dưới, không bị menu che) */}
       <div style={{
         pointerEvents: 'auto',
         position: 'absolute',
-        bottom: 74,
+        bottom: 16,
         left: '50%',
         transform: 'translateX(-50%)',
         display: 'flex',
         gap: '8px',
         alignItems: 'center',
-        background: 'rgba(10, 15, 24, 0.85)',
+        background: 'rgba(10, 15, 24, 0.90)',
         border: '1px solid #c5a059',
         borderRadius: '12px',
-        padding: '6px 12px',
-        boxShadow: '0 4px 16px rgba(0,0,0,0.6)',
+        padding: '6px 14px',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.7)',
+        zIndex: 50,
       }}>
         {/* Basic Attack (Left click) */}
         <div style={{
@@ -333,71 +335,107 @@ export default function HUD() {
         })}
       </div>
 
-      {/* Bottom Menu Navigation Bar */}
+      {/* System Navigation Dock (Đặt ở góc dưới bên phải, tách biệt hoàn toàn với thanh kỹ năng) */}
       <div style={{
         pointerEvents: 'auto',
         position: 'absolute',
         bottom: 16,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        background: 'rgba(13, 19, 29, 0.9)',
-        border: '1px solid #c5a059',
-        borderRadius: '30px',
-        padding: '6px 14px',
+        right: 16,
+        zIndex: 50,
         display: 'flex',
-        gap: '10px',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.6)',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        gap: '6px',
       }}>
-        {[
-          { key: 'inventory', label: '🎒 Túi Đồ' },
-          { key: 'character', label: '🧘 Tu Vi' },
-          { key: 'quest', label: '📜 Nhiệm Vụ' },
-          { key: 'crafting', label: '🔥 Luyện Chế' },
-          { key: 'sect', label: '⚔️ Tông Môn' },
-          { key: 'cave', label: '🏡 Động Phủ' },
-          { key: 'pets', label: '🐉 Linh Thú' },
-          { key: 'offline', label: '⏳ Bế Quan' },
-          { key: 'story', label: '📖 Sử Ký' },
-          { key: 'tower', label: '🗼 Trấn Yêu' },
-          { key: 'map', label: '🗺️ Bản Đồ' },
-          { key: 'settings', label: '⚙️ Cài Đặt' },
-        ].map((btn) => (
-          <button
-            key={btn.key}
-            onClick={() => setActivePanel(activePanel === btn.key ? null : (btn.key as any))}
-            style={{
-              background: activePanel === btn.key ? '#c5a059' : 'transparent',
-              color: activePanel === btn.key ? '#000' : '#cfd8dc',
-              border: 'none',
-              padding: '8px 14px',
-              borderRadius: '20px',
-              cursor: 'pointer',
-              fontWeight: 'bold',
-              fontSize: '0.85rem',
-              transition: 'all 0.2s',
-            }}
-          >
-            {btn.label}
-          </button>
-        ))}
-
-        {/* 3 Character Slots Switcher button */}
+        {/* Toggle Collapse/Expand Button */}
         <button
-          onClick={() => setShowSlotsModal(true)}
+          onClick={() => setMenuCollapsed(!menuCollapsed)}
           style={{
-            background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)',
-            color: '#fff',
-            border: '1px solid #60a5fa',
-            padding: '8px 14px',
+            background: 'rgba(13, 19, 29, 0.92)',
+            border: '1px solid #c5a059',
             borderRadius: '20px',
-            cursor: 'pointer',
+            color: '#ffd700',
+            padding: '4px 12px',
+            fontSize: '0.75rem',
             fontWeight: 'bold',
-            fontSize: '0.85rem',
-            boxShadow: '0 2px 8px rgba(59, 130, 246, 0.4)',
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
           }}
         >
-          👤 3 Đạo Thân
+          <span>{menuCollapsed ? '📜 Mở Menu Hệ Thống (12)' : '🔽 Thu Gọn Menu'}</span>
         </button>
+
+        {/* Menu Items Container */}
+        {!menuCollapsed && (
+          <div style={{
+            background: 'rgba(13, 19, 29, 0.92)',
+            border: '1px solid #37474f',
+            borderRadius: '14px',
+            padding: '8px 10px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(6, auto)',
+            gap: '6px',
+            boxShadow: '0 4px 20px rgba(0,0,0,0.6)',
+            maxWidth: '560px',
+          }}>
+            {[
+              { key: 'inventory', label: '🎒 Túi' },
+              { key: 'character', label: '🧘 Tu Vi' },
+              { key: 'quest', label: '📜 N.Vụ' },
+              { key: 'crafting', label: '🔥 Luyện' },
+              { key: 'sect', label: '⚔️ Tông' },
+              { key: 'cave', label: '🏡 Động' },
+              { key: 'pets', label: '🐉 Thú' },
+              { key: 'offline', label: '⏳ Bế Quan' },
+              { key: 'story', label: '📖 Sử Ký' },
+              { key: 'tower', label: '🗼 Tháp' },
+              { key: 'map', label: '🗺️ Bản Đồ' },
+              { key: 'settings', label: '⚙️ Cài Đặt' },
+            ].map((btn) => (
+              <button
+                key={btn.key}
+                onClick={() => setActivePanel(activePanel === btn.key ? null : (btn.key as any))}
+                style={{
+                  background: activePanel === btn.key ? '#c5a059' : '#1e293b',
+                  color: activePanel === btn.key ? '#000' : '#cfd8dc',
+                  border: '1px solid #334155',
+                  padding: '6px 10px',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontWeight: 600,
+                  fontSize: '0.78rem',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.15s',
+                }}
+              >
+                {btn.label}
+              </button>
+            ))}
+
+            {/* 3 Character Slots button inside dock */}
+            <button
+              onClick={() => setShowSlotsModal(true)}
+              style={{
+                gridColumn: 'span 6',
+                background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)',
+                color: '#fff',
+                border: '1px solid #60a5fa',
+                padding: '6px 12px',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                fontSize: '0.8rem',
+                textAlign: 'center',
+                boxShadow: '0 2px 6px rgba(59, 130, 246, 0.3)',
+              }}
+            >
+              👤 Đổi 3 Đạo Thân (Tài Khoản)
+            </button>
+          </div>
+        )}
       </div>
 
       {/* 3 Character Slots Modal */}

@@ -803,12 +803,14 @@ export class ArpgGameSession {
       state: this.player.state,
       isInvulnerable: this.player.isInvulnerable,
       cultivationPath: this.player.cultivationPath,
+      stats: { spd: this.player.stats.spd },
     };
 
     const entitySnapshots: EntitySnapshot[] = this.monsters.map(m => ({
       id: m.id,
       name: m.name,
       type: m.isBoss ? 'BOSS' : 'MONSTER',
+      templateId: m.templateId,
       x: Math.round(m.x),
       y: Math.round(m.y),
       vx: Math.round(m.vx),
