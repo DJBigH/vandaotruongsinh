@@ -78,6 +78,11 @@ export default class ExplorationScene extends Phaser.Scene {
   private latestProjectiles: ProjectileSnapshot[] = [];
   private latestTelegraphs: TelegraphSnapshot[] = [];
 
+  // Tab & Window visibility listeners
+  private onWindowBlurHandler?: () => void;
+  private onWindowFocusHandler?: () => void;
+  private onVisibilityChangeHandler?: () => void;
+
   constructor() {
     super({ key: 'ExplorationScene' });
   }
@@ -110,9 +115,15 @@ export default class ExplorationScene extends Phaser.Scene {
     this.wasd.inv.on('down', () => eventBridge.emit('toggleInventory'));
     this.wasd.map.on('down', () => eventBridge.emit('toggleMap'));
 
-    // Mouse input for attacks
+    // Mouse input for attacks (ignores clicks on interactive NPCs & UI)
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       if (pointer.leftButtonDown() && !this.isPointerOverUI(pointer)) {
+        // Prevent normal attack if clicked on an NPC
+        const clickedNpc = this.npcsGroup?.getChildren().find((child: any) => {
+          return child.getBounds && child.getBounds().contains(pointer.worldX, pointer.worldY);
+        });
+        if (clickedNpc) return;
+
         this.lastActionIntent = 'ATTACK';
         this.targetPointerWorldX = pointer.worldX;
         this.targetPointerWorldY = pointer.worldY;
@@ -123,13 +134,36 @@ export default class ExplorationScene extends Phaser.Scene {
     this.telegraphGraphics = this.add.graphics().setDepth(2);
     this.projectileGraphics = this.add.graphics().setDepth(2200);
 
-    // Prompt HUD text
-    this.promptText = this.add.text(480, 560, '', {
+    // Prompt HUD text (Centering dynamically at bottom of screen with glowing border)
+    this.promptText = this.add.text(this.scale.width / 2, this.scale.height - 110, '', {
       fontSize: '15px',
       color: '#ffd700',
-      backgroundColor: 'rgba(0,0,0,0.8)',
-      padding: { x: 12, y: 6 },
+      stroke: '#0f172a',
+      strokeThickness: 3,
+      backgroundColor: 'rgba(15, 23, 42, 0.88)',
+      padding: { x: 16, y: 8 },
     }).setOrigin(0.5).setScrollFactor(0).setDepth(3500);
+
+    // Tab blur/focus & visibility handlers to prevent getting stuck
+    this.onWindowBlurHandler = () => this.handleTabBlur();
+    this.onWindowFocusHandler = () => this.handleTabFocus();
+    this.onVisibilityChangeHandler = () => {
+      if (document.hidden) {
+        this.handleTabBlur();
+      } else {
+        this.handleTabFocus();
+      }
+    };
+
+    window.addEventListener('blur', this.onWindowBlurHandler);
+    window.addEventListener('focus', this.onWindowFocusHandler);
+    document.addEventListener('visibilitychange', this.onVisibilityChangeHandler);
+
+    this.game.events.on(Phaser.Core.Events.BLUR, this.onWindowBlurHandler);
+    this.game.events.on(Phaser.Core.Events.FOCUS, this.onWindowFocusHandler);
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.cleanupTabEvents());
+    this.events.once(Phaser.Scenes.Events.DESTROY, () => this.cleanupTabEvents());
 
     // Performance & FPS Profiler HUD
     this.fpsText = this.add.text(16, 75, 'FPS: 60 | Ping: 0ms | Entity: 0', {
@@ -389,16 +423,47 @@ export default class ExplorationScene extends Phaser.Scene {
       sprite.setData('npcData', npc);
       sprite.setOrigin(0.5, 0.90);
       sprite.setDepth(sprite.y);
+      sprite.setInteractive({ useHandCursor: true });
+
+      // Click trực tiếp vào NPC để mở đàm thoại (chuẩn phong cách MMORPG Tu Tiên 2D / Ninja School)
+      sprite.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+        if (pointer.leftButtonDown()) {
+          this.lastActionIntent = 'NONE';
+          if (!this.player) return;
+          const dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, sprite.x, sprite.y);
+          if (dist <= 115) {
+            this.openNpcDialogue(npc);
+          } else {
+            this.spawnFloatingText(sprite.x, sprite.y - 70, '💬 Hãy lại gần hơn!', '#ffd700');
+          }
+        }
+      });
+
       if (this.anims.exists(animKey)) {
         sprite.play(animKey);
       }
 
+      // Tên NPC
       this.add.text(npc.position.x * tileSize, npc.position.y * tileSize - 54, npc.name, {
         fontSize: '12px',
         color: '#ffd700',
         backgroundColor: 'rgba(15, 23, 42, 0.8)',
         padding: { x: 6, y: 2 },
       }).setOrigin(0.5).setDepth(sprite.y + 10);
+
+      // Biểu tượng đàm thoại nổi bật lơ lửng phía trên NPC
+      const bubble = this.add.text(npc.position.x * tileSize, npc.position.y * tileSize - 72, '💬', {
+        fontSize: '14px',
+      }).setOrigin(0.5).setDepth(sprite.y + 15);
+
+      this.tweens.add({
+        targets: bubble,
+        y: npc.position.y * tileSize - 78,
+        duration: 900,
+        yoyo: true,
+        repeat: -1,
+        ease: 'Sine.easeInOut',
+      });
     }
 
     // 7. Spawn Interactables (Linh Miếu, Linh Dược, Khoáng Thạch)
@@ -960,7 +1025,7 @@ export default class ExplorationScene extends Phaser.Scene {
   }
 
   private checkProximity() {
-    const interactDistance = 50;
+    const interactDistance = 90; // Generous 3-tile proximity
     let foundPrompt = '';
     this.currentInteractable = null;
 
@@ -971,7 +1036,7 @@ export default class ExplorationScene extends Phaser.Scene {
         if (dist < interactDistance) {
           const npc = child.getData('npcData') as MapNPC;
           this.currentInteractable = { type: 'NPC', id: npc.id, target: npc };
-          foundPrompt = `[E] Đàm thoại với ${npc.name}`;
+          foundPrompt = `💬 [E] hoặc Click chuột để đàm thoại với ${npc.name}`;
         }
       }
       return true;
@@ -985,7 +1050,7 @@ export default class ExplorationScene extends Phaser.Scene {
           if (dist < interactDistance) {
             const portal = child.getData('portalData') as MapPortal;
             this.currentInteractable = { type: 'PORTAL', id: portal.id, target: portal };
-            foundPrompt = `[E] Tiến vào: ${portal.label}`;
+            foundPrompt = `🌀 [E] Tiến vào: ${portal.label}`;
           }
         }
         return true;
@@ -1000,15 +1065,25 @@ export default class ExplorationScene extends Phaser.Scene {
           if (dist < interactDistance) {
             const obj = child.getData('interactableData') as MapInteractable;
             this.currentInteractable = { type: 'OBJECT', id: obj.id, target: obj };
-            foundPrompt = `[E] Thu thập / Kích hoạt`;
+            foundPrompt = `✨ [E] Thu thập / Kích hoạt`;
           }
         }
         return true;
       });
     }
 
+    this.promptText.setPosition(this.scale.width / 2, this.scale.height - 110);
     this.promptText.setText(foundPrompt);
     this.promptText.setVisible(Boolean(foundPrompt));
+  }
+
+  private openNpcDialogue(npc: MapNPC) {
+    eventBridge.emit('openDialogue', {
+      name: npc.name,
+      spriteKey: npc.spriteKey,
+      dialogueId: npc.dialogueId || 'dlg_elder_01',
+      npcId: npc.id,
+    });
   }
 
   private async handleInteract() {
@@ -1017,12 +1092,7 @@ export default class ExplorationScene extends Phaser.Scene {
     const { type, id, target } = this.currentInteractable;
 
     if (type === 'NPC') {
-      const npc = target as MapNPC;
-      eventBridge.emit('openDialogue', {
-        name: npc.name,
-        spriteKey: npc.spriteKey,
-        dialogueId: npc.dialogueId || 'dialogue_elder_default',
-      });
+      this.openNpcDialogue(target as MapNPC);
     } else if (type === 'PORTAL') {
       const portal = target as MapPortal;
       try {
@@ -1045,6 +1115,70 @@ export default class ExplorationScene extends Phaser.Scene {
       } catch (err: any) {
         eventBridge.emit('notification', err.response?.data?.error || 'Không thể tương tác');
       }
+    }
+  }
+
+  // Handle Tab Blur / Backgrounding (Fixing Bug 2: Getting stuck when switching tabs)
+  private handleTabBlur() {
+    this.input.keyboard?.resetKeys();
+
+    if (this.player?.body) {
+      this.player.setVelocity(0, 0);
+    }
+
+    this.isActionLocked = false;
+    if (this.actionLockTimer) {
+      this.actionLockTimer.remove();
+      this.actionLockTimer = null;
+    }
+
+    this.lastActionIntent = 'NONE';
+
+    // Immediately instruct server to zero out velocity
+    const pointer = this.input.activePointer;
+    const aimAngle = this.player ? Phaser.Math.Angle.Between(this.player.x, this.player.y, pointer.worldX, pointer.worldY) : 0;
+    this.sendPlayerInput(0, 0, aimAngle, pointer.worldX, pointer.worldY, 'NONE');
+
+    // Return to idle animation
+    const idleKey = `player_idle_${this.currentFacing}`;
+    if (this.player && this.anims.exists(idleKey)) {
+      this.player.play(idleKey, true);
+    }
+  }
+
+  // Handle Tab Focus / Returning to game
+  private handleTabFocus() {
+    this.input.keyboard?.resetKeys();
+
+    this.isActionLocked = false;
+    if (this.actionLockTimer) {
+      this.actionLockTimer.remove();
+      this.actionLockTimer = null;
+    }
+
+    // Immediately snap local player position to server authoritative position to prevent drift
+    if (this.latestServerPlayer && this.player) {
+      this.player.x = this.latestServerPlayer.x;
+      this.player.y = this.latestServerPlayer.y;
+      this.player.setVelocity(0, 0);
+    }
+
+    const pointer = this.input.activePointer;
+    const aimAngle = this.player ? Phaser.Math.Angle.Between(this.player.x, this.player.y, pointer.worldX, pointer.worldY) : 0;
+    this.sendPlayerInput(0, 0, aimAngle, pointer.worldX, pointer.worldY, 'NONE');
+  }
+
+  private cleanupTabEvents() {
+    if (this.onWindowBlurHandler) {
+      window.removeEventListener('blur', this.onWindowBlurHandler);
+      this.game.events.off(Phaser.Core.Events.BLUR, this.onWindowBlurHandler);
+    }
+    if (this.onWindowFocusHandler) {
+      window.removeEventListener('focus', this.onWindowFocusHandler);
+      this.game.events.off(Phaser.Core.Events.FOCUS, this.onWindowFocusHandler);
+    }
+    if (this.onVisibilityChangeHandler) {
+      document.removeEventListener('visibilitychange', this.onVisibilityChangeHandler);
     }
   }
 }

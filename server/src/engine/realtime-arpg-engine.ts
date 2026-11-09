@@ -129,6 +129,7 @@ export class ArpgGameSession {
   public pendingKillsInTick: ArpgMonsterEntity[] = [];
   public playerDiedInTick: boolean = false;
   public lastKillerName: string = 'Địch thủ';
+  public lastInputTime: number = Date.now();
 
   // Callback to broadcast to the player's WebSocket
   public sendSnapshotCallback: ((msg: WsServerMessage) => void) | null = null;
@@ -236,6 +237,7 @@ export class ArpgGameSession {
   public handleInput(input: PlayerInputPayload) {
     if (this.isPaused || this.player.hp <= 0) return;
     const now = Date.now();
+    this.lastInputTime = now;
 
     // 1. Angle & Facing
     if (typeof input.angle === 'number') {
@@ -586,6 +588,17 @@ export class ArpgGameSession {
     if (this.isPaused || this.isTerminated) return;
     const now = Date.now();
     this.tickCount++;
+
+    // 0. Tab switch / background sleep watchdog: stop moving if no client input for > 350ms
+    if (this.player.state !== 'DODGING' && (now - this.lastInputTime > 350)) {
+      if (this.player.vx !== 0 || this.player.vy !== 0) {
+        this.player.vx = 0;
+        this.player.vy = 0;
+        if (this.player.state === 'MOVING') {
+          this.player.state = 'IDLE';
+        }
+      }
+    }
 
     // 1. Update Player State
     if (this.player.state === 'DODGING' && now >= this.player.dodgeEndTime) {

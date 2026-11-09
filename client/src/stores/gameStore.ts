@@ -34,7 +34,7 @@ interface GameState {
     currentIndex: number;
     dialogueId: string;
   } | null;
-  openDialogue: (npcName: string, npcSpriteKey: string, dialogueId: string) => Promise<void>;
+  openDialogue: (npcName: string, npcSpriteKey: string, dialogueId: string, npcId?: string) => Promise<void>;
   advanceDialogue: () => void;
   selectChoice: (choiceIndex: number) => Promise<void>;
   closeDialogue: () => void;
@@ -110,10 +110,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
   },
 
-  openDialogue: async (npcName, npcSpriteKey, dialogueId) => {
+  openDialogue: async (npcName, npcSpriteKey, dialogueId, npcId) => {
     try {
-      const res = await gameApi.getDialogue(dialogueId);
-      if (res.success && res.data) {
+      const res = await gameApi.getDialogue(dialogueId, npcId);
+      if (res.success && res.data && res.data.length > 0) {
         set({
           dialogueState: {
             isOpen: true,
@@ -124,9 +124,22 @@ export const useGameStore = create<GameState>((set, get) => ({
             dialogueId,
           },
         });
+        get().loadQuests();
+      } else {
+        // Fallback dialogue if empty
+        set({
+          dialogueState: {
+            isOpen: true,
+            npcName,
+            npcSpriteKey,
+            lines: [{ speaker: npcName, text: 'Chào đạo hữu, con đường tu tiên đầy trắc trở, hãy bảo trọng!' }],
+            currentIndex: 0,
+            dialogueId,
+          },
+        });
       }
     } catch {
-      // Fallback dialogue if API not available
+      // Fallback dialogue if API error
       set({
         dialogueState: {
           isOpen: true,

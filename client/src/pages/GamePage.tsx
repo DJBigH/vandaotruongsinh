@@ -74,8 +74,8 @@ export default function GamePage() {
       }
     };
 
-    const handleOpenDialogue = (data: { name: string; spriteKey: string; dialogueId: string }) => {
-      openDialogue(data.name, data.spriteKey, data.dialogueId);
+    const handleOpenDialogue = (data: { name: string; spriteKey: string; dialogueId: string; npcId?: string }) => {
+      openDialogue(data.name, data.spriteKey, data.dialogueId, data.npcId);
     };
 
     const handleNotification = (msg: string) => {

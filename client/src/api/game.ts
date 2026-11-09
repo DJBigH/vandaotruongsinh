@@ -125,8 +125,9 @@ export async function interact(interactableId: string): Promise<ApiResponse<{ ty
 }
 
 // === Dialogue ===
-export async function getDialogue(dialogueId: string): Promise<ApiResponse<DialogueLine[]>> {
-  const res = await apiClient.get(`/game/dialogue/${dialogueId}`);
+export async function getDialogue(dialogueId: string, npcId?: string): Promise<ApiResponse<DialogueLine[]>> {
+  const url = npcId ? `/game/dialogue/${dialogueId}?npcId=${encodeURIComponent(npcId)}` : `/game/dialogue/${dialogueId}`;
+  const res = await apiClient.get(url);
   return res.data;
 }
 

@@ -221,6 +221,33 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
       return reply.status(404).send({ success: false, error: 'Không tìm thấy cuộc đối thoại' });
     }
 
+    // Automatically update TALK quest progress when opening dialogue with NPC
+    try {
+      const user = (request as any).user;
+      const char = await getCharacter(user.userId);
+      if (char) {
+        const queryNpcId = (request.query as any)?.npcId;
+        if (queryNpcId) {
+          await updateQuestProgress(prisma, char.id, 'TALK', queryNpcId, 1);
+        }
+        await updateQuestProgress(prisma, char.id, 'TALK', id, 1);
+      }
+    } catch {
+      // Ignore quest update errors to not block dialogue
+    }
+
+    if (Array.isArray(tree)) {
+      const lines: DialogueLine[] = tree.map((node: any) => ({
+        speaker: node.speaker,
+        text: node.text,
+        choices: Array.isArray(node.choices)
+          ? node.choices.map((c: any) => typeof c === 'string' ? { text: c, nextId: undefined } : { text: c.text, nextId: c.nextId })
+          : undefined,
+        nextId: node.nextId,
+      }));
+      return reply.send({ success: true, data: lines });
+    }
+
     const lines: DialogueLine[] = [];
     let currentKey: string | undefined = 'start';
     const visited = new Set<string>();
