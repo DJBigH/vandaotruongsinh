@@ -22,16 +22,16 @@ async function main() {
   });
 
   if (!existingOwner) {
-    const pwHash = await bcrypt.hash('Admin@123456', 10);
+    const pwHash = await bcrypt.hash('admin@1234', 10);
     const owner = await prisma.account.create({
       data: {
-        username: 'daochu',
-        email: 'daochu@vandao.vn',
+        username: 'admin',
+        email: 'admin@vandao.vn',
         passwordHash: pwHash,
         role: 'OWNER',
       },
     });
-    console.log(`[Seed] Đã tạo tài khoản Đạo Chủ (Owner): ${owner.username} (Mật khẩu: Admin@123456)`);
+    console.log(`[Seed] Đã tạo tài khoản Quản trị viên (Owner): ${owner.username} (Mật khẩu: admin@1234)`);
   }
 
   // 2. Insert initial ContentVersion entries for all items, monsters, bosses, quests
