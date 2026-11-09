@@ -55,8 +55,14 @@ export default class ExplorationScene extends Phaser.Scene {
   private telegraphGraphics!: Phaser.GameObjects.Graphics;
 
   private promptText!: Phaser.GameObjects.Text;
+  private fpsText!: Phaser.GameObjects.Text;
   private currentInteractable: { type: string; id: string; target: any } | null = null;
   private isMovementDisabled: boolean = false;
+
+  // Profiler & Performance
+  private lastFpsUpdate: number = 0;
+  private lastProximityCheck: number = 0;
+  private pingMs: number = 0;
 
   // WebSocket Connection
   private ws: WebSocket | null = null;
@@ -124,6 +130,15 @@ export default class ExplorationScene extends Phaser.Scene {
       backgroundColor: 'rgba(0,0,0,0.8)',
       padding: { x: 12, y: 6 },
     }).setOrigin(0.5).setScrollFactor(0).setDepth(3500);
+
+    // Performance & FPS Profiler HUD
+    this.fpsText = this.add.text(16, 75, 'FPS: 60 | Ping: 0ms | Entity: 0', {
+      fontSize: '12px',
+      color: '#38bdf8',
+      fontFamily: 'monospace',
+      backgroundColor: 'rgba(15, 23, 42, 0.75)',
+      padding: { x: 8, y: 4 },
+    }).setScrollFactor(0).setDepth(3500);
 
     // Load Map data from API
     await this.loadMap(this.currentMapId);
@@ -193,6 +208,10 @@ export default class ExplorationScene extends Phaser.Scene {
   }
 
   private handleServerMessage(msg: WsServerMessage) {
+    if (msg.serverTime) {
+      this.pingMs = Math.max(1, Math.min(999, Date.now() - msg.serverTime));
+    }
+
     if (msg.type === 'TICK') {
       if (msg.playerState) {
         this.latestServerPlayer = msg.playerState;
@@ -253,35 +272,23 @@ export default class ExplorationScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, worldW, worldH);
     this.decorProps = [];
 
-    // 1. Render Terrain Tiles
+    // 1. Render Master Map Background (Single draw call, 100% solid, zero black gaps)
     const isForest = this.currentMapId.includes('rung');
-    const midX = Math.floor(width / 2);
-    const midY = Math.floor(height / 2);
+    const bgKey = isForest ? 'map_rung_bg' : 'map_thanh_khe_bg';
 
-    for (let x = 0; x < width; x++) {
-      for (let y = 0; y < height; y++) {
-        let tileKey = 'tile_grass';
-
-        // Lối đi lát đá tự nhiên ở khu quảng trường trung tâm
-        const inPlaza = Math.abs(x - midX) <= 8 && Math.abs(y - midY) <= 8;
-        const onMainAvenue = (Math.abs(x - midX) <= 2 && y >= 4 && y <= height - 5) ||
-                             (Math.abs(y - midY) <= 2 && x >= 4 && x <= width - 5);
-
-        if ((inPlaza || onMainAvenue) && !isForest) {
-          tileKey = 'tile_path';
-        } else {
-          // Điểm xuyết hoa dại và thảo mộc
-          const seed = (x * 37 + y * 19) % 100;
-          tileKey = seed < 16 ? 'tile_grass_flower' : 'tile_grass';
+    if (this.textures.exists(bgKey)) {
+      const bg = this.add.image(0, 0, bgKey);
+      bg.setOrigin(0, 0);
+      bg.setDepth(0);
+    } else {
+      // Fallback: Solid Terrain Tiles Grid
+      for (let x = 0; x < width; x++) {
+        for (let y = 0; y < height; y++) {
+          const tileKey = (x === 0 || y === 0 || x === width - 1 || y === height - 1)
+            ? 'tile_water'
+            : ((x * 37 + y * 19) % 100 < 16 ? 'tile_grass_flower' : 'tile_grass');
+          this.add.image(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileKey).setDepth(0);
         }
-
-        // Rìa bản đồ có suối nguồn linh khí
-        if (x === 0 || y === 0 || x === width - 1 || y === height - 1) {
-          tileKey = 'tile_water';
-        }
-
-        const tile = this.add.image(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileKey);
-        tile.setDepth(0);
       }
     }
 
@@ -290,50 +297,48 @@ export default class ExplorationScene extends Phaser.Scene {
     this.interactablesGroup = this.physics.add.staticGroup();
     this.portalsGroup = this.physics.add.staticGroup();
 
-    // 3. Render Ancient Pine Trees (Thanh Tùng Cổ Thụ)
-    const treeCoords = [
-      { x: 8, y: 8 }, { x: 12, y: 32 }, { x: 14, y: 6 },
-      { x: 44, y: 8 }, { x: 50, y: 12 }, { x: 46, y: 34 },
-      { x: 8, y: 36 }, { x: 30, y: 38 }, { x: 52, y: 36 },
-      { x: 18, y: 18 }, { x: 40, y: 26 }, { x: 22, y: 36 }
-    ];
-    for (const pos of treeCoords) {
-      if (pos.x < width && pos.y < height) {
-        const tree = this.add.sprite(pos.x * tileSize + tileSize / 2, pos.y * tileSize + tileSize / 2, 'prop_pine_tree');
-        tree.setOrigin(0.5, 0.92);
-        tree.setDepth(tree.y);
-        this.decorProps.push(tree);
-      }
-    }
-
-    // 4. Render Weathered Spirit Rocks (Linh Thạch)
-    const rockCoords = [
-      { x: 14, y: 16 }, { x: 46, y: 16 }, { x: 20, y: 30 }, { x: 42, y: 32 }
-    ];
-    for (const pos of rockCoords) {
-      if (pos.x < width && pos.y < height) {
-        const rock = this.add.sprite(pos.x * tileSize + tileSize / 2, pos.y * tileSize + tileSize / 2, 'prop_ancient_rock');
-        rock.setOrigin(0.5, 0.85);
-        rock.setDepth(rock.y);
-        this.decorProps.push(rock);
-      }
-    }
-
-    // 5. Cụm Tinh Thể Linh Thạch Lam Ngọc
-    const crystalCoords = [
-      { x: 16, y: 16 }, { x: 48, y: 16 }, { x: 22, y: 32 }
-    ];
-    for (const pos of crystalCoords) {
-      if (pos.x < width && pos.y < height) {
-        const crystal = this.add.sprite(pos.x * tileSize + tileSize / 2, pos.y * tileSize + tileSize / 2, 'prop_crystal_cluster');
-        crystal.setOrigin(0.5, 0.85);
-        crystal.setDepth(crystal.y);
-        this.decorProps.push(crystal);
-      }
-    }
-
-    // 6. Bát Quái Tiên Trận Hoàng Kim ở quảng trường trung tâm
+    // 3. Render Sect Architecture & Props (Sơn Môn, Thạch Đăng, Binh Khí Giá, Bát Quái)
     if (!isForest) {
+      // Sơn Môn (North Sect Archway Gate at x: 30, y: 3)
+      if (this.textures.exists('prop_sect_gate')) {
+        const gate = this.add.sprite(30 * tileSize, 3 * tileSize, 'prop_sect_gate');
+        gate.setOrigin(0.5, 0.92);
+        gate.setDepth(gate.y);
+        this.decorProps.push(gate);
+      }
+
+      // Thạch Đăng Lung (Daoist Stone Lanterns flanking the Central Plaza)
+      const lanternCoords = [
+        { x: 22, y: 16 }, { x: 38, y: 16 },
+        { x: 22, y: 28 }, { x: 38, y: 28 },
+        { x: 28, y: 35 }, { x: 32, y: 35 }
+      ];
+      for (const pos of lanternCoords) {
+        if (this.textures.exists('prop_stone_lantern')) {
+          const lantern = this.add.sprite(pos.x * tileSize + tileSize / 2, pos.y * tileSize + tileSize / 2, 'prop_stone_lantern');
+          lantern.setOrigin(0.5, 0.88);
+          lantern.setDepth(lantern.y);
+          this.decorProps.push(lantern);
+        }
+      }
+
+      // Diễn Võ Trường: Mộc Nhân & Binh Khí Giá (Training Ground Props in West Wing)
+      if (this.textures.exists('prop_dummy')) {
+        const dummy1 = this.add.sprite(10 * tileSize, 18 * tileSize, 'prop_dummy').setOrigin(0.5, 0.90);
+        dummy1.setDepth(dummy1.y);
+        const dummy2 = this.add.sprite(10 * tileSize, 24 * tileSize, 'prop_dummy').setOrigin(0.5, 0.90);
+        dummy2.setDepth(dummy2.y);
+        this.decorProps.push(dummy1, dummy2);
+      }
+      if (this.textures.exists('prop_weapon_rack')) {
+        const rack = this.add.sprite(16 * tileSize, 18 * tileSize, 'prop_weapon_rack').setOrigin(0.5, 0.85);
+        rack.setDepth(rack.y);
+        this.decorProps.push(rack);
+      }
+
+      // Bát Quái Tiên Trận Hoàng Kim ở quảng trường trung tâm (x: 30, y: 22)
+      const midX = 30;
+      const midY = 22;
       const bagua = this.add.sprite(midX * tileSize, midY * tileSize, 'prop_bagua_array');
       bagua.setOrigin(0.5, 0.5);
       bagua.setDepth(1);
@@ -346,7 +351,35 @@ export default class ExplorationScene extends Phaser.Scene {
       });
     }
 
-    // 7. Spawn NPCs với Sprite Sheet & Animation Thở Cổ Phong
+    // 4. Render Ancient Pine Trees (Thanh Tùng Cổ Thụ) clustered along natural borders
+    const treeCoords = [
+      { x: 5, y: 8 }, { x: 8, y: 12 }, { x: 52, y: 8 }, { x: 55, y: 12 },
+      { x: 4, y: 32 }, { x: 8, y: 36 }, { x: 52, y: 32 }, { x: 55, y: 36 },
+      { x: 18, y: 6 }, { x: 42, y: 6 }, { x: 18, y: 40 }, { x: 42, y: 40 }
+    ];
+    for (const pos of treeCoords) {
+      if (pos.x < width && pos.y < height) {
+        const tree = this.add.sprite(pos.x * tileSize + tileSize / 2, pos.y * tileSize + tileSize / 2, 'prop_pine_tree');
+        tree.setOrigin(0.5, 0.92);
+        tree.setDepth(tree.y);
+        this.decorProps.push(tree);
+      }
+    }
+
+    // 5. Render Weathered Spirit Rocks (Linh Thạch) & Crystals
+    const rockCoords = [
+      { x: 12, y: 32 }, { x: 48, y: 32 }, { x: 20, y: 35 }, { x: 40, y: 35 }
+    ];
+    for (const pos of rockCoords) {
+      if (pos.x < width && pos.y < height) {
+        const rock = this.add.sprite(pos.x * tileSize + tileSize / 2, pos.y * tileSize + tileSize / 2, 'prop_ancient_rock');
+        rock.setOrigin(0.5, 0.85);
+        rock.setDepth(rock.y);
+        this.decorProps.push(rock);
+      }
+    }
+
+    // 6. Spawn NPCs với Chibi / Anime Spritesheets & Visual Clarity
     for (const npc of this.mapData.npcs || []) {
       const spriteKey = npc.spriteKey === 'npc_healer' ? 'npc_healer' :
                         npc.spriteKey === 'npc_guard' ? 'npc_guard' : 'npc_elder';
@@ -363,12 +396,12 @@ export default class ExplorationScene extends Phaser.Scene {
       this.add.text(npc.position.x * tileSize, npc.position.y * tileSize - 54, npc.name, {
         fontSize: '12px',
         color: '#ffd700',
-        backgroundColor: 'rgba(0,0,0,0.75)',
+        backgroundColor: 'rgba(15, 23, 42, 0.8)',
         padding: { x: 6, y: 2 },
       }).setOrigin(0.5).setDepth(sprite.y + 10);
     }
 
-    // 8. Spawn Interactables (Linh Miếu, Linh Dược, Khoáng Thạch)
+    // 7. Spawn Interactables (Linh Miếu, Linh Dược, Khoáng Thạch)
     for (const item of this.mapData.interactables || []) {
       let texture = 'prop_ancient_rock';
       let label = 'Linh Thảo';
@@ -392,12 +425,12 @@ export default class ExplorationScene extends Phaser.Scene {
       this.add.text(item.position.x * tileSize, item.position.y * tileSize - 48, label, {
         fontSize: '11px',
         color: '#b2dfdb',
-        backgroundColor: 'rgba(0,0,0,0.7)',
+        backgroundColor: 'rgba(15, 23, 42, 0.8)',
         padding: { x: 4, y: 2 },
       }).setOrigin(0.5).setDepth(sprite.y + 10);
     }
 
-    // 9. Spawn Portals (Cổng Không Gian)
+    // 8. Spawn Portals (Cổng Không Gian)
     for (const portal of this.mapData.portals || []) {
       const sprite = this.portalsGroup.create(portal.position.x * tileSize, portal.position.y * tileSize, 'prop_portal') as Phaser.Physics.Arcade.Sprite;
       sprite.setData('portalData', portal);
@@ -414,19 +447,19 @@ export default class ExplorationScene extends Phaser.Scene {
       this.add.text(portal.position.x * tileSize, portal.position.y * tileSize - 42, portal.label, {
         fontSize: '12px',
         color: '#00e5ff',
-        backgroundColor: 'rgba(0,0,0,0.8)',
+        backgroundColor: 'rgba(15, 23, 42, 0.8)',
         padding: { x: 6, y: 2 },
       }).setOrigin(0.5).setDepth(sprite.y + 10);
     }
 
-    // 10. Spawn Local Player - Kiếm Tu Mẫu Chuẩn Tỷ Lệ (64x64 px)
-    const spawnX = (this.mapData.spawnPoint?.x || 26) * tileSize;
+    // 9. Spawn Local Player - Kiếm Tu Chibi Chuẩn Tỷ Lệ (64x64 px)
+    const spawnX = (this.mapData.spawnPoint?.x || 30) * tileSize;
     const spawnY = (this.mapData.spawnPoint?.y || 22) * tileSize;
     this.player = this.physics.add.sprite(spawnX, spawnY, 'player_idle');
     this.player.setCollideWorldBounds(true);
     this.player.setOrigin(0.5, 0.90);
     this.player.setSize(22, 18);
-    this.player.setOffset(21, 46);
+    this.player.setOffset(21, 44);
     this.player.setDepth(spawnY);
     this.currentFacing = 'down';
     if (this.anims.exists('player_idle_down')) {
@@ -436,7 +469,7 @@ export default class ExplorationScene extends Phaser.Scene {
     // Camera follow mượt mà và zoom tối ưu cho màn hình 1920x1080 / 1366x768
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
     this.cameras.main.setBounds(0, 0, worldW, worldH);
-    this.cameras.main.setZoom(1.25);
+    this.cameras.main.setZoom(1.30);
   }
 
   update(_time: number, _delta: number) {
@@ -453,9 +486,9 @@ export default class ExplorationScene extends Phaser.Scene {
     if (this.cursors.up?.isDown || this.wasd.up?.isDown) moveY -= 1;
     if (this.cursors.down?.isDown || this.wasd.down?.isDown) moveY += 1;
 
-    // Phản hồi vận tốc vật lý ngay lập tức trên client
+    // Phản hồi vận tốc vật lý ngay lập tức trên client (Đồng bộ tuyệt đối hệ số 12 với Server)
     const spdStat = this.latestServerPlayer?.stats?.spd ?? 10;
-    const moveSpeed = spdStat * 14;
+    const moveSpeed = spdStat * 12;
     if (moveX !== 0 || moveY !== 0) {
       const len = Math.hypot(moveX, moveY);
       this.player.setVelocity((moveX / len) * moveSpeed, (moveY / len) * moveSpeed);
@@ -509,15 +542,18 @@ export default class ExplorationScene extends Phaser.Scene {
       this.lastInputSentTime = now;
     }
 
-    // 5. Client Prediction & Reconciliation mượt mà, không bị kẹt hay giật lùi
+    // 5. Client Prediction & Smooth Exponential Reconciliation (Hoàn toàn triệt tiêu giật lùi/rubberband)
     if (this.latestServerPlayer) {
       const dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.latestServerPlayer.x, this.latestServerPlayer.y);
-      if (dist > 48) {
+      if (dist > 72) {
+        // Chỉ snap khi dịch chuyển tức thời hoặc độ lệch vượt ngưỡng an toàn
         this.player.x = this.latestServerPlayer.x;
         this.player.y = this.latestServerPlayer.y;
-      } else if (dist > 4 && moveX === 0 && moveY === 0) {
-        this.player.x = Phaser.Math.Linear(this.player.x, this.latestServerPlayer.x, 0.18);
-        this.player.y = Phaser.Math.Linear(this.player.y, this.latestServerPlayer.y, 0.18);
+      } else if (dist > 2) {
+        // Nội suy mượt mà không khựng giật
+        const lerpFactor = (moveX === 0 && moveY === 0) ? 0.35 : 0.08;
+        this.player.x = Phaser.Math.Linear(this.player.x, this.latestServerPlayer.x, lerpFactor);
+        this.player.y = Phaser.Math.Linear(this.player.y, this.latestServerPlayer.y, lerpFactor);
       }
 
       if (this.latestServerPlayer.state === 'DODGING') {
@@ -572,10 +608,21 @@ export default class ExplorationScene extends Phaser.Scene {
     // 10. Render Boss Telegraphs (Red Warning Zones)
     this.renderTelegraphs();
 
-    // 11. Check Proximity for Interactions
-    this.checkProximity();
+    // 11. Throttled Proximity Check for Interactions (10Hz thay vì 60Hz để tối ưu FPS)
+    if (now - this.lastProximityCheck >= 100) {
+      this.checkProximity();
+      this.lastProximityCheck = now;
+    }
 
-    // 12. Handle E Key Press
+    // 12. Profiler HUD (Cập nhật FPS và Ping mỗi 300ms)
+    if (now - this.lastFpsUpdate >= 300) {
+      const currentFps = Math.round(this.game.loop.actualFps);
+      const entityCount = this.latestEntities.length;
+      this.fpsText.setText(`FPS: ${currentFps} | Ping: ${this.pingMs}ms | Quái: ${entityCount}`);
+      this.lastFpsUpdate = now;
+    }
+
+    // 13. Handle E Key Press
     if (Phaser.Input.Keyboard.JustDown(this.wasd.interact)) {
       this.handleInteract();
     }
@@ -713,25 +760,29 @@ export default class ExplorationScene extends Phaser.Scene {
         }
       }
 
-      // Update Health Bar
-      const hpBar = container.getData('hpBar') as Phaser.GameObjects.Graphics;
-      if (hpBar) {
-        hpBar.clear();
-        const isBoss = ent.type === 'BOSS';
-        const barW = isBoss ? 58 : 36;
-        const barH = 5;
-        const barY = isBoss ? -42 : -30;
-        const pct = Math.max(0, ent.hp / ent.maxHp);
+      // Update Health Bar (Chỉ vẽ lại khi HP thay đổi để tiết kiệm draw calls & CPU)
+      const prevHp = container.getData('prevHp');
+      if (prevHp !== ent.hp) {
+        container.setData('prevHp', ent.hp);
+        const hpBar = container.getData('hpBar') as Phaser.GameObjects.Graphics;
+        if (hpBar) {
+          hpBar.clear();
+          const isBoss = ent.type === 'BOSS';
+          const barW = isBoss ? 58 : 36;
+          const barH = 5;
+          const barY = isBoss ? -42 : -30;
+          const pct = Math.max(0, ent.hp / ent.maxHp);
 
-        hpBar.fillStyle(0x1e293b, 0.85);
-        hpBar.fillRect(-barW / 2, barY, barW, barH);
+          hpBar.fillStyle(0x1e293b, 0.85);
+          hpBar.fillRect(-barW / 2, barY, barW, barH);
 
-        const hpColor = isBoss ? 0xef4444 : 0x22c55e;
-        hpBar.fillStyle(hpColor, 1);
-        hpBar.fillRect(-barW / 2, barY, barW * pct, barH);
+          const hpColor = isBoss ? 0xef4444 : 0x22c55e;
+          hpBar.fillStyle(hpColor, 1);
+          hpBar.fillRect(-barW / 2, barY, barW * pct, barH);
 
-        hpBar.lineStyle(1, 0x000000, 0.5);
-        hpBar.strokeRect(-barW / 2, barY, barW, barH);
+          hpBar.lineStyle(1, 0x000000, 0.5);
+          hpBar.strokeRect(-barW / 2, barY, barW, barH);
+        }
       }
     }
 

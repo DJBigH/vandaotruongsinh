@@ -76,16 +76,25 @@ Tất cả các tài nguyên đồ họa 2D (spritesheets, tilesets, props, VFX)
   - Tác giả: Charles Sanchez (CharlesGabriel).
   - Giấy phép: CC-BY-SA 3.0 / GPL 3.0 / OGA-BY 3.0.
 
-### 2.4. Địa Hình & Cảnh Quan (Terrain & Props)
-- **Gạch cỏ, đường đá, đất, suối nguồn (`tile_grass.png`, `tile_grass_flower.png`, `tile_path.png`, `tile_water.png`, `tile_dirt.png`):**
-  - Tác giả: Lanea Zimmerman (Sharm).
-  - Giấy phép: CC-BY-SA 3.0 / GPL 3.0 / OGA-BY 3.0.
-- **Thanh Tùng Cổ Thụ (`prop_pine_tree.png`):**
-  - Ghép từ `treetop.png` và `trunk.png` của Lanea Zimmerman (Sharm).
-  - Giấy phép: CC-BY-SA 3.0 / GPL 3.0 / OGA-BY 3.0.
-- **Linh Thạch Cổ Lão (`prop_ancient_rock.png`):**
-  - Từ `rock.png` của Lanea Zimmerman (Sharm).
-  - Giấy phép: CC-BY-SA 3.0 / GPL 3.0 / OGA-BY 3.0.
-- **Bát Quái Tiên Trận, Cổng Không Gian, Linh Tinh Cương, Linh Miếu, Kiếm Khí VFX:**
-  - Thiết kế vector/pixel art cổ phong độc quyền cho dự án Vạn Đạo Trường Sinh.
+### 2.5. Chibi / Anime 2D Characters & Expressive Faces (Ninja School & Dragon Boy Inspired)
+- **Tạo hình Kiếm Tu (`player_idle.png`, `player_walk.png`, `player_slash.png`, `player_cast.png`, `player_hurt.png`, `player_death.png`):**
+  - Phong cách: 2D Pixel Chibi / Anime lấy cảm hứng từ Ninja School & Ngọc Rồng Online, khuôn mặt sáng rõ, mắt to biểu cảm (sclera trắng, tròng mắt lam ngọc, con ngươi đen, điểm sáng anime glint), mi kiếm sắc nét, búi tóc đạo gia trâm ngọc, đạo bào thiên lam viền hoàng kim, Bích Ngọc Kiếm ngọc bích phát sáng.
+  - Tác giả: Đội ngũ phát triển Vạn Đạo Trường Sinh.
+  - Giấy phép: CC0 / Giấy phép tự do sử dụng trong dự án.
+- **NPC Trưởng Lão Thanh Khê (`npc_elder.png`):**
+  - Gương mặt đạo trưởng hiền từ, mắt sáng tinh anh, râu bạc tỉa gọn gàng dưới cằm, đạo bào hoàng kim, tay cầm phất trần.
+  - Giấy phép: CC0.
+- **NPC Dược Sĩ Liễu Muội (`npc_healer.png`):**
+  - Mắt biếc tròn to, má hồng, tóc búi song kế cài lụa bích ngọc, y phục lục la tiên thược, tay cầm dược hồ lô.
+  - Giấy phép: CC0.
+- **NPC Đội Trưởng Vệ Binh (`npc_guard.png`):**
+  - Ánh mắt cương nghị, chiến khôi lông vũ đỏ, huyền thiết chiến giáp, tay cầm hộ tông thương.
+  - Giấy phép: CC0.
+
+### 2.6. Master Maps & Kiến Trúc Tông Môn (Sect Architecture)
+- **Bản đồ Thanh Khê & Rừng Săn Bắn (`map_thanh_khe_bg.png`, `map_rung_bg.png`):**
+  - Địa hình nướng nguyên khối 1920×1440, 100% pixel đặc (solid alpha = 255), triệt tiêu hoàn toàn hiện tượng lưới ô đen và đục lỗ transparent.
+  - Bố cục: Sơn Môn (Bắc), Quảng Trường Thái Cực (Trung Tâm), Diễn Võ Trường (Tây), Dược Viên (Đông), Thạch Kiều & Cổng Truyền Tống (Nam).
+- **Vật thể Sơn Môn, Thạch Đăng Lung, Mộc Nhân, Binh Khí Giá (`prop_sect_gate.png`, `prop_stone_lantern.png`, `prop_dummy.png`, `prop_weapon_rack.png`):**
+  - Thiết kế riêng cho dự án Vạn Đạo Trường Sinh.
   - Giấy phép: CC0 (Public Domain).

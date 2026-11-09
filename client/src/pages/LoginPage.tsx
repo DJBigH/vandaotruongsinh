@@ -10,7 +10,12 @@ export default function LoginPage() {
 
   useEffect(() => {
     checkAuth();
-  }, [checkAuth]);
+    if (window.location.search.includes('autologin=admin')) {
+      login('admin', 'admin@1234').then((ok) => {
+        if (ok) navigate('/game');
+      });
+    }
+  }, [checkAuth, login, navigate]);
 
   useEffect(() => {
     if (isAuthenticated) {

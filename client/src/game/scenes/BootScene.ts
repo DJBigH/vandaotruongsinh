@@ -30,7 +30,9 @@ export default class BootScene extends Phaser.Scene {
     this.load.spritesheet('monster_snake', 'assets/monster_snake.png', { frameWidth: 32, frameHeight: 32 });
     this.load.spritesheet('monster_ghost', 'assets/monster_ghost.png', { frameWidth: 32, frameHeight: 32 });
 
-    // 4. Tải Texture Địa Hình Tự Nhiên (LPC World Tiles)
+    // 4. Tải Texture Địa Hình & Bản Đồ Master Toàn Cảnh (Zero Draw Call Spikes)
+    this.load.image('map_thanh_khe_bg', 'assets/map_thanh_khe_bg.png');
+    this.load.image('map_rung_bg', 'assets/map_rung_bg.png');
     this.load.image('tile_grass', 'assets/tile_grass.png');
     this.load.image('tile_grass_flower', 'assets/tile_grass_flower.png');
     this.load.image('tile_path', 'assets/tile_path.png');
@@ -38,6 +40,10 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('tile_dirt', 'assets/tile_dirt.png');
 
     // 5. Tải Vật Thể Cảnh Quan Cổ Phong (Props)
+    this.load.image('prop_sect_gate', 'assets/prop_sect_gate.png');
+    this.load.image('prop_stone_lantern', 'assets/prop_stone_lantern.png');
+    this.load.image('prop_dummy', 'assets/prop_dummy.png');
+    this.load.image('prop_weapon_rack', 'assets/prop_weapon_rack.png');
     this.load.image('prop_pine_tree', 'assets/prop_pine_tree.png');
     this.load.image('prop_ancient_rock', 'assets/prop_ancient_rock.png');
     this.load.image('prop_crystal_cluster', 'assets/prop_crystal_cluster.png');
