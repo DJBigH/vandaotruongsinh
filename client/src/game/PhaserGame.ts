@@ -22,8 +22,10 @@ export function createPhaserGame(parentContainerId: string): Phaser.Game {
       },
     },
     scale: {
-      mode: Phaser.Scale.FIT,
+      mode: Phaser.Scale.RESIZE,
       autoCenter: Phaser.Scale.CENTER_BOTH,
+      width: '100%',
+      height: '100%',
     },
     scene: [BootScene, ExplorationScene, CombatScene],
   };

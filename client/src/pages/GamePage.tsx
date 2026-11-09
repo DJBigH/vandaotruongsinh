@@ -116,16 +116,15 @@ export default function GamePage() {
       alignItems: 'center',
       justifyContent: 'center',
     }}>
-      {/* Phaser Canvas Container */}
+      {/* Phaser Canvas Container - Chiếm trọn màn hình không còn viền đen */}
       <div
         id="phaser-game-container"
         ref={gameContainerRef}
         style={{
-          width: '960px',
-          height: '640px',
-          maxWidth: '100%',
-          maxHeight: '100%',
-          boxShadow: '0 0 30px rgba(0,0,0,0.8)',
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
         }}
       />
 

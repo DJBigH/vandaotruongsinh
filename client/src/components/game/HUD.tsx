@@ -284,26 +284,34 @@ export default function HUD() {
         </div>
 
         {/* Skills 1, 2, 3, 4 */}
-        {[1, 2, 3, 4].map((num, idx) => {
+        {[
+          { num: 1, name: 'Thanh Phong Kiếm Khí', icon: '🗡️', mp: 10 },
+          { num: 2, name: 'Huyền Thiên Nhất Kiếm', icon: '🌀', mp: 20 },
+          { num: 3, name: 'Hộ Thể Kiếm Cương', icon: '🛡️', mp: 25 },
+          { num: 4, name: 'Vạn Kiếm Quy Tông', icon: '✨', mp: 40 },
+        ].map((sk, idx) => {
           const cd = cooldowns.skillsRemainingSec[idx] ?? 0;
+          const notEnoughMp = curMp < sk.mp;
           return (
             <div
-              key={num}
+              key={sk.num}
+              title={`${sk.name} [Phím ${sk.num}] - Tiêu hao: ${sk.mp} Linh Lực`}
               style={{
                 position: 'relative',
                 width: '46px',
                 height: '46px',
-                background: cd > 0 ? '#334155' : '#1e1b4b',
-                border: '1px solid #818cf8',
+                background: cd > 0 ? '#334155' : notEnoughMp ? '#1e1b4b' : '#0f172a',
+                border: cd > 0 ? '1px solid #475569' : notEnoughMp ? '1px dashed #6366f1' : '1px solid #38bdf8',
                 borderRadius: '8px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
+                opacity: notEnoughMp && cd === 0 ? 0.75 : 1,
               }}
             >
-              <span style={{ fontSize: '1.1rem' }}>{num === 1 ? '⚡' : num === 2 ? '🔥' : num === 3 ? '❄️' : '🌟'}</span>
-              <span style={{ fontSize: '0.65rem', color: '#c7d2fe', fontWeight: 'bold' }}>[{num}]</span>
+              <span style={{ fontSize: '1.1rem' }}>{sk.icon}</span>
+              <span style={{ fontSize: '0.65rem', color: notEnoughMp ? '#94a3b8' : '#7dd3fc', fontWeight: 'bold' }}>[{sk.num}]</span>
               {cd > 0 && (
                 <div style={{
                   position: 'absolute',

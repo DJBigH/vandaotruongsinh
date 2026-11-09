@@ -3,6 +3,8 @@
 // ============================================================
 
 import Phaser from 'phaser';
+import { SpriteGenerator } from '../assets/SpriteGenerator';
+import { AnimationManager } from '../animations/AnimationManager';
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
@@ -10,11 +12,19 @@ export default class BootScene extends Phaser.Scene {
   }
 
   create() {
-    this.generateTextures();
+    // 1. Sinh các spritesheet và texture độ nét cao (Cổ Phong Tiên Hiệp)
+    SpriteGenerator.generateAll(this);
+
+    // 2. Đăng ký toàn bộ Animations vào hệ thống Phaser
+    AnimationManager.registerAll(this);
+
+    // 3. Giữ các texture phụ và fallback tương thích
+    this.generateFallbackTextures();
+
     this.scene.start('ExplorationScene');
   }
 
-  private generateTextures() {
+  private generateFallbackTextures() {
     // 1. Tiles (32x32)
     this.createTile('tile_grass', '#2d5a27', '#38761d');
     this.createTile('tile_dirt', '#5c4033', '#795548');

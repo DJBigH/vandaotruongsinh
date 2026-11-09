@@ -6,6 +6,7 @@
 import Phaser from 'phaser';
 import { eventBridge } from '../EventBridge';
 import * as gameApi from '../../api/game';
+import { AnimationManager, FacingDirection } from '../animations/AnimationManager';
 import type {
   MapData,
   MapNPC,
@@ -41,6 +42,12 @@ export default class ExplorationScene extends Phaser.Scene {
   private npcsGroup!: Phaser.Physics.Arcade.StaticGroup;
   private interactablesGroup!: Phaser.Physics.Arcade.StaticGroup;
   private portalsGroup!: Phaser.Physics.Arcade.StaticGroup;
+  private decorProps: Phaser.GameObjects.Sprite[] = [];
+
+  // Animation & Direction State
+  private currentFacing: FacingDirection = 'down';
+  private isActionLocked: boolean = false;
+  private actionLockTimer: Phaser.Time.TimerEvent | null = null;
 
   // Real-time entity maps
   private entitySprites: Map<string, Phaser.GameObjects.Container> = new Map();
@@ -109,8 +116,8 @@ export default class ExplorationScene extends Phaser.Scene {
     });
 
     // Dedicated graphic layers for real-time visual effects
-    this.telegraphGraphics = this.add.graphics().setDepth(3);
-    this.projectileGraphics = this.add.graphics().setDepth(15);
+    this.telegraphGraphics = this.add.graphics().setDepth(2);
+    this.projectileGraphics = this.add.graphics().setDepth(2200);
 
     // Prompt HUD text
     this.promptText = this.add.text(480, 560, '', {
@@ -118,7 +125,7 @@ export default class ExplorationScene extends Phaser.Scene {
       color: '#ffd700',
       backgroundColor: 'rgba(0,0,0,0.75)',
       padding: { x: 12, y: 6 },
-    }).setOrigin(0.5).setScrollFactor(0).setDepth(100);
+    }).setOrigin(0.5).setScrollFactor(0).setDepth(3500);
 
     // Load Map data from API
     await this.loadMap(this.currentMapId);
@@ -249,17 +256,27 @@ export default class ExplorationScene extends Phaser.Scene {
 
     const { width, height, tileSize } = this.mapData;
     this.physics.world.setBounds(0, 0, width * tileSize, height * tileSize);
+    this.decorProps = [];
 
-    // 1. Render Terrain Tiles
+    // 1. Render Layered Terrain Tiles
     const isForest = this.currentMapId.includes('rung');
     for (let x = 0; x < width; x++) {
       for (let y = 0; y < height; y++) {
-        let tileKey = isForest ? 'tile_grass' : 'tile_path';
-        if (!isForest && (x < 3 || x > width - 4 || y < 3 || y > height - 4)) {
-          tileKey = 'tile_grass';
+        let tileKey = 'tile_grass';
+
+        // Lối đi lát đá tự nhiên ở khu trung tâm
+        const isPath = (x >= 8 && x <= 12) || (y >= 8 && y <= 11 && x >= 4 && x <= 16);
+        if (isPath && !isForest) {
+          tileKey = 'tile_path';
+        } else {
+          // Điểm xuyết hoa dại và thảo mộc
+          const seed = (x * 37 + y * 19) % 100;
+          tileKey = seed < 18 ? 'tile_grass_flower' : 'tile_grass';
         }
-        if (isForest && (x === 0 || y === 0 || x === width - 1 || y === height - 1)) {
-          tileKey = 'tile_tree';
+
+        // Rìa bản đồ
+        if (x === 0 || y === 0 || x === width - 1 || y === height - 1) {
+          tileKey = 'tile_water';
         }
 
         const tile = this.add.image(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileKey);
@@ -272,72 +289,150 @@ export default class ExplorationScene extends Phaser.Scene {
     this.interactablesGroup = this.physics.add.staticGroup();
     this.portalsGroup = this.physics.add.staticGroup();
 
-    // 3. Spawn NPCs
-    for (const npc of this.mapData.npcs || []) {
-      const sprite = this.npcsGroup.create(npc.position.x * tileSize, npc.position.y * tileSize, npc.spriteKey || 'npc_elder') as Phaser.Physics.Arcade.Sprite;
-      sprite.setData('npcData', npc);
-      sprite.setDepth(5);
-
-      this.add.text(npc.position.x * tileSize, npc.position.y * tileSize - 24, npc.name, {
-        fontSize: '12px',
-        color: '#ffd700',
-        backgroundColor: 'rgba(0,0,0,0.6)',
-        padding: { x: 4, y: 2 },
-      }).setOrigin(0.5).setDepth(6);
+    // 3. Render Ancient Pine Trees (Thanh Tùng Cổ Thụ)
+    const treeCoords = [
+      { x: 3, y: 3 }, { x: 5, y: 14 }, { x: 6, y: 2 },
+      { x: 17, y: 4 }, { x: 21, y: 5 }, { x: 19, y: 15 },
+      { x: 2, y: 16 }, { x: 14, y: 19 }, { x: 22, y: 20 },
+    ];
+    for (const pos of treeCoords) {
+      if (pos.x < width && pos.y < height) {
+        const tree = this.add.sprite(pos.x * tileSize + tileSize / 2, pos.y * tileSize + tileSize / 2, 'prop_pine_tree');
+        tree.setOrigin(0.5, 0.94);
+        tree.setDepth(tree.y);
+        this.decorProps.push(tree);
+      }
     }
 
-    // 4. Spawn Interactables
+    // 4. Render Weathered Spirit Rocks & Crystals (Linh Thạch & Tinh Cương - Image 2)
+    const rockCoords = [
+      { x: 6, y: 7 }, { x: 16, y: 11 }, { x: 13, y: 17 }
+    ];
+    for (const pos of rockCoords) {
+      if (pos.x < width && pos.y < height) {
+        const rock = this.add.sprite(pos.x * tileSize + tileSize / 2, pos.y * tileSize + tileSize / 2, 'prop_ancient_rock');
+        rock.setOrigin(0.5, 0.85);
+        rock.setDepth(rock.y);
+        this.decorProps.push(rock);
+      }
+    }
+
+    // Cụm Tinh Thể Linh Thạch Lam Ngọc (Image 2)
+    const crystalCoords = [
+      { x: 5, y: 7 }, { x: 17, y: 12 }, { x: 18, y: 17 }
+    ];
+    for (const pos of crystalCoords) {
+      if (pos.x < width && pos.y < height) {
+        const crystal = this.add.sprite(pos.x * tileSize + tileSize / 2, pos.y * tileSize + tileSize / 2, 'prop_crystal_cluster');
+        crystal.setOrigin(0.5, 0.85);
+        crystal.setDepth(crystal.y);
+        this.decorProps.push(crystal);
+      }
+    }
+
+    // Bát Quái Tiên Trận Hoàng Kim ở quảng trường trung tâm (Image 2)
+    const bagua = this.add.sprite(10 * tileSize, 10 * tileSize, 'prop_bagua_array');
+    bagua.setOrigin(0.5, 0.5);
+    bagua.setDepth(1);
+    bagua.setAlpha(0.85);
+    this.tweens.add({
+      targets: bagua,
+      angle: 360,
+      duration: 36000,
+      repeat: -1,
+    });
+
+    // 5. Spawn NPCs với Animation Thở & Đạo Bào Cổ Phong
+    for (const npc of this.mapData.npcs || []) {
+      const sprite = this.npcsGroup.create(npc.position.x * tileSize, npc.position.y * tileSize, 'npc_elder') as Phaser.Physics.Arcade.Sprite;
+      sprite.setData('npcData', npc);
+      sprite.setOrigin(0.5, 0.90);
+      sprite.setDepth(sprite.y);
+      if (this.anims.exists('npc_elder_idle')) {
+        sprite.play('npc_elder_idle');
+      }
+
+      this.add.text(npc.position.x * tileSize, npc.position.y * tileSize - 52, npc.name, {
+        fontSize: '12px',
+        color: '#ffd700',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        padding: { x: 6, y: 2 },
+      }).setOrigin(0.5).setDepth(sprite.y + 10);
+    }
+
+    // 6. Spawn Interactables (Linh Miếu, Khoáng Thạch, Linh Dược)
     for (const item of this.mapData.interactables || []) {
-      let texture = 'tile_grass';
+      let texture = 'prop_ancient_rock';
       let label = 'Linh Thảo';
+      let originY = 0.85;
+
       if (item.type === 'ORE') {
-        texture = 'tile_rock';
-        label = 'Thiết Khoáng';
+        texture = 'prop_crystal_cluster';
+        label = 'Linh Tinh Cương';
       } else if (item.type === 'SHRINE') {
-        texture = 'tile_path';
+        texture = 'prop_shrine';
         label = 'Linh Miếu';
+        originY = 0.85;
       }
 
       const sprite = this.interactablesGroup.create(item.position.x * tileSize, item.position.y * tileSize, texture) as Phaser.Physics.Arcade.Sprite;
       sprite.setData('interactableData', item);
-      sprite.setDepth(4);
+      sprite.setOrigin(0.5, originY);
+      sprite.setDepth(sprite.y);
+      this.decorProps.push(sprite);
 
-      this.add.text(item.position.x * tileSize, item.position.y * tileSize - 20, label, {
-        fontSize: '10px',
+      this.add.text(item.position.x * tileSize, item.position.y * tileSize - 48, label, {
+        fontSize: '11px',
         color: '#b2dfdb',
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        padding: { x: 3, y: 1 },
-      }).setOrigin(0.5).setDepth(5);
+        backgroundColor: 'rgba(0,0,0,0.65)',
+        padding: { x: 4, y: 2 },
+      }).setOrigin(0.5).setDepth(sprite.y + 10);
     }
 
-    // 5. Spawn Portals
+    // 7. Spawn Portals (Cổng Không Gian Kỳ Ảo)
     for (const portal of this.mapData.portals || []) {
-      const sprite = this.portalsGroup.create(portal.position.x * tileSize, portal.position.y * tileSize, 'tile_water') as Phaser.Physics.Arcade.Sprite;
+      const sprite = this.portalsGroup.create(portal.position.x * tileSize, portal.position.y * tileSize, 'prop_portal') as Phaser.Physics.Arcade.Sprite;
       sprite.setData('portalData', portal);
-      sprite.setDepth(4);
+      sprite.setOrigin(0.5, 0.5);
+      sprite.setDepth(sprite.y);
 
-      this.add.text(portal.position.x * tileSize, portal.position.y * tileSize - 24, portal.label, {
+      // Tween xoay vòng linh phù huyền ảo
+      this.tweens.add({
+        targets: sprite,
+        angle: 360,
+        duration: 16000,
+        repeat: -1,
+      });
+
+      this.add.text(portal.position.x * tileSize, portal.position.y * tileSize - 40, portal.label, {
         fontSize: '12px',
         color: '#00e5ff',
-        backgroundColor: 'rgba(0,0,0,0.7)',
+        backgroundColor: 'rgba(0,0,0,0.75)',
         padding: { x: 6, y: 2 },
-      }).setOrigin(0.5).setDepth(5);
+      }).setOrigin(0.5).setDepth(sprite.y + 10);
     }
 
-    // 6. Spawn Local Player
+    // 8. Spawn Local Player - Kiếm Tu Mẫu Đầy Đủ Chi Tiết & Tỷ Lệ Chuẩn (64x80 px)
     const spawnX = (this.mapData.spawnPoint?.x || 10) * tileSize;
     const spawnY = (this.mapData.spawnPoint?.y || 10) * tileSize;
-    this.player = this.physics.add.sprite(spawnX, spawnY, 'player_0');
+    this.player = this.physics.add.sprite(spawnX, spawnY, 'player_kiem_tu_idle');
     this.player.setCollideWorldBounds(true);
-    this.player.setDepth(10);
-    this.player.setSize(22, 26);
+    this.player.setOrigin(0.5, 0.90);
+    this.player.setSize(22, 18);
+    this.player.setOffset(21, 58);
+    this.player.setDepth(spawnY);
+    this.currentFacing = 'down';
+    if (this.anims.exists('player_idle_down')) {
+      this.player.play('player_idle_down');
+    }
 
-    // Camera follow smoothly
+    // Camera follow mượt mà và zoom tối ưu cho màn hình 1920x1080 / 1366x768
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
     this.cameras.main.setBounds(0, 0, width * tileSize, height * tileSize);
+    this.cameras.main.setZoom(1.35);
   }
 
-  update(_time: number, delta: number) {
+  update(_time: number, _delta: number) {
     if (!this.player || this.isMovementDisabled) {
       if (this.player?.body) this.player.setVelocity(0, 0);
       return;
@@ -350,6 +445,11 @@ export default class ExplorationScene extends Phaser.Scene {
     if (this.cursors.right?.isDown || this.wasd.right?.isDown) moveX += 1;
     if (this.cursors.up?.isDown || this.wasd.up?.isDown) moveY -= 1;
     if (this.cursors.down?.isDown || this.wasd.down?.isDown) moveY += 1;
+
+    // Cập nhật hướng di chuyển 4 chiều
+    if (moveX !== 0 || moveY !== 0) {
+      this.currentFacing = AnimationManager.getDirectionFromVelocity(moveX, moveY, this.currentFacing);
+    }
 
     // 2. Check Action keys (Space = Dodge, 1-4 = Skills)
     if (Phaser.Input.Keyboard.JustDown(this.wasd.dodge)) {
@@ -367,6 +467,23 @@ export default class ExplorationScene extends Phaser.Scene {
     // 3. Pointer Aim Angle
     const pointer = this.input.activePointer;
     const aimAngle = Phaser.Math.Angle.Between(this.player.x, this.player.y, pointer.worldX, pointer.worldY);
+
+    // Khi tấn công hoặc tung chiêu, hướng mặt xoay theo con trỏ chuột
+    if (this.lastActionIntent === 'ATTACK' || this.lastActionIntent.startsWith('SKILL')) {
+      this.currentFacing = AnimationManager.getDirectionFromAngle(aimAngle);
+    }
+
+    // Kích hoạt Animation tương ứng cho hành động
+    if (this.lastActionIntent === 'ATTACK') {
+      this.playPlayerActionAnim('attack');
+    } else if (this.lastActionIntent.startsWith('SKILL')) {
+      this.playPlayerActionAnim('cast');
+      if (this.lastActionIntent === 'SKILL_4') {
+        this.spawnGiantSwordPlunge(pointer.worldX, pointer.worldY);
+      }
+    } else if (this.lastActionIntent === 'DODGE') {
+      this.playPlayerActionAnim('dodge');
+    }
 
     // 4. Send Input to Server (at 20 Hz = every 50ms, or immediately on action)
     const now = Date.now();
@@ -390,22 +507,73 @@ export default class ExplorationScene extends Phaser.Scene {
       }
     }
 
-    // 6. Synchronize Entities (Monsters & Bosses)
+    // 6. Cập nhật Animation cơ bản khi không bị khóa hành động
+    if (!this.isActionLocked) {
+      if (this.latestServerPlayer?.state === 'DEAD') {
+        if (this.anims.exists('player_death')) {
+          this.player.play('player_death', true);
+        }
+      } else if (this.latestServerPlayer?.state === 'HURT') {
+        const hurtKey = `player_hurt_${this.currentFacing}`;
+        if (this.anims.exists(hurtKey)) {
+          this.player.play(hurtKey, true);
+        }
+      } else if (moveX !== 0 || moveY !== 0) {
+        const walkKey = `player_walk_${this.currentFacing}`;
+        if (this.anims.exists(walkKey)) {
+          this.player.play(walkKey, true);
+        }
+      } else {
+        const idleKey = `player_idle_${this.currentFacing}`;
+        if (this.anims.exists(idleKey)) {
+          this.player.play(idleKey, true);
+        }
+      }
+    }
+
+    // 7. Dynamic Y-Sorting (Sắp xếp độ sâu thực tế theo trục Y chân nhân vật)
+    this.player.setDepth(this.player.y);
+    for (const prop of this.decorProps) {
+      if (prop && prop.active) {
+        prop.setDepth(prop.y);
+      }
+    }
+    this.npcsGroup.children.iterate((c: any) => {
+      if (c && c.active) {
+        c.setDepth(c.y);
+      }
+      return true;
+    });
+
+    // 8. Synchronize Entities (Monsters & Bosses)
     this.syncEntities();
 
-    // 7. Render Projectiles
+    // 9. Render Projectiles (Lưỡi Kiếm Khí Tiên Đạo)
     this.renderProjectiles();
 
-    // 8. Render Boss Telegraphs (Red Warning Zones)
+    // 10. Render Boss Telegraphs (Red Warning Zones)
     this.renderTelegraphs();
 
-    // 9. Check Proximity for Interactions
+    // 11. Check Proximity for Interactions
     this.checkProximity();
 
-    // 10. Handle E Key Press
+    // 12. Handle E Key Press
     if (Phaser.Input.Keyboard.JustDown(this.wasd.interact)) {
       this.handleInteract();
     }
+  }
+
+  private playPlayerActionAnim(action: 'attack' | 'cast' | 'dodge') {
+    const key = `player_${action}_${this.currentFacing}`;
+    if (this.anims.exists(key)) {
+      this.player.play(key, true);
+    }
+    this.isActionLocked = true;
+    if (this.actionLockTimer) this.actionLockTimer.remove();
+    const duration = action === 'attack' ? 320 : action === 'cast' ? 380 : 280;
+    this.actionLockTimer = this.time.delayedCall(duration, () => {
+      this.isActionLocked = false;
+    });
   }
 
   private sendPlayerInput(
@@ -441,21 +609,31 @@ export default class ExplorationScene extends Phaser.Scene {
       let container = this.entitySprites.get(ent.id);
 
       if (!container) {
-        // Create new container for monster
+        // Create new container for monster / boss
         container = this.add.container(ent.x, ent.y);
-        container.setDepth(6);
+        container.setDepth(ent.y);
 
-        // Monster sprite
+        // Monster sprite with Cổ Phong art style
         const spriteKey = ent.type === 'BOSS' ? 'boss_001' : 'mon_001';
         const sprite = this.add.sprite(0, 0, spriteKey);
+        sprite.setOrigin(0.5, 0.85);
         container.add(sprite);
+        container.setData('monsterSprite', sprite);
+
+        // Initial animation
+        const animKey = ent.type === 'BOSS' ? 'boss_001_prowl' : 'mon_001_prowl';
+        if (this.anims.exists(animKey)) {
+          sprite.play(animKey);
+        }
 
         // Name text
-        const nameText = this.add.text(0, -28, ent.name, {
-          fontSize: '11px',
-          color: ent.type === 'BOSS' ? '#ff4444' : '#ffffff',
-          backgroundColor: 'rgba(0,0,0,0.7)',
-          padding: { x: 3, y: 1 },
+        const isBoss = ent.type === 'BOSS';
+        const nameOffsetY = isBoss ? -48 : -36;
+        const nameText = this.add.text(0, nameOffsetY, ent.name, {
+          fontSize: isBoss ? '12px' : '11px',
+          color: isBoss ? '#f87171' : '#ffffff',
+          backgroundColor: 'rgba(0,0,0,0.75)',
+          padding: { x: 4, y: 2 },
         }).setOrigin(0.5);
         container.add(nameText);
 
@@ -470,26 +648,50 @@ export default class ExplorationScene extends Phaser.Scene {
       // Smooth position interpolation
       container.x = Phaser.Math.Linear(container.x, ent.x, 0.3);
       container.y = Phaser.Math.Linear(container.y, ent.y, 0.3);
+      container.setDepth(container.y);
 
       // Visibility based on state
       container.setVisible(ent.state !== 'DEAD');
+
+      // Update Sprite Animation & Flip Direction
+      const sprite = container.getData('monsterSprite') as Phaser.GameObjects.Sprite;
+      if (sprite) {
+        if (ent.vx !== 0) {
+          sprite.setFlipX(ent.vx < 0);
+        }
+
+        const isAttacking = ent.state === 'ATTACK' || ent.state === 'WINDUP';
+        const targetAnim = ent.type === 'BOSS'
+          ? (isAttacking ? 'boss_001_attack' : 'boss_001_prowl')
+          : (isAttacking ? 'mon_001_attack' : 'mon_001_prowl');
+
+        if (this.anims.exists(targetAnim) && sprite.anims.currentAnim?.key !== targetAnim) {
+          sprite.play(targetAnim, true);
+        }
+      }
 
       // Update Health Bar
       const hpBar = container.getData('hpBar') as Phaser.GameObjects.Graphics;
       if (hpBar) {
         hpBar.clear();
-        const barW = ent.type === 'BOSS' ? 50 : 32;
-        const barH = 4;
+        const isBoss = ent.type === 'BOSS';
+        const barW = isBoss ? 56 : 34;
+        const barH = 5;
+        const barY = isBoss ? -38 : -28;
         const pct = Math.max(0, ent.hp / ent.maxHp);
 
         // Background
-        hpBar.fillStyle(0x333333, 0.8);
-        hpBar.fillRect(-barW / 2, -20, barW, barH);
+        hpBar.fillStyle(0x1e293b, 0.85);
+        hpBar.fillRect(-barW / 2, barY, barW, barH);
 
         // Health fill
-        const hpColor = ent.type === 'BOSS' ? 0xff2222 : 0x00e676;
+        const hpColor = isBoss ? 0xef4444 : 0x22c55e;
         hpBar.fillStyle(hpColor, 1);
-        hpBar.fillRect(-barW / 2, -20, barW * pct, barH);
+        hpBar.fillRect(-barW / 2, barY, barW * pct, barH);
+
+        // Outline
+        hpBar.lineStyle(1, 0x000000, 0.5);
+        hpBar.strokeRect(-barW / 2, barY, barW, barH);
       }
     }
 
@@ -505,12 +707,27 @@ export default class ExplorationScene extends Phaser.Scene {
   private renderProjectiles() {
     this.projectileGraphics.clear();
     for (const p of this.latestProjectiles) {
-      this.projectileGraphics.fillStyle(p.color || 0x00e5ff, 0.9);
-      this.projectileGraphics.fillCircle(p.x, p.y, p.radius || 12);
+      const angle = Math.atan2(p.vy, p.vx);
+      const radius = p.radius || 12;
 
-      // Glow outline
-      this.projectileGraphics.lineStyle(2, 0xffffff, 0.8);
-      this.projectileGraphics.strokeCircle(p.x, p.y, p.radius || 12);
+      // Hào quang lan tỏa
+      this.projectileGraphics.fillStyle(0x0284c7, 0.35);
+      this.projectileGraphics.fillCircle(p.x, p.y, radius * 1.5);
+
+      // Thân kiếm khí lam ngọc
+      this.projectileGraphics.fillStyle(0x38bdf8, 0.9);
+      this.projectileGraphics.fillCircle(p.x, p.y, radius);
+
+      // Tâm sáng bạch quang
+      this.projectileGraphics.fillStyle(0xffffff, 1.0);
+      this.projectileGraphics.fillCircle(p.x, p.y, radius * 0.45);
+
+      // Đuôi kiếm khí vút bay
+      this.projectileGraphics.lineStyle(3, 0x38bdf8, 0.8);
+      this.projectileGraphics.beginPath();
+      this.projectileGraphics.moveTo(p.x - Math.cos(angle) * 22, p.y - Math.sin(angle) * 22);
+      this.projectileGraphics.lineTo(p.x + Math.cos(angle) * 10, p.y + Math.sin(angle) * 10);
+      this.projectileGraphics.strokePath();
     }
   }
 
@@ -519,52 +736,100 @@ export default class ExplorationScene extends Phaser.Scene {
     for (const tg of this.latestTelegraphs) {
       const radius = tg.radius || 80;
 
-      // Outer Red Danger Warning Zone
-      this.telegraphGraphics.fillStyle(0xff0000, 0.25);
+      // Vùng cảnh báo nguy hiểm đỏ chu sa
+      this.telegraphGraphics.fillStyle(0xef4444, 0.22);
       this.telegraphGraphics.fillCircle(tg.x, tg.y, radius);
 
-      this.telegraphGraphics.lineStyle(2, 0xff0000, 0.9);
+      this.telegraphGraphics.lineStyle(2, 0xf43f5e, 0.9);
       this.telegraphGraphics.strokeCircle(tg.x, tg.y, radius);
 
-      // Inner shrinking countdown ring indicating explosion impact
+      // Vòng tròn co tụ đếm ngược thời điểm phát nổ
       const progress = Math.max(0, 1 - (tg.remainingSec / tg.durationSec));
-      this.telegraphGraphics.fillStyle(0xff3333, 0.4);
+      this.telegraphGraphics.fillStyle(0xdc2626, 0.45);
       this.telegraphGraphics.fillCircle(tg.x, tg.y, radius * progress);
+
+      // Tâm cảnh báo phát sáng
+      this.telegraphGraphics.fillStyle(0xffffff, 0.7);
+      this.telegraphGraphics.fillCircle(tg.x, tg.y, 4);
     }
   }
 
   private spawnGhostTrail(x: number, y: number) {
-    const ghost = this.add.sprite(x, y, 'player_0');
-    ghost.setDepth(9);
-    ghost.setAlpha(0.5);
-    ghost.setTint(0x00ffff);
+    const ghost = this.add.sprite(x, y, 'player_kiem_tu_dodge');
+    ghost.setOrigin(0.5, 0.90);
+    ghost.setDepth(y - 1);
+    ghost.setAlpha(0.65);
+    ghost.setTint(0x38bdf8);
 
     this.tweens.add({
       targets: ghost,
       alpha: 0,
-      scaleX: 1.2,
-      scaleY: 1.2,
-      duration: 250,
+      scaleX: 1.1,
+      scaleY: 1.1,
+      duration: 240,
       onComplete: () => ghost.destroy(),
     });
   }
 
   private spawnFloatingText(x: number, y: number, text: string, color: string, isCrit?: boolean) {
     const floating = this.add.text(x, y, text, {
-      fontSize: isCrit ? '18px' : '14px',
-      color: color || '#ffffff',
+      fontSize: isCrit ? '20px' : '15px',
+      color: color || (isCrit ? '#facc15' : '#ffffff'),
       fontStyle: isCrit ? 'bold' : 'normal',
-      stroke: '#000000',
-      strokeThickness: 3,
-    }).setOrigin(0.5).setDepth(30);
+      stroke: '#0f172a',
+      strokeThickness: 4,
+    }).setOrigin(0.5).setDepth(2500);
+
+    // Rung nhẹ màn hình khi trúng bạo kích (Screen Shake)
+    if (isCrit) {
+      this.cameras.main.shake(120, 0.004);
+    }
 
     this.tweens.add({
       targets: floating,
-      y: y - 40,
+      y: y - 48,
       alpha: 0,
-      duration: 800,
-      ease: 'Power1',
+      duration: 850,
+      ease: 'Power2',
       onComplete: () => floating.destroy(),
+    });
+  }
+
+  private spawnGiantSwordPlunge(x: number, y: number) {
+    if (!this.textures.exists('fx_giant_gold_sword')) return;
+    const sword = this.add.sprite(x, y - 240, 'fx_giant_gold_sword');
+    sword.setOrigin(0.5, 0.95);
+    sword.setDepth(2400);
+    sword.setAlpha(0);
+
+    // Lao xuống từ không trung cực nhanh
+    this.tweens.add({
+      targets: sword,
+      y: y,
+      alpha: 1,
+      duration: 220,
+      ease: 'Cubic.easeIn',
+      onComplete: () => {
+        // Rung chuyển màn hình kinh thiên động địa
+        this.cameras.main.shake(220, 0.009);
+
+        // Vòng sóng xung kích tỏa ra trên mặt đất
+        const shockwave = this.add.graphics().setDepth(2350);
+        shockwave.lineStyle(3, 0xfde047, 0.9);
+        shockwave.strokeCircle(x, y, 20);
+
+        this.tweens.add({
+          targets: sword,
+          alpha: 0,
+          scaleY: 1.25,
+          scaleX: 1.15,
+          duration: 400,
+          onComplete: () => {
+            sword.destroy();
+            shockwave.destroy();
+          },
+        });
+      },
     });
   }
 
