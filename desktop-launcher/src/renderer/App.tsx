@@ -138,10 +138,12 @@ export const App: React.FC = () => {
   const handleCheckDatabase = async () => {
     setIsCheckingDb(true);
     try {
-      const report = await window.launcherAPI.runDiagnostics();
-      setDiagnostics(report);
-      const dbItem = report.items.find((i) => i.category === 'DATABASE');
-      showToast(dbItem ? dbItem.message : 'Đã kiểm tra cơ sở dữ liệu');
+      const dbInfo = await window.launcherAPI.checkDatabase();
+      if (dbInfo.state === 'CONNECTED') {
+        showToast('✓ Đã kết nối thành công tới PostgreSQL (127.0.0.1:5432)!');
+      } else {
+        showToast(`✕ Chưa thể kết nối: ${dbInfo.message}`);
+      }
     } catch (e: any) {
       showToast(`Lỗi: ${e.message}`);
     } finally {

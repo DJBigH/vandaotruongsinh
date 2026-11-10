@@ -198,6 +198,7 @@ export const IPC_CHANNELS = {
   EXPORT_LOG_AI_ZIP: 'launcher:export-log-ai-zip',
   SHOW_ITEM_IN_FOLDER: 'launcher:show-item-in-folder',
   SELECT_FOLDER: 'launcher:select-folder',
+  CHECK_DATABASE: 'launcher:check-database',
   // Kênh IPC mới cho Cài Đặt Tự Động (Auto-Setup)
   INSPECT_SETUP: 'launcher:inspect-setup',
   RUN_AUTO_SETUP: 'launcher:run-auto-setup',

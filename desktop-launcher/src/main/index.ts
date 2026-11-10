@@ -188,10 +188,15 @@ function registerIpcHandlers(
     return settingsManager.updateSettings(newSettings);
   });
 
-  // Chẩn đoán
+  // Chẩn đoán & Cơ Sở Dữ Liệu
   ipcMain.handle(IPC_CHANNELS.RUN_DIAGNOSTICS, async () => {
     logger.logAction('CHẠY_CHẨN_ĐOÁN_HỆ_THỐNG');
     return SystemDiagnostics.runAll();
+  });
+
+  ipcMain.handle(IPC_CHANNELS.CHECK_DATABASE, async () => {
+    logger.logAction('KIỂM_TRA_VÀ_KHỞI_ĐỘNG_DATABASE');
+    return supervisor.ensureDatabaseRunning();
   });
 
   // Nhật ký (Logs)

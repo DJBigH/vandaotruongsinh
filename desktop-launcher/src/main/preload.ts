@@ -11,6 +11,7 @@ import {
   LogSource,
   LogLevel,
   LauncherSettings,
+  DatabaseInfo,
   DiagnosticReport,
   SystemStatusSnapshot,
   ExportLogResult,
@@ -68,6 +69,9 @@ const api = {
   // Chẩn đoán hệ thống
   runDiagnostics: (): Promise<DiagnosticReport> => {
     return ipcRenderer.invoke(IPC_CHANNELS.RUN_DIAGNOSTICS);
+  },
+  checkDatabase: (): Promise<DatabaseInfo> => {
+    return ipcRenderer.invoke(IPC_CHANNELS.CHECK_DATABASE);
   },
 
   // Nhật ký (Logs)

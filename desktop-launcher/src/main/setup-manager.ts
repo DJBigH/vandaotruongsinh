@@ -89,9 +89,17 @@ export class SetupManager {
     let isDbRunning = await this.probeTcpPort(settings.dbHost || '127.0.0.1', settings.dbPort || 5432, 2000);
     if (!isDbRunning && process.platform === 'win32') {
       try {
-        const { execSync } = require('child_process');
-        execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 6000, stdio: 'ignore' });
-        await new Promise(r => setTimeout(r, 1200));
+        const { execSync, spawn } = require('child_process');
+        execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 8000, stdio: 'ignore' });
+        try {
+          const keepalive = spawn('wsl', ['-d', 'Ubuntu', '--exec', 'sleep', 'infinity'], {
+            detached: true,
+            stdio: 'ignore',
+            windowsHide: true,
+          });
+          keepalive.unref();
+        } catch {}
+        await new Promise(r => setTimeout(r, 1500));
         isDbRunning = await this.probeTcpPort(settings.dbHost || '127.0.0.1', settings.dbPort || 5432, 2000);
       } catch (e) {}
     }

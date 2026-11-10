@@ -92,6 +92,11 @@ export class ProcessSupervisor {
 
     // Bắt đầu vòng lặp theo dõi
     this.startWatchdog();
+
+    // Tự động kiểm tra và đánh thức PostgreSQL ngay khi Launcher khởi động
+    setTimeout(() => {
+      this.ensureDatabaseRunning().catch(() => {});
+    }, 500);
   }
 
   public static getInstance(): ProcessSupervisor {
@@ -265,6 +270,9 @@ export class ProcessSupervisor {
         return { success: false, message: `Cổng ${port} đang bị chiếm bởi một ứng dụng khác. Vui lòng đổi cổng trong Cài Đặt!` };
       }
     }
+
+    // Đảm bảo cơ sở dữ liệu PostgreSQL đang chạy trước khi bật server
+    await this.ensureDatabaseRunning();
 
     // Đánh dấu đang khởi động
     this.serverInfo.state = 'STARTING';
@@ -661,9 +669,10 @@ export class ProcessSupervisor {
     return false;
   }
 
-  public async checkDatabaseState(): Promise<DatabaseInfo> {
+  public async ensureDatabaseRunning(): Promise<DatabaseInfo> {
     const settings = this.settingsManager.getSettings();
     this.databaseInfo.state = 'CHECKING';
+    this.databaseInfo.message = 'Đang tự động kiểm tra & đánh thức PostgreSQL...';
     this.broadcastStatus();
 
     let diag = await SystemDiagnostics.checkDatabase(settings.dbHost, settings.dbPort);
@@ -671,11 +680,22 @@ export class ProcessSupervisor {
     // Tự động phát hiện và kích hoạt PostgreSQL trong WSL Ubuntu nếu bị từ chối kết nối
     if (diag.status !== 'PASS' && process.platform === 'win32') {
       try {
-        const { execSync } = require('child_process');
+        const { execSync, spawn } = require('child_process');
         this.logger.info('launcher', 'Đang tự động đánh thức dịch vụ PostgreSQL trong WSL Ubuntu...');
-        execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 6000, stdio: 'ignore' });
-        // Chờ 1.2s để wslrelay kết nối cổng 5432
-        await new Promise(r => setTimeout(r, 1200));
+        execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 8000, stdio: 'ignore' });
+
+        // Khởi động tiến trình duy trì keepalive để WSL không bị ngủ đông
+        try {
+          const keepalive = spawn('wsl', ['-d', 'Ubuntu', '--exec', 'sleep', 'infinity'], {
+            detached: true,
+            stdio: 'ignore',
+            windowsHide: true,
+          });
+          keepalive.unref();
+        } catch {}
+
+        // Chờ 1.5s để wslrelay kết nối cổng 5432
+        await new Promise(r => setTimeout(r, 1500));
         diag = await SystemDiagnostics.checkDatabase(settings.dbHost, settings.dbPort);
       } catch (err: any) {
         this.logger.warn('launcher', `Không thể kích hoạt tự động PostgreSQL qua WSL: ${err.message}`);
@@ -686,7 +706,8 @@ export class ProcessSupervisor {
 
     if (diag.status === 'PASS') {
       this.databaseInfo.state = 'CONNECTED';
-      this.databaseInfo.message = 'PostgreSQL đang hoạt động và chấp nhận kết nối tại 127.0.0.1:5432.';
+      this.databaseInfo.message = `PostgreSQL đang hoạt động và chấp nhận kết nối tại ${settings.dbHost}:${settings.dbPort}.`;
+      this.logger.info('launcher', `Kết nối thành công Cơ Sở Dữ Liệu PostgreSQL (${settings.dbHost}:${settings.dbPort})`);
     } else {
       this.databaseInfo.state = 'DISCONNECTED';
       this.databaseInfo.message = diag.message;
@@ -694,6 +715,10 @@ export class ProcessSupervisor {
 
     this.broadcastStatus();
     return { ...this.databaseInfo };
+  }
+
+  public async checkDatabaseState(): Promise<DatabaseInfo> {
+    return this.ensureDatabaseRunning();
   }
 
   // ============================================================

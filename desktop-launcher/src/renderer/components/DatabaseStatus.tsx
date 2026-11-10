@@ -19,7 +19,7 @@ export const DatabaseStatus: React.FC<DatabaseStatusProps> = ({
       case 'DISCONNECTED':
         return <span className="badge badge-error">✕ Mất Kết Nối</span>;
       case 'CHECKING':
-        return <span className="badge badge-starting">◌ Đang Kiểm Tra...</span>;
+        return <span className="badge badge-starting">◌ Đang Kích Hoạt...</span>;
       default:
         return <span className="badge badge-stopped">○ Chưa Kiểm Tra</span>;
     }
@@ -42,12 +42,12 @@ export const DatabaseStatus: React.FC<DatabaseStatusProps> = ({
         {getBadge()}
         <button
           className="btn btn-outline"
-          style={{ padding: '4px 10px', fontSize: '11px' }}
+          style={{ padding: '4px 10px', fontSize: '11px', fontWeight: database.state === 'DISCONNECTED' ? 700 : 500 }}
           onClick={onCheckAgain}
           disabled={isChecking}
-          title="Kiểm tra kết nối TCP tới cổng 5432 của PostgreSQL"
+          title={database.state === 'DISCONNECTED' ? 'Tự động kích hoạt dịch vụ PostgreSQL trong WSL Ubuntu và kết nối lại' : 'Kiểm tra kết nối TCP tới cổng 5432 của PostgreSQL'}
         >
-          {isChecking ? '...' : '🔍 Thử Kết Nối'}
+          {isChecking ? '🔄 Đang Bật...' : database.state === 'DISCONNECTED' ? '⚡ Tự Bật & Kết Nối' : '🔍 Thử Kết Nối'}
         </button>
       </div>
     </div>
