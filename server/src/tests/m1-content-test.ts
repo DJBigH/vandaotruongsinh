@@ -3,6 +3,7 @@
 // Tests: Chest Interaction, Double-Claim Prevention, Quest Board, Asset Integrity
 // ============================================================
 
+import './require-disposable-database';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { CultivationPath, QuestStatus } from '@shared';

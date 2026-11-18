@@ -8,9 +8,20 @@ import { eventBridge } from '../EventBridge';
 import * as gameApi from '../../api/game';
 import { useGameStore } from '../../stores/gameStore';
 import { AnimationManager, FacingDirection } from '../animations/AnimationManager';
+import { ActionAnimationLock, ActionConfirmation, type Aim, type GameAction } from '../exploration/actions';
+import { ExplorationConnection, EXPLORATION_RETRY_MS } from '../exploration/connection';
+import { GameControls } from '../exploration/controls';
+import { heroAnimation, healthReaction, creatureAppearance } from '../exploration/presentation';
+import { WorldRenderer } from '../exploration/worldRenderer';
+import { CombatFeedback } from '../exploration/combatFeedback';
+import { usePresentationSettings } from '../exploration/settings';
+import type { HeroPose } from '../assets/AssetManifest';
+import { MapLoad } from '../exploration/mapLoad';
+import { cameraFollowLerp, predictPosition } from '../exploration/prediction';
 import {
   CultivationPath,
   type MapData,
+  type Position,
   type MapNPC,
   type MapInteractable,
   type MapPortal,
@@ -21,420 +32,419 @@ import {
 } from '@shared/index';
 
 export default class ExplorationScene extends Phaser.Scene {
-  private player!: Phaser.Physics.Arcade.Sprite;
-  private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-  private wasd!: {
-    up: Phaser.Input.Keyboard.Key;
-    down: Phaser.Input.Keyboard.Key;
-    left: Phaser.Input.Keyboard.Key;
-    right: Phaser.Input.Keyboard.Key;
-    interact: Phaser.Input.Keyboard.Key;
-    dodge: Phaser.Input.Keyboard.Key;
-    skill1: Phaser.Input.Keyboard.Key;
-    skill2: Phaser.Input.Keyboard.Key;
-    skill3: Phaser.Input.Keyboard.Key;
-    skill4: Phaser.Input.Keyboard.Key;
-    inv: Phaser.Input.Keyboard.Key;
-    map: Phaser.Input.Keyboard.Key;
-  };
+  private player: Phaser.GameObjects.Sprite | null = null;
+  private readonly controls = new GameControls();
+  private actorAction = new ActionAnimationLock();
+  private readonly actionConfirmation = new ActionConfirmation();
+  private pointerAttack: Aim | null = null;
+  private currentFacing: FacingDirection = 'down';
 
+  private worldRenderer: WorldRenderer | null = null;
+  private feedback!: CombatFeedback;
+  private ambientTweens: Phaser.Tweens.Tween[] = [];
+
+  private savedMapId?: string;
   private mapData: MapData | null = null;
-  private currentMapId: string = 'map_thanh_khe';
-
+  private currentMapId: string | null = null;
+  private mapLoader: MapLoad<MapData> | null = null;
+  private mapLoading = false;
+  private mapRetryAt = 0;
   private npcsGroup!: Phaser.Physics.Arcade.StaticGroup;
   private interactablesGroup!: Phaser.Physics.Arcade.StaticGroup;
   private portalsGroup!: Phaser.Physics.Arcade.StaticGroup;
-  private decorProps: Phaser.GameObjects.Sprite[] = [];
+  private currentInteractable: { type: string; id: string; target: MapNPC | MapPortal | MapInteractable } | null = null;
+  private interactionPending = false;
+  private interactionPrompt = '';
 
-  // Animation & Direction State
-  private currentFacing: FacingDirection = 'down';
-  private isActionLocked: boolean = false;
-  private actionLockTimer: Phaser.Time.TimerEvent | null = null;
-
-  // Real-time entity maps
-  private entitySprites: Map<string, Phaser.GameObjects.Container> = new Map();
+  private entitySprites = new Map<string, Phaser.GameObjects.Container>();
   private projectileGraphics!: Phaser.GameObjects.Graphics;
   private telegraphGraphics!: Phaser.GameObjects.Graphics;
+  private lastFpsUpdate = 0;
+  private lastProximityCheck = 0;
+  private lastGhostTrailAt = 0;
+  private pingMs = 0;
 
-  // VFX state
-  private telegraphTime: number = 0;
-  private hitEffectsPool: Phaser.GameObjects.Graphics[] = [];
+  private connection: ExplorationConnection | null = null;
+  private sceneListeners: AbortController | null = null;
+  private viewedCharacterId?: string;
+  private initialized = false;
+  private backgrounded = false;
+  private inputSeq = 0;
+  private lastInputSentTime = -Infinity;
+  private lastMovement: Position = { x: 0, y: 0 };
 
-  private promptText!: Phaser.GameObjects.Text;
-  private fpsText!: Phaser.GameObjects.Text;
-  private currentInteractable: { type: string; id: string; target: any } | null = null;
-  private isMovementDisabled: boolean = false;
-
-  // Profiler & Performance
-  private lastFpsUpdate: number = 0;
-  private lastProximityCheck: number = 0;
-  private pingMs: number = 0;
-
-  // WebSocket Connection
-  private ws: WebSocket | null = null;
-  private inputSeq: number = 0;
-  private lastInputSentTime: number = 0;
-  private lastActionIntent: 'NONE' | 'ATTACK' | 'SKILL_1' | 'SKILL_2' | 'SKILL_3' | 'SKILL_4' | 'DODGE' = 'NONE';
-  private targetPointerWorldX: number = 0;
-  private targetPointerWorldY: number = 0;
-
-  // Server state buffers
   private latestServerPlayer: EntitySnapshot | null = null;
   private latestEntities: EntitySnapshot[] = [];
   private latestProjectiles: ProjectileSnapshot[] = [];
   private latestTelegraphs: TelegraphSnapshot[] = [];
-
-  // Tab & Window visibility listeners
-  private onWindowBlurHandler?: () => void;
-  private onWindowFocusHandler?: () => void;
-  private onVisibilityChangeHandler?: () => void;
+  private snapshotReceivedAt = 0;
 
   constructor() {
     super({ key: 'ExplorationScene' });
   }
 
-  init(data: { mapId?: string }) {
-    if (data.mapId) {
-      this.currentMapId = data.mapId;
+  init(data?: { mapId?: string }) {
+    const viewed = useGameStore.getState().character;
+    this.viewedCharacterId = viewed?.id;
+    this.savedMapId = data?.mapId ?? viewed?.currentMapId;
+  }
+
+  create() {
+    const listeners = new AbortController();
+    this.sceneListeners = listeners;
+    const { signal } = listeners;
+    this.backgrounded = document.hidden || !document.hasFocus();
+    this.lastFpsUpdate = 0;
+    this.lastProximityCheck = 0;
+    this.lastGhostTrailAt = 0;
+    this.pingMs = 0;
+    this.inputSeq = 0;
+    this.initialized = false;
+    this.lastInputSentTime = -Infinity;
+    this.cameras.main.setBackgroundColor('#101b20');
+
+    const mapLoader = new MapLoad(async (mapId: string) => {
+      const res = await gameApi.getMap(mapId);
+      if (!res.success || res.data?.id !== mapId) throw new Error('Lỗi khi tải bản đồ');
+      return res.data;
+    });
+    this.mapLoader = mapLoader;
+    if (this.savedMapId) mapLoader.prefetch(this.savedMapId);
+
+    if (!this.viewedCharacterId) {
+      eventBridge.emit('worldSessionEnded', 'Chưa có nhân vật để mở phiên chơi.');
+      return;
+    }
+    this.connection = new ExplorationConnection({
+      characterId: this.viewedCharacterId,
+      isForeground: () => !this.backgrounded,
+      createSocket: () => {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        return new WebSocket(`${protocol}//${window.location.host}/ws/game`);
+      },
+      scheduleRetry: retry => {
+        const timer = window.setTimeout(retry, EXPLORATION_RETRY_MS);
+        return () => window.clearTimeout(timer);
+      },
+      onClose: terminalMessage => this.handleDisconnect(terminalMessage),
+      onMessage: data => this.handleMessage(data),
+    });
+
+    this.feedback = new CombatFeedback(this);
+    const stopSettings = usePresentationSettings.subscribe((settings, previous) => {
+      if (!settings.sfx && previous.sfx) this.feedback.silence();
+      if (settings.reducedEffects === previous.reducedEffects) return;
+      this.worldRenderer?.setReducedMotion(settings.reducedEffects);
+      for (const tween of this.ambientTweens) settings.reducedEffects ? tween.pause() : tween.resume();
+      if (settings.reducedEffects) {
+        this.feedback.clear();
+        this.cameras.main.shakeEffect.reset();
+        this.cameras.main.flashEffect.reset();
+      }
+    });
+    signal.addEventListener('abort', stopSettings, { once: true });
+    this.installControls(signal);
+    this.connection.observeVisibility(window, document, signal, value => this.setBackgrounded(value));
+
+    const unsubscribe = useGameStore.subscribe((state, previous) => {
+      if (this.hasBlockingUI(state) !== this.hasBlockingUI(previous)) this.releaseControls();
+    });
+    signal.addEventListener('abort', unsubscribe, { once: true });
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.shutdownWorld, this);
+    this.events.once(Phaser.Scenes.Events.DESTROY, this.shutdownWorld, this);
+
+    eventBridge.emit('worldStatusUpdate', 'Đang kết nối…');
+    this.connection.start();
+  }
+
+  private installControls(signal: AbortSignal) {
+    window.addEventListener('keydown', (event) => {
+      if (event.defaultPrevented || event.isComposing || event.ctrlKey || event.metaKey || event.altKey ||
+        this.backgrounded || this.hasEditableFocus(event.target)) return;
+
+      const state = useGameStore.getState();
+      const isPanelShortcut = event.code === 'KeyI' || event.code === 'KeyM';
+      if (isPanelShortcut && !state.characterSlotsOpen && !state.dialogueLoading && !state.dialogueState) {
+        if (!event.repeat) state.setActivePanel(event.code === 'KeyI' ? 'inventory' : 'map');
+        event.preventDefault();
+        return;
+      }
+
+      if (this.isControlBlocked() ||
+        (event.code === 'Space' && event.target instanceof Element && event.target.closest('button, a[href], [role="button"]'))) return;
+      if (event.code === 'KeyE') {
+        if (!event.repeat) void this.handleInteract();
+        event.preventDefault();
+      } else if (this.controls.keyDown(event.code, event.repeat)) {
+        event.preventDefault();
+      }
+    }, { signal });
+    window.addEventListener('keyup', (event) => this.controls.keyUp(event.code), { signal });
+    document.addEventListener('focusin', (event) => {
+      if (this.hasEditableFocus(event.target)) this.releaseControls();
+    }, { signal });
+
+    const attack = (pointer: Phaser.Input.Pointer) => {
+      if (!this.player || !this.isGameClick(pointer)) return;
+      const aim = this.getAim(pointer, this.player);
+      const clickedNpc = this.npcsGroup.getChildren().some(child =>
+        (child as Phaser.GameObjects.Sprite).getBounds().contains(aim.x, aim.y));
+      if (!clickedNpc) this.pointerAttack = aim;
+    };
+    this.input.on('pointerdown', attack);
+    signal.addEventListener('abort', () => this.input.off('pointerdown', attack), { once: true });
+  }
+
+  private hasEditableFocus(target: EventTarget | null): boolean {
+    return target instanceof Element &&
+      Boolean(target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="textbox"]'));
+  }
+
+  private hasBlockingUI(state: ReturnType<typeof useGameStore.getState>): boolean {
+    return Boolean(state.activePanel || state.dialogueLoading || state.dialogueState || state.characterSlotsOpen);
+  }
+
+  private isControlBlocked(): boolean {
+    return !this.initialized || !this.player || this.latestServerPlayer?.state === 'DEAD' ||
+      this.backgrounded || this.interactionPending || this.hasBlockingUI(useGameStore.getState()) ||
+      this.hasEditableFocus(document.activeElement);
+  }
+
+  private isGameClick(pointer: Phaser.Input.Pointer): boolean {
+    return pointer.leftButtonDown() && pointer.downElement === this.game.canvas && !this.isControlBlocked();
+  }
+
+  private getAim(pointer: Phaser.Input.Pointer, player: Position): Aim {
+    const { x, y } = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
+    return { x, y, angle: Math.atan2(y - player.y, x - player.x) };
+  }
+
+  private releaseControls() {
+    this.controls.clear();
+    this.pointerAttack = null;
+    this.currentInteractable = null;
+    this.setInteractionPrompt('');
+    if (this.initialized && !this.backgrounded) this.sendInput({ x: 0, y: 0 });
+  }
+
+  private setBackgrounded(backgrounded: boolean) {
+    if (this.backgrounded === backgrounded) return;
+    if (backgrounded) this.releaseControls();
+    this.backgrounded = backgrounded;
+    this.actorAction.clear();
+    if (!backgrounded) {
+      this.lastInputSentTime = -Infinity;
+      this.releaseControls();
     }
   }
 
-  async create() {
-    // Input keys setup
-    this.cursors = this.input.keyboard!.createCursorKeys();
-    this.wasd = {
-      up: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W),
-      down: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S),
-      left: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A),
-      right: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D),
-      interact: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.E),
-      dodge: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
-      skill1: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.ONE),
-      skill2: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.TWO),
-      skill3: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.THREE),
-      skill4: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.FOUR),
-      inv: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.I),
-      map: this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.M),
-    };
-
-    // Hotkey toggle events for React HUD
-    this.wasd.inv.on('down', () => eventBridge.emit('toggleInventory'));
-    this.wasd.map.on('down', () => eventBridge.emit('toggleMap'));
-
-    // Mouse input for attacks (ignores clicks on interactive NPCs & UI)
-    this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      if (pointer.leftButtonDown() && !this.isPointerOverUI(pointer)) {
-        // Prevent normal attack if clicked on an NPC
-        const clickedNpc = this.npcsGroup?.getChildren().find((child: any) => {
-          return child.getBounds && child.getBounds().contains(pointer.worldX, pointer.worldY);
-        });
-        if (clickedNpc) return;
-
-        this.lastActionIntent = 'ATTACK';
-        this.targetPointerWorldX = pointer.worldX;
-        this.targetPointerWorldY = pointer.worldY;
-      }
-    });
-
-    // Dedicated graphic layers for real-time visual effects
-    this.telegraphGraphics = this.add.graphics().setDepth(2);
-    this.projectileGraphics = this.add.graphics().setDepth(2200);
-
-    // Prompt HUD text (Centering dynamically at bottom of screen with glowing border)
-    this.promptText = this.add.text(this.scale.width / 2, this.scale.height - 110, '', {
-      fontSize: '15px',
-      color: '#ffd700',
-      stroke: '#0f172a',
-      strokeThickness: 3,
-      backgroundColor: 'rgba(15, 23, 42, 0.88)',
-      padding: { x: 16, y: 8 },
-    }).setOrigin(0.5).setScrollFactor(0).setDepth(3500);
-
-    // Tab blur/focus & visibility handlers to prevent getting stuck
-    this.onWindowBlurHandler = () => this.handleTabBlur();
-    this.onWindowFocusHandler = () => this.handleTabFocus();
-    this.onVisibilityChangeHandler = () => {
-      if (document.hidden) {
-        this.handleTabBlur();
-      } else {
-        this.handleTabFocus();
-      }
-    };
-
-    window.addEventListener('blur', this.onWindowBlurHandler);
-    window.addEventListener('focus', this.onWindowFocusHandler);
-    document.addEventListener('visibilitychange', this.onVisibilityChangeHandler);
-
-    this.game.events.on(Phaser.Core.Events.BLUR, this.onWindowBlurHandler);
-    this.game.events.on(Phaser.Core.Events.FOCUS, this.onWindowFocusHandler);
-
-    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.cleanupTabEvents());
-    this.events.once(Phaser.Scenes.Events.DESTROY, () => this.cleanupTabEvents());
-
-    // Performance & FPS Profiler HUD
-    this.fpsText = this.add.text(16, 75, 'FPS: 60 | Ping: 0ms | Entity: 0', {
-      fontSize: '12px',
-      color: '#38bdf8',
-      fontFamily: 'monospace',
-      backgroundColor: 'rgba(15, 23, 42, 0.75)',
-      padding: { x: 8, y: 4 },
-    }).setScrollFactor(0).setDepth(3500);
-
-    // Load Map data from API
-    await this.loadMap(this.currentMapId);
-
-    // Connect to WebSocket Server for Real-Time ARPG
-    this.connectWebSocket();
-
-    // Listen for external bridge events
-    eventBridge.on('disableMovement', () => {
-      this.isMovementDisabled = true;
-    });
-    eventBridge.on('enableMovement', () => {
-      this.isMovementDisabled = false;
-    });
-    eventBridge.on('teleportMap', (targetMapId: string) => {
-      if (this.ws) {
-        this.ws.close();
-      }
-      this.scene.restart({ mapId: targetMapId });
-    });
-  }
-
-  private isPointerOverUI(pointer: Phaser.Input.Pointer): boolean {
-    const target = document.elementFromPoint(pointer.x, pointer.y);
-    if (target && !target.closest('canvas')) {
-      return true;
+  private handleDisconnect(terminalMessage?: string) {
+    this.initialized = false;
+    this.clearWorld();
+    this.currentMapId = null;
+    if (terminalMessage) {
+      this.connection?.stop();
+      this.sceneListeners?.abort();
+      eventBridge.emit('worldSessionEnded', terminalMessage);
+    } else {
+      eventBridge.emit('worldStatusUpdate', 'Đang kết nối lại…');
     }
-    return false;
   }
 
-  private connectWebSocket() {
+  private handleMessage(data: string) {
+    let message: WsServerMessage;
     try {
-      const isHttps = window.location.protocol === 'https:';
-      const wsProtocol = isHttps ? 'wss:' : 'ws:';
-      const wsUrl = `${wsProtocol}//${window.location.host}/ws/game`;
-
-      this.ws = new WebSocket(wsUrl);
-
-      this.ws.onopen = () => {
-        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-          this.ws.send(JSON.stringify({
-            type: 'AUTH',
-            timestamp: Date.now(),
-          }));
-        }
-      };
-
-      this.ws.onmessage = (event) => {
-        try {
-          const msg: WsServerMessage = JSON.parse(event.data);
-          this.handleServerMessage(msg);
-        } catch (e) {
-          console.error('Lỗi phân tích cú pháp gói tin WS:', e);
-        }
-      };
-
-      this.ws.onclose = () => {
-        setTimeout(() => {
-          if (this.scene.isActive('ExplorationScene')) {
-            this.connectWebSocket();
-          }
-        }, 3000);
-      };
-    } catch (err) {
-      console.error('Không thể kết nối WebSocket:', err);
+      message = JSON.parse(data);
+    } catch {
+      return;
     }
-  }
-
-  private handleServerMessage(msg: WsServerMessage) {
-    if (msg.serverTime) {
-      this.pingMs = Math.max(1, Math.min(999, Date.now() - msg.serverTime));
+    if (message.type === 'ERROR') {
+      if (message.error) eventBridge.emit('notification', message.error);
+      if (!this.initialized || message.error === 'Phiên chơi đã được kết nối ở cửa sổ khác!') {
+        this.handleDisconnect(message.error || 'Kết nối đã đóng.');
+      }
+      return;
     }
 
-    if (msg.type === 'TICK') {
-      if (msg.playerState) {
-        this.latestServerPlayer = msg.playerState;
-        eventBridge.emit('playerHpMpUpdate', {
-          hp: msg.playerState.hp,
-          maxHp: msg.playerState.maxHp,
-          mp: msg.playerState.mp ?? 100,
-          maxMp: msg.playerState.maxMp ?? 100,
-        });
+    const now = performance.now();
+    if (message.type === 'INIT') {
+      if (!message.currentMapId || !message.playerState) return;
+      this.initialized = true;
+      this.lastInputSentTime = -Infinity;
+    } else if (!this.initialized) {
+      return;
+    }
+
+    if (message.type === 'INIT' || message.type === 'TICK') {
+      const mapId = message.currentMapId;
+      if (!mapId) return;
+      if (mapId !== this.currentMapId) {
+        this.clearWorld(false);
+        this.currentMapId = mapId;
+        eventBridge.emit('worldStatusUpdate', 'Đang tải bản đồ…');
       }
-
-      this.latestEntities = msg.entities || [];
-      this.latestProjectiles = msg.projectiles || [];
-      this.latestTelegraphs = msg.telegraphs || [];
-
-      if (msg.cooldowns) {
-        eventBridge.emit('cooldownsUpdate', msg.cooldowns);
-      }
-
-      if (msg.events && msg.events.length > 0) {
-        for (const ev of msg.events) {
-          this.spawnFloatingText(ev.x, ev.y, ev.text, ev.color, ev.isCrit);
+      if (message.serverTime) this.pingMs = Math.max(1, Math.min(999, Date.now() - message.serverTime));
+      this.snapshotReceivedAt = now;
+      const reaction = message.playerState ? healthReaction(this.latestServerPlayer, message.playerState) : null;
+      if (message.playerState) {
+        if (reaction === 'death' || reaction === 'respawn') {
+          this.releaseControls();
+          this.actorAction.clear();
+          this.actionConfirmation.reset();
+          this.feedback.clear();
+          if (reaction === 'respawn') this.player?.setPosition(message.playerState.x, message.playerState.y);
         }
+        this.latestServerPlayer = message.playerState;
+        const { hp, maxHp, mp = 100, maxMp = 100 } = message.playerState;
+        eventBridge.emit('playerHpMpUpdate', { hp, maxHp, mp, maxMp });
       }
-    } else if (msg.type === 'REWARDS' && msg.rewards) {
-      const { exp, spiritStones, items } = msg.rewards;
+
+      this.latestEntities = message.entities ?? [];
+      this.latestProjectiles = message.projectiles ?? [];
+      this.latestTelegraphs = message.telegraphs ?? [];
+      if (message.cooldowns) {
+        const confirmed = this.actionConfirmation.update(message.cooldowns, now, this.latestServerPlayer?.facingAngle ?? 0);
+        if (this.player && this.latestServerPlayer?.state !== 'DEAD') {
+          for (const { action, angle } of confirmed) this.renderConfirmedAction(action, angle);
+        }
+        eventBridge.emit('cooldownsUpdate', message.cooldowns);
+      }
+
+      if (reaction && this.player) {
+        this.playPose(reaction);
+        if (reaction === 'hurt' || reaction === 'death') this.feedback.hit(this.player.x, this.player.y);
+      }
+      if (!this.mapData && !this.mapLoading && now >= this.mapRetryAt) this.loadWorld(mapId);
+      if (this.mapData) {
+        for (const ev of message.events ?? []) this.spawnFloatingText(ev.x, ev.y, ev.text, ev.color, ev.isCrit);
+      }
+    } else if (message.type === 'REWARDS' && message.rewards) {
+      const { exp, spiritStones, items } = message.rewards;
       let text = `Chiến thắng! +${exp} EXP, +${spiritStones} Linh thạch!`;
       if (items.length > 0) {
         text += ` Rơi: ${items.map(i => `${i.name} x${i.quantity}`).join(', ')}`;
       }
       eventBridge.emit('notification', text);
-    } else if (msg.type === 'DEATH') {
-      this.cameras.main.flash(800, 255, 0, 0);
-      eventBridge.emit('notification', msg.error || 'Đạo thân trọng thương! Đã hồi sinh tại điểm an toàn.');
+      eventBridge.emit('worldProgressCommitted');
+    } else if (message.type === 'DEATH') {
+      if (!usePresentationSettings.getState().reducedEffects) this.cameras.main.flash(220, 108, 60, 50);
+      eventBridge.emit('notification', message.error || 'Đạo thân trọng thương! Đã hồi sinh tại điểm an toàn.');
     }
   }
 
-  private async loadMap(mapId: string) {
-    try {
-      const res = await gameApi.getMap(mapId);
-      if (res.success && res.data) {
-        this.mapData = res.data;
-        this.renderWorld();
-      }
-    } catch (err) {
-      console.error('Lỗi khi tải bản đồ:', err);
-    }
+  private loadWorld(mapId: string) {
+    this.mapLoading = true;
+    void this.mapLoader?.show(mapId, (map) => {
+      this.mapLoading = false;
+      if (!this.latestServerPlayer) return;
+      this.mapData = map;
+      this.renderWorld(this.latestServerPlayer);
+      useGameStore.setState({ currentMap: map });
+      eventBridge.emit('worldStatusUpdate', '');
+    }, () => {
+      this.mapLoading = false;
+      this.mapRetryAt = performance.now() + 1000;
+      eventBridge.emit('worldStatusUpdate', 'Đang thử tải lại bản đồ…');
+    });
   }
 
-  private renderWorld() {
-    if (!this.mapData) return;
+  private clearWorld(invalidateLoad = true) {
+    if (invalidateLoad) this.mapLoader?.clear();
+    this.mapLoading = false;
+    this.mapRetryAt = 0;
+    this.releaseControls();
+    this.actorAction.clear();
+    this.actionConfirmation.reset();
+    this.latestServerPlayer = null;
+    this.latestEntities = [];
+    this.latestProjectiles = [];
+    this.latestTelegraphs = [];
+    this.interactionPending = false;
+    if (this.mapData) {
+      this.cameras.main.stopFollow();
+      this.tweens.killAll();
+      this.time.removeAllEvents();
+      this.npcsGroup.destroy(true, true);
+      this.interactablesGroup.destroy(true, true);
+      this.portalsGroup.destroy(true, true);
+      this.feedback.clear();
+      for (const object of [...this.children.list]) object.destroy();
+      this.worldRenderer?.dispose();
+      this.worldRenderer = null;
+      this.ambientTweens = [];
+    }
+    this.entitySprites.clear();
+    this.player = null;
+    this.mapData = null;
+    useGameStore.setState({ currentMap: null });
+  }
 
-    const { width, height, tileSize } = this.mapData;
+  private shutdownWorld() {
+    this.events.off(Phaser.Scenes.Events.SHUTDOWN, this.shutdownWorld, this);
+    this.events.off(Phaser.Scenes.Events.DESTROY, this.shutdownWorld, this);
+    this.feedback.clear();
+    this.worldRenderer?.dispose();
+    this.worldRenderer = null;
+    this.ambientTweens = [];
+    this.sceneListeners?.abort();
+    this.sceneListeners = null;
+    this.initialized = false;
+    this.connection?.stop();
+    this.connection = null;
+    this.mapLoader?.clear();
+    this.mapLoader = null;
+    this.releaseControls();
+    this.actorAction.clear();
+    this.actionConfirmation.reset();
+    this.currentMapId = null;
+    this.mapData = null;
+    this.player = null;
+    this.latestServerPlayer = null;
+    this.latestEntities = [];
+    this.latestProjectiles = [];
+    this.latestTelegraphs = [];
+    this.entitySprites.clear();
+    this.mapLoading = false;
+    this.mapRetryAt = 0;
+    this.interactionPending = false;
+    useGameStore.setState({ currentMap: null });
+    eventBridge.emit('worldStatusUpdate', '');
+    eventBridge.emit('worldDebugUpdate', '');
+    eventBridge.emit('playerHpMpUpdate', null);
+    eventBridge.emit('cooldownsUpdate', null);
+  }
+
+  private renderWorld(initialPlayer: EntitySnapshot) {
+    const map = this.mapData;
+    if (!map) return;
+
+    const { width, height, tileSize } = map;
     const worldW = width * tileSize;
     const worldH = height * tileSize;
-
-    // Set world physics and camera to full map dimensions
     this.physics.world.setBounds(0, 0, worldW, worldH);
-    this.decorProps = [];
+    this.worldRenderer = new WorldRenderer(this, map);
+    this.telegraphGraphics = this.add.graphics().setDepth(2);
+    this.projectileGraphics = this.add.graphics().setDepth(2200);
 
-    // 1. Render Master Map Background (Single draw call, 100% solid, zero black gaps)
-    const isForest = this.currentMapId.includes('rung');
-    const bgKey = isForest ? 'map_rung_bg' : 'map_thanh_khe_bg';
-
-    if (this.textures.exists(bgKey)) {
-      const bg = this.add.image(0, 0, bgKey);
-      bg.setOrigin(0, 0);
-      bg.setDepth(0);
-    } else {
-      // Fallback: Solid Terrain Tiles Grid
-      for (let x = 0; x < width; x++) {
-        for (let y = 0; y < height; y++) {
-          const tileKey = (x === 0 || y === 0 || x === width - 1 || y === height - 1)
-            ? 'tile_water'
-            : ((x * 37 + y * 19) % 100 < 16 ? 'tile_grass_flower' : 'tile_grass');
-          this.add.image(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileKey).setDepth(0);
-        }
-      }
-    }
-
-    // 2. Setup Static Groups
     this.npcsGroup = this.physics.add.staticGroup();
     this.interactablesGroup = this.physics.add.staticGroup();
     this.portalsGroup = this.physics.add.staticGroup();
 
-    // 3. Render Sect Architecture & Props (Sơn Môn, Thạch Đăng, Binh Khí Giá, Bát Quái)
-    if (!isForest) {
-      // Sơn Môn (North Sect Archway Gate at x: 30, y: 3)
-      if (this.textures.exists('prop_sect_gate')) {
-        const gate = this.add.sprite(30 * tileSize, 3 * tileSize, 'prop_sect_gate');
-        gate.setOrigin(0.5, 0.92);
-        gate.setDepth(gate.y);
-        this.decorProps.push(gate);
-      }
-
-      // Thạch Đăng Lung (Daoist Stone Lanterns flanking the Central Plaza)
-      const lanternCoords = [
-        { x: 22, y: 16 }, { x: 38, y: 16 },
-        { x: 22, y: 28 }, { x: 38, y: 28 },
-        { x: 28, y: 35 }, { x: 32, y: 35 }
-      ];
-      for (const pos of lanternCoords) {
-        if (this.textures.exists('prop_stone_lantern')) {
-          const lantern = this.add.sprite(pos.x * tileSize + tileSize / 2, pos.y * tileSize + tileSize / 2, 'prop_stone_lantern');
-          lantern.setOrigin(0.5, 0.88);
-          lantern.setDepth(lantern.y);
-          this.decorProps.push(lantern);
-        }
-      }
-
-      // Diễn Võ Trường: Mộc Nhân & Binh Khí Giá (Training Ground Props in West Wing)
-      if (this.textures.exists('prop_dummy')) {
-        const dummy1 = this.add.sprite(10 * tileSize, 18 * tileSize, 'prop_dummy').setOrigin(0.5, 0.90);
-        dummy1.setDepth(dummy1.y);
-        const dummy2 = this.add.sprite(10 * tileSize, 24 * tileSize, 'prop_dummy').setOrigin(0.5, 0.90);
-        dummy2.setDepth(dummy2.y);
-        this.decorProps.push(dummy1, dummy2);
-      }
-      if (this.textures.exists('prop_weapon_rack')) {
-        const rack = this.add.sprite(16 * tileSize, 18 * tileSize, 'prop_weapon_rack').setOrigin(0.5, 0.85);
-        rack.setDepth(rack.y);
-        this.decorProps.push(rack);
-      }
-
-      // Bát Quái Tiên Trận Hoàng Kim ở quảng trường trung tâm (x: 30, y: 22)
-      const midX = 30;
-      const midY = 22;
-      const bagua = this.add.sprite(midX * tileSize, midY * tileSize, 'prop_bagua_array');
-      bagua.setOrigin(0.5, 0.5);
-      bagua.setDepth(1);
-      bagua.setAlpha(0.85);
-      this.tweens.add({
-        targets: bagua,
-        angle: 360,
-        duration: 36000,
-        repeat: -1,
-      });
-    }
-
-    // 4. Render Ancient Pine Trees (Thanh Tùng Cổ Thụ) clustered along natural borders
-    const treeCoords = [
-      { x: 5, y: 8 }, { x: 8, y: 12 }, { x: 52, y: 8 }, { x: 55, y: 12 },
-      { x: 4, y: 32 }, { x: 8, y: 36 }, { x: 52, y: 32 }, { x: 55, y: 36 },
-      { x: 18, y: 6 }, { x: 42, y: 6 }, { x: 18, y: 40 }, { x: 42, y: 40 }
-    ];
-    for (const pos of treeCoords) {
-      if (pos.x < width && pos.y < height) {
-        const tree = this.add.sprite(pos.x * tileSize + tileSize / 2, pos.y * tileSize + tileSize / 2, 'prop_pine_tree');
-        tree.setOrigin(0.5, 0.92);
-        tree.setDepth(tree.y);
-        this.decorProps.push(tree);
-      }
-    }
-
-    // 5. Render Weathered Spirit Rocks (Linh Thạch) & Crystals
-    const rockCoords = [
-      { x: 12, y: 32 }, { x: 48, y: 32 }, { x: 20, y: 35 }, { x: 40, y: 35 }
-    ];
-    for (const pos of rockCoords) {
-      if (pos.x < width && pos.y < height) {
-        const rock = this.add.sprite(pos.x * tileSize + tileSize / 2, pos.y * tileSize + tileSize / 2, 'prop_ancient_rock');
-        rock.setOrigin(0.5, 0.85);
-        rock.setDepth(rock.y);
-        this.decorProps.push(rock);
-      }
-    }
-
     // 6. Spawn NPCs với Chibi / Anime Spritesheets & Visual Clarity
-    for (const npc of this.mapData.npcs || []) {
-      const spriteKey = npc.spriteKey === 'npc_healer' ? 'npc_healer' :
-                        npc.spriteKey === 'npc_guard' ? 'npc_guard' : 'npc_elder';
+    for (const npc of map.npcs) {
+      const spriteKey = this.textures.exists(npc.spriteKey) ? npc.spriteKey : 'npc_elder';
       const animKey = `${spriteKey}_idle`;
 
       const sprite = this.npcsGroup.create(npc.position.x * tileSize, npc.position.y * tileSize, spriteKey) as Phaser.Physics.Arcade.Sprite;
       sprite.setData('npcData', npc);
-      sprite.setOrigin(0.5, 0.90);
+      sprite.setOrigin(0.5, 0.875);
+      this.worldRenderer.track(sprite);
       sprite.setDepth(sprite.y);
       sprite.setInteractive({ useHandCursor: true });
 
       // Click trực tiếp vào NPC để mở đàm thoại (chuẩn phong cách MMORPG Tu Tiên 2D / Ninja School)
       sprite.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-        if (pointer.leftButtonDown()) {
-          this.lastActionIntent = 'NONE';
+        if (this.isGameClick(pointer)) {
           if (!this.player) return;
           const dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, sprite.x, sprite.y);
           if (dist <= 115) {
@@ -462,18 +472,18 @@ export default class ExplorationScene extends Phaser.Scene {
         fontSize: '14px',
       }).setOrigin(0.5).setDepth(sprite.y + 15);
 
-      this.tweens.add({
+      this.ambientTweens.push(this.tweens.add({
         targets: bubble,
         y: npc.position.y * tileSize - 78,
         duration: 900,
         yoyo: true,
         repeat: -1,
         ease: 'Sine.easeInOut',
-      });
+      }));
     }
 
     // 7. Spawn Interactables (Linh Miếu, Linh Dược, Khoáng Thạch, Rương Bí Cảnh)
-    for (const item of this.mapData.interactables || []) {
+    for (const item of map.interactables) {
       let texture = 'prop_ancient_rock';
       let label = 'Linh Thảo';
       let originY = 0.85;
@@ -498,9 +508,9 @@ export default class ExplorationScene extends Phaser.Scene {
       sprite.setData('interactableData', item);
       sprite.setOrigin(0.5, originY);
       sprite.setDepth(sprite.y);
-      this.decorProps.push(sprite);
 
-      this.add.text(item.position.x * tileSize, item.position.y * tileSize - 48, label, {
+      if (sprite.displayHeight >= 44) this.worldRenderer.track(sprite);
+      this.add.text(sprite.x, sprite.y - sprite.displayHeight * originY - 9, label, {
         fontSize: '11px',
         color: '#b2dfdb',
         backgroundColor: 'rgba(15, 23, 42, 0.8)',
@@ -509,285 +519,156 @@ export default class ExplorationScene extends Phaser.Scene {
     }
 
     // 8. Spawn Portals (Cổng Không Gian)
-    for (const portal of this.mapData.portals || []) {
+    for (const portal of map.portals) {
       const sprite = this.portalsGroup.create(portal.position.x * tileSize, portal.position.y * tileSize, 'prop_portal') as Phaser.Physics.Arcade.Sprite;
       sprite.setData('portalData', portal);
       sprite.setOrigin(0.5, 0.5);
       sprite.setDepth(sprite.y);
 
-      this.tweens.add({
+      this.ambientTweens.push(this.tweens.add({
         targets: sprite,
         angle: 360,
         duration: 16000,
         repeat: -1,
-      });
+      }));
 
-      this.add.text(portal.position.x * tileSize, portal.position.y * tileSize - 42, portal.label, {
+      const sign = this.worldRenderer.portalSign(sprite.x, sprite.y);
+      this.add.text(sign.x, sign.y, portal.label, {
         fontSize: '12px',
         color: '#00e5ff',
         backgroundColor: 'rgba(15, 23, 42, 0.8)',
         padding: { x: 6, y: 2 },
-      }).setOrigin(0.5).setDepth(sprite.y + 10);
+      }).setOrigin(sign.originX, 0.5).setDepth(sprite.y + 10);
     }
 
-    // 9. Spawn Local Player - Kiếm Tu Chibi Chuẩn Tỷ Lệ (64x64 px)
-    const spawnX = (this.mapData.spawnPoint?.x || 30) * tileSize;
-    const spawnY = (this.mapData.spawnPoint?.y || 22) * tileSize;
-    this.player = this.physics.add.sprite(spawnX, spawnY, 'player_idle');
-    this.player.setCollideWorldBounds(true);
-    this.player.setOrigin(0.5, 0.90);
-    this.player.setSize(22, 18);
-    this.player.setOffset(21, 44);
-    this.player.setDepth(spawnY);
+    // Use the first authoritative world coordinates, including a saved mid-map position.
+    const path = initialPlayer.cultivationPath ?? useGameStore.getState().character?.cultivationPath;
+    const idleSheet = path === CultivationPath.SPELL ? 'player_magic_idle' : path === CultivationPath.BODY ? 'player_body_idle' : 'player_idle';
+    this.player = this.add.sprite(initialPlayer.x, initialPlayer.y, idleSheet).setOrigin(0.5, path === 'BODY' || path === 'SPELL' ? 0.90 : 0.875);
+    const reduced = usePresentationSettings.getState().reducedEffects;
+    this.worldRenderer.setReducedMotion(reduced);
+    if (reduced) for (const tween of this.ambientTweens) tween.pause();
+    this.player.setDepth(initialPlayer.y);
     this.currentFacing = 'down';
-    const char = useGameStore.getState().character;
-    let initialIdle = 'player_idle_down';
-    if (char?.cultivationPath === CultivationPath.SPELL && this.anims.exists('player_magic_idle_down')) {
-      initialIdle = 'player_magic_idle_down';
-    } else if (char?.cultivationPath === CultivationPath.BODY && this.anims.exists('player_body_idle_down')) {
-      initialIdle = 'player_body_idle_down';
-    }
-    if (this.anims.exists(initialIdle)) {
-      this.player.play(initialIdle);
-    }
+    this.playLocomotion(this.player, { x: 0, y: 0 });
 
-    // Setup collision zones from mapData
-    if (this.mapData.collisionZones && this.mapData.collisionZones.length > 0) {
-      const obstacleGroup = this.physics.add.staticGroup();
-      for (const zone of this.mapData.collisionZones) {
-        const zx = zone.x * tileSize + (zone.w * tileSize) / 2;
-        const zy = zone.y * tileSize + (zone.h * tileSize) / 2;
-        const obstacle = obstacleGroup.create(zx, zy, undefined) as Phaser.Physics.Arcade.Sprite;
-        obstacle.setVisible(false);
-        if (obstacle.body) {
-          obstacle.body.setSize(zone.w * tileSize, zone.h * tileSize);
-        }
-      }
-      this.physics.add.collider(this.player, obstacleGroup);
-    }
-
-    // Camera follow mượt mà và zoom tối ưu cho màn hình 1920x1080 / 1366x768
-    this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
-    this.cameras.main.setBounds(0, 0, worldW, worldH);
-    this.cameras.main.setZoom(1.30);
+    const camera = this.cameras.main;
+    camera.setBounds(0, 0, worldW, worldH);
+    camera.setZoom(1.30);
+    camera.startFollow(this.player);
   }
 
-  update(_time: number, _delta: number) {
-    if (!this.player || this.isMovementDisabled) {
-      if (this.player?.body) this.player.setVelocity(0, 0);
-      return;
+  update(_time: number, delta: number) {
+    const now = performance.now();
+    const player = this.player;
+    const blocked = this.isControlBlocked();
+    const move = blocked ? { x: 0, y: 0 } : this.controls.movement();
+    const keyboardAction = blocked ? null : this.controls.takeAction();
+    const clickedAim = blocked ? null : this.pointerAttack;
+    this.pointerAttack = null;
+    const action = clickedAim ? 'ATTACK' : keyboardAction;
+    const aim = clickedAim ?? (player ? this.getAim(this.input.activePointer, player) : undefined);
+    const actionToSend = action && aim && this.actionConfirmation.request(action, aim.angle, now) ? action : undefined;
+
+    // Send neutral movement on the same cadence while a foreground panel or map load blocks controls.
+    if (this.initialized && !this.backgrounded &&
+      (actionToSend || move.x !== this.lastMovement.x || move.y !== this.lastMovement.y || now - this.lastInputSentTime >= 50)) {
+      this.sendInput(move, aim, actionToSend);
     }
 
-    // 1. Calculate Input Vector (WASD / Arrows)
-    let moveX = 0;
-    let moveY = 0;
-    if (this.cursors.left?.isDown || this.wasd.left?.isDown) moveX -= 1;
-    if (this.cursors.right?.isDown || this.wasd.right?.isDown) moveX += 1;
-    if (this.cursors.up?.isDown || this.wasd.up?.isDown) moveY -= 1;
-    if (this.cursors.down?.isDown || this.wasd.down?.isDown) moveY += 1;
-
-    // Phản hồi vận tốc vật lý ngay lập tức trên client (Đồng bộ tuyệt đối hệ số 12 với Server)
-    const spdStat = this.latestServerPlayer?.stats?.spd ?? 10;
-    const moveSpeed = spdStat * 12;
-    if (moveX !== 0 || moveY !== 0) {
-      const len = Math.hypot(moveX, moveY);
-      this.player.setVelocity((moveX / len) * moveSpeed, (moveY / len) * moveSpeed);
-      this.currentFacing = AnimationManager.getDirectionFromVelocity(moveX, moveY, this.currentFacing);
-    } else {
-      this.player.setVelocity(0, 0);
-    }
-
-    // 2. Check Action keys (Space = Dodge, 1-4 = Skills)
-    if (Phaser.Input.Keyboard.JustDown(this.wasd.dodge)) {
-      this.lastActionIntent = 'DODGE';
-    } else if (Phaser.Input.Keyboard.JustDown(this.wasd.skill1)) {
-      this.lastActionIntent = 'SKILL_1';
-    } else if (Phaser.Input.Keyboard.JustDown(this.wasd.skill2)) {
-      this.lastActionIntent = 'SKILL_2';
-    } else if (Phaser.Input.Keyboard.JustDown(this.wasd.skill3)) {
-      this.lastActionIntent = 'SKILL_3';
-    } else if (Phaser.Input.Keyboard.JustDown(this.wasd.skill4)) {
-      this.lastActionIntent = 'SKILL_4';
-    }
-
-    // 3. Pointer Aim Angle
-    const pointer = this.input.activePointer;
-    const aimAngle = Phaser.Math.Angle.Between(this.player.x, this.player.y, pointer.worldX, pointer.worldY);
-
-    if (this.lastActionIntent === 'ATTACK' || this.lastActionIntent.startsWith('SKILL')) {
-      this.currentFacing = AnimationManager.getDirectionFromAngle(aimAngle);
-    }
-
-    // Kích hoạt Animation tương ứng cho hành động
-    if (this.lastActionIntent === 'ATTACK') {
-      this.playPlayerActionAnim('attack');
-    } else if (this.lastActionIntent.startsWith('SKILL')) {
-      this.playPlayerActionAnim('cast');
-      if (this.lastActionIntent === 'SKILL_1') {
-        this.spawnSwordBeamWave(aimAngle);
-      } else if (this.lastActionIntent === 'SKILL_2') {
-        this.spawnWideCleaveSlash(aimAngle);
-      } else if (this.lastActionIntent === 'SKILL_3') {
-        this.spawnShieldAura();
-      } else if (this.lastActionIntent === 'SKILL_4') {
-        this.spawnGiantSwordPlunge(pointer.worldX, pointer.worldY);
+    if (player && this.mapData) {
+      const magnitude = Math.hypot(move.x, move.y);
+      const speed = (this.latestServerPlayer?.stats?.spd ?? 10) * 12;
+      const velocity = magnitude ? { x: move.x * speed / magnitude, y: move.y * speed / magnitude } : move;
+      const sample = this.latestServerPlayer
+        ? { player: this.latestServerPlayer, receivedAt: this.snapshotReceivedAt }
+        : null;
+      const position = predictPosition(this.mapData, player, velocity, sample, now, delta);
+      player.setPosition(position.x, position.y).setDepth(position.y);
+      this.worldRenderer?.updateOcclusion(player);
+      this.cameras.main.setLerp(cameraFollowLerp(this.game.loop.rawDelta));
+      if (magnitude && !this.actorAction.active) {
+        this.currentFacing = AnimationManager.getDirectionFromVelocity(move.x, move.y, this.currentFacing);
       }
-    } else if (this.lastActionIntent === 'DODGE') {
-      this.playPlayerActionAnim('dodge');
-      this.spawnGhostTrail(this.player.x, this.player.y);
-    }
-
-    // 4. Send Input to Server (at 20 Hz = every 50ms, or immediately on action)
-    const now = Date.now();
-    const hasAction = this.lastActionIntent !== 'NONE';
-    if (hasAction || now - this.lastInputSentTime >= 50) {
-      this.sendPlayerInput(moveX, moveY, aimAngle, pointer.worldX, pointer.worldY, this.lastActionIntent);
-      this.lastActionIntent = 'NONE';
-      this.lastInputSentTime = now;
-    }
-
-    // 5. Client Prediction & Smooth Exponential Reconciliation (Hoàn toàn triệt tiêu giật lùi/rubberband)
-    if (this.latestServerPlayer) {
-      const dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.latestServerPlayer.x, this.latestServerPlayer.y);
-      if (dist > 72) {
-        // Chỉ snap khi dịch chuyển tức thời hoặc độ lệch vượt ngưỡng an toàn
-        this.player.x = this.latestServerPlayer.x;
-        this.player.y = this.latestServerPlayer.y;
-      } else if (dist > 2) {
-        // Nội suy mượt mà không khựng giật
-        const lerpFactor = (moveX === 0 && moveY === 0) ? 0.35 : 0.08;
-        this.player.x = Phaser.Math.Linear(this.player.x, this.latestServerPlayer.x, lerpFactor);
-        this.player.y = Phaser.Math.Linear(this.player.y, this.latestServerPlayer.y, lerpFactor);
+      if (!this.actorAction.active) this.playLocomotion(player, move);
+      if (sample?.player.state === 'DODGING' && now - this.lastGhostTrailAt >= 45) {
+        this.feedback.trail(player);
+        this.lastGhostTrailAt = now;
       }
 
-      if (this.latestServerPlayer.state === 'DODGING') {
-        this.spawnGhostTrail(this.player.x, this.player.y);
+      const snapshotAgeSec = Math.min(100, Math.max(0, now - this.snapshotReceivedAt)) / 1000;
+      this.syncEntities(delta, snapshotAgeSec);
+      this.renderProjectiles(snapshotAgeSec);
+      this.renderTelegraphs(snapshotAgeSec);
+      if (!blocked && now - this.lastProximityCheck >= 100) {
+        this.checkProximity();
+        this.lastProximityCheck = now;
       }
     }
 
-    // 6. Cập nhật Animation cơ bản khi không bị khóa hành động
-    if (!this.isActionLocked) {
-      if (this.latestServerPlayer?.state === 'DEAD') {
-        if (this.anims.exists('player_death')) {
-          this.player.play('player_death', true);
-        }
-      } else if (this.latestServerPlayer?.state === 'HURT') {
-        const hurtKey = `player_hurt_${this.currentFacing}`;
-        if (this.anims.exists(hurtKey)) {
-          this.player.play(hurtKey, true);
-        }
-      } else if (moveX !== 0 || moveY !== 0) {
-        const walkKey = `player_walk_${this.currentFacing}`;
-        if (this.anims.exists(walkKey)) {
-          this.player.play(walkKey, true);
-        }
-      } else {
-        const char = useGameStore.getState().character;
-        let prefix = 'player_idle';
-        if (char?.cultivationPath === CultivationPath.SPELL && this.anims.exists(`player_magic_idle_${this.currentFacing}`)) {
-          prefix = 'player_magic_idle';
-        } else if (char?.cultivationPath === CultivationPath.BODY && this.anims.exists(`player_body_idle_${this.currentFacing}`)) {
-          prefix = 'player_body_idle';
-        }
-        const idleKey = `${prefix}_${this.currentFacing}`;
-        if (this.anims.exists(idleKey)) {
-          this.player.play(idleKey, true);
-        }
-      }
-    }
-
-    // 7. Dynamic Y-Sorting
-    this.player.setDepth(this.player.y);
-    for (const prop of this.decorProps) {
-      if (prop && prop.active) {
-        prop.setDepth(prop.y);
-      }
-    }
-    this.npcsGroup.children.iterate((c: any) => {
-      if (c && c.active) {
-        c.setDepth(c.y);
-      }
-      return true;
-    });
-
-    // 8. Synchronize Entities (Monsters & Bosses)
-    this.syncEntities();
-
-    // 9. Render Projectiles (Lưỡi Kiếm Khí Tiên Đạo)
-    this.renderProjectiles();
-
-    // 10. Render Boss Telegraphs (Red Warning Zones)
-    this.renderTelegraphs();
-
-    // 11. Throttled Proximity Check for Interactions (10Hz thay vì 60Hz để tối ưu FPS)
-    if (now - this.lastProximityCheck >= 100) {
-      this.checkProximity();
-      this.lastProximityCheck = now;
-    }
-
-    // 12. Profiler HUD (Cập nhật FPS và Ping mỗi 300ms)
     if (now - this.lastFpsUpdate >= 300) {
-      const currentFps = Math.round(this.game.loop.actualFps);
-      const entityCount = this.latestEntities.length;
-      this.fpsText.setText(`FPS: ${currentFps} | Ping: ${this.pingMs}ms | Quái: ${entityCount}`);
+      eventBridge.emit('worldDebugUpdate',
+        `FPS: ${Math.round(this.game.loop.actualFps)} | Ping: ${this.pingMs}ms | Quái: ${this.latestEntities.length}`);
       this.lastFpsUpdate = now;
     }
+  }
 
-    // 13. Handle E Key Press
-    if (Phaser.Input.Keyboard.JustDown(this.wasd.interact)) {
-      this.handleInteract();
+  private playLocomotion(player: Phaser.GameObjects.Sprite, move: Position) {
+    const pose = this.latestServerPlayer?.state === 'DEAD' ? 'death' : (move.x || move.y) ? 'walk' : 'idle';
+    const key = heroAnimation(this.playerPath(), pose, this.currentFacing);
+    if (this.anims.exists(key) && player.anims.currentAnim?.key !== key) player.play(key);
+  }
+
+  private playerPath() {
+    return this.latestServerPlayer?.cultivationPath ?? useGameStore.getState().character?.cultivationPath;
+  }
+
+  private playPose(pose: HeroPose) {
+    if (!this.player) return;
+    const key = heroAnimation(this.playerPath(), pose, this.currentFacing);
+    if (!this.anims.exists(key)) return;
+    AnimationManager.playAction(this, this.player, this.actorAction, key, this.anims.get(key).duration + 100);
+  }
+
+  private renderConfirmedAction(action: GameAction, angle: number) {
+    const player = this.player;
+    if (!player) return;
+    const dodge = action === 'DODGE';
+    const attack = action === 'ATTACK';
+    const server = this.latestServerPlayer;
+    this.currentFacing = dodge && server
+      ? AnimationManager.getDirectionFromVelocity(server.vx, server.vy, AnimationManager.getDirectionFromAngle(angle))
+      : AnimationManager.getDirectionFromAngle(angle);
+    const animation = dodge ? 'dodge' : attack ? 'attack' : 'cast';
+    this.playPose(animation);
+    this.feedback.sound(dodge ? 'dodge' : attack ? 'sword' : 'cast');
+    if (attack) this.feedback.slash(player, angle, this.playerPath());
+    else if (dodge) this.feedback.trail(player);
+    else this.feedback.cast(player, this.playerPath());
+  }
+
+  private sendInput(move: Position, aim?: Aim, action: GameAction | 'NONE' = 'NONE') {
+    const sent = this.connection?.send({
+      type: 'INPUT',
+      timestamp: Date.now(),
+      input: {
+        seq: ++this.inputSeq,
+        moveX: move.x,
+        moveY: move.y,
+        angle: aim?.angle ?? 0,
+        targetX: aim?.x,
+        targetY: aim?.y,
+        action,
+      },
+    });
+    if (sent) {
+      this.lastInputSentTime = performance.now();
+      this.lastMovement = move;
     }
   }
 
-  private playPlayerActionAnim(action: 'attack' | 'cast' | 'dodge') {
-    const key = `player_${action}_${this.currentFacing}`;
-    if (this.anims.exists(key)) {
-      this.isActionLocked = true;
-      this.player.play(key, true);
-
-      if (action === 'attack') {
-        this.spawnSlashWave();
-      }
-
-      this.player.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
-        this.isActionLocked = false;
-      });
-
-      // Bộ đếm an toàn phòng ngừa animation bị gián đoạn
-      if (this.actionLockTimer) this.actionLockTimer.remove();
-      const safetyDuration = action === 'attack' ? 360 : action === 'cast' ? 420 : 280;
-      this.actionLockTimer = this.time.delayedCall(safetyDuration, () => {
-        this.isActionLocked = false;
-      });
-    }
-  }
-
-  private sendPlayerInput(
-    moveX: number,
-    moveY: number,
-    angle: number,
-    targetX: number,
-    targetY: number,
-    action: 'NONE' | 'ATTACK' | 'SKILL_1' | 'SKILL_2' | 'SKILL_3' | 'SKILL_4' | 'DODGE'
-  ) {
-    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-      this.ws.send(JSON.stringify({
-        type: 'INPUT',
-        timestamp: Date.now(),
-        input: {
-          seq: ++this.inputSeq,
-          moveX,
-          moveY,
-          angle,
-          targetX,
-          targetY,
-          action,
-        },
-      }));
-    }
-  }
-
-  private syncEntities() {
+  private syncEntities(delta: number, snapshotAgeSec: number) {
+    const weight = 1 - Math.exp(-delta / 47);
     const activeIds = new Set<string>();
 
     for (const ent of this.latestEntities) {
@@ -800,32 +681,19 @@ export default class ExplorationScene extends Phaser.Scene {
 
         // Monster sprite with Genuine 2D Assets
         const isBoss = ent.type === 'BOSS';
-        let spriteKey = isBoss ? 'boss_lang_vuong' : 'monster_wolf';
-        let animKey = isBoss ? 'boss_wolf_walk' : 'wolf_walk';
-
-        if (ent.templateId === 'mon_003') {
-          spriteKey = 'monster_snake';
-          animKey = 'snake_walk';
-        } else if (ent.templateId === 'mon_008' || ent.templateId === 'mon_009') {
-          spriteKey = 'monster_ghost';
-          animKey = 'ghost_float';
-        }
-
-        const sprite = this.add.sprite(0, 0, spriteKey);
-        sprite.setOrigin(0.5, 0.85);
-        if (isBoss) {
-          sprite.setScale(1.25);
-        }
+        const look = creatureAppearance(ent);
+        const texture = this.textures.exists(look.texture) ? look.texture : 'mon_005';
+        const sprite = this.add.sprite(0, 0, texture).setOrigin(0.5, 0.875).setScale(look.scale);
+        if (look.tint) sprite.setTint(look.tint);
         container.add(sprite);
         container.setData('monsterSprite', sprite);
+        container.setData('walk', look.walk);
         container.setData('templateId', ent.templateId);
 
-        if (this.anims.exists(animKey)) {
-          sprite.play(animKey);
-        }
-
         // Name text
-        const nameOffsetY = isBoss ? -54 : -38;
+        const barY = look.walk === 'wolf_walk' ? -39 : isBoss ? -70 : -54;
+        container.setData('barY', barY);
+        const nameOffsetY = barY - 12;
         const nameText = this.add.text(0, nameOffsetY, ent.name, {
           fontSize: isBoss ? '12px' : '11px',
           color: isBoss ? '#f87171' : '#ffffff',
@@ -843,8 +711,8 @@ export default class ExplorationScene extends Phaser.Scene {
       }
 
       // Smooth position interpolation
-      container.x = Phaser.Math.Linear(container.x, ent.x, 0.3);
-      container.y = Phaser.Math.Linear(container.y, ent.y, 0.3);
+      container.x = Phaser.Math.Linear(container.x, ent.x + ent.vx * snapshotAgeSec, weight);
+      container.y = Phaser.Math.Linear(container.y, ent.y + ent.vy * snapshotAgeSec, weight);
       container.setDepth(container.y);
 
       container.setVisible(ent.state !== 'DEAD');
@@ -852,27 +720,25 @@ export default class ExplorationScene extends Phaser.Scene {
       // Update Sprite Animation & Flip Direction
       const sprite = container.getData('monsterSprite') as Phaser.GameObjects.Sprite;
       if (sprite) {
-        if (ent.vx !== 0) {
-          sprite.setFlipX(ent.vx < 0);
-        }
-
-        const isAttacking = ent.state === 'ATTACK' || ent.state === 'WINDUP';
-        const isBoss = ent.type === 'BOSS';
-
-        let targetAnim = isBoss
-          ? (isAttacking ? 'boss_wolf_attack' : 'boss_wolf_walk')
-          : (isAttacking ? 'wolf_attack' : 'wolf_walk');
-
-        if (ent.templateId === 'mon_003') targetAnim = 'snake_walk';
-        if (ent.templateId === 'mon_008' || ent.templateId === 'mon_009') targetAnim = 'ghost_float';
-
-        if (this.anims.exists(targetAnim) && sprite.anims.currentAnim?.key !== targetAnim) {
-          sprite.play(targetAnim, true);
+        const walk = container.getData('walk') as string;
+        if (walk === 'ghost_float') {
+          sprite.play(walk, true);
+        } else if (walk) {
+          const horizontal = Math.cos(ent.facingAngle);
+          if (Math.abs(horizontal) > 0.1) sprite.setFlipX(horizontal > 0);
+          const frame = ent.state === 'WINDUP' ? 4 : ent.state === 'ATTACK' ? 5 : ent.state === 'IDLE' ? 0 : null;
+          if (frame !== null) {
+            if (sprite.anims.isPlaying) sprite.stop();
+            sprite.setFrame(frame);
+          } else {
+            sprite.play(walk, true);
+          }
         }
       }
 
       // Update Health Bar (Chỉ vẽ lại khi HP thay đổi để tiết kiệm draw calls & CPU)
       const prevHp = container.getData('prevHp');
+      if (typeof prevHp === 'number' && ent.hp < prevHp) this.feedback.hit(container.x, container.y);
       if (prevHp !== ent.hp) {
         container.setData('prevHp', ent.hp);
         const hpBar = container.getData('hpBar') as Phaser.GameObjects.Graphics;
@@ -881,7 +747,7 @@ export default class ExplorationScene extends Phaser.Scene {
           const isBoss = ent.type === 'BOSS';
           const barW = isBoss ? 58 : 36;
           const barH = 5;
-          const barY = isBoss ? -42 : -30;
+          const barY = container.getData('barY') as number;
           const pct = Math.max(0, ent.hp / ent.maxHp);
 
           hpBar.fillStyle(0x1e293b, 0.85);
@@ -905,130 +771,82 @@ export default class ExplorationScene extends Phaser.Scene {
     }
   }
 
-  private renderProjectiles() {
+  private renderProjectiles(snapshotAgeSec: number) {
     this.projectileGraphics.clear();
     for (const p of this.latestProjectiles) {
       const angle = Math.atan2(p.vy, p.vx);
       const radius = p.radius || 12;
-      // Determine projectile type from skillId or templateId stored on snapshot
-      const ptype: string = (p as any).skillType || 'sword';
+      const ptype = p.type === 'MAGIC_BOLT' ? 'spell' : 'sword';
+      const x = p.x + p.vx * snapshotAgeSec;
+      const y = p.y + p.vy * snapshotAgeSec;
 
+      if (usePresentationSettings.getState().reducedEffects) {
+        this.projectileGraphics.fillStyle(p.color ?? 0xd3eadf, 0.95);
+        this.projectileGraphics.fillCircle(x, y, radius);
+        continue;
+      }
       if (ptype === 'spell') {
         // ── Pháp cầu (spell ball): tím #9b59b6 với aura ──
         // Outer aura
         this.projectileGraphics.fillStyle(0x9b59b6, 0.18);
-        this.projectileGraphics.fillCircle(p.x, p.y, radius * 2.2);
+        this.projectileGraphics.fillCircle(x, y, radius * 2.2);
         // Mid glow
         this.projectileGraphics.fillStyle(0xd198f5, 0.45);
-        this.projectileGraphics.fillCircle(p.x, p.y, radius * 1.4);
+        this.projectileGraphics.fillCircle(x, y, radius * 1.4);
         // Core
         this.projectileGraphics.fillStyle(0x9b59b6, 1.0);
-        this.projectileGraphics.fillCircle(p.x, p.y, radius);
+        this.projectileGraphics.fillCircle(x, y, radius);
         // Bright center
         this.projectileGraphics.fillStyle(0xffffff, 0.85);
-        this.projectileGraphics.fillCircle(p.x, p.y, radius * 0.38);
+        this.projectileGraphics.fillCircle(x, y, radius * 0.38);
         // Small orbiting dot for aura feel
         const orbitA = (Date.now() / 300) % (Math.PI * 2);
         this.projectileGraphics.fillStyle(0xd198f5, 0.9);
         this.projectileGraphics.fillCircle(
-          p.x + Math.cos(orbitA) * radius * 1.6,
-          p.y + Math.sin(orbitA) * radius * 1.6,
+          x + Math.cos(orbitA) * radius * 1.6,
+          y + Math.sin(orbitA) * radius * 1.6,
           3
         );
-      } else if (ptype === 'body') {
-        // ── Thể Phá: hitbox flash cam #e67e22 (không có projectile, chỉ burst) ──
-        this.projectileGraphics.fillStyle(0xe67e22, 0.22);
-        this.projectileGraphics.fillCircle(p.x, p.y, radius * 2.0);
-        this.projectileGraphics.fillStyle(0xe67e22, 0.65);
-        this.projectileGraphics.fillCircle(p.x, p.y, radius);
-        this.projectileGraphics.lineStyle(2, 0xf39c12, 0.95);
-        this.projectileGraphics.strokeCircle(p.x, p.y, radius * 1.1);
-        // Cross lines for impact feel
-        this.projectileGraphics.lineStyle(2, 0xffa500, 0.75);
-        this.projectileGraphics.beginPath();
-        this.projectileGraphics.moveTo(p.x - radius, p.y);
-        this.projectileGraphics.lineTo(p.x + radius, p.y);
-        this.projectileGraphics.moveTo(p.x, p.y - radius);
-        this.projectileGraphics.lineTo(p.x, p.y + radius);
-        this.projectileGraphics.strokePath();
       } else {
         // ── Kiếm khí (sword beam): ellipse trắng-xanh #89cff0 với glow ──
         // Glow rings: lớn → nhỏ dần
         this.projectileGraphics.fillStyle(0x89cff0, 0.08);
-        this.projectileGraphics.fillCircle(p.x, p.y, radius * 2.8);
+        this.projectileGraphics.fillCircle(x, y, radius * 2.8);
         this.projectileGraphics.fillStyle(0x89cff0, 0.18);
-        this.projectileGraphics.fillCircle(p.x, p.y, radius * 2.0);
+        this.projectileGraphics.fillCircle(x, y, radius * 2.0);
         this.projectileGraphics.fillStyle(0xc8eeff, 0.40);
-        this.projectileGraphics.fillCircle(p.x, p.y, radius * 1.4);
+        this.projectileGraphics.fillCircle(x, y, radius * 1.4);
         // Vẽ ellipse dài theo hướng bay (simulate với scale + clipping trick in graphics)
         // Dùng line trail để thể hiện hình dạng kiếm khí
         const trailLen = radius * 2.8;
         this.projectileGraphics.lineStyle(radius * 1.1, 0x89cff0, 0.55);
         this.projectileGraphics.beginPath();
         this.projectileGraphics.moveTo(
-          p.x - Math.cos(angle) * trailLen,
-          p.y - Math.sin(angle) * trailLen
+          x - Math.cos(angle) * trailLen,
+          y - Math.sin(angle) * trailLen
         );
-        this.projectileGraphics.lineTo(p.x, p.y);
+        this.projectileGraphics.lineTo(x, y);
         this.projectileGraphics.strokePath();
 
         this.projectileGraphics.lineStyle(radius * 0.5, 0xffffff, 0.9);
         this.projectileGraphics.beginPath();
         this.projectileGraphics.moveTo(
-          p.x - Math.cos(angle) * trailLen * 0.65,
-          p.y - Math.sin(angle) * trailLen * 0.65
+          x - Math.cos(angle) * trailLen * 0.65,
+          y - Math.sin(angle) * trailLen * 0.65
         );
         this.projectileGraphics.lineTo(
-          p.x + Math.cos(angle) * radius * 0.8,
-          p.y + Math.sin(angle) * radius * 0.8
+          x + Math.cos(angle) * radius * 0.8,
+          y + Math.sin(angle) * radius * 0.8
         );
         this.projectileGraphics.strokePath();
         // Bright tip
         this.projectileGraphics.fillStyle(0xffffff, 1.0);
-        this.projectileGraphics.fillCircle(p.x, p.y, radius * 0.38);
+        this.projectileGraphics.fillCircle(x, y, radius * 0.38);
       }
     }
   }
 
-  /**
-   * Spawn a quick hit splat effect (5-6 particles fade out in 300ms).
-   */
-  spawnHitEffect(x: number, y: number, color: number = 0xff4444) {
-    const g = this.add.graphics();
-    g.setDepth(2300);
-    const count = 5 + Math.floor(Math.random() * 2);
-    const particles: Array<{ px: number; py: number; vx: number; vy: number; r: number }> = [];
-    for (let i = 0; i < count; i++) {
-      const a = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.6;
-      const spd = 12 + Math.random() * 16;
-      particles.push({ px: x, py: y, vx: Math.cos(a) * spd, vy: Math.sin(a) * spd, r: 3 + Math.random() * 3 });
-    }
-
-    let elapsed = 0;
-    const dur = 300;
-    const ev = this.time.addEvent({
-      delay: 16,
-      repeat: Math.ceil(dur / 16),
-      callback: () => {
-        elapsed += 16;
-        const t = elapsed / dur;
-        g.clear();
-        const alpha = 1 - t;
-        g.fillStyle(color, alpha);
-        for (const p of particles) {
-          p.px += p.vx * (1 - t);
-          p.py += p.vy * (1 - t);
-          g.fillCircle(p.px, p.py, p.r * (1 - t * 0.5));
-        }
-        if (elapsed >= dur) {
-          g.destroy();
-          ev.remove();
-        }
-      },
-    });
-  }
-
-  private renderTelegraphs() {
+  private renderTelegraphs(snapshotAgeSec: number) {
     this.telegraphGraphics.clear();
     for (const tg of this.latestTelegraphs) {
       const radius = tg.radius || 80;
@@ -1039,94 +857,13 @@ export default class ExplorationScene extends Phaser.Scene {
       this.telegraphGraphics.lineStyle(2, 0xf43f5e, 0.9);
       this.telegraphGraphics.strokeCircle(tg.x, tg.y, radius);
 
-      const progress = Math.max(0, 1 - (tg.remainingSec / tg.durationSec));
+      const progress = Phaser.Math.Clamp(1 - (tg.remainingSec - snapshotAgeSec) / tg.durationSec, 0, 1);
       this.telegraphGraphics.fillStyle(0xdc2626, 0.45);
       this.telegraphGraphics.fillCircle(tg.x, tg.y, radius * progress);
 
       this.telegraphGraphics.fillStyle(0xffffff, 0.7);
       this.telegraphGraphics.fillCircle(tg.x, tg.y, 4);
     }
-  }
-
-  private spawnSlashWave() {
-    const offsets = {
-      down: { x: 0, y: 16, angle: 90 },
-      up: { x: 0, y: -24, angle: -90 },
-      left: { x: -24, y: 0, angle: 180 },
-      right: { x: 24, y: 0, angle: 0 },
-    };
-    const off = offsets[this.currentFacing] || offsets.down;
-
-    const char = useGameStore.getState().character;
-    if (char?.cultivationPath === CultivationPath.BODY && this.textures.exists('vfx_shockwave')) {
-      const shock = this.add.sprite(this.player.x + off.x, this.player.y + off.y, 'vfx_shockwave');
-      shock.setOrigin(0.5, 0.5);
-      shock.setDepth(this.player.y + 10);
-      this.tweens.add({
-        targets: shock,
-        scaleX: 1.4,
-        scaleY: 1.4,
-        alpha: 0,
-        duration: 220,
-        onComplete: () => shock.destroy(),
-      });
-      return;
-    }
-
-    if (!this.textures.exists('vfx_sword_slash')) return;
-    const slash = this.add.sprite(this.player.x + off.x, this.player.y + off.y, 'vfx_sword_slash');
-    slash.setOrigin(0.5, 0.5);
-    slash.setAngle(off.angle);
-    slash.setDepth(this.player.y + 10);
-
-    this.tweens.add({
-      targets: slash,
-      scaleX: 1.35,
-      scaleY: 1.35,
-      alpha: 0,
-      duration: 200,
-      onComplete: () => slash.destroy(),
-    });
-  }
-
-  private spawnShieldAura() {
-    if (!this.textures.exists('vfx_shield')) return;
-    const shield = this.add.sprite(this.player.x, this.player.y - 12, 'vfx_shield');
-    shield.setOrigin(0.5, 0.5);
-    shield.setDepth(this.player.y + 10);
-    shield.setAlpha(0.85);
-
-    this.tweens.add({
-      targets: shield,
-      angle: 360,
-      duration: 3000,
-      repeat: 0,
-    });
-
-    this.tweens.add({
-      targets: shield,
-      alpha: 0,
-      duration: 1500,
-      delay: 1500,
-      onComplete: () => shield.destroy(),
-    });
-  }
-
-  private spawnGhostTrail(x: number, y: number) {
-    const ghost = this.add.sprite(x, y, 'player_idle');
-    ghost.setOrigin(0.5, 0.90);
-    ghost.setDepth(y - 1);
-    ghost.setAlpha(0.65);
-    ghost.setTint(0x00e5ff);
-
-    this.tweens.add({
-      targets: ghost,
-      alpha: 0,
-      scaleX: 1.15,
-      scaleY: 1.15,
-      duration: 240,
-      onComplete: () => ghost.destroy(),
-    });
   }
 
   private spawnFloatingText(x: number, y: number, text: string, color: string, isCrit?: boolean) {
@@ -1138,7 +875,7 @@ export default class ExplorationScene extends Phaser.Scene {
       strokeThickness: 4,
     }).setOrigin(0.5).setDepth(2500);
 
-    if (isCrit) {
+    if (isCrit && !usePresentationSettings.getState().reducedEffects) {
       this.cameras.main.shake(120, 0.004);
     }
 
@@ -1153,116 +890,6 @@ export default class ExplorationScene extends Phaser.Scene {
   }
 
   // Skill 1: Thanh Phong Kiếm Khí (Flying Piercing Sword Beam)
-  private spawnSwordBeamWave(aimAngle: number) {
-    if (!this.player) return;
-    const startX = this.player.x + Math.cos(aimAngle) * 20;
-    const startY = this.player.y + Math.sin(aimAngle) * 20;
-
-    const beam = this.add.graphics().setDepth(2250);
-    beam.lineStyle(4, 0x38bdf8, 0.95);
-    beam.fillStyle(0xffffff, 1);
-    beam.strokeCircle(startX, startY, 14);
-    beam.fillCircle(startX, startY, 7);
-
-    const destX = startX + Math.cos(aimAngle) * 220;
-    const destY = startY + Math.sin(aimAngle) * 220;
-
-    this.tweens.add({
-      targets: beam,
-      x: destX - startX,
-      y: destY - startY,
-      alpha: 0,
-      duration: 320,
-      ease: 'Power1',
-      onComplete: () => beam.destroy(),
-    });
-  }
-
-  // Skill 2: Huyền Thiên Nhất Kiếm (Wide 160-degree Sweeping Cleave)
-  private spawnWideCleaveSlash(aimAngle: number) {
-    if (!this.player) return;
-    const arc = this.add.graphics().setDepth(2250);
-    const startAngle = aimAngle - Math.PI / 3;
-    const endAngle = aimAngle + Math.PI / 3;
-
-    arc.lineStyle(5, 0x10b981, 0.95);
-    arc.beginPath();
-    arc.arc(this.player.x, this.player.y, 55, startAngle, endAngle, false);
-    arc.strokePath();
-
-    arc.lineStyle(3, 0xffffff, 1.0);
-    arc.beginPath();
-    arc.arc(this.player.x, this.player.y, 57, startAngle + 0.1, endAngle - 0.1, false);
-    arc.strokePath();
-
-    this.tweens.add({
-      targets: arc,
-      scaleX: 1.4,
-      scaleY: 1.4,
-      alpha: 0,
-      duration: 260,
-      onComplete: () => arc.destroy(),
-    });
-  }
-
-  // Skill 4: Vạn Kiếm Quy Tông (Celestial Giant Sword Plunge with Expanding Bagua Array)
-  private spawnGiantSwordPlunge(x: number, y: number) {
-    if (!this.textures.exists('vfx_giant_sword')) return;
-    const sword = this.add.sprite(x, y - 240, 'vfx_giant_sword');
-    sword.setOrigin(0.5, 0.95);
-    sword.setDepth(2400);
-    sword.setAlpha(0);
-
-    this.tweens.add({
-      targets: sword,
-      y: y,
-      alpha: 1,
-      duration: 220,
-      ease: 'Cubic.easeIn',
-      onComplete: () => {
-        this.cameras.main.shake(220, 0.009);
-
-        // Ground shockwave
-        const shockwave = this.add.graphics().setDepth(2350);
-        shockwave.lineStyle(3, 0x00e5ff, 0.9);
-        shockwave.strokeCircle(x, y, 20);
-
-        // Expanding Golden Bagua Array on Ground (như ảnh tham chiếu Panel 3!)
-        if (this.textures.exists('prop_bagua_array')) {
-          const bagua = this.add.sprite(x, y, 'prop_bagua_array');
-          bagua.setOrigin(0.5, 0.5);
-          bagua.setDepth(y - 2);
-          bagua.setScale(0.3);
-          bagua.setAlpha(0.9);
-          bagua.setTint(0xffd700);
-
-          this.tweens.add({
-            targets: bagua,
-            scaleX: 1.6,
-            scaleY: 1.3,
-            alpha: 0,
-            angle: 90,
-            duration: 650,
-            ease: 'Power2',
-            onComplete: () => bagua.destroy(),
-          });
-        }
-
-        this.tweens.add({
-          targets: sword,
-          alpha: 0,
-          scaleY: 1.25,
-          scaleX: 1.15,
-          duration: 400,
-          onComplete: () => {
-            sword.destroy();
-            shockwave.destroy();
-          },
-        });
-      },
-    });
-  }
-
   private checkProximity() {
     const interactDistance = 90; // Generous 3-tile proximity
     let foundPrompt = '';
@@ -1321,9 +948,7 @@ export default class ExplorationScene extends Phaser.Scene {
       });
     }
 
-    this.promptText.setPosition(this.scale.width / 2, this.scale.height - 110);
-    this.promptText.setText(foundPrompt);
-    this.promptText.setVisible(Boolean(foundPrompt));
+    this.setInteractionPrompt(foundPrompt);
   }
 
   private openNpcDialogue(npc: MapNPC) {
@@ -1335,99 +960,41 @@ export default class ExplorationScene extends Phaser.Scene {
     });
   }
 
+  private setInteractionPrompt(prompt: string) {
+    if (this.interactionPrompt === prompt) return;
+    this.interactionPrompt = prompt;
+    eventBridge.emit('worldPromptUpdate', prompt);
+  }
+
   private async handleInteract() {
-    if (!this.currentInteractable) return;
-
+    if (this.isControlBlocked() || !this.currentInteractable) return;
     const { type, id, target } = this.currentInteractable;
-
     if (type === 'NPC') {
       this.openNpcDialogue(target as MapNPC);
-    } else if (type === 'PORTAL') {
-      const portal = target as MapPortal;
-      try {
-        const res = await gameApi.teleport(portal.targetMapId);
-        if (res.success) {
-          if (this.ws) {
-            this.ws.close();
-          }
-          this.scene.restart({ mapId: portal.targetMapId });
-        }
-      } catch (err) {
-        console.error('Lỗi dịch chuyển:', err);
-      }
-    } else if (type === 'OBJECT') {
-      try {
+      return;
+    }
+
+    const lifetime = this.sceneListeners;
+    const mapId = this.currentMapId;
+    this.interactionPending = true;
+    this.releaseControls();
+    try {
+      if (type === 'PORTAL') {
+        // The server moves this same session. The next TICK announces the committed map and spawn.
+        await gameApi.teleport((target as MapPortal).targetMapId);
+      } else {
         const res = await gameApi.interact(id);
-        if (res.success) {
-          eventBridge.emit('notification', (res.data as any)?.message || 'Tương tác thành công');
+        if (res.success && this.sceneListeners === lifetime) {
+          eventBridge.emit('notification', res.data?.message || 'Tương tác thành công');
+          eventBridge.emit('worldProgressCommitted');
         }
-      } catch (err: any) {
+      }
+    } catch (err: any) {
+      if (this.sceneListeners === lifetime && this.currentMapId === mapId) {
         eventBridge.emit('notification', err.response?.data?.error || 'Không thể tương tác');
       }
-    }
-  }
-
-  // Handle Tab Blur / Backgrounding (Fixing Bug 2: Getting stuck when switching tabs)
-  private handleTabBlur() {
-    this.input.keyboard?.resetKeys();
-
-    if (this.player?.body) {
-      this.player.setVelocity(0, 0);
-    }
-
-    this.isActionLocked = false;
-    if (this.actionLockTimer) {
-      this.actionLockTimer.remove();
-      this.actionLockTimer = null;
-    }
-
-    this.lastActionIntent = 'NONE';
-
-    // Immediately instruct server to zero out velocity
-    const pointer = this.input.activePointer;
-    const aimAngle = this.player ? Phaser.Math.Angle.Between(this.player.x, this.player.y, pointer.worldX, pointer.worldY) : 0;
-    this.sendPlayerInput(0, 0, aimAngle, pointer.worldX, pointer.worldY, 'NONE');
-
-    // Return to idle animation
-    const idleKey = `player_idle_${this.currentFacing}`;
-    if (this.player && this.anims.exists(idleKey)) {
-      this.player.play(idleKey, true);
-    }
-  }
-
-  // Handle Tab Focus / Returning to game
-  private handleTabFocus() {
-    this.input.keyboard?.resetKeys();
-
-    this.isActionLocked = false;
-    if (this.actionLockTimer) {
-      this.actionLockTimer.remove();
-      this.actionLockTimer = null;
-    }
-
-    // Immediately snap local player position to server authoritative position to prevent drift
-    if (this.latestServerPlayer && this.player) {
-      this.player.x = this.latestServerPlayer.x;
-      this.player.y = this.latestServerPlayer.y;
-      this.player.setVelocity(0, 0);
-    }
-
-    const pointer = this.input.activePointer;
-    const aimAngle = this.player ? Phaser.Math.Angle.Between(this.player.x, this.player.y, pointer.worldX, pointer.worldY) : 0;
-    this.sendPlayerInput(0, 0, aimAngle, pointer.worldX, pointer.worldY, 'NONE');
-  }
-
-  private cleanupTabEvents() {
-    if (this.onWindowBlurHandler) {
-      window.removeEventListener('blur', this.onWindowBlurHandler);
-      this.game.events.off(Phaser.Core.Events.BLUR, this.onWindowBlurHandler);
-    }
-    if (this.onWindowFocusHandler) {
-      window.removeEventListener('focus', this.onWindowFocusHandler);
-      this.game.events.off(Phaser.Core.Events.FOCUS, this.onWindowFocusHandler);
-    }
-    if (this.onVisibilityChangeHandler) {
-      document.removeEventListener('visibilitychange', this.onVisibilityChangeHandler);
+    } finally {
+      if (this.sceneListeners === lifetime && this.currentMapId === mapId) this.interactionPending = false;
     }
   }
 }

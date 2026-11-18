@@ -1,0 +1,17 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/server
+node --import tsx --test src/tests/disposable-database-test.ts
+✔ verification target guard: direct loopback test database (652.784636ms)
+✔ verification target guard: ordinary database (532.239534ms)
+✔ verification target guard: non-loopback authority (421.504979ms)
+✔ verification target guard: host override (446.90472ms)
+✔ verification target guard: encoded mixed-case hostaddr override (423.94069ms)
+✔ verification target guard: database override (371.900131ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3400.251475
+exit=0

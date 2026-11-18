@@ -1,0 +1,98 @@
+{
+  "source": {
+    "commit": "afa7fd25606db19b9b915cb915ba295cdecda00c",
+    "harnessSha256": "5b3aafe139cdbb86fc83843c7ab6dc621018012a203bdd625b0bdf2c7e74bffa",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null
+  },
+  "scope": "four-skills-and-load",
+  "hardware": {
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "logicalCpus": 9,
+    "totalMemoryBytes": 10451423232,
+    "platform": "linux",
+    "arch": "x64",
+    "cpuQuota": null,
+    "memoryLimit": null
+  },
+  "results": [],
+  "cleanupErrors": [],
+  "clientBuild": {
+    "commit": "afa7fd25606db19b9b915cb915ba295cdecda00c",
+    "harnessSha256": "5b3aafe139cdbb86fc83843c7ab6dc621018012a203bdd625b0bdf2c7e74bffa",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null,
+    "buildSha256": "1e30599445066e4b7cd06f4adf99efc68b10e3a3bac4012522f61b1fce20a578",
+    "buildFiles": 92,
+    "builtDuringFreeze": true,
+    "buildLog": "\n> van-dao-truong-sinh-client@1.0.0 build\n> tsc && vite build\n\nvite v5.4.21 building for production...\ntransforming...\n✓ 157 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                     1.03 kB │ gzip:   0.52 kB\ndist/assets/index-BQxPQ6mu.css      5.79 kB │ gzip:   1.84 kB\ndist/assets/index-DV5LOGKC.js   2,229.06 kB │ gzip: 535.56 kB\n✓ built in 10.12s\n",
+    "createdAt": "2026-11-18T08:14:49.320Z"
+  },
+  "browser": "153.0.8010.0",
+  "fixture": {
+    "map": "map_thanh_khe_rung",
+    "normalMonsters": 10,
+    "bosses": 1,
+    "spawnPositions": [
+      [
+        47,
+        53
+      ],
+      [
+        49,
+        53
+      ],
+      [
+        51,
+        53
+      ],
+      [
+        53,
+        53
+      ],
+      [
+        47,
+        55
+      ],
+      [
+        53,
+        55
+      ],
+      [
+        47,
+        57
+      ],
+      [
+        49,
+        57
+      ],
+      [
+        51,
+        57
+      ],
+      [
+        53,
+        57
+      ]
+    ],
+    "skillsRealm": {
+      "index": 1,
+      "tier": 1
+    },
+    "loadRealm": {
+      "index": 8,
+      "tier": 3
+    },
+    "equippedSkills": [
+      "skill_sword_01",
+      "skill_sword_02",
+      "skill_sword_03",
+      "skill_sword_04"
+    ],
+    "reason": "Only disposable save preparation and this process spawn layout differ. Original monster stats, AI and damage/cost/cooldown formulas remain. High-realm defense keeps the measured player alive. The player casts the target AoE on empty ground within its 200px range so no load actor dies.",
+    "loadSampling": "Every Phaser post-render: join snapshot IDs to visible in-camera sprites, require combat-active states, a living player and snapshot age <=250ms.",
+    "video": false
+  },
+  "failure": "Error: Timed out: four equipped fixture skills\n    at waitFor (/workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/browser-helpers.mjs:111:9)\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at listOnTimeout (node:internal/timers:644:9)\n    at process.processTimers (node:internal/timers:618:7)\n    at async enter (/workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/performance-fixture.mjs:36:35)\n    at async <anonymous> (/workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/performance-fixture.mjs:54:30)",
+  "passed": false
+}

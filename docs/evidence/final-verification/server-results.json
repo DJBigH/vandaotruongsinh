@@ -1,0 +1,100 @@
+{
+  "results": [
+    {
+      "name": "server-regressions",
+      "command": [
+        "node",
+        "--env-file=../.env",
+        "--import",
+        "tsx",
+        "--test",
+        "--test-reporter=tap",
+        "--test-concurrency=1",
+        "src/tests/world-movement-test.ts",
+        "src/tests/world-session-routes-test.ts",
+        "src/tests/boss-lifecycle-test.ts"
+      ],
+      "exitCode": 0,
+      "durationMs": 3716,
+      "source": {
+        "commit": "afa7fd25606db19b9b915cb915ba295cdecda00c",
+        "harnessSha256": "7ae52a2198c2cbd8f93189f54d4887f0bb4505f975179ec54faf46ad2fc3ab72",
+        "gameSourceDirty": false,
+        "gameSourceDiffSha256": null
+      }
+    },
+    {
+      "name": "server-arpg",
+      "command": [
+        "node",
+        "--env-file=../.env",
+        "--import",
+        "tsx",
+        "src/tests/arpg-test.ts"
+      ],
+      "exitCode": 0,
+      "durationMs": 1705,
+      "source": {
+        "commit": "afa7fd25606db19b9b915cb915ba295cdecda00c",
+        "harnessSha256": "7ae52a2198c2cbd8f93189f54d4887f0bb4505f975179ec54faf46ad2fc3ab72",
+        "gameSourceDirty": false,
+        "gameSourceDiffSha256": null
+      }
+    },
+    {
+      "name": "server-security",
+      "command": [
+        "node",
+        "--env-file=../.env",
+        "--import",
+        "tsx",
+        "src/tests/security-test.ts"
+      ],
+      "exitCode": 0,
+      "durationMs": 980,
+      "source": {
+        "commit": "afa7fd25606db19b9b915cb915ba295cdecda00c",
+        "harnessSha256": "7ae52a2198c2cbd8f93189f54d4887f0bb4505f975179ec54faf46ad2fc3ab72",
+        "gameSourceDirty": false,
+        "gameSourceDiffSha256": null
+      }
+    },
+    {
+      "name": "server-m1",
+      "command": [
+        "node",
+        "--env-file=../.env",
+        "--import",
+        "tsx",
+        "src/tests/m1-content-test.ts"
+      ],
+      "exitCode": 0,
+      "durationMs": 464,
+      "source": {
+        "commit": "afa7fd25606db19b9b915cb915ba295cdecda00c",
+        "harnessSha256": "7ae52a2198c2cbd8f93189f54d4887f0bb4505f975179ec54faf46ad2fc3ab72",
+        "gameSourceDirty": false,
+        "gameSourceDiffSha256": null
+      }
+    },
+    {
+      "name": "server-phase3",
+      "command": [
+        "node",
+        "--env-file=../.env",
+        "--import",
+        "tsx",
+        "src/tests/phase3-test.ts"
+      ],
+      "exitCode": 0,
+      "durationMs": 626,
+      "source": {
+        "commit": "afa7fd25606db19b9b915cb915ba295cdecda00c",
+        "harnessSha256": "7ae52a2198c2cbd8f93189f54d4887f0bb4505f975179ec54faf46ad2fc3ab72",
+        "gameSourceDirty": false,
+        "gameSourceDiffSha256": null
+      }
+    }
+  ],
+  "passed": true
+}

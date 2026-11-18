@@ -8,11 +8,15 @@ import { PrismaClient } from '@prisma/client';
 import {
   CultivationPath,
   CharacterSummary,
+  MAX_REALM_TIER,
   REALM_NAMES,
   REALM_TIERS,
 } from '@shared';
+import { retireOtherSlots, withAccountSlot } from '../arpg/ws-handler';
 import { authenticate } from '../../middleware/auth';
 import { computeCharacterStats } from './stats';
+import { getActiveCharacter } from './helpers';
+import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
 import {
   checkBreakthroughEligibility,
   getNewlyUnlockedSkills,
@@ -31,8 +35,20 @@ const createCharacterSchema = z.object({
   appearance: z.number().int().min(0).max(5).default(0),
 });
 
+const breakthroughSchema = z.object({
+  characterId: z.string().uuid(),
+  realmIndex: z.number().int().min(0).refine(index => Object.hasOwn(REALM_NAMES, index)),
+  realmTier: z.number().int().min(0).max(MAX_REALM_TIER),
+});
+
+function slotChange(handler: (request: FastifyRequest, reply: FastifyReply) => Promise<unknown>) {
+  return (request: FastifyRequest, reply: FastifyReply) =>
+    withAccountSlot((request as any).user.userId, () => handler(request, reply));
+}
+
 export async function characterRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
   const { prisma } = options;
+  const sessions = ArpgSessionManager.getInstance();
 
   // GET /api/game/character
   fastify.get('/character', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
@@ -87,7 +103,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
   });
 
   // POST /api/game/character
-  fastify.post('/character', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.post('/character', { preHandler: authenticate }, slotChange(async (request, reply) => {
     try {
       const user = (request as any).user;
       const parsed = createCharacterSchema.safeParse(request.body);
@@ -199,6 +215,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         return char;
       });
 
+      await retireOtherSlots(user.userId, newChar.id);
       const summary: CharacterSummary = {
         id: newChar.id,
         name: newChar.name,
@@ -217,46 +234,53 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
       request.log.error(err);
       return reply.status(500).send({ success: false, error: 'Lỗi máy chủ khi tạo nhân vật' });
     }
-  });
+  }));
 
   // POST /api/game/character/breakthrough
   fastify.post('/character/breakthrough', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const user = (request as any).user;
-      const character = await prisma.character.findFirst({
-        where: { accountId: user.userId },
-        include: { inventory: true },
-      });
+      const target = breakthroughSchema.safeParse(request.body);
+      if (!target.success) return reply.status(400).send({ success: false, error: 'Thiếu nhân vật hoặc cảnh giới khởi đầu hợp lệ' });
+      const { characterId, realmIndex, realmTier } = target.data;
+      const activeCharacter = await getActiveCharacter(prisma, user.userId);
 
-      if (!character) {
+      if (!activeCharacter) {
         return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
       }
 
-      const invItems = character.inventory.map((i) => ({ templateId: i.templateId, quantity: i.quantity }));
-      const check = checkBreakthroughEligibility(
-        character.realmIndex,
-        character.realmTier,
-        character.cultivationExp,
-        invItems,
-      );
-
-      if (!check.canBreakthrough) {
-        return reply.status(400).send({ success: false, error: check.message, data: check });
+      if (activeCharacter.id !== characterId) {
+        return reply.status(409).send({ success: false, error: 'Ô nhân vật đang hoạt động đã thay đổi' });
       }
 
-      let nextRealm = character.realmIndex;
-      let nextTier = character.realmTier + 1;
-      if (nextTier > 3) {
-        nextRealm += 1;
-        nextTier = 0;
-      }
+      const result = await sessions.updateCharacterCombat(activeCharacter.id, async (tx, character) => {
+        if (!character.isActive && await tx.character.count({ where: { accountId: character.accountId, isActive: true } })) {
+          return { success: false as const, status: 409, error: 'Ô nhân vật đang hoạt động đã thay đổi' };
+        }
 
-      await prisma.$transaction(async (tx) => {
-        const newSkills = getNewlyUnlockedSkills(
-          character.cultivationPath as CultivationPath,
-          nextRealm,
-          nextTier,
+        let nextRealm = realmIndex;
+        let nextTier = realmTier + 1;
+        if (nextTier > MAX_REALM_TIER) {
+          nextRealm += 1;
+          nextTier = 0;
+        }
+
+        if (character.realmIndex === nextRealm && character.realmTier === nextTier) {
+          return { success: true as const, nextRealm, nextTier, refreshCombat: false };
+        }
+        if (character.realmIndex !== realmIndex || character.realmTier !== realmTier) {
+          return { success: false as const, status: 409, error: 'Cảnh giới đã thay đổi. Hãy tải lại thông tin nhân vật.' };
+        }
+
+        const check = checkBreakthroughEligibility(
+          character.realmIndex, character.realmTier, character.cultivationExp, character.inventory,
         );
+        if (!check.canBreakthrough) {
+          return { success: false as const, status: 400, error: check.message, data: check };
+        }
+
+        const currentPath = character.cultivationPath as CultivationPath;
+        const newSkills = getNewlyUnlockedSkills(currentPath, nextRealm, nextTier);
         for (const skillId of newSkills) {
           await tx.characterSkill.upsert({
             where: {
@@ -276,8 +300,8 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         }
 
         const newCultExp = character.cultivationExp - BigInt(check.requiredExp);
-        const equippedItems = character.inventory.filter((i) => i.isEquipped).map((i) => ({ templateId: i.templateId }));
-        const newStats = computeCharacterStats(character.cultivationPath as CultivationPath, nextRealm, nextTier, equippedItems);
+        const equippedItems = character.inventory.filter((item) => item.isEquipped);
+        const newStats = computeCharacterStats(currentPath, nextRealm, nextTier, equippedItems);
 
         await tx.character.update({
           where: { id: character.id },
@@ -285,12 +309,16 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
             realmIndex: nextRealm,
             realmTier: nextTier,
             cultivationExp: newCultExp < BigInt(0) ? BigInt(0) : newCultExp,
-            stats: newStats as any,
+            stats: { ...newStats },
           },
         });
+        return { success: true as const, nextRealm, nextTier };
       });
+      if (!result.success) {
+        return reply.status(result.status).send({ success: false, error: result.error, data: result.data });
+      }
 
-      const newRealmName = `${REALM_NAMES[nextRealm]} - ${REALM_TIERS[nextTier]}`;
+      const newRealmName = `${REALM_NAMES[result.nextRealm]} - ${REALM_TIERS[result.nextTier]}`;
       return reply.send({
         success: true,
         data: {
@@ -346,7 +374,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
   });
 
   // POST /api/game/character/switch - Chuyển đổi nhân vật điều khiển
-  fastify.post('/character/switch', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
+  fastify.post('/character/switch', { preHandler: authenticate }, slotChange(async (request, reply) => {
     try {
       const user = (request as any).user;
       const { characterId, slot } = (request.body as any) || {};
@@ -374,6 +402,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         });
       });
 
+      await retireOtherSlots(user.userId, targetChar.id);
       return reply.send({
         success: true,
         data: {
@@ -387,7 +416,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
       request.log.error(err);
       return reply.status(500).send({ success: false, error: 'Lỗi khi chuyển đổi nhân vật' });
     }
-  });
+  }));
 
   // DELETE /api/game/character/:id - Xóa nhân vật
   fastify.delete('/character/:id', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {

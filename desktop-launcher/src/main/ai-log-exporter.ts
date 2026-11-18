@@ -39,7 +39,7 @@ export class AiLogExporter {
       }
 
       // Xây dựng nội dung file TXT theo 6 phần chuẩn hóa
-      const content = this.buildTxtReportContent(status, logger);
+      const content = logger.redactSecrets(this.buildTxtReportContent(status, logger));
       fs.writeFileSync(targetPath, content, 'utf8');
 
       logger.logAction('XUẤT_LOG_AI_TXT', targetPath);
@@ -81,7 +81,7 @@ export class AiLogExporter {
       const zip = new AdmZip();
 
       // 1. summary.md
-      const summaryMd = this.buildMarkdownSummary(status, logger);
+      const summaryMd = logger.redactSecrets(this.buildMarkdownSummary(status, logger));
       zip.addFile('summary.md', Buffer.from(summaryMd, 'utf8'));
 
       // 2. manifest.json

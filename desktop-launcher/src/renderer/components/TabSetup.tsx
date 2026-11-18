@@ -31,7 +31,7 @@ export const TabSetup: React.FC<TabSetupProps> = ({
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [steps, setSteps] = useState<SetupStep[]>([
     { id: 'check_runtime', title: '1. Kiểm tra môi trường Node.js & npm', status: 'PENDING' },
-    { id: 'prepare_env', title: '2. Chuẩn bị tệp cấu hình máy chủ (server/.env)', status: 'PENDING' },
+    { id: 'prepare_env', title: '2. Chuẩn bị cấu hình máy chủ', status: 'PENDING' },
     { id: 'install_shared', title: '3. Cài đặt phân hệ chia sẻ (@vandao/shared)', status: 'PENDING' },
     { id: 'install_server', title: '4. Cài đặt thư viện máy chủ Backend (server/node_modules)', status: 'PENDING' },
     { id: 'install_client', title: '5. Cài đặt thư viện giao diện Web Client (client/node_modules)', status: 'PENDING' },
@@ -62,7 +62,7 @@ export const TabSetup: React.FC<TabSetupProps> = ({
       if (payload.isComplete) {
         setIsRunning(false);
         setIsComplete(true);
-        setIsSuccess(!payload.hasError);
+        setIsSuccess(!payload.hasError && payload.isReadyToPlay === true);
         setErrorMessage(payload.errorMessage || null);
       }
     });
@@ -126,14 +126,16 @@ export const TabSetup: React.FC<TabSetupProps> = ({
       const result = await window.launcherAPI.runAutoSetup(options);
       setInspection(result.inspection);
       if (result.success) {
-        showToast('✅ Cài đặt tự động hoàn tất!');
+        showToast(`${result.inspection.isReadyToPlay ? '✅' : '⚠️'} ${result.message}`);
       } else {
         showToast(`❌ Cài đặt thất bại: ${result.message}`);
       }
     } catch (e: any) {
-      setIsRunning(false);
+      setIsComplete(true);
       setErrorMessage(e.message);
       showToast(`Lỗi thực thi cài đặt: ${e.message}`);
+    } finally {
+      setIsRunning(false);
     }
   };
 
@@ -256,21 +258,21 @@ export const TabSetup: React.FC<TabSetupProps> = ({
               </div>
             </div>
 
-            {/* server/.env */}
+            {/* Cấu hình backend */}
             <div className={`inspect-box ${inspection.hasServerEnv ? 'box-pass' : 'box-warn'}`}>
               <div className="inspect-icon">{inspection.hasServerEnv ? '📄' : '📝'}</div>
               <div className="inspect-info">
-                <div className="inspect-label">Cấu Hình server/.env</div>
-                <div className="inspect-val">{inspection.hasServerEnv ? 'Đã có sẵn' : 'Sẽ tự động tạo mới'}</div>
+                <div className="inspect-label">Cấu Hình Máy Chủ</div>
+                <div className="inspect-val">{inspection.configurationSource ?? 'Chưa có cấu hình'}</div>
               </div>
             </div>
 
-            {/* Shared node_modules */}
-            <div className={`inspect-box ${inspection.hasSharedModules ? 'box-pass' : 'box-warn'}`}>
-              <div className="inspect-icon">{inspection.hasSharedModules ? '⚙️' : '⏳'}</div>
+            {/* Mã nguồn Shared */}
+            <div className={`inspect-box ${inspection.hasSharedFolder ? 'box-pass' : 'box-warn'}`}>
+              <div className="inspect-icon">{inspection.hasSharedFolder ? '⚙️' : '⏳'}</div>
               <div className="inspect-info">
                 <div className="inspect-label">Thư Viện Shared</div>
-                <div className="inspect-val">{inspection.hasSharedModules ? 'Đã cài đặt' : 'Cần cài đặt'}</div>
+                <div className="inspect-val">{inspection.hasSharedFolder ? 'Có mã nguồn' : 'Thiếu thư mục shared/'}</div>
               </div>
             </div>
 
@@ -292,12 +294,16 @@ export const TabSetup: React.FC<TabSetupProps> = ({
               </div>
             </div>
 
-            {/* PostgreSQL 5432 */}
+            {/* Cổng TCP từ DATABASE_URL */}
             <div className={`inspect-box ${inspection.isDbRunning ? 'box-pass' : 'box-warn'}`}>
               <div className="inspect-icon">{inspection.isDbRunning ? '🐘' : '⚠️'}</div>
               <div className="inspect-info">
-                <div className="inspect-label">CSDL PostgreSQL (5432)</div>
-                <div className="inspect-val">{inspection.isDbRunning ? 'Đang hoạt động' : 'Chưa kết nối'}</div>
+                <div className="inspect-label">Cổng TCP PostgreSQL</div>
+                <div className="inspect-val">
+                  {inspection.databaseEndpoint
+                    ? `${inspection.databaseEndpoint.host}:${inspection.databaseEndpoint.port} · ${inspection.isDbRunning ? 'Có phản hồi' : 'Chưa phản hồi'}`
+                    : 'Cần cấu hình máy chủ hợp lệ'}
+                </div>
               </div>
             </div>
           </div>
@@ -305,7 +311,7 @@ export const TabSetup: React.FC<TabSetupProps> = ({
           {/* Danh sách thành phần còn thiếu */}
           {inspection.missingItems.length > 0 ? (
             <div className="missing-summary-box">
-              <span className="missing-title">🔔 Các mục launcher sẽ tự động xử lý và cài đặt:</span>
+              <span className="missing-title">🔔 Các mục cần kiểm tra:</span>
               <ul className="missing-list">
                 {inspection.missingItems.map((item, idx) => (
                   <li key={idx}>🔸 {item}</li>
@@ -314,7 +320,7 @@ export const TabSetup: React.FC<TabSetupProps> = ({
             </div>
           ) : (
             <div className="all-ready-box">
-              ✨ Toàn bộ thành phần dự án đã đầy đủ! Bạn có thể vào game ngay hoặc cài đặt lại nếu muốn.
+              ✨ Kiểm tra cấu hình, thư viện và cổng TCP đã đạt.
             </div>
           )}
         </div>
@@ -343,7 +349,7 @@ export const TabSetup: React.FC<TabSetupProps> = ({
               disabled={isRunning}
             />
             <span>
-              Tự động khởi tạo Prisma, đồng bộ bảng CSDL và nạp dữ liệu mẫu ban đầu (nếu CSDL đang bật)
+              Đồng bộ bảng và nạp dữ liệu mẫu vào CSDL phát triển trên máy này (NODE_ENV=development)
             </span>
           </label>
         </div>
@@ -406,6 +412,13 @@ export const TabSetup: React.FC<TabSetupProps> = ({
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {isComplete && !isSuccess && !errorMessage && (
+        <div className="missing-summary-box setup-warning-card" role="status">
+          <span className="missing-title">⚠️ Cài đặt hoàn tất với lưu ý</span>
+          <p>{steps.find((step) => step.id === 'final_verify')?.message}</p>
         </div>
       )}
 

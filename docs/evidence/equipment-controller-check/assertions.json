@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "before": {
+    "hp": 160,
+    "maxHp": 160,
+    "mp": 72,
+    "maxMp": 72,
+    "atk": 26,
+    "def": 22,
+    "spd": 12,
+    "critRate": 12,
+    "critDmg": 50,
+    "resist": 10
+  },
+  "unequipped": {
+    "hp": 120,
+    "maxHp": 120,
+    "mp": 72,
+    "maxMp": 72,
+    "atk": 26,
+    "def": 10,
+    "spd": 12,
+    "critRate": 12,
+    "critDmg": 50,
+    "resist": 5
+  },
+  "equipped": {
+    "hp": 160,
+    "maxHp": 160,
+    "mp": 72,
+    "maxMp": 72,
+    "atk": 26,
+    "def": 22,
+    "spd": 12,
+    "critRate": 12,
+    "critDmg": 50,
+    "resist": 10
+  },
+  "afterReload": {
+    "hp": 160,
+    "maxHp": 160,
+    "mp": 72,
+    "maxMp": 72,
+    "atk": 26,
+    "def": 22,
+    "spd": 12,
+    "critRate": 12,
+    "critDmg": 50,
+    "resist": 10
+  },
+  "commands": 11,
+  "commandFailures": 0,
+  "note": "Visible equipped badge selection and selected-detail action were used with two identical armor rows; exactly one eligible row transitioned."
+}

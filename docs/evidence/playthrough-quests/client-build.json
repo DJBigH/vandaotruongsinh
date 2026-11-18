@@ -1,0 +1,11 @@
+{
+  "commit": "287dd8c1cf5c94a0483abc5ddf92ba3ed5a61d48",
+  "harnessSha256": "0a50643160628d6f4f0888c2b73e61f14023e452fff8b33fe1b14ecfb26a876c",
+  "gameSourceDirty": true,
+  "gameSourceDiffSha256": "c621a9fa2c40a700f60eab107471f2a708f0e1b44f48dc85d67f28dbbaaf450a",
+  "buildSha256": "1460fa931c50224c62e54db301d112c1344a36a3b911a39ac9870009b24b25c4",
+  "buildFiles": 92,
+  "builtDuringFreeze": true,
+  "buildLog": "\n> van-dao-truong-sinh-client@1.0.0 build\n> tsc && vite build\n\nvite v5.4.21 building for production...\ntransforming...\n✓ 157 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                     1.03 kB │ gzip:   0.52 kB\ndist/assets/index-BQxPQ6mu.css      5.79 kB │ gzip:   1.84 kB\ndist/assets/index-Ic7zauge.js   1,910.65 kB │ gzip: 468.83 kB\n✓ built in 9.03s\n",
+  "createdAt": "2026-11-18T07:30:05.503Z"
+}

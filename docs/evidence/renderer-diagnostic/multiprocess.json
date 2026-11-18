@@ -1,0 +1,193 @@
+{
+  "scope": "Diagnostic only. Unmodified frozen fc74a0b build. Same browser renderer shims as comparison, 18s steady-state. Launch without --single-process and --in-process-gpu, and when launchLayout is no-software-compositing add --disable-gpu-compositing.",
+  "launchLayout": "multiprocess",
+  "frozenDirectory": "scratch/acceptance-build-WR0VUa",
+  "commit": "fc74a0bc9527b1f50290485a9fa565c92745b65a",
+  "buildSha256": "ab6c016ea938d1577c27a555cd3d0e630a70f888c245696e746fda6570ab5024",
+  "buildFiles": 92,
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "logicalCpus": 9,
+  "cases": [
+    {
+      "mode": "webgl",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "mode": "canvas",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    }
+  ],
+  "results": [
+    {
+      "mode": "webgl",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sceneBefore": {
+        "map": "map_thanh_khe_rung",
+        "player": {
+          "x": 1600,
+          "y": 1760,
+          "visible": true,
+          "texture": "player_hurt",
+          "animation": "player_hurt_down",
+          "frame": 1
+        },
+        "camera": {
+          "x": 349.53846153846166,
+          "y": 1092.6153846153845,
+          "zoom": 1.3,
+          "width": 1920,
+          "height": 1080
+        },
+        "render": {
+          "entities": 11,
+          "inView": 11
+        },
+        "canvas": {
+          "width": 1920,
+          "height": 1080
+        },
+        "inputBlocked": false,
+        "rendererType": 2
+      },
+      "frames": {
+        "valid": true,
+        "frames": 166,
+        "intervals": 165,
+        "durationMs": 17776.300000000745,
+        "wallDurationMs": 18178,
+        "averageFps": 9.13191770271757,
+        "intervalAverageFps": 9.282021568042454,
+        "coverage": 0.977901859390513,
+        "firstGapMs": 117.29999999888241,
+        "endGapMs": 284.40000000037253,
+        "p50Ms": 81.79999999888241,
+        "p95Ms": 254.89999999850988,
+        "percentileConvention": "nearest rank",
+        "maxMs": 1012.3999999985099,
+        "load": {
+          "observedFrames": 166,
+          "fullFrames": 166,
+          "minNormals": 10,
+          "minBosses": 1,
+          "maxSnapshotAgeMs": 167.40000000037253,
+          "badSamples": []
+        },
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "devicePixelRatio": 1,
+        "visibility": "visible"
+      },
+      "stepPhasesMs": {
+        "update": {
+          "n": 167,
+          "mean": 0.6616766466842797,
+          "p50": 0.5,
+          "p95": 1.199999999254942,
+          "max": 7.600000001490116
+        },
+        "render": {
+          "n": 167,
+          "mean": 0.9916167664648352,
+          "p50": 0.6999999992549419,
+          "p95": 1.599999999627471,
+          "max": 9.200000001117587
+        }
+      },
+      "confirmedCasts": 3,
+      "pageErrors": [],
+      "screenshot": "scratch/sdd-vnext-m1/renderer-diagnostic/multiprocess-1-webgl-1920x1080.png"
+    },
+    {
+      "mode": "canvas",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sceneBefore": {
+        "map": "map_thanh_khe_rung",
+        "player": {
+          "x": 1600,
+          "y": 1760,
+          "visible": true,
+          "texture": "player_hurt",
+          "animation": "player_hurt_down",
+          "frame": 2
+        },
+        "camera": {
+          "x": 349.53846153846166,
+          "y": 1092.6153846153845,
+          "zoom": 1.3,
+          "width": 1920,
+          "height": 1080
+        },
+        "render": {
+          "entities": 11,
+          "inView": 11
+        },
+        "canvas": {
+          "width": 1920,
+          "height": 1080
+        },
+        "inputBlocked": false,
+        "rendererType": 1
+      },
+      "frames": {
+        "valid": true,
+        "frames": 406,
+        "intervals": 405,
+        "durationMs": 18013.900000000373,
+        "wallDurationMs": 18038.199999999255,
+        "averageFps": 22.507789025513453,
+        "intervalAverageFps": 22.482638407007457,
+        "coverage": 0.9986528589327713,
+        "firstGapMs": 19.09999999962747,
+        "endGapMs": 5.199999999254942,
+        "p50Ms": 37.69999999925494,
+        "p95Ms": 99.40000000037253,
+        "percentileConvention": "nearest rank",
+        "maxMs": 179.30000000074506,
+        "load": {
+          "observedFrames": 406,
+          "fullFrames": 406,
+          "minNormals": 10,
+          "minBosses": 1,
+          "maxSnapshotAgeMs": 104.40000000037253,
+          "badSamples": []
+        },
+        "renderer": "Canvas",
+        "devicePixelRatio": 1,
+        "visibility": "visible"
+      },
+      "stepPhasesMs": {
+        "update": {
+          "n": 406,
+          "mean": 0.45369458126060186,
+          "p50": 0.30000000074505806,
+          "p95": 1.099999999627471,
+          "max": 5
+        },
+        "render": {
+          "n": 406,
+          "mean": 1.0381773398555998,
+          "p50": 0.8000000007450581,
+          "p95": 2,
+          "max": 12.5
+        }
+      },
+      "confirmedCasts": 3,
+      "pageErrors": [],
+      "screenshot": "scratch/sdd-vnext-m1/renderer-diagnostic/multiprocess-2-canvas-1920x1080.png"
+    }
+  ],
+  "cleanupErrors": [],
+  "browserVersion": "153.0.8010.0",
+  "accountsCleaned": 2
+}

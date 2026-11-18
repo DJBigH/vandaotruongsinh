@@ -1,0 +1,24 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/server
+node --import tsx --test src/tests/disposable-database-test.ts
+✔ verification target guard: direct loopback test database (569.195024ms)
+✔ verification target guard: ordinary database (214.30288ms)
+✔ verification target guard: non-loopback authority (228.325345ms)
+✖ verification target guard: host override (522.993134ms)
+✖ verification target guard: encoded mixed-case hostaddr override (253.706894ms)
+✖ verification target guard: database override (319.369554ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 3
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2692.621071
+✖ failing tests:
+✖ verification target guard: host override (522.993134ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+✖ verification target guard: encoded mixed-case hostaddr override (253.706894ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+✖ verification target guard: database override (319.369554ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+exit=1

@@ -1,0 +1,22 @@
+{
+  "commit": "7e2e78f8a4ea1ebdbf1399334ced3fcf229731bb",
+  "verifiedPaths": [
+    "client/src",
+    "client/tests",
+    "shared/src",
+    "client/public/assets/vnext",
+    "art/vnext/manifest.json"
+  ],
+  "checks": {
+    "clientBehavior": {
+      "passed": 26,
+      "failed": 0
+    },
+    "sharedTypeScript": "exit0",
+    "assetSha256": {
+      "passed": 39,
+      "failed": 0
+    }
+  },
+  "note": "The named scopes were unchanged from this commit during these checks. Backend and launcher verification are recorded separately."
+}

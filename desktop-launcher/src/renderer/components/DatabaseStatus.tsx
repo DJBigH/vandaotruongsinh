@@ -15,11 +15,11 @@ export const DatabaseStatus: React.FC<DatabaseStatusProps> = ({
   const getBadge = () => {
     switch (database.state) {
       case 'CONNECTED':
-        return <span className="badge badge-ready">● Đang Kết Nối</span>;
+        return <span className="badge badge-ready">● TCP Có Phản Hồi</span>;
       case 'DISCONNECTED':
-        return <span className="badge badge-error">✕ Mất Kết Nối</span>;
+        return <span className="badge badge-error">✕ TCP Chưa Phản Hồi</span>;
       case 'CHECKING':
-        return <span className="badge badge-starting">◌ Đang Kích Hoạt...</span>;
+        return <span className="badge badge-starting">◌ Đang Thăm Dò...</span>;
       default:
         return <span className="badge badge-stopped">○ Chưa Kiểm Tra</span>;
     }
@@ -45,9 +45,9 @@ export const DatabaseStatus: React.FC<DatabaseStatusProps> = ({
           style={{ padding: '4px 10px', fontSize: '11px', fontWeight: database.state === 'DISCONNECTED' ? 700 : 500 }}
           onClick={onCheckAgain}
           disabled={isChecking}
-          title={database.state === 'DISCONNECTED' ? 'Tự động kích hoạt dịch vụ PostgreSQL trong WSL Ubuntu và kết nối lại' : 'Kiểm tra kết nối TCP tới cổng 5432 của PostgreSQL'}
+          title={`Kiểm tra cổng TCP PostgreSQL tại ${database.host}:${database.port}`}
         >
-          {isChecking ? '🔄 Đang Bật...' : database.state === 'DISCONNECTED' ? '⚡ Tự Bật & Kết Nối' : '🔍 Thử Kết Nối'}
+          {isChecking ? '🔄 Đang kiểm tra...' : '🔍 Kiểm tra TCP'}
         </button>
       </div>
     </div>

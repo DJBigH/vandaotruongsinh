@@ -1,0 +1,5 @@
+{
+  "elapsedMs": 59608,
+  "event": "failed",
+  "error": "AssertionError [ERR_ASSERTION]: reload leaves one live socket"
+}

@@ -2,6 +2,7 @@
 // VẠN ĐẠO TRƯỜNG SINH - Phase 2 Automated Verification Test Suite
 // ============================================================
 
+import './require-disposable-database';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { CultivationPath, CombatAction, FarmSlot } from '@shared';

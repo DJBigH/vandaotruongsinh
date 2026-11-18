@@ -10,6 +10,7 @@
 // 7. Chống Gian Lận Số Lượng Âm/Số Thập Phân trong Giao Dịch
 // ============================================================
 
+import './require-disposable-database';
 import { PrismaClient } from '@prisma/client';
 import { CultivationPath } from '@shared';
 import { buildServer } from '../index';

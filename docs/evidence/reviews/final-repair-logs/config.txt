@@ -1,0 +1,20 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/server
+node --import tsx --test src/tests/config-test.ts
+✔ backend config uses repository .env (415.396237ms)
+✔ backend config falls back to server/.env (423.120629ms)
+✔ backend config prefers repository .env over server/.env (378.120901ms)
+✔ backend config preserves a concrete URL and gives explicit variables precedence (258.129745ms)
+✔ backend config accepts an explicit configuration without an env file (334.023067ms)
+✔ backend config expands template credentials with punctuation and preserves URL options (334.032551ms)
+✔ backend config rejects unresolved required variables without leaking selected values (295.235054ms)
+✔ backend config rejects missing JWT even when a lower-priority file supplies it (367.029154ms)
+✔ backend config rejects malformed database URLs without printing them (335.001888ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3422.931828
+exit=0

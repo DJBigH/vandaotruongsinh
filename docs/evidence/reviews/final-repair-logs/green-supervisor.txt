@@ -1,0 +1,4 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/desktop-launcher
+node /workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs /workspace/scratch/c5685e889d73/vandaotruongsinh/desktop-launcher node --import ../server/node_modules/tsx/dist/loader.mjs src/tests/process-supervisor-test.ts
+PASS: Supervisor forwards custom local server port and resolved configuration through both npm dev entry points.
+exit=0

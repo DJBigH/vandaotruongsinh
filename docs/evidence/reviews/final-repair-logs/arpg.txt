@@ -1,0 +1,31 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/server
+node /workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs /workspace/scratch/c5685e889d73/vandaotruongsinh/server env NODE_ENV=test node --env-file=../.env --import tsx src/tests/arpg-test.ts
+✅ [PASS] (1) Tạo nhân vật Kiếm Tu thử nghiệm thành công
+✅ [PASS] (2) Bản đồ Rừng Thanh Khê có quái vật xuất hiện (Hiện có: 10)
+✅ [PASS] (3) Boss Xích Nha Lang Vương (boss_001) xuất hiện trên bản đồ
+✅ [PASS] (4) Sinh lực khởi đầu của Lang Vương chính xác (350 HP)
+✅ [PASS] (5) Tốc độ di chuyển cố định do server kiểm soát (7.20px/tick), spam input không làm chạy nhanh hơn
+✅ [PASS] (6) Đòn đánh thường trúng đích làm suy giảm sinh lực quái vật (45 -> 31)
+✅ [PASS] (7) Thi triển Kiếm Khí Trảm tạo ra đạn kiếm khí bay theo thời gian thực
+✅ [PASS] (8) Tiêu hao chính xác linh lực khi dùng kỹ năng (60 -> 45 MP)
+✅ [PASS] (9) Đạn kiếm khí bay va chạm và gây sát thương lớn lên quái vật
+✅ [PASS] (10) Nhân vật chuyển sang trạng thái LƯỚT NÉ
+✅ [PASS] (11) Kích hoạt khung bất tử i-frame trong suốt thời gian lướt
+✅ [PASS] (12) Trong lúc né (i-frame), người chơi hoàn toàn miễn nhiễm sát thương
+✅ [PASS] (13) Sau khi lướt xong, khung bất tử tự động kết thúc
+✅ [PASS] (14) Hồi chiêu né ngăn cản spam bất tử liên tục
+✅ [PASS] (15) Boss Xích Nha Lang Vương kích hoạt vùng cảnh báo đỏ nguy hiểm (Telegraph Red Zone)
+✅ [PASS] (16) Vùng cảnh báo có dạng hình tròn chuẩn xác
+✅ [PASS] (17) Người chơi tránh khỏi vùng đỏ kịp thời nên không bị nhận sát thương từ Boss
+✅ [PASS] (18) Boss dưới 40% HP tự động chuyển dạng CUỒNG BẠO
+✅ [PASS] (19) Boss chính thức kích hoạt Giai Đoạn 2
+✅ [PASS] (20) Người chơi gục ngã
+✅ [PASS] (21) Boss cũng gục ngã trong cùng 1 tick
+✅ [PASS] (22) Không cộng thưởng Linh Thạch khi cả 2 cùng chết
+✅ [PASS] (23) Không cộng thưởng Kinh Nghiệm khi cả 2 cùng chết
+✅ [PASS] (24) Tạo thành công nhân vật thứ 2 (Pháp Tu) tại Ô số 2 (Slot 1)
+✅ [PASS] (25) Tài khoản đang sở hữu 2 nhân vật độc lập
+✅ [PASS] (26) Chuyển đổi nhân vật sang Ô 2 thành công và nhất quán
+✅ [PASS] (27) API /combat/start và /combat/action đã bị vô hiệu hóa hoàn toàn, trả về mã 410 Gone
+🎉 TỔNG KẾT KIỂM THỬ THỰC TẾ: ĐẠT 27/27 TIÊU CHÍ (100% PASS)
+exit=0

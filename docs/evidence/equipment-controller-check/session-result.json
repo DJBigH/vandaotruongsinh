@@ -1,0 +1,40 @@
+{
+  "sessionId": "1794990051572-1fd9f2036823",
+  "source": {
+    "commit": "762c429be21cfef08187ebb7b86d1bf7c64e204e",
+    "harnessSha256": "7ae52a2198c2cbd8f93189f54d4887f0bb4505f975179ec54faf46ad2fc3ab72",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null
+  },
+  "clientBuild": {
+    "commit": "762c429be21cfef08187ebb7b86d1bf7c64e204e",
+    "harnessSha256": "7ae52a2198c2cbd8f93189f54d4887f0bb4505f975179ec54faf46ad2fc3ab72",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null,
+    "buildSha256": "1460fa931c50224c62e54db301d112c1344a36a3b911a39ac9870009b24b25c4",
+    "buildFiles": 92,
+    "builtDuringFreeze": true,
+    "buildEnvironment": {
+      "NODE_ENV": "production",
+      "VITE_API_URL": "/api"
+    },
+    "buildLog": "\n> van-dao-truong-sinh-client@1.0.0 build\n> tsc && vite build\n\nvite v5.4.21 building for production...\ntransforming...\n✓ 157 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                     1.03 kB │ gzip:   0.52 kB\ndist/assets/index-BQxPQ6mu.css      5.79 kB │ gzip:   1.84 kB\ndist/assets/index-Ic7zauge.js   1,910.65 kB │ gzip: 468.83 kB\n✓ built in 8.93s\n",
+    "createdAt": "2026-11-18T08:20:51.035Z"
+  },
+  "startedAt": "2026-11-18T08:20:51.572Z",
+  "durationMs": 18237,
+  "browser": "153.0.8010.0",
+  "videoPath": null,
+  "videoMetadata": null,
+  "errors": [],
+  "sockets": 2,
+  "ticks": 251,
+  "actions": {},
+  "confirmedActions": {},
+  "rewards": [],
+  "deaths": 0,
+  "commandFailures": [],
+  "completed": true,
+  "fatal": null,
+  "cleanupErrors": []
+}

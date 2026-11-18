@@ -22,8 +22,10 @@ export async function createCharacter(data: CreateCharacterRequest): Promise<Api
   return res.data;
 }
 
-export async function attemptBreakthrough(): Promise<ApiResponse<{ success: boolean; newRealm?: string; message: string }>> {
-  const res = await apiClient.post('/game/character/breakthrough');
+export async function attemptBreakthrough(character: Pick<CharacterSummary, 'id' | 'realmIndex' | 'realmTier'>): Promise<ApiResponse<{ success: boolean; newRealm?: string; message: string }>> {
+  const res = await apiClient.post('/game/character/breakthrough', {
+    characterId: character.id, realmIndex: character.realmIndex, realmTier: character.realmTier,
+  });
   return res.data;
 }
 
@@ -119,7 +121,7 @@ export async function teleport(targetMapId: string): Promise<ApiResponse<{ mapId
   return res.data;
 }
 
-export async function interact(interactableId: string): Promise<ApiResponse<{ type: string; result: any }>> {
+export async function interact(interactableId: string): Promise<ApiResponse<{ type?: string; message?: string }>> {
   const res = await apiClient.post('/game/interact', { interactableId });
   return res.data;
 }
@@ -137,8 +139,8 @@ export async function dialogueChoice(dialogueId: string, choiceIndex: number): P
 }
 
 // === Save position ===
-export async function savePosition(mapId: string, x: number, y: number): Promise<ApiResponse> {
-  const res = await apiClient.post('/game/position', { mapId, x, y });
+export async function savePosition(): Promise<ApiResponse> {
+  const res = await apiClient.post('/game/position');
   return res.data;
 }
 

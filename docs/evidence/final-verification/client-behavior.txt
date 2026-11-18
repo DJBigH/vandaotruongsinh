@@ -1,0 +1,35 @@
+WebSocket server error: Port is already in use
+✔ direct registration starts enabled and stays busy only while the request is active (497.717592ms)
+✔ one scene owns one socket and ignores callbacks from an old connection (8.793873ms)
+✔ scene shutdown cancels reconnect and a queued retry cannot acquire a socket (0.437973ms)
+✔ the saved map is prefetched once and drawn only on server confirmation (0.802825ms)
+✔ a delayed old map and a response after shutdown cannot paint the world (4.788978ms)
+✔ replacing an animation cancels its timer and completion handler and ignores callbacks already in flight (7.833883ms)
+✔ blur or panel reset releases movement and discards queued actions until a fresh press (0.855115ms)
+✔ a rejected cast has no presentation while its learned slot cooldown stays flat (0.784975ms)
+✔ server cooldown confirms a requested cast once, with the original facing for a timely reply (0.463923ms)
+✔ a delayed learned cast confirms once using server facing after the retry window (0.461222ms)
+✔ overlapping retry uses server facing when the earlier request finally confirms (0.785034ms)
+✔ slot removal and world reset invalidate pending action confirmations (1.999324ms)
+✔ at rest reconciliation has the same elapsed-time response at different frame rates (2.281449ms)
+✔ fresh movement is immediate and agreeing moving snapshots do not pull the player back on every frame (7.206202ms)
+✔ prediction and smooth reconciliation respect shared collision zones (1.659866ms)
+✔ fresh stationary server snapshots recover a position stranded on the far side of a wall (0.705543ms)
+✔ Phaser camera follows the same distance over 100ms at 30Hz and 120Hz (507.609296ms)
+✔ loader catalog uses the exported files and indexes the matching hero or creature row (5.977851ms)
+✔ hurt, death and respawn are edges of authoritative snapshots (2.448412ms)
+✔ class identity survives moving, action replacement and revival (1.514547ms)
+✔ village routes reach every door, NPC and portal; both maps keep route centerlines walkable (97.77774ms)
+✔ sound and motion preferences round-trip independently; invalid saved values use the motion preference (61.474449ms)
+✔ the hall roof clears the north portal disk even at its widest rotation (1.508133ms)
+✔ building foundations cover exposed solid tiles and leave walkable door approaches clear (4.131785ms)
+✔ ongoing quest view shows completed objectives and one unclaimed reward (569.193658ms)
+✔ claiming a quest refreshes the bag only after the server commits its reward (197.085378ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3376.448184

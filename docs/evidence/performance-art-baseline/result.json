@@ -1,0 +1,329 @@
+{
+  "source": {
+    "commit": "fc74a0bc9527b1f50290485a9fa565c92745b65a",
+    "harnessSha256": "06e880b4a303f729b82b03e7cb567ba17284f611ca8be7005467a90c2a6a8205",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null
+  },
+  "scope": "four-skills-and-load",
+  "hardware": {
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "logicalCpus": 9,
+    "totalMemoryBytes": 10451423232,
+    "platform": "linux",
+    "arch": "x64",
+    "cpuQuota": null,
+    "memoryLimit": null
+  },
+  "results": [
+    {
+      "kind": "four-slot-cost-cooldown-animation",
+      "skills": [
+        {
+          "slot": 1,
+          "mpCost": 15,
+          "cooldownSeconds": 1.5,
+          "displacement": 0,
+          "authoritativeTick": 26,
+          "scene": {
+            "map": "map_thanh_khe",
+            "player": {
+              "x": 1024,
+              "y": 1100,
+              "visible": true,
+              "texture": "player_cast",
+              "animation": "player_cast_right",
+              "frame": 1
+            },
+            "camera": {
+              "x": 341,
+              "y": 716,
+              "zoom": 1.3,
+              "width": 1366,
+              "height": 768
+            },
+            "render": {
+              "entities": 0,
+              "inView": 0
+            },
+            "canvas": {
+              "width": 1366,
+              "height": 768
+            },
+            "inputBlocked": false,
+            "rendererType": 2
+          }
+        },
+        {
+          "slot": 2,
+          "mpCost": 25,
+          "cooldownSeconds": 3,
+          "displacement": 0,
+          "authoritativeTick": 68,
+          "scene": {
+            "map": "map_thanh_khe",
+            "player": {
+              "x": 1024,
+              "y": 1100,
+              "visible": true,
+              "texture": "player_cast",
+              "animation": "player_cast_right",
+              "frame": 1
+            },
+            "camera": {
+              "x": 341,
+              "y": 716,
+              "zoom": 1.3,
+              "width": 1366,
+              "height": 768
+            },
+            "render": {
+              "entities": 0,
+              "inView": 0
+            },
+            "canvas": {
+              "width": 1366,
+              "height": 768
+            },
+            "inputBlocked": false,
+            "rendererType": 2
+          }
+        },
+        {
+          "slot": 3,
+          "mpCost": 50,
+          "cooldownSeconds": 6,
+          "displacement": 0,
+          "authoritativeTick": 123,
+          "scene": {
+            "map": "map_thanh_khe",
+            "player": {
+              "x": 1024,
+              "y": 1100,
+              "visible": true,
+              "texture": "player_cast",
+              "animation": "player_cast_right",
+              "frame": 1
+            },
+            "camera": {
+              "x": 341,
+              "y": 716,
+              "zoom": 1.3,
+              "width": 1366,
+              "height": 768
+            },
+            "render": {
+              "entities": 0,
+              "inView": 0
+            },
+            "canvas": {
+              "width": 1366,
+              "height": 768
+            },
+            "inputBlocked": false,
+            "rendererType": 2
+          }
+        },
+        {
+          "slot": 4,
+          "mpCost": 35,
+          "cooldownSeconds": 4.5,
+          "displacement": 160,
+          "authoritativeTick": 284,
+          "scene": {
+            "map": "map_thanh_khe",
+            "player": {
+              "x": 1184,
+              "y": 1100,
+              "visible": true,
+              "texture": "player_cast",
+              "animation": "player_cast_right",
+              "frame": 1
+            },
+            "camera": {
+              "x": 406.56140878263403,
+              "y": 716,
+              "zoom": 1.3,
+              "width": 1366,
+              "height": 768
+            },
+            "render": {
+              "entities": 0,
+              "inView": 0
+            },
+            "canvas": {
+              "width": 1366,
+              "height": 768
+            },
+            "inputBlocked": false,
+            "rendererType": 2
+          }
+        }
+      ],
+      "limitation": "Empty-ground fixture: projectile existence and dash landing are checked; melee/AoE hit damage is covered separately by combat tests and playthrough.",
+      "errors": []
+    },
+    {
+      "kind": "server-socket-ownership-after-reload",
+      "open": 1,
+      "closing": 0,
+      "total": 1,
+      "replacementSocket": 2,
+      "currentDocumentObservations": 1
+    },
+    {
+      "kind": "load",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "frames": {
+        "valid": true,
+        "frames": 774,
+        "intervals": 773,
+        "durationMs": 45087.89999999851,
+        "wallDurationMs": 45283.5,
+        "averageFps": 17.09231839411706,
+        "intervalAverageFps": 17.144289266078605,
+        "coverage": 0.995680545894167,
+        "firstGapMs": 19.100000001490116,
+        "endGapMs": 176.5,
+        "p50Ms": 42.69999999925494,
+        "p95Ms": 153.40000000037253,
+        "percentileConvention": "nearest rank",
+        "maxMs": 947.3000000007451,
+        "load": {
+          "observedFrames": 774,
+          "fullFrames": 774,
+          "minNormals": 10,
+          "minBosses": 1,
+          "maxSnapshotAgeMs": 106.09999999962747,
+          "badSamples": []
+        },
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "devicePixelRatio": 1,
+        "visibility": "visible"
+      },
+      "confirmedCasts": 7,
+      "sufficientCoverage": true,
+      "fullLoadEveryRenderedFrame": true,
+      "errors": [],
+      "passed": false
+    },
+    {
+      "kind": "load",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "frames": {
+        "valid": true,
+        "frames": 490,
+        "intervals": 489,
+        "durationMs": 44943.90000000037,
+        "wallDurationMs": 45159.699999999255,
+        "averageFps": 10.85038208845515,
+        "intervalAverageFps": 10.880230687590439,
+        "coverage": 0.9952214031537214,
+        "firstGapMs": 202.19999999925494,
+        "endGapMs": 13.599999999627471,
+        "p50Ms": 80.40000000037253,
+        "p95Ms": 245.30000000074506,
+        "percentileConvention": "nearest rank",
+        "maxMs": 676.0999999996275,
+        "load": {
+          "observedFrames": 490,
+          "fullFrames": 490,
+          "minNormals": 10,
+          "minBosses": 1,
+          "maxSnapshotAgeMs": 117.40000000037253,
+          "badSamples": []
+        },
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "devicePixelRatio": 1,
+        "visibility": "visible"
+      },
+      "confirmedCasts": 7,
+      "sufficientCoverage": true,
+      "fullLoadEveryRenderedFrame": true,
+      "errors": [],
+      "passed": false
+    }
+  ],
+  "cleanupErrors": [],
+  "clientBuild": {
+    "commit": "fc74a0bc9527b1f50290485a9fa565c92745b65a",
+    "harnessSha256": "06e880b4a303f729b82b03e7cb567ba17284f611ca8be7005467a90c2a6a8205",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null,
+    "buildSha256": "ab6c016ea938d1577c27a555cd3d0e630a70f888c245696e746fda6570ab5024",
+    "buildFiles": 92,
+    "createdAt": "2026-11-18T06:30:50.398Z"
+  },
+  "browser": "153.0.8010.0",
+  "fixture": {
+    "map": "map_thanh_khe_rung",
+    "normalMonsters": 10,
+    "bosses": 1,
+    "spawnPositions": [
+      [
+        47,
+        53
+      ],
+      [
+        49,
+        53
+      ],
+      [
+        51,
+        53
+      ],
+      [
+        53,
+        53
+      ],
+      [
+        47,
+        55
+      ],
+      [
+        53,
+        55
+      ],
+      [
+        47,
+        57
+      ],
+      [
+        49,
+        57
+      ],
+      [
+        51,
+        57
+      ],
+      [
+        53,
+        57
+      ]
+    ],
+    "skillsRealm": {
+      "index": 1,
+      "tier": 1
+    },
+    "loadRealm": {
+      "index": 8,
+      "tier": 3
+    },
+    "equippedSkills": [
+      "skill_sword_01",
+      "skill_sword_02",
+      "skill_sword_03",
+      "skill_sword_04"
+    ],
+    "reason": "Only disposable save preparation and this process spawn layout differ. Original monster stats, AI and damage/cost/cooldown formulas remain. High-realm defense keeps the measured player alive. The player casts the target AoE on empty ground within its 200px range so no load actor dies.",
+    "loadSampling": "Every Phaser post-render: join snapshot IDs to visible in-camera sprites, require combat-active states, a living player and snapshot age <=250ms.",
+    "video": false
+  },
+  "passed": false
+}

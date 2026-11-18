@@ -9,16 +9,38 @@ import { FastifyInstance, FastifyRequest } from 'fastify';
 import { WebSocket } from 'ws';
 import { PrismaClient } from '@prisma/client';
 import { ArpgSessionManager, ArpgGameSession } from '../../engine/realtime-arpg-engine';
-import { WsClientMessage, WsServerMessage } from '@shared';
-
-interface ActiveClientSocket {
-  socket: WebSocket;
-  characterId: string;
-  session: ArpgGameSession;
-}
+import { ARPG_CLOSE, WsClientMessage, WsServerMessage } from '@shared';
+import { consumeInventoryItem } from '../inventory/routes';
 
 const activeSockets = new Map<string, WebSocket>(); // characterId -> WebSocket
 const characterAccountMap = new Map<string, string>(); // characterId -> accountId
+
+// Slot changes and the whole authenticated bind share one order per account.
+const slotOperations = new Map<string, Promise<unknown>>();
+export async function withAccountSlot<T>(accountId: string, operation: () => Promise<T>): Promise<T> {
+  const previous = slotOperations.get(accountId);
+  const current = previous ? previous.then(operation, operation) : operation();
+  slotOperations.set(accountId, current);
+  try { return await current; }
+  finally { if (slotOperations.get(accountId) === current) slotOperations.delete(accountId); }
+}
+
+export async function retireOtherSlots(accountId: string, activeId: string) {
+  const manager = ArpgSessionManager.getInstance();
+  for (const [id, owner] of characterAccountMap) {
+    if (owner !== accountId || id === activeId) continue;
+    const socket = activeSockets.get(id);
+    activeSockets.delete(id);
+    characterAccountMap.delete(id);
+    const session = manager.getSession(id);
+    if (session) {
+      session.sendSnapshotCallback = null;
+      session.pause();
+    }
+    socket?.close(ARPG_CLOSE.SLOT_CHANGED, 'Active character changed');
+    if (session) await manager.persistPosition(id);
+  }
+}
 
 /**
  * Ngắt kết nối socket của nhân vật/tài khoản ngay lập tức khi bị Admin khóa
@@ -28,7 +50,6 @@ export function disconnectCharacterSocket(characterId: string, reason = 'Phiên 
   if (socket && socket.readyState === WebSocket.OPEN) {
     socket.send(JSON.stringify({ type: 'ERROR', error: reason }));
     socket.close();
-    activeSockets.delete(characterId);
   }
 }
 
@@ -69,10 +90,79 @@ export async function arpgWebSocketRoutes(fastify: FastifyInstance, options: { p
 
     let activeCharacterId: string | null = null;
     let currentSession: ArpgGameSession | null = null;
+    let authPending = false;
 
     // Rate limiting: tối đa 40 gói tin / giây
     let messageCount = 0;
     let rateLimitWindowStart = Date.now();
+
+    async function bindActiveSlot(accountId: string, requestedId?: string) {
+      // Kiểm tra xem tài khoản có bị phong ấn (Banned) không
+      const account = await prisma.account.findUnique({
+        where: { id: accountId },
+        select: { id: true, isBanned: true },
+      });
+
+      if (!account || account.isBanned) {
+        socket.send(JSON.stringify({ type: 'ERROR', error: 'Tài khoản đã bị phong ấn vĩnh viễn do vi phạm quy tắc!' }));
+        socket.close();
+        return;
+      }
+
+      // Fetch active character (đảm bảo chỉ nhân vật đang kích hoạt isActive: true mới được tham gia game)
+      const character = await prisma.character.findFirst({
+        where: {
+          accountId,
+          isActive: true,
+          ...(requestedId ? { id: requestedId } : {}),
+        },
+        select: { id: true },
+      });
+
+      if (!character) {
+        socket.close(ARPG_CLOSE.SLOT_CHANGED, 'Character is no longer active');
+        return;
+      }
+
+      if (socket.readyState !== WebSocket.OPEN) return;
+      const session = await sessionManager.openSession(character.id, accountId);
+      if (socket.readyState !== WebSocket.OPEN) {
+        if (!activeSockets.has(character.id)) session?.pause();
+        return;
+      }
+      if (!session) {
+        socket.close(ARPG_CLOSE.SLOT_CHANGED, 'Character is no longer active');
+        return;
+      }
+
+      activeCharacterId = character.id;
+      characterAccountMap.set(character.id, accountId);
+      const existingSocket = activeSockets.get(character.id);
+      activeSockets.set(character.id, socket);
+      currentSession = session;
+      session.sendSnapshotCallback = (serverMsg: WsServerMessage) => {
+        if (activeSockets.get(character.id) === socket && socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify(serverMsg));
+        }
+      };
+
+      // The replacement owns the session before the former socket can emit its close event.
+      if (existingSocket && existingSocket !== socket && existingSocket.readyState === WebSocket.OPEN) {
+        existingSocket.send(JSON.stringify({
+          type: 'ERROR',
+          error: 'Phiên chơi đã được kết nối ở cửa sổ khác!',
+        }));
+        existingSocket.close(ARPG_CLOSE.WINDOW_REPLACED, 'Session opened in another window');
+      }
+
+      // Send INIT ACK
+      socket.send(JSON.stringify({
+        type: 'INIT',
+        serverTime: Date.now(),
+        currentMapId: currentSession.mapId,
+        playerState: currentSession.createSnapshot(Date.now()).playerState,
+      }));
+    }
 
     socket.on('message', async (data: Buffer | string) => {
       try {
@@ -101,6 +191,8 @@ export async function arpgWebSocketRoutes(fastify: FastifyInstance, options: { p
 
         // 4. Authentication & Session Binding
         if (msg.type === 'AUTH') {
+          if (authPending || activeCharacterId) return;
+          authPending = true;
           let userId: string | null = null;
 
           // Authenticate via token payload or cookie
@@ -130,71 +222,14 @@ export async function arpgWebSocketRoutes(fastify: FastifyInstance, options: { p
             return;
           }
 
-          // Kiểm tra xem tài khoản có bị phong ấn (Banned) không
-          const account = await prisma.account.findUnique({
-            where: { id: userId },
-            select: { id: true, isBanned: true },
-          });
-
-          if (!account || account.isBanned) {
-            socket.send(JSON.stringify({ type: 'ERROR', error: 'Tài khoản đã bị phong ấn vĩnh viễn do vi phạm quy tắc!' }));
-            socket.close();
-            return;
-          }
-
-          // Fetch active character (đảm bảo chỉ nhân vật đang kích hoạt isActive: true mới được tham gia game)
-          const character = await prisma.character.findFirst({
-            where: {
-              accountId: userId,
-              isActive: true,
-              ...(msg.characterId ? { id: msg.characterId } : {}),
-            },
-            include: {
-              inventory: { where: { isEquipped: true } },
-              skills: { where: { isEquipped: true } },
-            },
-          });
-
-          if (!character) {
-            socket.send(JSON.stringify({ type: 'ERROR', error: 'Không tìm thấy nhân vật đang kích hoạt' }));
-            socket.close();
-            return;
-          }
-
-          activeCharacterId = character.id;
-          characterAccountMap.set(character.id, userId);
-
-          // Single-session enforcement: Đóng socket cũ nếu mở ở tab khác
-          const existingSocket = activeSockets.get(character.id);
-          if (existingSocket && existingSocket !== socket && existingSocket.readyState === WebSocket.OPEN) {
-            existingSocket.send(JSON.stringify({
-              type: 'ERROR',
-              error: 'Phiên chơi đã được kết nối ở cửa sổ khác!',
-            }));
-            existingSocket.close();
-          }
-          activeSockets.set(character.id, socket);
-
-          // Get or create ARPG Session
-          currentSession = sessionManager.getOrCreateSession(character, character.currentMapId);
-          currentSession.sendSnapshotCallback = (serverMsg: WsServerMessage) => {
-            if (socket.readyState === WebSocket.OPEN) {
-              socket.send(JSON.stringify(serverMsg));
-            }
-          };
-
-          // Send INIT ACK
-          socket.send(JSON.stringify({
-            type: 'INIT',
-            serverTime: Date.now(),
-            currentMapId: currentSession.mapId,
-            playerState: currentSession.createSnapshot(Date.now()).playerState,
-          }));
+          const accountId = userId;
+          await withAccountSlot(accountId, () => bindActiveSlot(accountId, msg.characterId));
           return;
         }
 
-        // Must be authenticated for subsequent messages
-        if (!currentSession) return;
+        if (!currentSession || !activeCharacterId ||
+            activeSockets.get(activeCharacterId) !== socket || socket.readyState !== WebSocket.OPEN ||
+            sessionManager.getSession(activeCharacterId) !== currentSession) return;
 
         // 5. Input Handling (Lọc sạch tọa độ NaN / Infinity)
         if (msg.type === 'INPUT' && msg.input) {
@@ -210,64 +245,39 @@ export async function arpgWebSocketRoutes(fastify: FastifyInstance, options: { p
           }
 
           currentSession.handleInput(input);
-          currentSession.player.lastHeartbeat = Date.now();
         }
 
         // 6. Heartbeat
         else if (msg.type === 'HEARTBEAT') {
-          currentSession.player.lastHeartbeat = Date.now();
-          if (currentSession.isPaused) {
-            currentSession.isPaused = false;
-          }
+          currentSession.receiveHeartbeat();
           socket.send(JSON.stringify({
             type: 'HEARTBEAT_ACK',
             serverTime: Date.now(),
           }));
         }
 
-        // 7. Use Item In Real-time (Atomic decrement & cleanup)
-        else if (msg.type === 'USE_ITEM' && msg.itemId) {
-          const updateResult = await prisma.inventoryItem.updateMany({
-            where: {
-              characterId: currentSession.characterId,
-              templateId: msg.itemId,
-              quantity: { gt: 0 },
-            },
-            data: { quantity: { decrement: 1 } },
-          });
-
-          if (updateResult.count > 0) {
-            // Dọn dẹp dòng vật phẩm nếu số lượng về 0
-            await prisma.inventoryItem.deleteMany({
-              where: {
-                characterId: currentSession.characterId,
-                templateId: msg.itemId,
-                quantity: { lte: 0 },
-              },
-            });
-
-            // Phục hồi Sinh lực hoặc Linh lực tương ứng
-            if (msg.itemId.includes('hoi_nguyen') || msg.itemId === 'item_011') {
-              currentSession.player.hp = Math.min(currentSession.player.maxHp, currentSession.player.hp + 50);
-            } else if (msg.itemId.includes('linh_dan') || msg.itemId === 'item_012') {
-              currentSession.player.mp = Math.min(currentSession.player.maxMp, currentSession.player.mp + 40);
-            }
-          }
+        // 7. Use the same committed item effect as HTTP inventory.
+        else if (msg.type === 'USE_ITEM' && typeof msg.itemId === 'string' && msg.itemId) {
+          const session = currentSession;
+          await consumeInventoryItem(session.characterId, { templateId: msg.itemId }, () =>
+            activeSockets.get(session.characterId) === socket && socket.readyState === WebSocket.OPEN &&
+            sessionManager.getSession(session.characterId) === session,
+          );
         }
       } catch (err) {
+        if (!activeCharacterId) authPending = false;
         console.error('Lỗi xử lý gói tin WebSocket ARPG:', err);
       }
     });
 
     socket.on('close', () => {
-      if (activeCharacterId) {
-        if (activeSockets.get(activeCharacterId) === socket) {
-          activeSockets.delete(activeCharacterId);
-        }
-        characterAccountMap.delete(activeCharacterId);
-        if (currentSession) {
-          currentSession.sendSnapshotCallback = null;
-        }
+      if (!activeCharacterId || activeSockets.get(activeCharacterId) !== socket) return;
+      activeSockets.delete(activeCharacterId);
+      characterAccountMap.delete(activeCharacterId);
+      if (currentSession && sessionManager.getSession(activeCharacterId) === currentSession) {
+        currentSession.sendSnapshotCallback = null;
+        currentSession.pause();
+        void sessionManager.persistPosition(activeCharacterId).catch((err) => req.log.error(err));
       }
     });
 

@@ -1,0 +1,4213 @@
+[
+  {
+    "id": "1794984460952-da9e93",
+    "command": {
+      "type": "walk",
+      "x": 1024,
+      "y": 448
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1022,
+          "y": 461,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.623,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1021.9886349356663,
+            "y": 461.20931895824793,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 337.9730567663435,
+            "y": 74.26693460395961,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984498422-c4a798",
+    "command": {
+      "type": "screenshot",
+      "name": "neutral-sword"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1022,
+          "y": 461,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.629,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1022,
+            "y": 461,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 2
+          },
+          "camera": {
+            "x": 339,
+            "y": 77,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984500420-06347f",
+    "command": {
+      "type": "hold",
+      "keys": [
+        "w"
+      ],
+      "ms": 650
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1022,
+          "y": 396,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.636,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1022,
+            "y": 396.0058101337983,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_up",
+            "frame": 1
+          },
+          "camera": {
+            "x": 339,
+            "y": 13.905896008281541,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984501527-86de7f",
+    "command": {
+      "type": "hold",
+      "keys": [
+        "a"
+      ],
+      "ms": 650
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 921,
+          "y": 396,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.615,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 925.4469909018969,
+            "y": 396.0000000695702,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_left",
+            "frame": 1
+          },
+          "camera": {
+            "x": 249.00070917717173,
+            "y": 12.003086301331328,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984502581-29275f",
+    "command": {
+      "type": "hold",
+      "keys": [
+        "s"
+      ],
+      "ms": 650
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 921,
+          "y": 483,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.614,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 921.0001318889719,
+            "y": 484.3013850048549,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 238.03031086395467,
+            "y": 95.45847088260321,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984503843-f0b097",
+    "command": {
+      "type": "hold",
+      "keys": [
+        "d"
+      ],
+      "ms": 650
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1014,
+          "y": 483,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.636,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1013.5798714902091,
+            "y": 483.00000322968333,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_right",
+            "frame": 1
+          },
+          "camera": {
+            "x": 324.0393116104524,
+            "y": 98.9993838034149,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984504945-bb276b",
+    "command": {
+      "type": "attack",
+      "x": 1140,
+      "y": 460,
+      "waitMs": 700
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1014,
+          "y": 483,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -0.179,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1013.9999892491741,
+            "y": 483.00000000008265,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_right",
+            "frame": 1
+          },
+          "camera": {
+            "x": 330.9850982206532,
+            "y": 98.99999877624067,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984506020-64aa1c",
+    "command": {
+      "type": "key",
+      "key": "Space",
+      "waitMs": 600
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1140,
+          "y": 460,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -0.179,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 56,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1140.65487388724,
+            "y": 459.88417562260054,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_right",
+            "frame": 1
+          },
+          "camera": {
+            "x": 452.371846475003,
+            "y": 76.85490244709925,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984506948-917bc4",
+    "command": {
+      "type": "key",
+      "key": "1",
+      "waitMs": 700
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1140,
+          "y": 460,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -0.179,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 42,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1140.000003284081,
+            "y": 459.9999994191605,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_right",
+            "frame": 1
+          },
+          "camera": {
+            "x": 456.99503919405765,
+            "y": 76.00092500424454,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984507861-b65c49",
+    "command": {
+      "type": "audio-state"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "locked": false,
+        "contextState": "running",
+        "playing": [],
+        "preference": null
+      }
+    }
+  },
+  {
+    "id": "1794984508158-548550",
+    "command": {
+      "type": "walk",
+      "x": 1024,
+      "y": 352
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1013,
+          "y": 348,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -0.141,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 44,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1013.6061640557144,
+            "y": 347.6854776245811,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_left",
+            "frame": 1
+          },
+          "camera": {
+            "x": 337.02929336212884,
+            "y": -35.7345678209196,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984510147-46ebb0",
+    "command": {
+      "type": "dialogue"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1013,
+          "y": 348,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 0.722,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 46,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1013.0000000000709,
+            "y": 347.9999999999632,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_left",
+            "frame": 1
+          },
+          "camera": {
+            "x": 330.0000069741666,
+            "y": -36.00000004789413,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984561514-cbc1e4",
+    "command": {
+      "type": "walk",
+      "x": 1024,
+      "y": 64
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1027,
+          "y": 63,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 1.092,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1027.005460587585,
+            "y": 62.8589775241654,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 342.0531214672557,
+            "y": -88.61538461538464,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984568293-ff0d3b",
+    "command": {
+      "type": "screenshot",
+      "name": "north-portal-visible"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1027,
+          "y": 63,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 1.082,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1027,
+            "y": 63,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 343.99999999919186,
+            "y": -88.61538461538464,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984571771-865461",
+    "command": {
+      "type": "walk",
+      "x": 576,
+      "y": 768
+    },
+    "result": {
+      "ok": false,
+      "error": "Error: Blocked destination {\"x\":576,\"y\":768}\n    at routeThroughMap (file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/walking-route.mjs:8:52)\n    at walkRoute (file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/walking-route.mjs:58:15)\n    at walk (file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/play-session.mjs:38:32)\n    at async run (file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/play-session.mjs:121:18)\n    at async file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/play-session.mjs:233:16"
+    }
+  },
+  {
+    "id": "1794984667992-385031",
+    "command": {
+      "type": "walk",
+      "x": 544,
+      "y": 800
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 553,
+          "y": 801,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 0.718,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 552.1194500154859,
+            "y": 801.2914540696661,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_right",
+            "frame": 1
+          },
+          "camera": {
+            "x": -135.63903006527195,
+            "y": 415.81936532027987,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984678734-1adb86",
+    "command": {
+      "type": "dialogue"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 553,
+          "y": 801,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 0.704,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 552.9999985194509,
+            "y": 801.0000004900484,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_right",
+            "frame": 1
+          },
+          "camera": {
+            "x": -130.00264805973438,
+            "y": 416.9996235610665,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984679813-9cf52c",
+    "command": {
+      "type": "screenshot",
+      "name": "herbalist-foundation"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 553,
+          "y": 801,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 0.704,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 552.9999999999999,
+            "y": 801.0000000000001,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_right",
+            "frame": 1
+          },
+          "camera": {
+            "x": -130.00000003366202,
+            "y": 416.99999999522106,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984681651-1640b8",
+    "command": {
+      "type": "walk",
+      "x": 1472,
+      "y": 768
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1475,
+          "y": 769,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 0.704,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1473.967200670296,
+            "y": 767.8550469535122,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 787.0959922640551,
+            "y": 380.0646214106079,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984690781-68c141",
+    "command": {
+      "type": "dialogue"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1475,
+          "y": 769,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 0.704,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1474.9999988228258,
+            "y": 768.9999986949941,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 791.9970240717429,
+            "y": 384.9969552654973,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984692025-39b213",
+    "command": {
+      "type": "screenshot",
+      "name": "barracks-foundation"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1475,
+          "y": 769,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 0.704,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1474.9999999999998,
+            "y": 768.9999999999999,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 791.9999999724075,
+            "y": 384.99999997176906,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984693846-05a0af",
+    "command": {
+      "type": "walk",
+      "x": 1024,
+      "y": 1280
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1036,
+          "y": 1283,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 0.606,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1035.467059038256,
+            "y": 1284.2700140899688,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_right",
+            "frame": 1
+          },
+          "camera": {
+            "x": 347.9157221672898,
+            "y": 856.6153846153845,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984699988-590121",
+    "command": {
+      "type": "key",
+      "key": "e",
+      "waitMs": 1800
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1024,
+          "y": 128,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 1.01,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe_rung",
+        "scene": {
+          "map": "map_thanh_khe_rung",
+          "player": {
+            "x": 1024,
+            "y": 128,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 341,
+            "y": -88.61538461538464,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 10,
+            "inView": 3
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984702172-377524",
+    "command": {
+      "type": "fight",
+      "templateId": "mon_001"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 699,
+          "y": 572,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -1.3,
+          "hp": 100,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe_rung",
+        "scene": {
+          "map": "map_thanh_khe_rung",
+          "player": {
+            "x": 699.000000022751,
+            "y": 572.0000000235598,
+            "visible": true,
+            "texture": "player_slash",
+            "animation": "player_attack_up",
+            "frame": 1
+          },
+          "camera": {
+            "x": 16.0000333000555,
+            "y": 188.00001197654652,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 10,
+            "inView": 2
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984710049-faba39",
+    "command": {
+      "type": "fight",
+      "templateId": "mon_001"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 514,
+          "y": 429,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 0.902,
+          "hp": 94,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe_rung",
+        "scene": {
+          "map": "map_thanh_khe_rung",
+          "player": {
+            "x": 513.9999993598947,
+            "y": 429.0000013622982,
+            "visible": true,
+            "texture": "player_slash",
+            "animation": "player_attack_down",
+            "frame": 2
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": 45.00096815986909,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 10,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984714780-1a1eda",
+    "command": {
+      "type": "fight",
+      "templateId": "mon_001"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1149,
+          "y": 1018,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -1.973,
+          "hp": 67,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe_rung",
+        "scene": {
+          "map": "map_thanh_khe_rung",
+          "player": {
+            "x": 1149.000000681972,
+            "y": 1018.0000002424816,
+            "visible": true,
+            "texture": "player_slash",
+            "animation": "player_attack_up",
+            "frame": 2
+          },
+          "camera": {
+            "x": 466.0001881248368,
+            "y": 634.0000432340515,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 10,
+            "inView": 5
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984727053-a51619",
+    "command": {
+      "type": "read",
+      "path": "quests"
+    },
+    "result": {
+      "ok": true,
+      "result": [
+        {
+          "id": "758fccb1-7806-4588-8c26-b3f29ba2b121",
+          "templateId": "quest_main_01",
+          "name": "Khởi Đầu Tu Đạo: Dị Biến Thanh Khê",
+          "description": "Thanh Khê thôn phát sinh dị biến, linh khí hỗn loạn làm thú dữ phát cuồng.",
+          "type": "MAIN",
+          "chapter": 1,
+          "status": "COMPLETED",
+          "objectives": [
+            {
+              "id": "obj_talk_elder",
+              "type": "TALK",
+              "current": 1,
+              "required": 1,
+              "targetId": "npc_elder",
+              "description": "Đàm thoại với Trưởng Lão Thanh Khê"
+            },
+            {
+              "id": "obj_kill_wolves",
+              "type": "KILL",
+              "current": 3,
+              "required": 3,
+              "targetId": "mon_001",
+              "description": "Tiêu diệt 3 con Sói Xám bìa rừng"
+            }
+          ],
+          "rewards": {
+            "exp": 50,
+            "gold": 20,
+            "cultivationExp": 60,
+            "items": [
+              {
+                "itemTemplateId": "item_009",
+                "quantity": 3,
+                "name": "Hồi Nguyên Đan"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_01",
+          "templateId": "quest_side_01",
+          "name": "Dược Liệu Trị Thương",
+          "description": "Hái 3 Linh Thảo giúp Dược Sĩ Liễu Muội chế tạo đan dược.",
+          "type": "SIDE",
+          "chapter": 1,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_collect_herbs",
+              "description": "Thu thập 3 Linh Thảo",
+              "type": "COLLECT",
+              "targetId": "item_012",
+              "required": 3,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 40,
+            "gold": 15,
+            "cultivationExp": 50,
+            "items": [
+              {
+                "itemTemplateId": "item_009",
+                "quantity": 2,
+                "name": "Hồi Nguyên Đan"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_02",
+          "templateId": "quest_side_02",
+          "name": "Trừ Hại Cho Thôn: Rắn Độc",
+          "description": "Tiêu diệt 4 con Rắn Độc ven đầm lầy bảo đảm an toàn cho đường vận chuyển lương thực.",
+          "type": "SIDE",
+          "chapter": 1,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_snakes",
+              "description": "Tiêu diệt 4 Rắn Độc",
+              "type": "KILL",
+              "targetId": "mon_003",
+              "required": 4,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 60,
+            "gold": 25,
+            "cultivationExp": 80,
+            "items": [
+              {
+                "itemTemplateId": "item_013",
+                "quantity": 3,
+                "name": "Thiết Khoáng"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_03",
+          "templateId": "quest_side_03",
+          "name": "Săn Thú Lấy Da",
+          "description": "Thu thập 3 tấm Thú Bì để thợ may trong thôn đan áo ấm.",
+          "type": "SIDE",
+          "chapter": 1,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_collect_pelts",
+              "description": "Thu thập 3 Thú Bì",
+              "type": "COLLECT",
+              "targetId": "item_014",
+              "required": 3,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 70,
+            "gold": 30,
+            "cultivationExp": 90,
+            "items": [
+              {
+                "itemTemplateId": "item_005",
+                "quantity": 1,
+                "name": "Thanh Vân Y"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_hidden_01",
+          "templateId": "quest_hidden_01",
+          "name": "Cổ Thụ Trăm Năm Biến Dị",
+          "description": "Thụ yêu nghìn năm thức giấc dưới đáy khe sâu Rừng Thanh Khê, hãy diệt trừ mối họa ẩn tàng.",
+          "type": "SIDE",
+          "chapter": 1,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_tree_boss",
+              "description": "Đánh bại Cổ Thụ Yêu",
+              "type": "KILL",
+              "targetId": "boss_002",
+              "required": 1,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 250,
+            "gold": 120,
+            "cultivationExp": 350,
+            "items": [
+              {
+                "itemTemplateId": "item_008",
+                "quantity": 1,
+                "name": "Tụ Linh Ngọc"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_04",
+          "templateId": "quest_side_04",
+          "name": "Khôi Phục Trận Pháp",
+          "description": "Giao nộp 3 Cổ Kiếm Tủy để củng cố kiếm trận tông môn.",
+          "type": "SIDE",
+          "chapter": 2,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_collect_marrow",
+              "description": "Giao nộp 3 Cổ Kiếm Tủy",
+              "type": "COLLECT",
+              "targetId": "item_057",
+              "required": 3,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 180,
+            "gold": 90,
+            "cultivationExp": 240,
+            "items": [
+              {
+                "itemTemplateId": "item_043",
+                "quantity": 1,
+                "name": "Thanh Vân Kiếm Điển"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_05",
+          "templateId": "quest_side_05",
+          "name": "Trừ Diệt Hủ Thi",
+          "description": "Tiêu diệt 4 Thi Khí Hủ Thi dưới khe núi phía tây sơn môn.",
+          "type": "SIDE",
+          "chapter": 2,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_corpses",
+              "description": "Tiêu diệt 4 Hủ Thi",
+              "type": "KILL",
+              "targetId": "mon_008",
+              "required": 4,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 210,
+            "gold": 110,
+            "cultivationExp": 290,
+            "items": [
+              {
+                "itemTemplateId": "item_051",
+                "quantity": 2,
+                "name": "Thanh Tâm Giải Độc Đan"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_06",
+          "templateId": "quest_side_06",
+          "name": "Săn Hỏa Xà Bì",
+          "description": "Săn 3 tấm da Hỏa Viêm Mãng để Bách Luyện Đường chế giáp.",
+          "type": "SIDE",
+          "chapter": 2,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_collect_snake_skin",
+              "description": "Thu thập 3 Da Hỏa Mãng",
+              "type": "COLLECT",
+              "targetId": "item_014",
+              "required": 3,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 240,
+            "gold": 120,
+            "cultivationExp": 320,
+            "items": [
+              {
+                "itemTemplateId": "item_032",
+                "quantity": 1,
+                "name": "Phong Hành Lý"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_hidden_02",
+          "templateId": "quest_hidden_02",
+          "name": "Thanh Vân Kiếm Si Cuồng Loạn",
+          "description": "Một vị sư huynh mất trí trong Kiếm Trũng đang tấn công bất kỳ ai đến gần, hãy giải thoát cho huynh ấy.",
+          "type": "SIDE",
+          "chapter": 2,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_defeat_sword_maniac",
+              "description": "Đánh bại Thanh Vân Kiếm Si",
+              "type": "KILL",
+              "targetId": "boss_004",
+              "required": 1,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 450,
+            "gold": 220,
+            "cultivationExp": 600,
+            "items": [
+              {
+                "itemTemplateId": "item_037",
+                "quantity": 1,
+                "name": "Phong Lôi Châu"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_07",
+          "templateId": "quest_side_07",
+          "name": "Linh Thảo Thu Thập",
+          "description": "Thu thập 5 nhánh Linh Thảo giao cho đan phòng Đan Hà.",
+          "type": "SIDE",
+          "chapter": 3,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_collect_herbs_danha",
+              "description": "Giao nộp 5 Linh Thảo",
+              "type": "COLLECT",
+              "targetId": "item_012",
+              "required": 5,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 320,
+            "gold": 160,
+            "cultivationExp": 430,
+            "items": [
+              {
+                "itemTemplateId": "item_051",
+                "quantity": 3,
+                "name": "Thanh Tâm Giải Độc Đan"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_08",
+          "templateId": "quest_side_08",
+          "name": "Diệt Độc Vụ Bức",
+          "description": "Tiêu diệt 5 con Độc Vụ Bức quanh khe suối Đan Hà.",
+          "type": "SIDE",
+          "chapter": 3,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_bats",
+              "description": "Diệt 5 Độc Vụ Bức",
+              "type": "KILL",
+              "targetId": "mon_012",
+              "required": 5,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 360,
+            "gold": 180,
+            "cultivationExp": 490,
+            "items": [
+              {
+                "itemTemplateId": "item_019",
+                "quantity": 1,
+                "name": "Tử Viêm Đoản Đao"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_09",
+          "templateId": "quest_side_09",
+          "name": "Bắt Bọ Đan Ma",
+          "description": "Tiêu diệt 4 con Đan Ma Trùng đang gặm nhấm kho dược thảo.",
+          "type": "SIDE",
+          "chapter": 3,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_bugs",
+              "description": "Tiêu diệt 4 Đan Ma Trùng",
+              "type": "KILL",
+              "targetId": "mon_014",
+              "required": 4,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 400,
+            "gold": 200,
+            "cultivationExp": 550,
+            "items": [
+              {
+                "itemTemplateId": "item_044",
+                "quantity": 1,
+                "name": "Đan Hà Dược Kinh"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_hidden_03",
+          "templateId": "quest_hidden_03",
+          "name": "U Hỏa Độc Hạt Nguy Hiểm",
+          "description": "Con bọ cạp độc u hỏa ngàn năm xuất hiện dưới đáy hỏa đàm, độc tố có thể luyện sát kiếm.",
+          "type": "SIDE",
+          "chapter": 3,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_scorpion_boss",
+              "description": "Đánh bại U Hỏa Huyết Hạt",
+              "type": "KILL",
+              "targetId": "boss_006",
+              "required": 1,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 800,
+            "gold": 400,
+            "cultivationExp": 1100,
+            "items": [
+              {
+                "itemTemplateId": "item_028",
+                "quantity": 1,
+                "name": "Kim Thân Chiến Giáp"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_10",
+          "templateId": "quest_side_10",
+          "name": "Thu Nhặt Mảnh Kiếm Cổ",
+          "description": "Thu thập 4 mảnh Cổ Kiếm Tủy trao cho đệ tử luyện kiếm.",
+          "type": "SIDE",
+          "chapter": 4,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_collect_sword_marrow",
+              "description": "Thu thập 4 Cổ Kiếm Tủy",
+              "type": "COLLECT",
+              "targetId": "item_057",
+              "required": 4,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 500,
+            "gold": 250,
+            "cultivationExp": 680,
+            "items": [
+              {
+                "itemTemplateId": "item_047",
+                "quantity": 1,
+                "name": "Lạc Lôi Quyết"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_11",
+          "templateId": "quest_side_11",
+          "name": "Tiêu Diệt Khôi Lỗi Bích Lạc",
+          "description": "Tiêu diệt 4 con Bích Lạc Khôi Lỗi phát cuồng cản trở đường đi.",
+          "type": "SIDE",
+          "chapter": 4,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_jade_puppets",
+              "description": "Hạ 4 Bích Lạc Khôi Lỗi",
+              "type": "KILL",
+              "targetId": "mon_019",
+              "required": 4,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 560,
+            "gold": 280,
+            "cultivationExp": 760,
+            "items": [
+              {
+                "itemTemplateId": "item_085",
+                "quantity": 1,
+                "name": "Hư Không Độn Hài"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_12",
+          "templateId": "quest_side_12",
+          "name": "Giải Thoát Kiếm Nô",
+          "description": "Tiêu diệt 5 Tàn Hồn Kiếm Nô giúp họ thoát khỏi sự khống chế tà niệm.",
+          "type": "SIDE",
+          "chapter": 4,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_sword_slaves",
+              "description": "Giải thoát 5 Kiếm Nô",
+              "type": "KILL",
+              "targetId": "mon_020",
+              "required": 5,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 620,
+            "gold": 310,
+            "cultivationExp": 840,
+            "items": [
+              {
+                "itemTemplateId": "item_076",
+                "quantity": 1,
+                "name": "Thiên Cương Trảm Ma Kiếm"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_hidden_04",
+          "templateId": "quest_hidden_04",
+          "name": "Khiêu Chiến Tàn Kiếm Tông Sư",
+          "description": "Bậc thầy kiếm thuật ẩn thế trong mật thất cổ xưa đang chờ một đối thủ xứng tầm.",
+          "type": "SIDE",
+          "chapter": 4,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_defeat_hermit_master",
+              "description": "Đánh bại Tàn Kiếm Tông Sư",
+              "type": "KILL",
+              "targetId": "boss_012",
+              "required": 1,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 1500,
+            "gold": 750,
+            "cultivationExp": 2000,
+            "items": [
+              {
+                "itemTemplateId": "item_037",
+                "quantity": 1,
+                "name": "Phong Lôi Châu"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_13",
+          "templateId": "quest_side_13",
+          "name": "Trấn Áp Minh Hà Ngư",
+          "description": "Tiêu diệt 5 con Minh Hà Huyết Ngư quấy nhiễu nguồn nước U Minh.",
+          "type": "SIDE",
+          "chapter": 5,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_blood_fish",
+              "description": "Hạ 5 Minh Hà Huyết Ngư",
+              "type": "KILL",
+              "targetId": "mon_023",
+              "required": 5,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 750,
+            "gold": 375,
+            "cultivationExp": 1020,
+            "items": [
+              {
+                "itemTemplateId": "item_056",
+                "quantity": 2,
+                "name": "Huyết Hạt Vĩ Châm"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_14",
+          "templateId": "quest_side_14",
+          "name": "Giải Thoát Oán Nữ",
+          "description": "Siêu độ cho 4 Oán Linh Nữ Quỷ khóc than dưới chân cầu Hoàng Tuyền.",
+          "type": "SIDE",
+          "chapter": 5,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_female_ghosts",
+              "description": "Siêu độ 4 Oán Linh Nữ Quỷ",
+              "type": "KILL",
+              "targetId": "mon_024",
+              "required": 4,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 850,
+            "gold": 420,
+            "cultivationExp": 1160,
+            "items": [
+              {
+                "itemTemplateId": "item_089",
+                "quantity": 1,
+                "name": "Cực Âm U Hồn Châu"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_15",
+          "templateId": "quest_side_15",
+          "name": "Thảo Phạt Hắc Ma Viên",
+          "description": "Tiêu diệt 4 con Hắc Ma Cự Viên hung hãn bảo hộ biên giới.",
+          "type": "SIDE",
+          "chapter": 5,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_dark_apes",
+              "description": "Diệt 4 Hắc Ma Cự Viên",
+              "type": "KILL",
+              "targetId": "mon_025",
+              "required": 4,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 950,
+            "gold": 480,
+            "cultivationExp": 1300,
+            "items": [
+              {
+                "itemTemplateId": "item_078",
+                "quantity": 1,
+                "name": "Bát Hoang Cự Linh Phủ"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_hidden_05",
+          "templateId": "quest_hidden_05",
+          "name": "Cổ Xà Chín Đầu Hoàng Tuyền",
+          "description": "Rắn thần chín đầu thức giấc dưới đáy bùn sông Hoàng Tuyền, trừng phạt kẻ xâm nhập cõi âm.",
+          "type": "SIDE",
+          "chapter": 5,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_nine_head_snake",
+              "description": "Diệt Hoàng Tuyền Minh Xà",
+              "type": "KILL",
+              "targetId": "boss_013",
+              "required": 1,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 2500,
+            "gold": 1250,
+            "cultivationExp": 3400,
+            "items": [
+              {
+                "itemTemplateId": "item_031",
+                "quantity": 1,
+                "name": "Thiên Khế Thần Thánh Giáp"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_16",
+          "templateId": "quest_side_16",
+          "name": "Phá Vỡ Kính Ma",
+          "description": "Tiêu diệt 5 Kính Diện Ma Thú phản chiếu sát thương.",
+          "type": "SIDE",
+          "chapter": 6,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_mirror_beasts",
+              "description": "Diệt 5 Kính Diện Ma Thú",
+              "type": "KILL",
+              "targetId": "mon_027",
+              "required": 5,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 1200,
+            "gold": 600,
+            "cultivationExp": 1650,
+            "items": [
+              {
+                "itemTemplateId": "item_091",
+                "quantity": 2,
+                "name": "Đại Hoàn Đan"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_17",
+          "templateId": "quest_side_17",
+          "name": "Trảm Thần Điểu Hư Vọng",
+          "description": "Tiêu diệt 4 con Hư Vọng Thần Điểu reo rắc ảo giác cuồng dại.",
+          "type": "SIDE",
+          "chapter": 6,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_delusion_birds",
+              "description": "Hạ 4 Hư Vọng Thần Điểu",
+              "type": "KILL",
+              "targetId": "mon_028",
+              "required": 4,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 1350,
+            "gold": 675,
+            "cultivationExp": 1850,
+            "items": [
+              {
+                "itemTemplateId": "item_092",
+                "quantity": 2,
+                "name": "Huyền Thiên Linh Tức Đan"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_18",
+          "templateId": "quest_side_18",
+          "name": "Hóa Giải Chấp Niệm Cốt",
+          "description": "Tiêu diệt 4 Chấp Niệm Hủ Thi lưu lạc trong gương thần.",
+          "type": "SIDE",
+          "chapter": 6,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_obsession_corpses",
+              "description": "Hóa giải 4 Chấp Niệm Hủ Thi",
+              "type": "KILL",
+              "targetId": "mon_029",
+              "required": 4,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 1500,
+            "gold": 750,
+            "cultivationExp": 2050,
+            "items": [
+              {
+                "itemTemplateId": "item_070",
+                "quantity": 1,
+                "name": "Thái Sơ Thần Lăng"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_hidden_06",
+          "templateId": "quest_hidden_06",
+          "name": "Thần Bí Tàn Quyển Sơn Hà",
+          "description": "Tìm kiếm mảnh vỡ Sơn Hà Xã Tắc Đồ chôn giấu sâu trong góc tối của Kính Tâm Cảnh.",
+          "type": "SIDE",
+          "chapter": 6,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_collect_map_fragment",
+              "description": "Tìm Mảnh Sơn Hà Xã Tắc Đồ",
+              "type": "COLLECT",
+              "targetId": "item_039",
+              "required": 1,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 3500,
+            "gold": 1750,
+            "cultivationExp": 4800,
+            "items": [
+              {
+                "itemTemplateId": "item_039",
+                "quantity": 1,
+                "name": "Sơn Hà Xã Tắc Đồ (Tàn Quyển)"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_19",
+          "templateId": "quest_side_19",
+          "name": "Hái Thiên Sơn Tuyết Liên",
+          "description": "Thu hái 3 bông hoa Thiên Sơn Tuyết Liên mọc trên vách băng hiểm trở.",
+          "type": "SIDE",
+          "chapter": 7,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_collect_snow_lotus",
+              "description": "Hái 3 Thiên Sơn Tuyết Liên",
+              "type": "COLLECT",
+              "targetId": "item_059",
+              "required": 3,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 1800,
+            "gold": 900,
+            "cultivationExp": 2500,
+            "items": [
+              {
+                "itemTemplateId": "item_093",
+                "quantity": 1,
+                "name": "Cửu Chuyển Hoàn Hồn Đan"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_20",
+          "templateId": "quest_side_20",
+          "name": "Săn Băng Giáp Hùng",
+          "description": "Tiêu diệt 4 con Băng Giáp Cuồng Hùng chặn đường lên núi.",
+          "type": "SIDE",
+          "chapter": 7,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_ice_bears",
+              "description": "Diệt 4 Băng Giáp Cuồng Hùng",
+              "type": "KILL",
+              "targetId": "mon_033",
+              "required": 4,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 2100,
+            "gold": 1050,
+            "cultivationExp": 2900,
+            "items": [
+              {
+                "itemTemplateId": "item_088",
+                "quantity": 1,
+                "name": "Long Lân Ngọc Bội"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_21",
+          "templateId": "quest_side_21",
+          "name": "Thu Nhập Long Khí Tinh Hoa",
+          "description": "Thu thập 2 giọt Chân Long Huyết Tinh rớt xuống từ cuộc giao tranh rồng.",
+          "type": "SIDE",
+          "chapter": 7,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_collect_dragon_blood",
+              "description": "Thu thập 2 Chân Long Huyết Tinh",
+              "type": "COLLECT",
+              "targetId": "item_072",
+              "required": 2,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 2400,
+            "gold": 1200,
+            "cultivationExp": 3300,
+            "items": [
+              {
+                "itemTemplateId": "item_094",
+                "quantity": 1,
+                "name": "Thái Hư Hóa Long Quyết"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_hidden_07",
+          "templateId": "quest_hidden_07",
+          "name": "Băng Phượng Tê Thiên Tuyệt Đỉnh",
+          "description": "Khiêu chiến Phượng hoàng băng ngàn năm ngự trị trên đỉnh tuyết Thiên Sơn.",
+          "type": "SIDE",
+          "chapter": 7,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_defeat_ice_phoenix",
+              "description": "Đánh bại Băng Sương Huyễn Phượng",
+              "type": "KILL",
+              "targetId": "boss_014",
+              "required": 1,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 5000,
+            "gold": 2500,
+            "cultivationExp": 6900,
+            "items": [
+              {
+                "itemTemplateId": "item_040",
+                "quantity": 1,
+                "name": "Định Hải Thần Châu"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_22",
+          "templateId": "quest_side_22",
+          "name": "Tiêu Diệt Dị Thú Hư Không",
+          "description": "Tiêu diệt 4 con Hư Không Phá Diệt Thú đe dọa làm sụp đổ trật tự không gian.",
+          "type": "SIDE",
+          "chapter": 8,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_void_beasts",
+              "description": "Diệt 4 Hư Không Phá Diệt Thú",
+              "type": "KILL",
+              "targetId": "mon_039",
+              "required": 4,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 3000,
+            "gold": 1500,
+            "cultivationExp": 4200,
+            "items": [
+              {
+                "itemTemplateId": "item_068",
+                "quantity": 3,
+                "name": "Hư Không Tinh Thạch"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_23",
+          "templateId": "quest_side_23",
+          "name": "Thí Luyện Thần Tướng",
+          "description": "Khiêu chiến và đánh bại 3 Vạn Đạo Thần Tướng chứng minh tư cách trường sinh.",
+          "type": "SIDE",
+          "chapter": 8,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_kill_god_generals",
+              "description": "Đánh bại 3 Vạn Đạo Thần Tướng",
+              "type": "KILL",
+              "targetId": "mon_040",
+              "required": 3,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 3500,
+            "gold": 1750,
+            "cultivationExp": 4900,
+            "items": [
+              {
+                "itemTemplateId": "item_074",
+                "quantity": 2,
+                "name": "Cửu Thiên Lôi Tinh"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_side_24",
+          "templateId": "quest_side_24",
+          "name": "Củng Cố Cổ Phù",
+          "description": "Thu thập 5 khối Cửu Thiên Lôi Tinh để bảo hộ thần hồn trước kiếp lôi.",
+          "type": "SIDE",
+          "chapter": 8,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_collect_lightning_cores",
+              "description": "Giao nộp 5 Cửu Thiên Lôi Tinh",
+              "type": "COLLECT",
+              "targetId": "item_074",
+              "required": 5,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 4000,
+            "gold": 2000,
+            "cultivationExp": 5600,
+            "items": [
+              {
+                "itemTemplateId": "item_087",
+                "quantity": 1,
+                "name": "Vạn Đạo Du Long Hài"
+              }
+            ]
+          }
+        },
+        {
+          "id": "quest_hidden_08",
+          "templateId": "quest_hidden_08",
+          "name": "Trấn Yêu Tháp Cực Hạn Khiêu Chiến",
+          "description": "Chinh phục Đỉnh Tháp Trấn Yêu, đánh bại Vạn Đạo Thiên Tôn chứng minh bản thân bất diệt.",
+          "type": "SIDE",
+          "chapter": 8,
+          "status": "AVAILABLE",
+          "objectives": [
+            {
+              "id": "obj_defeat_supreme_tianzun",
+              "description": "Đánh bại Vạn Đạo Thiên Tôn",
+              "type": "KILL",
+              "targetId": "boss_020",
+              "required": 1,
+              "current": 0
+            }
+          ],
+          "rewards": {
+            "exp": 20000,
+            "gold": 10000,
+            "cultivationExp": 30000,
+            "items": [
+              {
+                "itemTemplateId": "item_042",
+                "quantity": 1,
+                "name": "Đông Hoàng Chung (Hư Ảnh)"
+              },
+              {
+                "itemTemplateId": "item_095",
+                "quantity": 1,
+                "name": "Vạn Đạo Thiên Thư (Tàn Quyển)"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "1794984782087-2a224a",
+    "command": {
+      "type": "quest",
+      "id": "quest_main_01",
+      "action": "turnin"
+    },
+    "result": {
+      "ok": false,
+      "error": "AssertionError [ERR_ASSERTION]: No visible Nhận Thưởng for Khởi Đầu Tu Đạo: Dị Biến Thanh Khê\n    at clickCard (file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/play-session.mjs:53:3)\n    at async run (file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/play-session.mjs:159:7)\n    at async file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/play-session.mjs:233:16"
+    }
+  },
+  {
+    "id": "1794984861535-4814eb",
+    "command": {
+      "type": "screenshot",
+      "name": "completed-quest-hidden-red"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1024,
+          "y": 128,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 2.951,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe_rung",
+        "scene": {
+          "map": "map_thanh_khe_rung",
+          "player": {
+            "x": 1024,
+            "y": 128,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_up",
+            "frame": 1
+          },
+          "camera": {
+            "x": 341,
+            "y": -88.61538461538464,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 10,
+            "inView": 3
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": true,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984863357-cd7fdd",
+    "command": {
+      "type": "close"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1024,
+          "y": 128,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 0.026,
+          "hp": 115,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe_rung",
+        "scene": {
+          "map": "map_thanh_khe_rung",
+          "player": {
+            "x": 1024,
+            "y": 128,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_up",
+            "frame": 2
+          },
+          "camera": {
+            "x": 341,
+            "y": -88.61538461538464,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 10,
+            "inView": 3
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984863814-9e13d7",
+    "command": {
+      "type": "walk",
+      "x": 480,
+      "y": 608
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 483,
+          "y": 613,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -0.504,
+          "hp": 103,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe_rung",
+        "scene": {
+          "map": "map_thanh_khe_rung",
+          "player": {
+            "x": 483.1122262177654,
+            "y": 612.8695387326986,
+            "visible": true,
+            "texture": "player_hurt",
+            "animation": "player_hurt_left",
+            "frame": 1
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": 226.2148065727495,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 10,
+            "inView": 3
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984871886-5554bb",
+    "command": {
+      "type": "key",
+      "key": "e",
+      "waitMs": 700
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 483,
+          "y": 613,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -0.492,
+          "hp": 100,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe_rung",
+        "scene": {
+          "map": "map_thanh_khe_rung",
+          "player": {
+            "x": 483.00000015109606,
+            "y": 612.999999824353,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_left",
+            "frame": 1
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": 228.99615997173493,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 10,
+            "inView": 3
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984872799-01ed0d",
+    "command": {
+      "type": "screenshot",
+      "name": "forest-discovery-chest"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 483,
+          "y": 613,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -0.492,
+          "hp": 85,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe_rung",
+        "scene": {
+          "map": "map_thanh_khe_rung",
+          "player": {
+            "x": 483,
+            "y": 613,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_left",
+            "frame": 2
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": 228.99999998994642,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 10,
+            "inView": 3
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984874965-7590c5",
+    "command": {
+      "type": "key",
+      "key": "e",
+      "waitMs": 700
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 483,
+          "y": 613,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -0.492,
+          "hp": 73,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe_rung",
+        "scene": {
+          "map": "map_thanh_khe_rung",
+          "player": {
+            "x": 483,
+            "y": 613,
+            "visible": true,
+            "texture": "player_hurt",
+            "animation": "player_hurt_left",
+            "frame": 2
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": 228.99999999998536,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 10,
+            "inView": 3
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984875875-435cee",
+    "command": {
+      "type": "read",
+      "path": "inventory"
+    },
+    "result": {
+      "ok": true,
+      "result": [
+        {
+          "id": "617a9ce6-ba9b-4b99-b418-4e4feba5e892",
+          "templateId": "item_001",
+          "name": "Thanh Phong Kiếm",
+          "description": "Thanh kiếm thép thường được tôi luyện bằng nước suối Thanh Khê.",
+          "type": "WEAPON",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": true,
+          "isLocked": false,
+          "stats": {
+            "atk": 8,
+            "critRate": 2
+          },
+          "slot": "WEAPON"
+        },
+        {
+          "id": "540639ee-7a9b-4c38-8afc-968fe65cb8ff",
+          "templateId": "item_005",
+          "name": "Thanh Vân Y",
+          "description": "Áo vải thường, phòng hộ cơ bản cho tu sĩ mới nhập môn.",
+          "type": "ARMOR",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": true,
+          "isLocked": false,
+          "stats": {
+            "def": 4,
+            "maxHp": 15
+          },
+          "slot": "ARMOR"
+        },
+        {
+          "id": "1dd6fd81-2ffa-423a-9f95-057630182bd6",
+          "templateId": "item_009",
+          "name": "Hồi Nguyên Đan",
+          "description": "Đan dược cơ bản, hồi phục 50 điểm sinh lực.",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 5,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "2ffe335d-4950-43ec-a164-600d10c4953b",
+          "templateId": "item_010",
+          "name": "Tiểu Hoàn Linh Đan",
+          "description": "Đan dược hồi phục linh lực, giúp tu sĩ tiếp tục thi triển pháp thuật (+40 MP).",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 3,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "14767c63-ba2a-42c1-956e-f642390b1fd7",
+          "templateId": "item_014",
+          "name": "Thú Bì",
+          "description": "Tấm da thú dẻo dai lột từ dã thú quanh làng, dùng chế tạo giáp bảo hộ.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 3,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "c3df4659-de93-4e40-b7c7-19d383684d7d",
+          "templateId": "item_012",
+          "name": "Linh Thảo",
+          "description": "Thảo mộc hấp thụ linh khí núi rừng, nguyên liệu căn bản luyện đan.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "1794984876201-e4d050",
+    "command": {
+      "type": "walk",
+      "x": 1024,
+      "y": 128
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1030,
+          "y": 139,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 0.015,
+          "hp": 61,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe_rung",
+        "scene": {
+          "map": "map_thanh_khe_rung",
+          "player": {
+            "x": 1031.3650205335277,
+            "y": 134.3832019585122,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 345.5679234598225,
+            "y": -88.61538461538464,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 10,
+            "inView": 3
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984882582-35de10",
+    "command": {
+      "type": "key",
+      "key": "e",
+      "waitMs": 1600
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1024,
+          "y": 1280,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -0.66,
+          "hp": 61,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1024,
+            "y": 1280,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 341,
+            "y": 856.6153846153845,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984884448-b2f41c",
+    "command": {
+      "type": "settings",
+      "sfx": false,
+      "reducedEffects": true
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "saved": {
+          "sfx": false,
+          "reducedEffects": true
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984885802-bfd3e2",
+    "command": {
+      "type": "reload"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1024,
+          "y": 1280,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.574,
+          "hp": 61,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1024,
+            "y": 1280,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 341,
+            "y": 856.6153846153845,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984889068-2fb208",
+    "command": {
+      "type": "audio-state"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "locked": false,
+        "contextState": "running",
+        "playing": [],
+        "preference": {
+          "sfx": false,
+          "reducedEffects": true
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984983785-6babe0",
+    "command": {
+      "type": "slot-create",
+      "name": "Phap84414151",
+      "path": "SPELL"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f7712e2-70f1-4cd8-9517-20cd09613fd8",
+          "name": "Phap84414151",
+          "type": "PLAYER",
+          "x": 400,
+          "y": 300,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": 0,
+          "hp": 95,
+          "maxHp": 95,
+          "mp": 115,
+          "maxMp": 115,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SPELL",
+          "stats": {
+            "spd": 10
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 400,
+            "y": 300,
+            "visible": true,
+            "texture": "player_magic_idle",
+            "animation": "player_magic_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": -84,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984988462-3d3bb9",
+    "command": {
+      "type": "hold",
+      "keys": [
+        "d"
+      ],
+      "ms": 700
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f7712e2-70f1-4cd8-9517-20cd09613fd8",
+          "name": "Phap84414151",
+          "type": "PLAYER",
+          "x": 472,
+          "y": 300,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.576,
+          "hp": 95,
+          "maxHp": 95,
+          "mp": 115,
+          "maxMp": 115,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SPELL",
+          "stats": {
+            "spd": 10
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 466.68950378195365,
+            "y": 300,
+            "visible": true,
+            "texture": "player_magic_idle",
+            "animation": "player_magic_idle_right",
+            "frame": 1
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": -84,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984989545-995e65",
+    "command": {
+      "type": "key",
+      "key": "1",
+      "waitMs": 40
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f7712e2-70f1-4cd8-9517-20cd09613fd8",
+          "name": "Phap84414151",
+          "type": "PLAYER",
+          "x": 472,
+          "y": 300,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.579,
+          "hp": 95,
+          "maxHp": 95,
+          "mp": 115,
+          "maxMp": 115,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SPELL",
+          "stats": {
+            "spd": 10
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 470.25182188323873,
+            "y": 300,
+            "visible": true,
+            "texture": "player_magic_idle",
+            "animation": "player_magic_cast_left",
+            "frame": 1
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": -84,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984989864-36b7ba",
+    "command": {
+      "type": "screenshot",
+      "name": "spell-fallback-action"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f7712e2-70f1-4cd8-9517-20cd09613fd8",
+          "name": "Phap84414151",
+          "type": "PLAYER",
+          "x": 472,
+          "y": 300,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.582,
+          "hp": 95,
+          "maxHp": 95,
+          "mp": 107,
+          "maxMp": 115,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SPELL",
+          "stats": {
+            "spd": 10
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 471.99731961865285,
+            "y": 300,
+            "visible": true,
+            "texture": "player_magic_idle",
+            "animation": "player_magic_cast_left",
+            "frame": 4
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": -84,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984991634-8e06dd",
+    "command": {
+      "type": "slot-create",
+      "name": "The84414151",
+      "path": "BODY"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "20d9075e-1eba-4ac7-b8ca-2b681d49b804",
+          "name": "The84414151",
+          "type": "PLAYER",
+          "x": 400,
+          "y": 300,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.547,
+          "hp": 145,
+          "maxHp": 145,
+          "mp": 50,
+          "maxMp": 50,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "BODY",
+          "stats": {
+            "spd": 8
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 400,
+            "y": 300,
+            "visible": true,
+            "texture": "player_body_idle",
+            "animation": "player_body_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": -84,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984997352-830cd0",
+    "command": {
+      "type": "hold",
+      "keys": [
+        "s"
+      ],
+      "ms": 700
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "20d9075e-1eba-4ac7-b8ca-2b681d49b804",
+          "name": "The84414151",
+          "type": "PLAYER",
+          "x": 400,
+          "y": 310,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.505,
+          "hp": 145,
+          "maxHp": 145,
+          "mp": 50,
+          "maxMp": 50,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "BODY",
+          "stats": {
+            "spd": 8
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 400,
+            "y": 309.9910097748436,
+            "visible": true,
+            "texture": "player_body_idle",
+            "animation": "player_body_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": -74.07344299584405,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984998550-088d15",
+    "command": {
+      "type": "key",
+      "key": "1",
+      "waitMs": 40
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "20d9075e-1eba-4ac7-b8ca-2b681d49b804",
+          "name": "The84414151",
+          "type": "PLAYER",
+          "x": 400,
+          "y": 310,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.505,
+          "hp": 145,
+          "maxHp": 145,
+          "mp": 50,
+          "maxMp": 50,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "BODY",
+          "stats": {
+            "spd": 8
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 400,
+            "y": 309.99830108511344,
+            "visible": true,
+            "texture": "player_body_idle",
+            "animation": "player_body_cast_left",
+            "frame": 1
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": -74.01259820710948,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794984998889-ef5435",
+    "command": {
+      "type": "screenshot",
+      "name": "body-fallback-action"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "20d9075e-1eba-4ac7-b8ca-2b681d49b804",
+          "name": "The84414151",
+          "type": "PLAYER",
+          "x": 400,
+          "y": 310,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.506,
+          "hp": 145,
+          "maxHp": 145,
+          "mp": 42,
+          "maxMp": 50,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "BODY",
+          "stats": {
+            "spd": 8
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 400,
+            "y": 309.99999546502715,
+            "visible": true,
+            "texture": "player_body_idle",
+            "animation": "player_body_cast_left",
+            "frame": 4
+          },
+          "camera": {
+            "x": -157.61538461538464,
+            "y": -74.00000996888888,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794985000890-a9710e",
+    "command": {
+      "type": "slot-switch",
+      "name": "Thanh84414151",
+      "path": "SWORD"
+    },
+    "result": {
+      "ok": false,
+      "error": "AssertionError [ERR_ASSERTION]: No visible Xuất Hồn for Thanh84414151\n    at clickCard (file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/play-session.mjs:53:3)\n    at async run (file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/play-session.mjs:148:66)\n    at async file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/play-session.mjs:233:16"
+    }
+  },
+  {
+    "id": "1794985131664-ab2553",
+    "command": {
+      "type": "attack",
+      "x": 677,
+      "y": 253,
+      "waitMs": 2000,
+      "purpose": "Click the visible Sword-slot Xuất Hồn button at screen(880,310) in the already-open modal"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "20d9075e-1eba-4ac7-b8ca-2b681d49b804",
+          "name": "The84414151",
+          "type": "PLAYER",
+          "x": 400,
+          "y": 310,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -0.427,
+          "hp": 145,
+          "maxHp": 145,
+          "mp": 50,
+          "maxMp": 50,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "BODY",
+          "stats": {
+            "spd": 8
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": null
+      }
+    }
+  },
+  {
+    "id": "1794985207835-d05f21",
+    "command": {
+      "type": "use",
+      "templateId": "item_009"
+    },
+    "result": {
+      "ok": true,
+      "result": [
+        {
+          "id": "617a9ce6-ba9b-4b99-b418-4e4feba5e892",
+          "templateId": "item_001",
+          "name": "Thanh Phong Kiếm",
+          "description": "Thanh kiếm thép thường được tôi luyện bằng nước suối Thanh Khê.",
+          "type": "WEAPON",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": true,
+          "isLocked": false,
+          "stats": {
+            "atk": 8,
+            "critRate": 2
+          },
+          "slot": "WEAPON"
+        },
+        {
+          "id": "540639ee-7a9b-4c38-8afc-968fe65cb8ff",
+          "templateId": "item_005",
+          "name": "Thanh Vân Y",
+          "description": "Áo vải thường, phòng hộ cơ bản cho tu sĩ mới nhập môn.",
+          "type": "ARMOR",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": true,
+          "isLocked": false,
+          "stats": {
+            "def": 4,
+            "maxHp": 15
+          },
+          "slot": "ARMOR"
+        },
+        {
+          "id": "2ffe335d-4950-43ec-a164-600d10c4953b",
+          "templateId": "item_010",
+          "name": "Tiểu Hoàn Linh Đan",
+          "description": "Đan dược hồi phục linh lực, giúp tu sĩ tiếp tục thi triển pháp thuật (+40 MP).",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 3,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "14767c63-ba2a-42c1-956e-f642390b1fd7",
+          "templateId": "item_014",
+          "name": "Thú Bì",
+          "description": "Tấm da thú dẻo dai lột từ dã thú quanh làng, dùng chế tạo giáp bảo hộ.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 3,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "c3df4659-de93-4e40-b7c7-19d383684d7d",
+          "templateId": "item_012",
+          "name": "Linh Thảo",
+          "description": "Thảo mộc hấp thụ linh khí núi rừng, nguyên liệu căn bản luyện đan.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "1dd6fd81-2ffa-423a-9f95-057630182bd6",
+          "templateId": "item_009",
+          "name": "Hồi Nguyên Đan",
+          "description": "Đan dược cơ bản, hồi phục 50 điểm sinh lực.",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 4,
+          "isEquipped": false,
+          "isLocked": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "1794985209483-51f4a1",
+    "command": {
+      "type": "state"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "sessionId": "1794984413337-8931347457e1",
+        "elapsedMs": 796187,
+        "server": {
+          "type": "TICK",
+          "tick": 12568,
+          "serverTime": 1794985209484,
+          "currentMapId": "map_thanh_khe",
+          "playerState": {
+            "id": "0f8ae525-8387-437e-a146-8856b229850c",
+            "name": "Thanh84414151",
+            "type": "PLAYER",
+            "x": 1024,
+            "y": 1280,
+            "vx": 0,
+            "vy": 0,
+            "facingAngle": -0.651,
+            "hp": 61,
+            "maxHp": 115,
+            "mp": 60,
+            "maxMp": 60,
+            "realm": 0,
+            "tier": 0,
+            "state": "IDLE",
+            "isInvulnerable": false,
+            "cultivationPath": "SWORD",
+            "stats": {
+              "spd": 12
+            }
+          },
+          "entities": [],
+          "projectiles": [],
+          "telegraphs": [],
+          "events": [],
+          "cooldowns": {
+            "dodgeRemainingSec": 0,
+            "attackRemainingSec": 0,
+            "skillsRemainingSec": [
+              0
+            ]
+          }
+        },
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1024,
+            "y": 1280,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 341,
+            "y": 856.6153846153845,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        },
+        "openSockets": 1,
+        "pageErrors": [],
+        "bodyText": "Thanh84414151\nLuyện Khí - Sơ Kỳ\nSinh Lực\n61 / 115\nLinh Lực\n60 / 60\n💎\n140\nLinh Thạch\n👤\n3 Đạo Thân\nĐã dùng Hồi Nguyên Đan, hồi phục 50 sinh lực.\n⚔️\nL-Click\n💨\nSpace\n✦\n[1]\n–\n[2]\n–\n[3]\n–\n[4]\n🔽 Thu Gọn Menu\n🎒 Túi\n🧘 Tu Vi\n📜 N.Vụ\n🔥 Luyện\n⚔️ Tông\n🏡 Động\n🐉 Thú\n⏳ Bế Quan\n📖 Sử Ký\n🗼 Tháp\n🗺️ Bản Đồ\n⚙️ Cài Đặt\n🌀 [E] Tiến vào: Rừng Thanh Khê\nFPS: 21 | Ping: 1ms | Quái: 0"
+      }
+    }
+  },
+  {
+    "id": "1794985209849-92067e",
+    "command": {
+      "type": "screenshot",
+      "name": "post-potion-live-hp"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1024,
+          "y": 1280,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -0.651,
+          "hp": 61,
+          "maxHp": 115,
+          "mp": 60,
+          "maxMp": 60,
+          "realm": 0,
+          "tier": 0,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1024,
+            "y": 1280,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 341,
+            "y": 856.6153846153845,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794985330031-8fed07",
+    "command": {
+      "type": "finish"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "sessionId": "1794984413337-8931347457e1",
+        "elapsedMs": 916716,
+        "server": {
+          "type": "TICK",
+          "tick": 14931,
+          "serverTime": 1794985330024,
+          "currentMapId": "map_thanh_khe",
+          "playerState": {
+            "id": "0f8ae525-8387-437e-a146-8856b229850c",
+            "name": "Thanh84414151",
+            "type": "PLAYER",
+            "x": 1024,
+            "y": 1280,
+            "vx": 0,
+            "vy": 0,
+            "facingAngle": -0.651,
+            "hp": 61,
+            "maxHp": 115,
+            "mp": 60,
+            "maxMp": 60,
+            "realm": 0,
+            "tier": 0,
+            "state": "IDLE",
+            "isInvulnerable": false,
+            "cultivationPath": "SWORD",
+            "stats": {
+              "spd": 12
+            }
+          },
+          "entities": [],
+          "projectiles": [],
+          "telegraphs": [],
+          "events": [],
+          "cooldowns": {
+            "dodgeRemainingSec": 0,
+            "attackRemainingSec": 0,
+            "skillsRemainingSec": [
+              0
+            ]
+          }
+        },
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1024,
+            "y": 1280,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 341,
+            "y": 856.6153846153845,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        },
+        "openSockets": 1,
+        "pageErrors": [],
+        "bodyText": "Thanh84414151\nLuyện Khí - Sơ Kỳ\nSinh Lực\n61 / 115\nLinh Lực\n60 / 60\n💎\n140\nLinh Thạch\n👤\n3 Đạo Thân\n⚔️\nL-Click\n💨\nSpace\n✦\n[1]\n–\n[2]\n–\n[3]\n–\n[4]\n🔽 Thu Gọn Menu\n🎒 Túi\n🧘 Tu Vi\n📜 N.Vụ\n🔥 Luyện\n⚔️ Tông\n🏡 Động\n🐉 Thú\n⏳ Bế Quan\n📖 Sử Ký\n🗼 Tháp\n🗺️ Bản Đồ\n⚙️ Cài Đặt\n🌀 [E] Tiến vào: Rừng Thanh Khê\nFPS: 23 | Ping: 1ms | Quái: 0",
+        "manifest": "/workspace/scratch/c5685e889d73/vandaotruongsinh/docs/evidence/playthrough-m1/session-result.json",
+        "videoPath": "/workspace/scratch/c5685e889d73/vandaotruongsinh/docs/evidence/playthrough-m1/video/page@ab996103ee7fbf58d212091cd3c44b81.webm",
+        "videoMetadata": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "vp8",
+              "width": 1366,
+              "height": 768
+            }
+          ],
+          "format": {
+            "duration": "916.920000",
+            "size": "71506304"
+          }
+        }
+      }
+    }
+  }
+]

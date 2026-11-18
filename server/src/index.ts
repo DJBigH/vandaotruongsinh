@@ -2,13 +2,14 @@
 // VẠN ĐẠO TRƯỜNG SINH - Server Entry Point
 // ============================================================
 
+// Load the selected environment before the generated Prisma client reads its .env file.
+import { config } from './config';
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import cookie from '@fastify/cookie';
 import jwt from '@fastify/jwt';
 import fastifyWebsocket from '@fastify/websocket';
 import { PrismaClient } from '@prisma/client';
-import { config } from './config';
 
 import { authRoutes } from './modules/auth/routes';
 import { characterRoutes } from './modules/character/routes';

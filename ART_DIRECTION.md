@@ -1,7 +1,8 @@
 # VẠN ĐẠO TRƯỜNG SINH (萬道長生)
 ## QUY CHUẨN MỸ THUẬT VÀ TÀI NGUYÊN ĐỒ HỌA (ART DIRECTION SPECIFICATION)
 
-**Phiên bản:** 2.1  
+**Phiên bản:** M1 · Thanh Khê
+
 **Mục tiêu áp dụng:** Toàn bộ hệ thống đồ họa 2D Pixel Art Cổ Phong Tiên Hiệp (ARPG Real-Time)  
 **Tài liệu tham chiếu:** GDD 2.0 (`DOCS_GAME_DESIGN_DOCUMENT_VAN_DAO.md`) & Mẫu hình ảnh gameplay Tu Tiên 2D
 
@@ -66,29 +67,30 @@ Tương thích hoàn toàn với chuẩn mã nguồn `AnimationManager.ts`:
 * **Hàng 3 (Row 3 - Y: 192):** Hướng **RIGHT** (Nghiêng người sang Đông).
 
 ### 3.2. Thông Số Từng Sprite Sheet
-1. **`player_idle.png`** (256 × 256px): 4 frames/hướng × 4 hướng = 16 frames. Nhịp thở ngực nhấp nhô nhẹ 1px, tà áo lay động theo gió.
-2. **`player_walk.png`** (576 × 256px): 9 frames/hướng × 4 hướng = 36 frames. Bước chân chuyển động tự nhiên, tay vung nhịp nhàng, tà áo bay nhẹ.
-3. **`player_slash.png`** (384 × 256px): 6 frames/hướng × 4 hướng = 24 frames. Tư thế chuẩn bị → vung kiếm chém mạnh hình vòng cung → hồi kiếm thế.
-4. **`player_cast.png`** (448 × 256px): 7 frames/hướng × 4 hướng = 28 frames. Chắp tay kết ấn → linh lực dâng tràn tụ quanh người → bung chiêu pháp thuật.
-5. **`player_hurt.png`** (384 × 64px): 6 frames đơn hướng. Cơ thể giật lùi, nháy đỏ, khựng nhẹ.
-6. **`player_death.png`** (384 × 64px): 6 frames đơn hướng. Nhân vật gối khuỵu, thanh kiếm cắm đất, hóa thành đốm linh quang tiêu tán.
+Bộ Kiếm Tu trong `client/public/assets/vnext/` dùng chung khung 64 × 64, chân tại (32, 56). Mỗi hàng là một hướng. Cột đầu luôn là tư thế mở đầu của hướng đó.
+
+| Sheet | Khung mỗi hướng | Thời lượng cả chuỗi |
+| --- | ---: | ---: |
+| `player_idle` | 2 | 1000 ms |
+| `player_walk` | 4 | 500 ms |
+| `player_slash` | 3 | 428,57 ms |
+| `player_cast` | 3 | 583,33 ms |
+| `player_dodge` | 3 | 312,5 ms |
+| `player_hurt` | 2 | 500 ms |
+| `player_death` | 3 | 1000 ms |
+| `player_respawn` | 3 | 500 ms |
+
+Kiếm Tu đứng yên không có hào quang liên tục. Mỗi NPC Thanh Khê có bốn tư thế trên **một hàng**. Sói, rắn, hồ ly và Lang Vương có một hàng sáu khung. Bốn khung đầu dành cho di chuyển, khung 4 giữ tư thế lấy đà và khung 5 ra đòn theo trạng thái quái do máy chủ gửi. Lang Vương hiển thị ở tỷ lệ 1,55×. Hắc Lang dùng màu tối hơn trên cùng sheet sói.
+
+Pháp Tu và Thể Tu giữ sheet riêng `player_magic_idle` và `player_body_idle` trong mọi trạng thái. Bộ tư thế hành động chuyên biệt cho hai phái thuộc đợt mỹ thuật sau. Hướng chân bên dưới vạt áo Kiếm Tu khi đi ngang cần được đánh giá bằng vòng lặp trong game. Manifest xuất ảnh và nguồn được lưu tại `art/vnext/`.
 
 ---
 
 ## 4. Thứ Tự Vẽ Lớp Đồ Họa (Depth Layering / Y-Sorting)
 
-Để đảm bảo nhân vật có thể đi ra sau thân cây hoặc đi trước cửa điện mà không bị đè hình phi lý:
-* **Lớp 0 (Depth: 0 - 10):** Mặt đất nền (Tileset cỏ, đường mòn, thảm hoa, mặt nước).
-* **Lớp 1 (Depth: 15):** Dấu vết mặt đất, bóng râm tĩnh, viền bờ suối.
-* **Lớp 2 (Depth = Object.Y):** **Y-Sorting Dynamic Layer** bao gồm:
-  * Nhân vật người chơi (`depth = y`)
-  * NPCs (`depth = y`)
-  * Quái vật & Boss (`depth = y`)
-  * Rương kho báu, tảng đá thấp, đèn lồng (`depth = y`)
-  * Gốc cây thông, chân tường nhà (`depth = y`)
-* **Lớp 3 (Depth = Object.Y + 100):** Tán cây thông cao, mái ngói vòm cổng (khi người chơi đi ngang dưới tán cây sẽ bị che bóng một cách chân thực).
-* **Lớp 4 (Depth: 1000+):** Projectiles bay trên không, hiệu ứng VFX kiếm khí, vòng cảnh báo Telegraph, Floating Damage Text.
-* **Lớp 5 (Depth: 2000+):** Giao diện người dùng React HUD / Minimap / Canvas HUD overlay.
+Làng Thanh Khê dùng nền 2048 × 1536, Rừng Thanh Khê dùng nền 2048 × 2048 theo dữ liệu bản đồ hiện tại. Nền được vẽ một lần khi vào bản đồ, trên đúng kích thước lưới. Đường lát đá nối quảng trường với NPC và cổng. Đường đất dẫn tới cửa nhà và các bãi săn. Suối, hồ, vách đá và hàng cây đặc bám theo vùng va chạm. Các khu vực sau dùng nền gạch tương thích.
+
+Nhà, cây, đá, NPC, nhân vật và quái dùng vị trí chân để xếp lớp. Mái và tán cây trước mặt người xem mờ xuống khi che vị trí người chơi. Cảnh báo đòn diện rộng nằm sát nền, đạn bay và số sát thương nằm trên nhân vật. Các hiệu ứng đánh, thi triển và né chỉ xuất hiện khi có xác nhận từ máy chủ. Trong Thiết lập, người chơi có thể bật tắt âm hiệu và giảm hiệu ứng/rung màn hình. Đạn và vòng báo nguy vẫn hiển thị khi giảm hiệu ứng.
 
 ---
 

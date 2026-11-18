@@ -49,3 +49,9 @@ Thumbs.db
 
 # Temporary work & scratch
 scratch/
+__pycache__/
+*.pyc
+*.private.json
+
+# Long intermediate recordings; the reviewed runtime-demo.mp4 is committed.
+docs/evidence/*/video/

@@ -1,7 +1,15 @@
 # BẢNG GHI NHẬN TÁC QUYỀN VÀ GIẤY PHÉP TÀI NGUYÊN 2D (CREDITS & LICENSES)
 Dự án: **Vạn Đạo Trường Sinh (Van Dao Truong Sinh)**
 
-Tất cả các tài nguyên đồ họa 2D (spritesheets, tilesets, props, VFX) được tích hợp trong game đều là tài nguyên miễn phí hợp pháp (Free & Open Source Game Assets) từ các nghệ sĩ cộng đồng Liberated Pixel Cup (LPC) và OpenGameArt.org.
+## Mỹ thuật và âm thanh Thanh Khê M1
+
+Bộ `client/public/assets/vnext/` gồm **35 ảnh** và **4 âm hiệu** sản xuất cho Vạn Đạo Trường Sinh. Hình nguồn do công cụ tạo ảnh của OpenAI sinh theo lời mô tả và ảnh Kiếm Tu tham chiếu của dự án. Bản chọn gồm `kiem-tu-walk-v3.png`, `kiem-tu-combat-v3.png` và `kiem-tu-states-v1.png`. Hình gốc, lịch sử sửa, lời mô tả, bộ đóng khung kỹ thuật và bản kê tệp nằm trong `art/vnext/`. Bộ âm hiệu chém, trúng đòn, thi triển và né được tổng hợp bằng dao động và nhiễu trong `synthesize_sfx.py`.
+
+Bộ ảnh mới gồm Kiếm Tu, ba NPC làng, sói, rắn, hồ ly, Lang Vương, công trình, cảnh vật và bốn vật liệu nền. Hắc Lang dùng chung hình sói với sắc xám đậm hơn. Vòng cổng, trận đồ, tinh thể và các tệp ngoài thư mục `vnext/` còn dùng tài nguyên kế thừa. Pháp Tu và Thể Tu dùng bộ đứng riêng cho các tư thế tạm trong thời gian chờ đợt mỹ thuật riêng.
+
+## Ghi nhận bộ tài nguyên kế thừa
+
+Các tác giả, giấy phép và mô tả dưới đây là ghi nhận được giữ lại cho bộ ảnh và các tài liệu tham khảo của phiên bản trước. Các mục có cùng tên tệp trong phần này chỉ bộ cũ tại `client/public/assets/`.
 
 ---
 

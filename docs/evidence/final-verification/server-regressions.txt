@@ -1,0 +1,355 @@
+TAP version 13
+# Subtest: a boss starts from authored stats after player revival and enrages once again
+ok 1 - a boss starts from authored stats after player revival and enrages once again
+  ---
+  duration_ms: 6.463613
+  type: 'test'
+  ...
+# Subtest: an old warning is cleared by death even when no simulation ticks run before revival
+ok 2 - an old warning is cleared by death even when no simulation ticks run before revival
+  ---
+  duration_ms: 0.508638
+  type: 'test'
+  ...
+# Subtest: a defeated boss respawns at its authored position and clean phase one stats
+ok 3 - a defeated boss respawns at its authored position and clean phase one stats
+  ---
+  duration_ms: 0.622169
+  type: 'test'
+  ...
+# Subtest: leave and reenter during windup keeps one warning and starts cooldown on resolution
+ok 4 - leave and reenter during windup keeps one warning and starts cooldown on resolution
+  ---
+  duration_ms: 0.480645
+  type: 'test'
+  ...
+# Subtest: phase crossing preserves the current warning and uses enrage damage on the next one
+ok 5 - phase crossing preserves the current warning and uses enrage damage on the next one
+  ---
+  duration_ms: 0.373263
+  type: 'test'
+  ...
+# Subtest: revival leaves the new map generation untouched
+ok 6 - revival leaves the new map generation untouched
+  ---
+  duration_ms: 0.655577
+  type: 'test'
+  ...
+# Subtest: a due boss warning can still cause simultaneous death on the lethal tick
+ok 7 - a due boss warning can still cause simultaneous death on the lethal tick
+  ---
+  duration_ms: 0.467838
+  type: 'test'
+  ...
+# Subtest: a normal melee monster keeps its 400 ms windup and 1600 ms cooldown
+ok 8 - a normal melee monster keeps its 400 ms windup and 1600 ms cooldown
+  ---
+  duration_ms: 0.329452
+  type: 'test'
+  ...
+# Subtest: server walking stops at a building edge
+ok 9 - server walking stops at a building edge
+  ---
+  duration_ms: 3.351849
+  type: 'test'
+  ...
+# Subtest: server diagonal movement slides along a blocked axis
+ok 10 - server diagonal movement slides along a blocked axis
+  ---
+  duration_ms: 0.879378
+  type: 'test'
+  ...
+# Subtest: server dodge cannot cross the building
+ok 11 - server dodge cannot cross the building
+  ---
+  duration_ms: 1.033004
+  type: 'test'
+  ...
+# Subtest: server movement keeps the actor inside the border collision layer
+ok 12 - server movement keeps the actor inside the border collision layer
+  ---
+  duration_ms: 0.464819
+  type: 'test'
+  ...
+# Subtest: non-finite movement input cannot corrupt the session position
+ok 13 - non-finite movement input cannot corrupt the session position
+  ---
+  duration_ms: 0.186499
+  type: 'test'
+  ...
+# Subtest: projectiles cannot cross a wall between simulation ticks
+ok 14 - projectiles cannot cross a wall between simulation ticks
+  ---
+  duration_ms: 0.27619
+  type: 'test'
+  ...
+# Subtest: session initialization uses a valid saved position in the selected map
+ok 15 - session initialization uses a valid saved position in the selected map
+  ---
+  duration_ms: 1.014225
+  type: 'test'
+  ...
+# Subtest: session initialization falls back to the spawn for blocked, invalid or different-map positions
+ok 16 - session initialization falls back to the spawn for blocked, invalid or different-map positions
+  ---
+  duration_ms: 0.428874
+  type: 'test'
+  ...
+# Subtest: a blocked configured spawn falls back to a clear tile center
+ok 17 - a blocked configured spawn falls back to a clear tile center
+  ---
+  duration_ms: 0.389481
+  type: 'test'
+  ...
+# Subtest: shared geometry sweeps past no tile-sized barrier even with a long move
+ok 18 - shared geometry sweeps past no tile-sized barrier even with a long move
+  ---
+  duration_ms: 1.374643
+  type: 'test'
+  ...
+# Subtest: shared geometry clamps at unbordered map edges and rejects invalid coordinates
+ok 19 - shared geometry clamps at unbordered map edges and rejects invalid coordinates
+  ---
+  duration_ms: 0.392878
+  type: 'test'
+  ...
+# Subtest: diagonal movement slides when the swept actor clips a rounded building corner
+ok 20 - diagonal movement slides when the swept actor clips a rounded building corner
+  ---
+  duration_ms: 0.235794
+  type: 'test'
+  ...
+# Subtest: Bạt Kiếm dash stops at the wall and damages enemies near its actual endpoint
+ok 21 - Bạt Kiếm dash stops at the wall and damages enemies near its actual endpoint
+  ---
+  duration_ms: 1.797372
+  type: 'test'
+  ...
+# Subtest: Bạt Kiếm dash respects map edges and retains full range on clear ground
+ok 22 - Bạt Kiếm dash respects map edges and retains full range on clear ground
+  ---
+  duration_ms: 1.61386
+  type: 'test'
+  ...
+# Subtest: Vạn Kiếm clamps distant finite targets to its radial cast range
+ok 23 - Vạn Kiếm clamps distant finite targets to its radial cast range
+  ---
+  duration_ms: 0.539184
+  type: 'test'
+  ...
+# Subtest: Vạn Kiếm preserves valid supplied centers and the default facing center
+ok 24 - Vạn Kiếm preserves valid supplied centers and the default facing center
+  ---
+  duration_ms: 0.346878
+  type: 'test'
+  ...
+# Subtest: first-area world data has reachable actors, portals and interactables
+ok 25 - first-area world data has reachable actors, portals and interactables
+  ---
+  duration_ms: 145.822859
+  type: 'test'
+  ...
+# Subtest: Thanh Khê forest has black wolves for the second main quest
+ok 26 - Thanh Khê forest has black wolves for the second main quest
+  ---
+  duration_ms: 0.341416
+  type: 'test'
+  ...
+# Subtest: position route rejects coordinate writes and saves only live server movement
+ok 27 - position route rejects coordinate writes and saves only live server movement
+  ---
+  duration_ms: 199.241542
+  type: 'test'
+  ...
+# Subtest: a replacement socket owns snapshots and can resume using valid input
+ok 28 - a replacement socket owns snapshots and can resume using valid input
+  ---
+  duration_ms: 65.981974
+  type: 'test'
+  ...
+# Subtest: HTTP teleport rebuilds the active map and old socket close cannot restore the prior position
+ok 29 - HTTP teleport rebuilds the active map and old socket close cannot restore the prior position
+  ---
+  duration_ms: 36.192587
+  type: 'test'
+  ...
+# Subtest: retrying a teleport preserves the active destination position and encounter
+ok 30 - retrying a teleport preserves the active destination position and encounter
+  ---
+  duration_ms: 35.121425
+  type: 'test'
+  ...
+# Subtest: chest interaction checks live position and only one simultaneous request rewards the player
+ok 31 - chest interaction checks live position and only one simultaneous request rewards the player
+  ---
+  duration_ms: 46.276815
+  type: 'test'
+  ...
+# {"level":50,"time":1794989976708,"pid":4094,"hostname":"7dc191dc5ce7","reqId":"req-i","err":{"type":"TypeError","message":"objectives is not iterable","stack":"TypeError: objectives is not iterable\\n    at updateQuestProgressBatch (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/src/modules/quest/quest-engine.ts:77:23)\\n    at async <anonymous> (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/src/modules/world/routes.ts:173:11)\\n    at async Proxy._transactionWithCallback (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:722:18)\\n    at async Object.<anonymous> (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/src/modules/world/routes.ts:153:25)"},"msg":"objectives is not iterable"}
+# Subtest: a failed chest quest update rolls back the chest claim and reward
+ok 32 - a failed chest quest update rolls back the chest claim and reward
+  ---
+  duration_ms: 56.173255
+  type: 'test'
+  ...
+# Subtest: main quests appear and accept only after turning in their predecessor
+ok 33 - main quests appear and accept only after turning in their predecessor
+  ---
+  duration_ms: 91.571096
+  type: 'test'
+  ...
+# Subtest: nearby elder dialogue advances TALK from live coordinates
+ok 34 - nearby elder dialogue advances TALK from live coordinates
+  ---
+  duration_ms: 34.27977
+  type: 'test'
+  ...
+# Subtest: reading the elder dialogue from far away cannot credit TALK
+ok 35 - reading the elder dialogue from far away cannot credit TALK
+  ---
+  duration_ms: 33.662702
+  type: 'test'
+  ...
+# Subtest: matching coordinates on the wrong map cannot credit elder TALK
+ok 36 - matching coordinates on the wrong map cannot credit elder TALK
+  ---
+  duration_ms: 28.323685
+  type: 'test'
+  ...
+# Subtest: substituting an elder NPC id into a different dialogue cannot credit TALK
+ok 37 - substituting an elder NPC id into a different dialogue cannot credit TALK
+  ---
+  duration_ms: 26.360868
+  type: 'test'
+  ...
+# Subtest: committed monster drops contribute their actual quantity to COLLECT objectives
+ok 38 - committed monster drops contribute their actual quantity to COLLECT objectives
+  ---
+  duration_ms: 15.524228
+  type: 'test'
+  ...
+# Lỗi khi quyết toán phần thưởng diệt quái: PrismaClientKnownRequestError: 
+# Invalid `tx.character.update()` invocation in
+# /workspace/scratch/c5685e889d73/vandaotruongsinh/server/src/engine/realtime-arpg-engine.ts:616:28
+#   613 try {
+#   614   await prisma.$transaction(async (tx) => {
+#   615     // Add EXP & Gold
+# → 616     await tx.character.update(
+# An operation failed because it depends on one or more records that were required but not found. No record was found for an update.
+#     at ei.handleRequestError (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/node_modules/@prisma/client/src/runtime/RequestHandler.ts:228:13)
+#     at ei.handleAndLogRequestError (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/node_modules/@prisma/client/src/runtime/RequestHandler.ts:174:12)
+#     at ei.request (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/node_modules/@prisma/client/src/runtime/RequestHandler.ts:143:12)
+#     at async a (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:833:24)
+#     at async <anonymous> (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/src/engine/realtime-arpg-engine.ts:616:9)
+#     at async Proxy._transactionWithCallback (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:722:18)
+#     at async ArpgGameSession.commitMonsterDeathRewards (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/src/engine/realtime-arpg-engine.ts:614:7)
+#     at async TestContext.<anonymous> (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/src/tests/world-session-routes-test.ts:346:3)
+#     at async Test.run (node:internal/test_runner/test:1409:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+#   code: 'P2025',
+#   meta: {
+#     modelName: 'Character',
+#     cause: 'No record was found for an update.'
+#   },
+#   clientVersion: '6.19.3'
+# }
+# Subtest: a rejected monster reward transaction emits no REWARDS message
+ok 39 - a rejected monster reward transaction emits no REWARDS message
+  ---
+  duration_ms: 15.954004
+  type: 'test'
+  ...
+# Subtest: equipment updates active combat stats without refilling resources or reloading the map
+ok 40 - equipment updates active combat stats without refilling resources or reloading the map
+  ---
+  duration_ms: 44.913291
+  type: 'test'
+  ...
+# Subtest: HTTP potions restore live HP and MP without using saved resources or resetting the session
+ok 41 - HTTP potions restore live HP and MP without using saved resources or resetting the session
+  ---
+  duration_ms: 126.242794
+  type: 'test'
+  ...
+# Subtest: simultaneous uses of a one-item stack apply exactly one live effect
+ok 42 - simultaneous uses of a one-item stack apply exactly one live effect
+  ---
+  duration_ms: 31.047804
+  type: 'test'
+  ...
+# Subtest: an overlapping full-stack sale cannot sell the unit a potion use already committed
+ok 43 - an overlapping full-stack sale cannot sell the unit a potion use already committed
+  ---
+  duration_ms: 119.524569
+  type: 'test'
+  ...
+# {"level":50,"time":1794989977402,"pid":4094,"hostname":"7dc191dc5ce7","reqId":"req-1r","err":{"type":"Error","message":"Consumable rollback test","stack":"Error: Consumable rollback test\\n    at <anonymous> (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/src/tests/world-session-routes-test.ts:503:13)\\n    at async Proxy._transactionWithCallback (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:722:18)\\n    at async <anonymous> (/workspace/scratch/c5685e889d73/vandaotruongsinh/server/src/engine/realtime-arpg-engine.ts:1160:46)"},"msg":"Consumable rollback test"}
+# Subtest: a real consumable transaction rollback preserves the stack and live resource
+ok 44 - a real consumable transaction rollback preserves the stack and live resource
+  ---
+  duration_ms: 81.511768
+  type: 'test'
+  ...
+# Subtest: a dead live actor may not use a restoration potion
+ok 45 - a dead live actor may not use a restoration potion
+  ---
+  duration_ms: 26.165475
+  type: 'test'
+  ...
+# Subtest: offline consumables still update persisted stats and cultivation
+ok 46 - offline consumables still update persisted stats and cultivation
+  ---
+  duration_ms: 52.551039
+  type: 'test'
+  ...
+# Subtest: WebSocket item use follows the template effect and consumes only one matching stack
+ok 47 - WebSocket item use follows the template effect and consumes only one matching stack
+  ---
+  duration_ms: 71.062935
+  type: 'test'
+  ...
+# Subtest: equip computes stats from realm committed while waiting for the character lock
+ok 48 - equip computes stats from realm committed while waiting for the character lock
+  ---
+  duration_ms: 43.409093
+  type: 'test'
+  ...
+# Subtest: unequip computes stats from realm committed while waiting for the character lock
+ok 49 - unequip computes stats from realm committed while waiting for the character lock
+  ---
+  duration_ms: 42.704623
+  type: 'test'
+  ...
+# Subtest: breakthrough checks and updates the active second slot
+ok 50 - breakthrough checks and updates the active second slot
+  ---
+  duration_ms: 29.536198
+  type: 'test'
+  ...
+# Subtest: SWORD learns its third skill at Luyện Khí Đại Viên Mãn
+ok 51 - SWORD learns its third skill at Luyện Khí Đại Viên Mãn
+  ---
+  duration_ms: 28.203845
+  type: 'test'
+  ...
+# Subtest: SPELL learns its third skill at Luyện Khí Đại Viên Mãn
+ok 52 - SPELL learns its third skill at Luyện Khí Đại Viên Mãn
+  ---
+  duration_ms: 28.719257
+  type: 'test'
+  ...
+# Subtest: BODY learns its third skill at Luyện Khí Đại Viên Mãn
+ok 53 - BODY learns its third skill at Luyện Khí Đại Viên Mãn
+  ---
+  duration_ms: 32.906802
+  type: 'test'
+  ...
+1..53
+# tests 53
+# suites 0
+# pass 53
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3598.533991

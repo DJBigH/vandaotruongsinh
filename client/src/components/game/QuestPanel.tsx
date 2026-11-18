@@ -3,35 +3,46 @@
 // ============================================================
 
 import React, { useState } from 'react';
+import type { QuestInfo } from '@shared/index';
 import { useGameStore } from '../../stores/gameStore';
 import * as gameApi from '../../api/game';
 
+const tabs = [
+  { key: 'CURRENT', label: 'Đang Thực Hiện' },
+  { key: 'AVAILABLE', label: 'Có Thể Nhận' },
+  { key: 'TURNED_IN', label: 'Đã Nhận Thưởng' },
+] as const;
+
+function isCurrentQuest(quest: QuestInfo) {
+  return quest.status === 'ACTIVE' || quest.status === 'COMPLETED';
+}
+
 export default function QuestPanel() {
-  const { quests, activeQuestId, setActiveQuest, loadQuests, loadCharacter, setActivePanel, addNotification } = useGameStore();
-  const [filter, setFilter] = useState<'ACTIVE' | 'AVAILABLE' | 'TURNED_IN'>('ACTIVE');
+  const { quests, activeQuestId, setActiveQuest, loadQuests, loadCharacter, loadInventory, setActivePanel, addNotification } = useGameStore();
+  const [filter, setFilter] = useState<(typeof tabs)[number]['key']>('CURRENT');
 
-  const filteredQuests = quests.filter((q) => q.status === filter);
+  const filteredQuests = quests.filter(quest => filter === 'CURRENT' ? isCurrentQuest(quest) : quest.status === filter);
 
-  const handleAccept = async (questId: string) => {
+  const handleAccept = async (templateId: string) => {
     try {
-      const res = await gameApi.acceptQuest(questId);
+      const res = await gameApi.acceptQuest(templateId);
       if (res.success) {
         addNotification('Đã nhận nhiệm vụ mới!', 'success');
         await loadQuests();
-        setActiveQuest(questId);
+        if (res.data?.id) setActiveQuest(res.data.id);
       }
     } catch (err: any) {
       addNotification(err.response?.data?.error || 'Không thể nhận nhiệm vụ', 'error');
     }
   };
 
-  const handleTurnIn = async (questId: string) => {
+  const handleTurnIn = async (quest: QuestInfo) => {
     try {
-      const res = await gameApi.turnInQuest(questId);
+      const res = await gameApi.turnInQuest(quest.templateId);
       if (res.success) {
         addNotification(res.data?.message || 'Hoàn thành nhiệm vụ!', 'success');
-        await loadQuests();
-        await loadCharacter();
+        await Promise.all([loadQuests(), loadCharacter(), loadInventory()]);
+        if (useGameStore.getState().activeQuestId === quest.id) setActiveQuest(null);
       }
     } catch (err: any) {
       addNotification(err.response?.data?.error || 'Chưa thể hoàn thành nhiệm vụ', 'error');
@@ -70,14 +81,11 @@ export default function QuestPanel() {
 
       {/* Filter Tabs */}
       <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-        {[
-          { key: 'ACTIVE', label: 'Đang Thực Hiện' },
-          { key: 'AVAILABLE', label: 'Có Thể Nhận' },
-          { key: 'TURNED_IN', label: 'Đã Hoàn Thành' },
-        ].map((tab) => (
+        {tabs.map((tab) => (
           <button
             key={tab.key}
-            onClick={() => setFilter(tab.key as any)}
+            onClick={() => setFilter(tab.key)}
+            aria-pressed={filter === tab.key}
             style={{
               background: filter === tab.key ? '#c5a059' : '#1e293b',
               color: filter === tab.key ? '#000' : '#cbd5e1',
@@ -156,7 +164,7 @@ export default function QuestPanel() {
                   </button>
                 )}
 
-                {quest.status === 'ACTIVE' && (
+                {isCurrentQuest(quest) && (
                   <>
                     <button
                       onClick={() => setActiveQuest(quest.id)}
@@ -175,7 +183,7 @@ export default function QuestPanel() {
 
                     {isComplete && (
                       <button
-                        onClick={() => handleTurnIn(quest.templateId)}
+                        onClick={() => handleTurnIn(quest)}
                         style={{
                           background: '#2e7d32',
                           border: 'none',

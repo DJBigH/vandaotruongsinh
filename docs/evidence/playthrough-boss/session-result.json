@@ -1,0 +1,90 @@
+{
+  "sessionId": "1794988988572-479faf86658f",
+  "source": {
+    "commit": "795be99a26138393e786b70ef790944d65c08710",
+    "harnessSha256": "ee6bae6f0733b3da7c3d1ecd79feb3343e6244e9412c7b65790ecf595370147a",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null
+  },
+  "clientBuild": {
+    "commit": "795be99a26138393e786b70ef790944d65c08710",
+    "harnessSha256": "feb87a943ffbb9f66bb70103420c1c3a6c6bf4958310ed3b54e47b6afd8df9c3",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null,
+    "buildSha256": "1460fa931c50224c62e54db301d112c1344a36a3b911a39ac9870009b24b25c4",
+    "buildFiles": 92,
+    "builtDuringFreeze": true,
+    "buildLog": "\n> van-dao-truong-sinh-client@1.0.0 build\n> tsc && vite build\n\nvite v5.4.21 building for production...\ntransforming...\n✓ 157 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                     1.03 kB │ gzip:   0.52 kB\ndist/assets/index-BQxPQ6mu.css      5.79 kB │ gzip:   1.84 kB\ndist/assets/index-Ic7zauge.js   1,910.65 kB │ gzip: 468.83 kB\n✓ built in 8.60s\n",
+    "createdAt": "2026-11-18T07:59:26.765Z"
+  },
+  "startedAt": "2026-11-18T08:03:08.572Z",
+  "durationMs": 315885,
+  "browser": "153.0.8010.0",
+  "videoPath": "/workspace/scratch/c5685e889d73/vandaotruongsinh/docs/evidence/playthrough-boss/video/page@c33df69e64f55f64a8796e097056f93c.webm",
+  "videoMetadata": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "vp8",
+        "width": 1366,
+        "height": 768
+      }
+    ],
+    "format": {
+      "duration": "313.920000",
+      "size": "28285217"
+    }
+  },
+  "errors": [],
+  "sockets": 3,
+  "ticks": 5995,
+  "actions": {
+    "SKILL_2": 1,
+    "SKILL_1": 4,
+    "DODGE": 5,
+    "ATTACK": 10
+  },
+  "confirmedActions": {
+    "SKILL_2": 1,
+    "SKILL_1": 4,
+    "DODGE": 5,
+    "ATTACK": 10
+  },
+  "rewards": [
+    {
+      "exp": 150,
+      "spiritStones": 80,
+      "items": [
+        {
+          "itemId": "item_002",
+          "name": "item_002",
+          "quantity": 1
+        },
+        {
+          "itemId": "item_006",
+          "name": "item_006",
+          "quantity": 1
+        },
+        {
+          "itemId": "item_015",
+          "name": "item_015",
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "deaths": 0,
+  "commandFailures": [
+    {
+      "command": {
+        "type": "equip",
+        "templateId": "item_006"
+      },
+      "error": "Error: locator.click: Error: strict mode violation: getByRole('button', { name: 'Trang Bị', exact: true }) resolved to 2 elements:\n    1) <button>Trang Bị</button> aka getByRole('button', { name: 'Trang Bị' }).first()\n    2) <button>Trang Bị</button> aka getByRole('button', { name: 'Trang Bị' }).nth(1)\n\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Trang Bị', exact: true })\u001b[22m\n"
+    }
+  ],
+  "completed": true,
+  "fatal": null,
+  "cleanupErrors": []
+}

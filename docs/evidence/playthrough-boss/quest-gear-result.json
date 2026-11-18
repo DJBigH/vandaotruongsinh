@@ -1,0 +1,24 @@
+{
+  "assertions": "pass",
+  "statsBeforeArmor": {
+    "maxHp": 135,
+    "def": 14,
+    "maxMp": 72,
+    "atk": 26
+  },
+  "statsAfterArmor": {
+    "maxHp": 160,
+    "def": 22,
+    "maxMp": 72,
+    "atk": 26
+  },
+  "mainQuestsTurnedIn": [
+    1,
+    2,
+    3
+  ],
+  "reloadPreserved": true,
+  "reconnectNewTick": true,
+  "uiEquipNote": "The first equip locator was ambiguous with the category filter; the observed detail button was then clicked at its screenshot coordinates. Server inventory and stats were checked before and after reload.",
+  "commandsFile": "commands.json"
+}

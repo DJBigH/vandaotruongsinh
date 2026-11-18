@@ -1,0 +1,17 @@
+{
+  "source": {
+    "commit": "3ac3fe5ed078347145b0199cd136c9a6c05939fa",
+    "harnessSha256": "aa402c03e5fe0a763002031dc355c865731185b12648a230acf9b462f2f7d09d",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null
+  },
+  "startedFromCommit": "3ac3fe5ed078347145b0199cd136c9a6c05939fa",
+  "healthy": true,
+  "capturedAt": "2026-11-18T09:35:37.661Z",
+  "health": {
+    "status": "ok",
+    "time": "2026-11-18T09:35:37.651Z",
+    "game": "Vạn Đạo Trường Sinh"
+  },
+  "note": "Controller restarted the main source backend at the stated commit before this run. This is an operation record plus health observation, not a server endpoint that attests its own source commit."
+}

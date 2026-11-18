@@ -1,0 +1,5 @@
+{"passed":true,"checks":19,"durationMs":72715,"evidence":"/workspace/scratch/c5685e889d73/vandaotruongsinh/docs/evidence/client-handoff"}
+9:37:22 AM [vite] ws proxy socket error:
+Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:221:20)
+{"passed":true,"checks":8,"evidence":"/workspace/scratch/c5685e889d73/vandaotruongsinh/docs/evidence/terminal-handover-browser","cleanupErrors":[]}

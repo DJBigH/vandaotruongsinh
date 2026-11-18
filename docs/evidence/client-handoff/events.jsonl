@@ -1,0 +1,42 @@
+{"elapsedMs":737,"event":"begin","browser":"153.0.8010.0"}
+{"elapsedMs":4385,"event":"network-socket-open","requestId":"6715.130"}
+{"elapsedMs":4388,"event":"socket-open","id":1}
+{"elapsedMs":4533,"event":"server-init","id":1,"map":"map_thanh_khe","position":{"x":400,"y":300}}
+{"elapsedMs":5313,"event":"check","name":"one live socket after character creation","open":1}
+{"elapsedMs":5314,"event":"check","name":"server spawn applied","x":400,"y":300}
+{"elapsedMs":5397,"event":"walking-route","map":"map_thanh_khe","from":{"x":400,"y":300},"to":{"x":1024,"y":448},"waypoints":[{"x":400,"y":304},{"x":624,"y":80},{"x":624,"y":48},{"x":720,"y":48},{"x":816,"y":144},{"x":816,"y":304},{"x":912,"y":400},{"x":944,"y":400},{"x":976,"y":432},{"x":1008,"y":432},{"x":1024,"y":448}]}
+{"elapsedMs":14911,"event":"check","name":"opposed keys cancel"}
+{"elapsedMs":21705,"event":"check","name":"panel blocks movement"}
+{"elapsedMs":21705,"event":"check","name":"panel does not suspend session","ticks":129}
+{"elapsedMs":21706,"event":"check","name":"panel blocks pointer attack, dodge and skill inputs"}
+{"elapsedMs":25432,"event":"check","name":"new character has one available skill","skillCount":1}
+{"elapsedMs":26151,"event":"check","name":"locked skill keys send no cast"}
+{"elapsedMs":26406,"event":"walking-route","map":"map_thanh_khe","from":{"x":1027,"y":446},"to":{"x":1024,"y":352},"waypoints":[{"x":1040,"y":432},{"x":1040,"y":368},{"x":1024,"y":352}]}
+{"elapsedMs":27892,"event":"check","name":"elder dialogue request succeeds"}
+{"elapsedMs":29993,"event":"check","name":"nearby elder talk advances real quest"}
+{"elapsedMs":30052,"event":"walking-route","map":"map_thanh_khe","from":{"x":1027,"y":358},"to":{"x":1024,"y":310},"waypoints":[{"x":1040,"y":368},{"x":1040,"y":336},{"x":1008,"y":304},{"x":1024,"y":310}]}
+{"elapsedMs":33224,"event":"check","name":"hall wall blocks normal movement","y":299}
+{"elapsedMs":33276,"event":"action-input","id":1,"action":"DODGE","seq":375}
+{"elapsedMs":33303,"event":"server-action-start","id":1,"action":"DODGE","tick":569,"remaining":1.2}
+{"elapsedMs":33786,"event":"check","name":"hall wall blocks dodge","y":299}
+{"elapsedMs":33834,"event":"walking-route","map":"map_thanh_khe","from":{"x":1023,"y":299},"to":{"x":1024,"y":1280},"waypoints":[{"x":1008,"y":304},{"x":1008,"y":1264},{"x":1024,"y":1280}]}
+{"elapsedMs":43096,"event":"check","name":"portal replaces map and entities"}
+{"elapsedMs":43159,"event":"walking-route","map":"map_thanh_khe_rung","from":{"x":1024,"y":128},"to":{"x":1024,"y":224},"waypoints":[{"x":1008,"y":112},{"x":1008,"y":208},{"x":1024,"y":224}]}
+{"elapsedMs":58032,"event":"document-socket-scope-ended","observations":1}
+{"elapsedMs":59064,"event":"network-socket-open","requestId":"6715.263"}
+{"elapsedMs":59132,"event":"socket-open","id":2}
+{"elapsedMs":59264,"event":"server-init","id":2,"map":"map_thanh_khe_rung","position":{"x":1029,"y":234}}
+{"elapsedMs":59728,"event":"check","name":"reload retains forest and saved position","saved":{"x":1029,"y":234},"loaded":{"x":1029,"y":234}}
+{"elapsedMs":59728,"event":"check","name":"one socket in the current document after reload","open":1}
+{"elapsedMs":59747,"event":"socket-close","id":2}
+{"elapsedMs":59748,"event":"network-socket-close","requestId":"6715.263"}
+{"elapsedMs":62751,"event":"network-socket-open","requestId":"6715.265"}
+{"elapsedMs":62756,"event":"socket-open","id":3}
+{"elapsedMs":62778,"event":"server-init","id":3,"map":"map_thanh_khe_rung","position":{"x":1029,"y":234}}
+{"elapsedMs":63658,"event":"walking-route","map":"map_thanh_khe_rung","from":{"x":1029,"y":234},"to":{"x":1088,"y":224},"waypoints":[{"x":1040,"y":240},{"x":1072,"y":208},{"x":1088,"y":224}]}
+{"elapsedMs":64872,"event":"check","name":"movement resumes after reconnect"}
+{"elapsedMs":70719,"event":"check","name":"one canvas after reload and resize"}
+{"elapsedMs":70850,"event":"walking-route","map":"map_thanh_khe_rung","from":{"x":1085,"y":219},"to":{"x":1024,"y":128},"waypoints":[{"x":1072,"y":208},{"x":1040,"y":176},{"x":1040,"y":144},{"x":1024,"y":128}]}
+{"elapsedMs":72687,"event":"check","name":"return to village clears forest entities"}
+{"elapsedMs":72687,"event":"check","name":"no uncaught browser errors","errors":[]}
+{"elapsedMs":72688,"event":"complete"}

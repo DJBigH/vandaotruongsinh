@@ -1,0 +1,3600 @@
+{
+  "version": 1,
+  "tool": "built-in image_gen",
+  "export": "art/vnext/export_assets.py",
+  "frameSize": [
+    64,
+    64
+  ],
+  "origin": [
+    0.5,
+    0.875
+  ],
+  "footPivot": [
+    32,
+    56
+  ],
+  "directions": [
+    "up",
+    "left",
+    "down",
+    "right"
+  ],
+  "assets": [
+    {
+      "key": "player_walk",
+      "file": "assets/vnext/player_walk.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 4,
+      "directionCount": 4,
+      "uniqueSourcePoses": 16,
+      "durationMs": 500,
+      "exportScale": 0.1696113074204947,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            117,
+            21,
+            263,
+            304
+          ],
+          "sourceFootAnchor": [
+            64.5,
+            282
+          ],
+          "offset": [
+            21,
+            8
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            406,
+            21,
+            548,
+            290
+          ],
+          "sourceFootAnchor": [
+            62.5,
+            268
+          ],
+          "offset": [
+            21,
+            11
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            692,
+            22,
+            831,
+            303
+          ],
+          "sourceFootAnchor": [
+            58.5,
+            281
+          ],
+          "offset": [
+            22,
+            8
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            0,
+            3
+          ],
+          "sourceBox": [
+            982,
+            21,
+            1123,
+            296
+          ],
+          "sourceFootAnchor": [
+            66.5,
+            275
+          ],
+          "offset": [
+            21,
+            9
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            97,
+            324,
+            277,
+            593
+          ],
+          "sourceFootAnchor": [
+            89.5,
+            267
+          ],
+          "offset": [
+            17,
+            11
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            403,
+            325,
+            546,
+            595
+          ],
+          "sourceFootAnchor": [
+            78.5,
+            267
+          ],
+          "offset": [
+            19,
+            11
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            677,
+            324,
+            862,
+            592
+          ],
+          "sourceFootAnchor": [
+            89.5,
+            268
+          ],
+          "offset": [
+            17,
+            11
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            1,
+            3
+          ],
+          "sourceBox": [
+            968,
+            323,
+            1137,
+            593
+          ],
+          "sourceFootAnchor": [
+            99.5,
+            270
+          ],
+          "offset": [
+            15,
+            10
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            106,
+            619,
+            258,
+            900
+          ],
+          "sourceFootAnchor": [
+            84.0,
+            281
+          ],
+          "offset": [
+            18,
+            8
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            407,
+            620,
+            544,
+            901
+          ],
+          "sourceFootAnchor": [
+            71.0,
+            280
+          ],
+          "offset": [
+            20,
+            9
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            688,
+            621,
+            828,
+            903
+          ],
+          "sourceFootAnchor": [
+            69.0,
+            281
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            2,
+            3
+          ],
+          "sourceBox": [
+            979,
+            620,
+            1125,
+            892
+          ],
+          "sourceFootAnchor": [
+            77.5,
+            272
+          ],
+          "offset": [
+            19,
+            10
+          ]
+        },
+        {
+          "frame": 12,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            95,
+            929,
+            275,
+            1199
+          ],
+          "sourceFootAnchor": [
+            91.0,
+            255
+          ],
+          "offset": [
+            17,
+            13
+          ]
+        },
+        {
+          "frame": 13,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            405,
+            931,
+            540,
+            1197
+          ],
+          "sourceFootAnchor": [
+            67.0,
+            256
+          ],
+          "offset": [
+            21,
+            13
+          ]
+        },
+        {
+          "frame": 14,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            670,
+            932,
+            843,
+            1198
+          ],
+          "sourceFootAnchor": [
+            90.5,
+            257
+          ],
+          "offset": [
+            17,
+            12
+          ]
+        },
+        {
+          "frame": 15,
+          "source": "kiem-tu-walk-v3.png",
+          "cell": [
+            3,
+            3
+          ],
+          "sourceBox": [
+            982,
+            930,
+            1117,
+            1197
+          ],
+          "sourceFootAnchor": [
+            64.0,
+            258
+          ],
+          "offset": [
+            21,
+            12
+          ]
+        }
+      ],
+      "sha256": "080efe507a00796b118aca9d761760a4e421bb441dee73a4909282cc251d111f"
+    },
+    {
+      "key": "player_slash",
+      "file": "assets/vnext/player_slash.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 428.57142857142856,
+      "exportScale": 0.1681159420289855,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            51,
+            21,
+            213,
+            243
+          ],
+          "sourceFootAnchor": [
+            90.0,
+            221
+          ],
+          "offset": [
+            17,
+            19
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            302,
+            31,
+            530,
+            245
+          ],
+          "sourceFootAnchor": [
+            68.0,
+            209
+          ],
+          "offset": [
+            21,
+            21
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            569,
+            30,
+            747,
+            245
+          ],
+          "sourceFootAnchor": [
+            88.5,
+            211
+          ],
+          "offset": [
+            17,
+            21
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            56,
+            264,
+            198,
+            493
+          ],
+          "sourceFootAnchor": [
+            74.0,
+            229
+          ],
+          "offset": [
+            20,
+            18
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            242,
+            281,
+            501,
+            497
+          ],
+          "sourceFootAnchor": [
+            172.5,
+            208
+          ],
+          "offset": [
+            3,
+            21
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            558,
+            281,
+            733,
+            489
+          ],
+          "sourceFootAnchor": [
+            97.5,
+            201
+          ],
+          "offset": [
+            16,
+            22
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            50,
+            521,
+            219,
+            757
+          ],
+          "sourceFootAnchor": [
+            82.0,
+            236
+          ],
+          "offset": [
+            18,
+            16
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            299,
+            531,
+            480,
+            757
+          ],
+          "sourceFootAnchor": [
+            92.5,
+            226
+          ],
+          "offset": [
+            16,
+            18
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            569,
+            527,
+            737,
+            754
+          ],
+          "sourceFootAnchor": [
+            82.0,
+            220
+          ],
+          "offset": [
+            18,
+            19
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            58,
+            777,
+            210,
+            1006
+          ],
+          "sourceFootAnchor": [
+            69.5,
+            226
+          ],
+          "offset": [
+            20,
+            18
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            281,
+            793,
+            530,
+            1005
+          ],
+          "sourceFootAnchor": [
+            88.5,
+            209
+          ],
+          "offset": [
+            17,
+            21
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            548,
+            792,
+            746,
+            1008
+          ],
+          "sourceFootAnchor": [
+            99.5,
+            214
+          ],
+          "offset": [
+            15,
+            20
+          ]
+        }
+      ],
+      "sha256": "10f0469a232dee8dfd028cd8a5430e5c31b8899cd1e3bfdd470e52d00ff51645"
+    },
+    {
+      "key": "player_cast",
+      "file": "assets/vnext/player_cast.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 583.3333333333334,
+      "exportScale": 0.2077922077922078,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            0,
+            3
+          ],
+          "sourceBox": [
+            831,
+            23,
+            982,
+            243
+          ],
+          "sourceFootAnchor": [
+            80.5,
+            215
+          ],
+          "offset": [
+            15,
+            11
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            0,
+            4
+          ],
+          "sourceBox": [
+            1066,
+            25,
+            1250,
+            242
+          ],
+          "sourceFootAnchor": [
+            101.5,
+            214
+          ],
+          "offset": [
+            11,
+            12
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            0,
+            5
+          ],
+          "sourceBox": [
+            1352,
+            22,
+            1491,
+            243
+          ],
+          "sourceFootAnchor": [
+            68.0,
+            217
+          ],
+          "offset": [
+            18,
+            11
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            1,
+            3
+          ],
+          "sourceBox": [
+            821,
+            269,
+            949,
+            500
+          ],
+          "sourceFootAnchor": [
+            71.5,
+            231
+          ],
+          "offset": [
+            17,
+            8
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            1,
+            4
+          ],
+          "sourceBox": [
+            1050,
+            274,
+            1249,
+            497
+          ],
+          "sourceFootAnchor": [
+            110.5,
+            215
+          ],
+          "offset": [
+            9,
+            11
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            1,
+            5
+          ],
+          "sourceBox": [
+            1331,
+            270,
+            1467,
+            500
+          ],
+          "sourceFootAnchor": [
+            83.0,
+            230
+          ],
+          "offset": [
+            15,
+            8
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            2,
+            3
+          ],
+          "sourceBox": [
+            821,
+            522,
+            964,
+            753
+          ],
+          "sourceFootAnchor": [
+            69.0,
+            223
+          ],
+          "offset": [
+            18,
+            10
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            2,
+            4
+          ],
+          "sourceBox": [
+            1052,
+            523,
+            1217,
+            755
+          ],
+          "sourceFootAnchor": [
+            98.0,
+            226
+          ],
+          "offset": [
+            12,
+            9
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            2,
+            5
+          ],
+          "sourceBox": [
+            1329,
+            522,
+            1468,
+            754
+          ],
+          "sourceFootAnchor": [
+            73.5,
+            227
+          ],
+          "offset": [
+            17,
+            9
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            3,
+            3
+          ],
+          "sourceBox": [
+            826,
+            779,
+            957,
+            1008
+          ],
+          "sourceFootAnchor": [
+            64.5,
+            221
+          ],
+          "offset": [
+            19,
+            10
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            3,
+            4
+          ],
+          "sourceBox": [
+            1050,
+            783,
+            1261,
+            1008
+          ],
+          "sourceFootAnchor": [
+            106.0,
+            220
+          ],
+          "offset": [
+            10,
+            10
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "kiem-tu-combat-v3.png",
+          "cell": [
+            3,
+            5
+          ],
+          "sourceBox": [
+            1357,
+            780,
+            1465,
+            1007
+          ],
+          "sourceFootAnchor": [
+            53.5,
+            224
+          ],
+          "offset": [
+            21,
+            9
+          ]
+        }
+      ],
+      "sha256": "30f63509d16607e84fd9832f57b18156e3ecd56a82423b158f52a02fdeef88c0"
+    },
+    {
+      "key": "player_idle",
+      "file": "assets/vnext/player_idle.png",
+      "size": [
+        128,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 2,
+      "directionCount": 4,
+      "uniqueSourcePoses": 8,
+      "durationMs": 1000,
+      "exportScale": 0.22018348623853212,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            98,
+            15,
+            215,
+            220
+          ],
+          "sourceFootAnchor": [
+            61.0,
+            205
+          ],
+          "offset": [
+            19,
+            11
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            330,
+            14,
+            436,
+            220
+          ],
+          "sourceFootAnchor": [
+            53.0,
+            206
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            102,
+            248,
+            190,
+            461
+          ],
+          "sourceFootAnchor": [
+            43.5,
+            213
+          ],
+          "offset": [
+            22,
+            9
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            326,
+            249,
+            415,
+            461
+          ],
+          "sourceFootAnchor": [
+            44.5,
+            210
+          ],
+          "offset": [
+            22,
+            10
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            84,
+            480,
+            195,
+            683
+          ],
+          "sourceFootAnchor": [
+            56.5,
+            203
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            315,
+            480,
+            418,
+            683
+          ],
+          "sourceFootAnchor": [
+            50.0,
+            203
+          ],
+          "offset": [
+            21,
+            11
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            93,
+            709,
+            188,
+            927
+          ],
+          "sourceFootAnchor": [
+            52.5,
+            218
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            312,
+            709,
+            406,
+            927
+          ],
+          "sourceFootAnchor": [
+            48.5,
+            218
+          ],
+          "offset": [
+            21,
+            8
+          ]
+        }
+      ],
+      "sha256": "1aa4a149b6a553c3515e38d4456b434466ed3d177ceda78f701d908f28ab1bfd"
+    },
+    {
+      "key": "player_dodge",
+      "file": "assets/vnext/player_dodge.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 312.5,
+      "exportScale": 0.22018348623853212,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            536,
+            47,
+            690,
+            218
+          ],
+          "sourceFootAnchor": [
+            77.5,
+            171
+          ],
+          "offset": [
+            15,
+            18
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            3
+          ],
+          "sourceBox": [
+            756,
+            14,
+            910,
+            220
+          ],
+          "sourceFootAnchor": [
+            82.5,
+            205
+          ],
+          "offset": [
+            14,
+            11
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            98,
+            15,
+            215,
+            220
+          ],
+          "sourceFootAnchor": [
+            61.0,
+            205
+          ],
+          "offset": [
+            19,
+            11
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            515,
+            292,
+            657,
+            449
+          ],
+          "sourceFootAnchor": [
+            75.0,
+            155
+          ],
+          "offset": [
+            15,
+            22
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            3
+          ],
+          "sourceBox": [
+            728,
+            281,
+            915,
+            459
+          ],
+          "sourceFootAnchor": [
+            101.5,
+            178
+          ],
+          "offset": [
+            10,
+            17
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            102,
+            248,
+            190,
+            461
+          ],
+          "sourceFootAnchor": [
+            43.5,
+            213
+          ],
+          "offset": [
+            22,
+            9
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            508,
+            517,
+            650,
+            685
+          ],
+          "sourceFootAnchor": [
+            67.0,
+            168
+          ],
+          "offset": [
+            17,
+            19
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            3
+          ],
+          "sourceBox": [
+            724,
+            500,
+            891,
+            687
+          ],
+          "sourceFootAnchor": [
+            52.5,
+            187
+          ],
+          "offset": [
+            20,
+            15
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            84,
+            480,
+            195,
+            683
+          ],
+          "sourceFootAnchor": [
+            56.5,
+            203
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            510,
+            757,
+            661,
+            926
+          ],
+          "sourceFootAnchor": [
+            67.5,
+            169
+          ],
+          "offset": [
+            17,
+            19
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            3
+          ],
+          "sourceBox": [
+            733,
+            739,
+            913,
+            929
+          ],
+          "sourceFootAnchor": [
+            77.5,
+            190
+          ],
+          "offset": [
+            15,
+            14
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            93,
+            709,
+            188,
+            927
+          ],
+          "sourceFootAnchor": [
+            52.5,
+            218
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        }
+      ],
+      "sha256": "63367f148ea89af900dd7a1b464349aebf00eb59c8dcaa6704606276510bc030"
+    },
+    {
+      "key": "player_hurt",
+      "file": "assets/vnext/player_hurt.png",
+      "size": [
+        128,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 2,
+      "directionCount": 4,
+      "uniqueSourcePoses": 8,
+      "durationMs": 500,
+      "exportScale": 0.22018348623853212,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            4
+          ],
+          "sourceBox": [
+            982,
+            25,
+            1118,
+            220
+          ],
+          "sourceFootAnchor": [
+            69.0,
+            195
+          ],
+          "offset": [
+            17,
+            13
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            98,
+            15,
+            215,
+            220
+          ],
+          "sourceFootAnchor": [
+            61.0,
+            205
+          ],
+          "offset": [
+            19,
+            11
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            4
+          ],
+          "sourceBox": [
+            982,
+            263,
+            1108,
+            460
+          ],
+          "sourceFootAnchor": [
+            46.5,
+            197
+          ],
+          "offset": [
+            22,
+            13
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            102,
+            248,
+            190,
+            461
+          ],
+          "sourceFootAnchor": [
+            43.5,
+            213
+          ],
+          "offset": [
+            22,
+            9
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            4
+          ],
+          "sourceBox": [
+            964,
+            490,
+            1096,
+            685
+          ],
+          "sourceFootAnchor": [
+            64.5,
+            195
+          ],
+          "offset": [
+            18,
+            13
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            84,
+            480,
+            195,
+            683
+          ],
+          "sourceFootAnchor": [
+            56.5,
+            203
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            4
+          ],
+          "sourceBox": [
+            982,
+            725,
+            1112,
+            926
+          ],
+          "sourceFootAnchor": [
+            69.5,
+            201
+          ],
+          "offset": [
+            17,
+            12
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            93,
+            709,
+            188,
+            927
+          ],
+          "sourceFootAnchor": [
+            52.5,
+            218
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        }
+      ],
+      "sha256": "0cd9a0f3a375849de9c73812567ebe43733774d25a551d04b630f2581a9431ed"
+    },
+    {
+      "key": "player_death",
+      "file": "assets/vnext/player_death.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 1000,
+      "exportScale": 0.22018348623853212,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            4
+          ],
+          "sourceBox": [
+            982,
+            25,
+            1118,
+            220
+          ],
+          "sourceFootAnchor": [
+            69.0,
+            195
+          ],
+          "offset": [
+            17,
+            13
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            5
+          ],
+          "sourceBox": [
+            1185,
+            63,
+            1358,
+            221
+          ],
+          "sourceFootAnchor": [
+            85.5,
+            158
+          ],
+          "offset": [
+            13,
+            21
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            6
+          ],
+          "sourceBox": [
+            1410,
+            115,
+            1625,
+            210
+          ],
+          "sourceFootAnchor": [
+            106.5,
+            95
+          ],
+          "offset": [
+            9,
+            35
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            4
+          ],
+          "sourceBox": [
+            982,
+            263,
+            1108,
+            460
+          ],
+          "sourceFootAnchor": [
+            46.5,
+            197
+          ],
+          "offset": [
+            22,
+            13
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            5
+          ],
+          "sourceBox": [
+            1179,
+            307,
+            1342,
+            453
+          ],
+          "sourceFootAnchor": [
+            81.0,
+            142
+          ],
+          "offset": [
+            14,
+            25
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            6
+          ],
+          "sourceBox": [
+            1408,
+            358,
+            1626,
+            455
+          ],
+          "sourceFootAnchor": [
+            125.5,
+            97
+          ],
+          "offset": [
+            4,
+            35
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            4
+          ],
+          "sourceBox": [
+            964,
+            490,
+            1096,
+            685
+          ],
+          "sourceFootAnchor": [
+            64.5,
+            195
+          ],
+          "offset": [
+            18,
+            13
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            5
+          ],
+          "sourceBox": [
+            1172,
+            556,
+            1342,
+            687
+          ],
+          "sourceFootAnchor": [
+            85.5,
+            129
+          ],
+          "offset": [
+            13,
+            28
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            6
+          ],
+          "sourceBox": [
+            1401,
+            602,
+            1631,
+            688
+          ],
+          "sourceFootAnchor": [
+            115.0,
+            85
+          ],
+          "offset": [
+            7,
+            37
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            4
+          ],
+          "sourceBox": [
+            982,
+            725,
+            1112,
+            926
+          ],
+          "sourceFootAnchor": [
+            69.5,
+            201
+          ],
+          "offset": [
+            17,
+            12
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            5
+          ],
+          "sourceBox": [
+            1172,
+            776,
+            1335,
+            926
+          ],
+          "sourceFootAnchor": [
+            64.5,
+            149
+          ],
+          "offset": [
+            18,
+            23
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            6
+          ],
+          "sourceBox": [
+            1405,
+            830,
+            1622,
+            920
+          ],
+          "sourceFootAnchor": [
+            101.5,
+            90
+          ],
+          "offset": [
+            10,
+            36
+          ]
+        }
+      ],
+      "sha256": "17705cf6f9dcc8c85ba27df55173d87ae6bafb859c65c8fff07c587b6e4f4b09"
+    },
+    {
+      "key": "player_respawn",
+      "file": "assets/vnext/player_respawn.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 500,
+      "exportScale": 0.22018348623853212,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            5
+          ],
+          "sourceBox": [
+            1185,
+            63,
+            1358,
+            221
+          ],
+          "sourceFootAnchor": [
+            85.5,
+            158
+          ],
+          "offset": [
+            13,
+            21
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            536,
+            47,
+            690,
+            218
+          ],
+          "sourceFootAnchor": [
+            77.5,
+            171
+          ],
+          "offset": [
+            15,
+            18
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            98,
+            15,
+            215,
+            220
+          ],
+          "sourceFootAnchor": [
+            61.0,
+            205
+          ],
+          "offset": [
+            19,
+            11
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            5
+          ],
+          "sourceBox": [
+            1179,
+            307,
+            1342,
+            453
+          ],
+          "sourceFootAnchor": [
+            81.0,
+            142
+          ],
+          "offset": [
+            14,
+            25
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            515,
+            292,
+            657,
+            449
+          ],
+          "sourceFootAnchor": [
+            75.0,
+            155
+          ],
+          "offset": [
+            15,
+            22
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            102,
+            248,
+            190,
+            461
+          ],
+          "sourceFootAnchor": [
+            43.5,
+            213
+          ],
+          "offset": [
+            22,
+            9
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            5
+          ],
+          "sourceBox": [
+            1172,
+            556,
+            1342,
+            687
+          ],
+          "sourceFootAnchor": [
+            85.5,
+            129
+          ],
+          "offset": [
+            13,
+            28
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            508,
+            517,
+            650,
+            685
+          ],
+          "sourceFootAnchor": [
+            67.0,
+            168
+          ],
+          "offset": [
+            17,
+            19
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            84,
+            480,
+            195,
+            683
+          ],
+          "sourceFootAnchor": [
+            56.5,
+            203
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            5
+          ],
+          "sourceBox": [
+            1172,
+            776,
+            1335,
+            926
+          ],
+          "sourceFootAnchor": [
+            64.5,
+            149
+          ],
+          "offset": [
+            18,
+            23
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            510,
+            757,
+            661,
+            926
+          ],
+          "sourceFootAnchor": [
+            67.5,
+            169
+          ],
+          "offset": [
+            17,
+            19
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "kiem-tu-states-v1.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            93,
+            709,
+            188,
+            927
+          ],
+          "sourceFootAnchor": [
+            52.5,
+            218
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        }
+      ],
+      "sha256": "f66a27289a0e9f718a034300e0e40255c365e1f9ef499147fbe6b30facc9a997"
+    },
+    {
+      "key": "building_hall",
+      "file": "assets/vnext/building_hall.png",
+      "type": "image",
+      "size": [
+        384,
+        321
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        16,
+        31,
+        326,
+        290
+      ],
+      "cell": [
+        0,
+        0
+      ],
+      "sha256": "35b896ca4296bda14037454915c23db7312ef8806542114e1343e28dd4a26989"
+    },
+    {
+      "key": "building_herbalist",
+      "file": "assets/vnext/building_herbalist.png",
+      "type": "image",
+      "size": [
+        320,
+        262
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        348,
+        55,
+        626,
+        283
+      ],
+      "cell": [
+        0,
+        1
+      ],
+      "sha256": "479458a6e92e3e01a07ad34392db4404b5dbd8f6c2ab16e4a545785e31f03110"
+    },
+    {
+      "key": "building_barracks",
+      "file": "assets/vnext/building_barracks.png",
+      "type": "image",
+      "size": [
+        320,
+        275
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        649,
+        41,
+        933,
+        285
+      ],
+      "cell": [
+        0,
+        2
+      ],
+      "sha256": "c205b887c8a13b979c320865787e669b3c1cf8c779d735fb88ae48df6ee88213"
+    },
+    {
+      "key": "building_house",
+      "file": "assets/vnext/building_house.png",
+      "type": "image",
+      "size": [
+        224,
+        171
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        960,
+        79,
+        1229,
+        284
+      ],
+      "cell": [
+        0,
+        3
+      ],
+      "sha256": "59625ce834c29456e10480a6d0759d019957ff757461dea5fc1c333be6ab9e66"
+    },
+    {
+      "key": "prop_sect_gate",
+      "file": "assets/vnext/prop_sect_gate.png",
+      "type": "image",
+      "size": [
+        172,
+        149
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        37,
+        365,
+        301,
+        593
+      ],
+      "cell": [
+        1,
+        0
+      ],
+      "sha256": "e7a204131eeef6dbbf3885e74c40f5c8c9c1ee0c63f2ea92221dbb9333ceb5f0"
+    },
+    {
+      "key": "prop_pine_tree",
+      "file": "assets/vnext/prop_pine_tree.png",
+      "type": "image",
+      "size": [
+        144,
+        139
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        324,
+        326,
+        623,
+        615
+      ],
+      "cell": [
+        1,
+        1
+      ],
+      "sha256": "088b93e82167f130ec3116c7e6a602219c09ee88d7bfc39403dbf2e2d06743a7"
+    },
+    {
+      "key": "prop_broadleaf_tree",
+      "file": "assets/vnext/prop_broadleaf_tree.png",
+      "type": "image",
+      "size": [
+        128,
+        114
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        650,
+        367,
+        918,
+        606
+      ],
+      "cell": [
+        1,
+        2
+      ],
+      "sha256": "853d0122427d4549e7b94ef965b25594a7ee55532ea1f9462d10139c3f5c9783"
+    },
+    {
+      "key": "prop_ancient_rock",
+      "file": "assets/vnext/prop_ancient_rock.png",
+      "type": "image",
+      "size": [
+        98,
+        82
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        951,
+        364,
+        1235,
+        602
+      ],
+      "cell": [
+        1,
+        3
+      ],
+      "sha256": "173b5a7dee9e9345276243e8022d6c1188bcad1b75927fb5931be7fa3c14dd90"
+    },
+    {
+      "key": "prop_stone_lantern",
+      "file": "assets/vnext/prop_stone_lantern.png",
+      "type": "image",
+      "size": [
+        38,
+        55
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        78,
+        659,
+        251,
+        909
+      ],
+      "cell": [
+        2,
+        0
+      ],
+      "sha256": "83047816fe31d62b03ac2a53141b5087abc6c5ab84e08cafb5e6e59c5145f340"
+    },
+    {
+      "key": "prop_dummy",
+      "file": "assets/vnext/prop_dummy.png",
+      "type": "image",
+      "size": [
+        44,
+        62
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        393,
+        675,
+        557,
+        906
+      ],
+      "cell": [
+        2,
+        1
+      ],
+      "sha256": "b2567d2c3b3d43be22a6b150cf1f4177a16b93436e7f154060964763b16c640f"
+    },
+    {
+      "key": "prop_weapon_rack",
+      "file": "assets/vnext/prop_weapon_rack.png",
+      "type": "image",
+      "size": [
+        74,
+        67
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        670,
+        693,
+        898,
+        900
+      ],
+      "cell": [
+        2,
+        2
+      ],
+      "sha256": "03d7833c7461aebea786503867919a10a8f5741eaeca36137f1276d76cea6eca"
+    },
+    {
+      "key": "prop_shrine",
+      "file": "assets/vnext/prop_shrine.png",
+      "type": "image",
+      "size": [
+        94,
+        99
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        969,
+        644,
+        1219,
+        908
+      ],
+      "cell": [
+        2,
+        3
+      ],
+      "sha256": "b4a12dbdb9ab8112301d5c6c5555f93bfa88210eaf06bf2f9f6ed52d7036ce4a"
+    },
+    {
+      "key": "prop_chest",
+      "file": "assets/vnext/prop_chest.png",
+      "type": "image",
+      "size": [
+        42,
+        32
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        39,
+        1013,
+        278,
+        1195
+      ],
+      "cell": [
+        3,
+        0
+      ],
+      "sha256": "e045cb8bfbc4621f1949a64a27d91f96b4fddb9a7f0d2b237e7987bbc8f5be93"
+    },
+    {
+      "key": "prop_herb",
+      "file": "assets/vnext/prop_herb.png",
+      "type": "image",
+      "size": [
+        34,
+        24
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        331,
+        999,
+        605,
+        1196
+      ],
+      "cell": [
+        3,
+        1
+      ],
+      "sha256": "e607ea770aa7cd71a441a2ab52a4aca3d8a757f131f757e3555578e8427dbbf1"
+    },
+    {
+      "key": "prop_ore",
+      "file": "assets/vnext/prop_ore.png",
+      "type": "image",
+      "size": [
+        45,
+        35
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        649,
+        999,
+        901,
+        1195
+      ],
+      "cell": [
+        3,
+        2
+      ],
+      "sha256": "f3b40b6c3fbf866bfe61566badb1cb6ec95945385e6c6410ad10b4e7ab8cae9e"
+    },
+    {
+      "key": "prop_stone_wall",
+      "file": "assets/vnext/prop_stone_wall.png",
+      "type": "image",
+      "size": [
+        96,
+        48
+      ],
+      "source": "thanh-khe-props-v1.png",
+      "sourceBox": [
+        936,
+        1029,
+        1240,
+        1182
+      ],
+      "cell": [
+        3,
+        3
+      ],
+      "sha256": "f3ae737099facbc2644eec65fdfceaeeb5ff527ca66d5382178c806e80a70f04"
+    },
+    {
+      "key": "npc_elder",
+      "file": "assets/vnext/npc_elder.png",
+      "size": [
+        256,
+        64
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 4,
+      "directionCount": 1,
+      "uniqueSourcePoses": 4,
+      "durationMs": 1000,
+      "exportScale": 0.14906832298136646,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "thanh-khe-npcs-v1.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            108,
+            22,
+            284,
+            342
+          ],
+          "sourceFootAnchor": [
+            88.0,
+            320
+          ],
+          "offset": [
+            19,
+            8
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "thanh-khe-npcs-v1.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            471,
+            20,
+            648,
+            342
+          ],
+          "sourceFootAnchor": [
+            88.5,
+            322
+          ],
+          "offset": [
+            19,
+            8
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "thanh-khe-npcs-v1.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            829,
+            20,
+            1016,
+            341
+          ],
+          "sourceFootAnchor": [
+            93.5,
+            321
+          ],
+          "offset": [
+            18,
+            8
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "thanh-khe-npcs-v1.png",
+          "cell": [
+            0,
+            3
+          ],
+          "sourceBox": [
+            1194,
+            22,
+            1370,
+            342
+          ],
+          "sourceFootAnchor": [
+            109.0,
+            300
+          ],
+          "offset": [
+            16,
+            11
+          ]
+        }
+      ],
+      "sha256": "25936ac56354ba743920ba7ad8dd6f6cb08280d1823aa126d9ad379c3771c560"
+    },
+    {
+      "key": "npc_healer",
+      "file": "assets/vnext/npc_healer.png",
+      "size": [
+        256,
+        64
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 4,
+      "directionCount": 1,
+      "uniqueSourcePoses": 4,
+      "durationMs": 1000,
+      "exportScale": 0.13043478260869565,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "thanh-khe-npcs-v1.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            134,
+            380,
+            284,
+            711
+          ],
+          "sourceFootAnchor": [
+            63.5,
+            286
+          ],
+          "offset": [
+            24,
+            19
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "thanh-khe-npcs-v1.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            497,
+            380,
+            645,
+            711
+          ],
+          "sourceFootAnchor": [
+            66.0,
+            286
+          ],
+          "offset": [
+            23,
+            19
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "thanh-khe-npcs-v1.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            856,
+            380,
+            1005,
+            711
+          ],
+          "sourceFootAnchor": [
+            69.5,
+            285
+          ],
+          "offset": [
+            23,
+            19
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "thanh-khe-npcs-v1.png",
+          "cell": [
+            1,
+            3
+          ],
+          "sourceBox": [
+            1219,
+            380,
+            1370,
+            711
+          ],
+          "sourceFootAnchor": [
+            65.0,
+            286
+          ],
+          "offset": [
+            24,
+            19
+          ]
+        }
+      ],
+      "sha256": "346f3b39b32561af2b91988e1ec7cdaf82ed4391130049777175d531ac539cf9"
+    },
+    {
+      "key": "npc_guard",
+      "file": "assets/vnext/npc_guard.png",
+      "size": [
+        256,
+        64
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 4,
+      "directionCount": 1,
+      "uniqueSourcePoses": 4,
+      "durationMs": 1000,
+      "exportScale": 0.14501510574018128,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "thanh-khe-npcs-v1.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            105,
+            734,
+            292,
+            1065
+          ],
+          "sourceFootAnchor": [
+            91.5,
+            317
+          ],
+          "offset": [
+            19,
+            10
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "thanh-khe-npcs-v1.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            465,
+            736,
+            662,
+            1065
+          ],
+          "sourceFootAnchor": [
+            97.0,
+            317
+          ],
+          "offset": [
+            18,
+            10
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "thanh-khe-npcs-v1.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            823,
+            738,
+            1020,
+            1065
+          ],
+          "sourceFootAnchor": [
+            91.5,
+            313
+          ],
+          "offset": [
+            19,
+            11
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "thanh-khe-npcs-v1.png",
+          "cell": [
+            2,
+            3
+          ],
+          "sourceBox": [
+            1190,
+            735,
+            1377,
+            1065
+          ],
+          "sourceFootAnchor": [
+            90.5,
+            321
+          ],
+          "offset": [
+            19,
+            9
+          ]
+        }
+      ],
+      "sha256": "0b33efd54f8b633fea76933bcf2731f60d682287ffb9f571e15ccb3a67664d28"
+    },
+    {
+      "key": "monster_wolf",
+      "file": "assets/vnext/monster_wolf.png",
+      "size": [
+        384,
+        64
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 6,
+      "directionCount": 1,
+      "uniqueSourcePoses": 6,
+      "durationMs": null,
+      "exportScale": 0.1657142857142857,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            57,
+            71,
+            278,
+            269
+          ],
+          "sourceFootAnchor": [
+            71.5,
+            184
+          ],
+          "offset": [
+            20,
+            26
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            345,
+            74,
+            566,
+            269
+          ],
+          "sourceFootAnchor": [
+            83.0,
+            192
+          ],
+          "offset": [
+            18,
+            24
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            635,
+            70,
+            857,
+            268
+          ],
+          "sourceFootAnchor": [
+            47.0,
+            196
+          ],
+          "offset": [
+            24,
+            24
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            0,
+            3
+          ],
+          "sourceBox": [
+            923,
+            64,
+            1150,
+            269
+          ],
+          "sourceFootAnchor": [
+            84.0,
+            200
+          ],
+          "offset": [
+            18,
+            23
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            0,
+            4
+          ],
+          "sourceBox": [
+            1221,
+            59,
+            1444,
+            260
+          ],
+          "sourceFootAnchor": [
+            86.5,
+            192
+          ],
+          "offset": [
+            18,
+            24
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            0,
+            5
+          ],
+          "sourceBox": [
+            1493,
+            49,
+            1742,
+            255
+          ],
+          "sourceFootAnchor": [
+            124.5,
+            206
+          ],
+          "offset": [
+            11,
+            22
+          ]
+        }
+      ],
+      "sha256": "2cab5c202a7b6d9509403457a4647909377a009ca84eb57fdd36ac7a507f82e2"
+    },
+    {
+      "key": "monster_snake",
+      "file": "assets/vnext/monster_snake.png",
+      "size": [
+        384,
+        64
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 6,
+      "directionCount": 1,
+      "uniqueSourcePoses": 6,
+      "durationMs": null,
+      "exportScale": 0.23770491803278687,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            49,
+            371,
+            252,
+            533
+          ],
+          "sourceFootAnchor": [
+            101.5,
+            162
+          ],
+          "offset": [
+            8,
+            17
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            327,
+            368,
+            549,
+            535
+          ],
+          "sourceFootAnchor": [
+            111.0,
+            167
+          ],
+          "offset": [
+            6,
+            16
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            614,
+            368,
+            837,
+            536
+          ],
+          "sourceFootAnchor": [
+            111.5,
+            168
+          ],
+          "offset": [
+            5,
+            16
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            1,
+            3
+          ],
+          "sourceBox": [
+            905,
+            370,
+            1138,
+            533
+          ],
+          "sourceFootAnchor": [
+            116.5,
+            163
+          ],
+          "offset": [
+            4,
+            17
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            1,
+            4
+          ],
+          "sourceBox": [
+            1245,
+            357,
+            1428,
+            541
+          ],
+          "sourceFootAnchor": [
+            91.5,
+            184
+          ],
+          "offset": [
+            10,
+            12
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            1,
+            5
+          ],
+          "sourceBox": [
+            1498,
+            369,
+            1742,
+            540
+          ],
+          "sourceFootAnchor": [
+            122.0,
+            171
+          ],
+          "offset": [
+            3,
+            15
+          ]
+        }
+      ],
+      "sha256": "8abdb85a7423d827527c1de522c3bfc3bcc3fc222cc78876b0010db38204c77f"
+    },
+    {
+      "key": "boss_lang_vuong",
+      "file": "assets/vnext/boss_lang_vuong.png",
+      "size": [
+        384,
+        64
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 6,
+      "directionCount": 1,
+      "uniqueSourcePoses": 6,
+      "durationMs": null,
+      "exportScale": 0.1681159420289855,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            40,
+            618,
+            280,
+            854
+          ],
+          "sourceFootAnchor": [
+            71.0,
+            226
+          ],
+          "offset": [
+            20,
+            18
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            329,
+            623,
+            577,
+            853
+          ],
+          "sourceFootAnchor": [
+            75.5,
+            223
+          ],
+          "offset": [
+            19,
+            19
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            621,
+            621,
+            872,
+            853
+          ],
+          "sourceFootAnchor": [
+            125.5,
+            232
+          ],
+          "offset": [
+            11,
+            17
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            2,
+            3
+          ],
+          "sourceBox": [
+            911,
+            624,
+            1169,
+            853
+          ],
+          "sourceFootAnchor": [
+            93.5,
+            224
+          ],
+          "offset": [
+            16,
+            18
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            2,
+            4
+          ],
+          "sourceBox": [
+            1200,
+            639,
+            1457,
+            849
+          ],
+          "sourceFootAnchor": [
+            109.5,
+            201
+          ],
+          "offset": [
+            14,
+            22
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "forest-creatures-v1.png",
+          "cell": [
+            2,
+            5
+          ],
+          "sourceBox": [
+            1482,
+            613,
+            1753,
+            832
+          ],
+          "sourceFootAnchor": [
+            147.5,
+            201
+          ],
+          "offset": [
+            7,
+            22
+          ]
+        }
+      ],
+      "sha256": "4fb6fb6e58537cf486b13c70c6ecd2e5aa915650cf56d26636de6a229f43ed30"
+    },
+    {
+      "key": "monster_fox",
+      "file": "assets/vnext/monster_fox.png",
+      "size": [
+        384,
+        64
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 6,
+      "directionCount": 1,
+      "uniqueSourcePoses": 6,
+      "durationMs": null,
+      "exportScale": 0.11320754716981132,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "forest-fox-v1.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            83,
+            32,
+            472,
+            456
+          ],
+          "sourceFootAnchor": [
+            194.5,
+            424
+          ],
+          "offset": [
+            10,
+            8
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "forest-fox-v1.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            581,
+            48,
+            976,
+            447
+          ],
+          "sourceFootAnchor": [
+            197.5,
+            399
+          ],
+          "offset": [
+            10,
+            11
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "forest-fox-v1.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            1088,
+            49,
+            1493,
+            452
+          ],
+          "sourceFootAnchor": [
+            202.5,
+            403
+          ],
+          "offset": [
+            9,
+            10
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "forest-fox-v1.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            81,
+            562,
+            468,
+            971
+          ],
+          "sourceFootAnchor": [
+            193.5,
+            409
+          ],
+          "offset": [
+            10,
+            10
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "forest-fox-v1.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            575,
+            564,
+            956,
+            959
+          ],
+          "sourceFootAnchor": [
+            190.5,
+            395
+          ],
+          "offset": [
+            10,
+            11
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "forest-fox-v1.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            1067,
+            543,
+            1495,
+            988
+          ],
+          "sourceFootAnchor": [
+            214.0,
+            445
+          ],
+          "offset": [
+            8,
+            6
+          ]
+        }
+      ],
+      "sha256": "9e47c04c59f207a140c20ba961d6dc82580435797021856def928fc9e0701408"
+    },
+    {
+      "key": "ground_grass",
+      "file": "assets/vnext/ground_grass.png",
+      "type": "ground",
+      "size": [
+        256,
+        256
+      ],
+      "source": "ground-materials-v1.png",
+      "sourceBox": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "sha256": "9cc09ed516fa2fb0b53957249cd0bd216d17fcb03ed3665f1d58daf8ded6561f"
+    },
+    {
+      "key": "ground_stone",
+      "file": "assets/vnext/ground_stone.png",
+      "type": "ground",
+      "size": [
+        256,
+        256
+      ],
+      "source": "ground-materials-v1.png",
+      "sourceBox": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "sha256": "d13909effb62196ee4b8517649e70bd38aa096652352ca5a21f462047c7677d0"
+    },
+    {
+      "key": "ground_dirt",
+      "file": "assets/vnext/ground_dirt.png",
+      "type": "ground",
+      "size": [
+        256,
+        256
+      ],
+      "source": "ground-materials-v1.png",
+      "sourceBox": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "sha256": "dd2d8686e9a83e5d9fc6240773a330ca3a331ccf0348d2abbb03c54e63102967"
+    },
+    {
+      "key": "ground_water",
+      "file": "assets/vnext/ground_water.png",
+      "type": "ground",
+      "size": [
+        256,
+        256
+      ],
+      "source": "ground-materials-v1.png",
+      "sourceBox": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "sha256": "641d7b27cc55595ec6d495255264576a18a2be091209817507bda9eb7c322aea"
+    },
+    {
+      "key": "sfx_sword",
+      "file": "assets/vnext/audio/sfx_sword.wav",
+      "type": "audio",
+      "source": "art/vnext/synthesize_sfx.py",
+      "sampleRate": 22050,
+      "durationMs": 150,
+      "provenance": "original deterministic synthesis; no external samples",
+      "sha256": "1c7eed3273f770c19a1244e986be69ad769a8b8901c304723ea3d93a1cf06840"
+    },
+    {
+      "key": "sfx_hit",
+      "file": "assets/vnext/audio/sfx_hit.wav",
+      "type": "audio",
+      "source": "art/vnext/synthesize_sfx.py",
+      "sampleRate": 22050,
+      "durationMs": 160,
+      "provenance": "original deterministic synthesis; no external samples",
+      "sha256": "a5d5a04c51443bcf898c19a5b39e5cbe09cb12e05b2b230ac28d2f02e9639adf"
+    },
+    {
+      "key": "sfx_cast",
+      "file": "assets/vnext/audio/sfx_cast.wav",
+      "type": "audio",
+      "source": "art/vnext/synthesize_sfx.py",
+      "sampleRate": 22050,
+      "durationMs": 360,
+      "provenance": "original deterministic synthesis; no external samples",
+      "sha256": "2ae01d05a4911be46b34e8d8cecad916d8749c9e54c18cd4910480d7f079eaf9"
+    },
+    {
+      "key": "sfx_dodge",
+      "file": "assets/vnext/audio/sfx_dodge.wav",
+      "type": "audio",
+      "source": "art/vnext/synthesize_sfx.py",
+      "sampleRate": 22050,
+      "durationMs": 220,
+      "provenance": "original deterministic synthesis; no external samples",
+      "sha256": "fd351c774bd903c51e513eac45606f767291aa916169fa506048a75398e558e5"
+    }
+  ]
+}

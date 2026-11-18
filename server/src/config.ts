@@ -5,32 +5,29 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { readBackendEnvironment } from '../../desktop-launcher/src/shared/backend-environment';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+const environment = readBackendEnvironment(path.resolve(__dirname, '../..'), dotenv.parse);
+if ('error' in environment) throw new Error(environment.error);
+const nodeEnv = environment.env.NODE_ENV || 'development';
+// Keep auth cookie handling on the selected mode if Prisma has a different .env.
+Object.assign(process.env, environment.env, { NODE_ENV: nodeEnv });
 
 export const config = {
   server: {
     port: parseInt(process.env.SERVER_PORT || '3001', 10),
     host: process.env.SERVER_HOST || '0.0.0.0',
-    nodeEnv: process.env.NODE_ENV || 'development',
+    nodeEnv,
   },
   database: {
-    url: process.env.DATABASE_URL!,
+    url: environment.env.DATABASE_URL,
   },
   jwt: {
-    secret: process.env.JWT_SECRET!,
+    secret: environment.env.JWT_SECRET,
     expiresIn: process.env.JWT_EXPIRES_IN || '7d',
   },
   cors: {
     origin: process.env.VITE_API_URL || 'http://localhost:5173',
   },
 } as const;
-
-// Validate required env vars
-const requiredEnvVars = ['DATABASE_URL', 'JWT_SECRET'];
-for (const envVar of requiredEnvVars) {
-  if (!process.env[envVar]) {
-    throw new Error(`Biến môi trường ${envVar} chưa được cấu hình!`);
-  }
-}

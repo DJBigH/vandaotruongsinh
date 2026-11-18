@@ -1,0 +1,368 @@
+{
+  "scope": "Diagnostic only. Unmodified frozen fc74a0b build. Canvas case has a document-start HTMLCanvasElement.getContext WebGL availability shim. Phaser.AUTO chooses Canvas naturally. WebGL case has no shim. Phase timing event observers in both.",
+  "frozenDirectory": "scratch/acceptance-build-WR0VUa",
+  "commit": "fc74a0bc9527b1f50290485a9fa565c92745b65a",
+  "buildSha256": "ab6c016ea938d1577c27a555cd3d0e630a70f888c245696e746fda6570ab5024",
+  "buildFiles": 92,
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "logicalCpus": 9,
+  "cases": [
+    {
+      "mode": "canvas",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      }
+    },
+    {
+      "mode": "canvas",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    },
+    {
+      "mode": "webgl",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      }
+    },
+    {
+      "mode": "webgl",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      }
+    }
+  ],
+  "results": [
+    {
+      "mode": "canvas",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "sceneBefore": {
+        "map": "map_thanh_khe_rung",
+        "player": {
+          "x": 1600,
+          "y": 1760,
+          "visible": true,
+          "texture": "player_idle",
+          "animation": "player_idle_down",
+          "frame": 1
+        },
+        "camera": {
+          "x": 839.6153846153845,
+          "y": 1368.6153846153845,
+          "zoom": 1.3,
+          "width": 1366,
+          "height": 768
+        },
+        "render": {
+          "entities": 11,
+          "inView": 11
+        },
+        "canvas": {
+          "width": 1366,
+          "height": 768
+        },
+        "inputBlocked": false,
+        "rendererType": 1
+      },
+      "frames": {
+        "valid": true,
+        "frames": 1849,
+        "intervals": 1848,
+        "durationMs": 45207.90000000037,
+        "wallDurationMs": 45235,
+        "averageFps": 40.875428318779704,
+        "intervalAverageFps": 40.87781117901926,
+        "coverage": 0.999400906377813,
+        "firstGapMs": 10.199999999254942,
+        "endGapMs": 16.90000000037253,
+        "p50Ms": 21.199999999254942,
+        "p95Ms": 42.90000000037253,
+        "percentileConvention": "nearest rank",
+        "maxMs": 164,
+        "load": {
+          "observedFrames": 1849,
+          "fullFrames": 1849,
+          "minNormals": 10,
+          "minBosses": 1,
+          "maxSnapshotAgeMs": 204.89999999850988,
+          "badSamples": []
+        },
+        "renderer": "Canvas",
+        "devicePixelRatio": 1,
+        "visibility": "visible"
+      },
+      "stepPhasesMs": {
+        "update": {
+          "n": 1849,
+          "mean": 0.32536506219960953,
+          "p50": 0.2000000011175871,
+          "p95": 0.7000000011175871,
+          "max": 6.800000000745058
+        },
+        "render": {
+          "n": 1849,
+          "mean": 0.9804218496589354,
+          "p50": 0.8000000007450581,
+          "p95": 1.699999999254942,
+          "max": 33.5
+        }
+      },
+      "confirmedCasts": 7,
+      "pageErrors": [],
+      "screenshot": "scratch/sdd-vnext-m1/renderer-diagnostic/comparison-1-canvas-1366x768.png"
+    },
+    {
+      "mode": "canvas",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sceneBefore": {
+        "map": "map_thanh_khe_rung",
+        "player": {
+          "x": 1600,
+          "y": 1760,
+          "visible": true,
+          "texture": "player_hurt",
+          "animation": "player_hurt_down",
+          "frame": 2
+        },
+        "camera": {
+          "x": 349.53846153846166,
+          "y": 1092.6153846153845,
+          "zoom": 1.3,
+          "width": 1920,
+          "height": 1080
+        },
+        "render": {
+          "entities": 11,
+          "inView": 11
+        },
+        "canvas": {
+          "width": 1920,
+          "height": 1080
+        },
+        "inputBlocked": false,
+        "rendererType": 1
+      },
+      "frames": {
+        "valid": true,
+        "frames": 1166,
+        "intervals": 1165,
+        "durationMs": 45024.300000000745,
+        "wallDurationMs": 45085.09999999963,
+        "averageFps": 25.862202812015713,
+        "intervalAverageFps": 25.874916434014093,
+        "coverage": 0.9986514391672885,
+        "firstGapMs": 50.69999999925494,
+        "endGapMs": 10.099999999627471,
+        "p50Ms": 33,
+        "p95Ms": 65,
+        "percentileConvention": "nearest rank",
+        "maxMs": 268,
+        "load": {
+          "observedFrames": 1166,
+          "fullFrames": 1166,
+          "minNormals": 10,
+          "minBosses": 1,
+          "maxSnapshotAgeMs": 109.39999999850988,
+          "badSamples": []
+        },
+        "renderer": "Canvas",
+        "devicePixelRatio": 1,
+        "visibility": "visible"
+      },
+      "stepPhasesMs": {
+        "update": {
+          "n": 1166,
+          "mean": 0.42178387650309407,
+          "p50": 0.2999999988824129,
+          "p95": 1,
+          "max": 8
+        },
+        "render": {
+          "n": 1166,
+          "mean": 0.958576329343187,
+          "p50": 0.7000000011175871,
+          "p95": 2,
+          "max": 15
+        }
+      },
+      "confirmedCasts": 7,
+      "pageErrors": [],
+      "screenshot": "scratch/sdd-vnext-m1/renderer-diagnostic/comparison-2-canvas-1920x1080.png"
+    },
+    {
+      "mode": "webgl",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "sceneBefore": {
+        "map": "map_thanh_khe_rung",
+        "player": {
+          "x": 1600,
+          "y": 1760,
+          "visible": true,
+          "texture": "player_hurt",
+          "animation": "player_hurt_down",
+          "frame": 1
+        },
+        "camera": {
+          "x": 839.6153846153845,
+          "y": 1368.6153846153845,
+          "zoom": 1.3,
+          "width": 1366,
+          "height": 768
+        },
+        "render": {
+          "entities": 11,
+          "inView": 11
+        },
+        "canvas": {
+          "width": 1366,
+          "height": 768
+        },
+        "inputBlocked": false,
+        "rendererType": 2
+      },
+      "frames": {
+        "valid": true,
+        "frames": 942,
+        "intervals": 941,
+        "durationMs": 45030.40000000037,
+        "wallDurationMs": 45101.90000000037,
+        "averageFps": 20.88603806048065,
+        "intervalAverageFps": 20.896994030699087,
+        "coverage": 0.9984147009327767,
+        "firstGapMs": 24.699999999254942,
+        "endGapMs": 46.80000000074506,
+        "p50Ms": 44.5,
+        "p95Ms": 94.79999999888241,
+        "percentileConvention": "nearest rank",
+        "maxMs": 184.80000000074506,
+        "load": {
+          "observedFrames": 942,
+          "fullFrames": 942,
+          "minNormals": 10,
+          "minBosses": 1,
+          "maxSnapshotAgeMs": 125.59999999962747,
+          "badSamples": []
+        },
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "devicePixelRatio": 1,
+        "visibility": "visible"
+      },
+      "stepPhasesMs": {
+        "update": {
+          "n": 944,
+          "mean": 0.4898305084493201,
+          "p50": 0.30000000074505806,
+          "p95": 1.099999999627471,
+          "max": 14.5
+        },
+        "render": {
+          "n": 944,
+          "mean": 0.7580508474749907,
+          "p50": 0.5,
+          "p95": 1.5,
+          "max": 18.90000000037253
+        }
+      },
+      "confirmedCasts": 7,
+      "pageErrors": [],
+      "screenshot": "scratch/sdd-vnext-m1/renderer-diagnostic/comparison-3-webgl-1366x768.png"
+    },
+    {
+      "mode": "webgl",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sceneBefore": {
+        "map": "map_thanh_khe_rung",
+        "player": {
+          "x": 1600,
+          "y": 1760,
+          "visible": true,
+          "texture": "player_hurt",
+          "animation": "player_hurt_down",
+          "frame": 1
+        },
+        "camera": {
+          "x": 349.53846153846166,
+          "y": 1092.6153846153845,
+          "zoom": 1.3,
+          "width": 1920,
+          "height": 1080
+        },
+        "render": {
+          "entities": 11,
+          "inView": 11
+        },
+        "canvas": {
+          "width": 1920,
+          "height": 1080
+        },
+        "inputBlocked": false,
+        "rendererType": 2
+      },
+      "frames": {
+        "valid": true,
+        "frames": 447,
+        "intervals": 446,
+        "durationMs": 44976.29999999888,
+        "wallDurationMs": 45135.59999999963,
+        "averageFps": 9.903490814346185,
+        "intervalAverageFps": 9.916333713533819,
+        "coverage": 0.9964706351527232,
+        "firstGapMs": 32.70000000111759,
+        "endGapMs": 126.59999999962747,
+        "p50Ms": 80,
+        "p95Ms": 330.5,
+        "percentileConvention": "nearest rank",
+        "maxMs": 800,
+        "load": {
+          "observedFrames": 447,
+          "fullFrames": 447,
+          "minNormals": 10,
+          "minBosses": 1,
+          "maxSnapshotAgeMs": 120.90000000037253,
+          "badSamples": []
+        },
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "devicePixelRatio": 1,
+        "visibility": "visible"
+      },
+      "stepPhasesMs": {
+        "update": {
+          "n": 448,
+          "mean": 0.8247767857267588,
+          "p50": 0.5,
+          "p95": 2.099999999627471,
+          "max": 20.09999999962747
+        },
+        "render": {
+          "n": 448,
+          "mean": 1.2245535714027938,
+          "p50": 0.6999999992549419,
+          "p95": 5.5,
+          "max": 12
+        }
+      },
+      "confirmedCasts": 7,
+      "pageErrors": [],
+      "screenshot": "scratch/sdd-vnext-m1/renderer-diagnostic/comparison-4-webgl-1920x1080.png"
+    }
+  ],
+  "cleanupErrors": [],
+  "browserVersion": "153.0.8010.0",
+  "accountsCleaned": 4
+}

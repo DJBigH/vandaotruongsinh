@@ -2,7 +2,7 @@
 // VẠN ĐẠO TRƯỜNG SINH - Main Game Page
 // ============================================================
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGameStore } from '../stores/gameStore';
 import { createPhaserGame } from '../game/PhaserGame';
@@ -13,6 +13,7 @@ import HUD from '../components/game/HUD';
 import DialogueModal from '../components/game/DialogueModal';
 import InventoryPanel from '../components/game/InventoryPanel';
 import CharacterPanel from '../components/game/CharacterPanel';
+import CharacterSlotsModal from '../components/game/CharacterSlotsModal';
 import QuestPanel from '../components/game/QuestPanel';
 import CraftingPanel from '../components/game/CraftingPanel';
 import MapPanel from '../components/game/MapPanel';
@@ -26,16 +27,18 @@ import TowerPanel from '../components/game/TowerPanel';
 
 export default function GamePage() {
   const navigate = useNavigate();
+  const [endedSession, setEndedSession] = useState('');
   const gameContainerRef = useRef<HTMLDivElement>(null);
   const phaserGameRef = useRef<Phaser.Game | null>(null);
 
   const {
-    character,
     loadCharacter,
     loadInventory,
     loadQuests,
     openDialogue,
     activePanel,
+    characterSlotsOpen,
+    setCharacterSlotsOpen,
     addNotification,
   } = useGameStore();
 
@@ -44,9 +47,8 @@ export default function GamePage() {
 
     async function initGameData() {
       await loadCharacter();
-      const currentChar = useGameStore.getState().character;
-
-      if (!currentChar && isMounted) {
+      if (!isMounted) return;
+      if (!useGameStore.getState().character) {
         navigate('/create-character');
         return;
       }
@@ -54,7 +56,7 @@ export default function GamePage() {
       await Promise.all([loadInventory(), loadQuests()]);
 
       // Initialize Phaser canvas
-      if (gameContainerRef.current && !phaserGameRef.current) {
+      if (isMounted && gameContainerRef.current && !phaserGameRef.current) {
         phaserGameRef.current = createPhaserGame(gameContainerRef.current.id);
       }
     }
@@ -65,12 +67,12 @@ export default function GamePage() {
     const handleStartCombat = async (monsterId: string) => {
       try {
         const res = await gameApi.startCombat(monsterId);
-        if (res.success && res.data && phaserGameRef.current) {
+        if (isMounted && res.success && res.data && phaserGameRef.current) {
           phaserGameRef.current.scene.stop('ExplorationScene');
           phaserGameRef.current.scene.start('CombatScene', { combatState: res.data });
         }
       } catch (err: any) {
-        addNotification(err.response?.data?.error || 'Không thể bắt đầu trận đấu', 'error');
+        if (isMounted) addNotification(err.response?.data?.error || 'Không thể bắt đầu trận đấu', 'error');
       }
     };
 
@@ -82,26 +84,43 @@ export default function GamePage() {
       addNotification(msg, 'info');
     };
 
-    const handleCombatEnded = async () => {
-      await Promise.all([loadCharacter(), loadInventory(), loadQuests()]);
+    let refreshQueued = false;
+    let refreshing = false;
+    const refreshProgress = async () => {
+      refreshQueued = true;
+      if (refreshing) return;
+      refreshing = true;
+      while (isMounted && refreshQueued) {
+        refreshQueued = false;
+        await Promise.all([loadCharacter(), loadInventory(), loadQuests()]);
+      }
+      refreshing = false;
     };
 
+    eventBridge.on('worldSessionEnded', setEndedSession);
     eventBridge.on('startCombat', handleStartCombat);
     eventBridge.on('openDialogue', handleOpenDialogue);
     eventBridge.on('notification', handleNotification);
-    eventBridge.on('combatEnded', handleCombatEnded);
+    eventBridge.on('combatEnded', refreshProgress);
+    eventBridge.on('worldProgressCommitted', refreshProgress);
 
     return () => {
       isMounted = false;
+      eventBridge.off('worldSessionEnded', setEndedSession);
       eventBridge.off('startCombat', handleStartCombat);
       eventBridge.off('openDialogue', handleOpenDialogue);
       eventBridge.off('notification', handleNotification);
-      eventBridge.off('combatEnded', handleCombatEnded);
+      eventBridge.off('combatEnded', refreshProgress);
+      eventBridge.off('worldProgressCommitted', refreshProgress);
 
       if (phaserGameRef.current) {
         phaserGameRef.current.destroy(true);
         phaserGameRef.current = null;
       }
+      const state = useGameStore.getState();
+      state.setActivePanel(null);
+      state.setCharacterSlotsOpen(false);
+      state.closeDialogue();
     };
   }, [navigate]);
 
@@ -128,22 +147,35 @@ export default function GamePage() {
         }}
       />
 
-      {/* HUD and Modals */}
-      <HUD />
-      <DialogueModal />
+      {endedSession ? (
+        <section role="alert" aria-label="Phiên chơi đã kết thúc" style={{
+          position: 'absolute', inset: 0, display: 'grid', placeContent: 'center', justifyItems: 'center',
+          padding: 24, textAlign: 'center', background: '#0a0e17', color: '#f0eadc',
+        }}>
+          <h2>Phiên chơi đã kết thúc</h2>
+          <p>{endedSession}</p>
+          <button type="button" onClick={() => window.location.reload()}>Tải lại nhân vật đang chọn</button>
+        </section>
+      ) : (
+        <>
+          <HUD />
+          <DialogueModal />
+          {characterSlotsOpen && <CharacterSlotsModal onClose={() => setCharacterSlotsOpen(false)} />}
 
-      {activePanel === 'inventory' && <InventoryPanel />}
-      {activePanel === 'character' && <CharacterPanel />}
-      {activePanel === 'quest' && <QuestPanel />}
-      {activePanel === 'crafting' && <CraftingPanel />}
-      {activePanel === 'sect' && <SectPanel />}
-      {activePanel === 'cave' && <CavePanel />}
-      {activePanel === 'pets' && <PetPanel />}
-      {activePanel === 'offline' && <OfflineModal />}
-      {activePanel === 'story' && <StoryJournalPanel />}
-      {activePanel === 'tower' && <TowerPanel />}
-      {activePanel === 'map' && <MapPanel />}
-      {activePanel === 'settings' && <SettingsPanel />}
+          {activePanel === 'inventory' && <InventoryPanel />}
+          {activePanel === 'character' && <CharacterPanel />}
+          {activePanel === 'quest' && <QuestPanel />}
+          {activePanel === 'crafting' && <CraftingPanel />}
+          {activePanel === 'sect' && <SectPanel />}
+          {activePanel === 'cave' && <CavePanel />}
+          {activePanel === 'pets' && <PetPanel />}
+          {activePanel === 'offline' && <OfflineModal />}
+          {activePanel === 'story' && <StoryJournalPanel />}
+          {activePanel === 'tower' && <TowerPanel />}
+          {activePanel === 'map' && <MapPanel />}
+          {activePanel === 'settings' && <SettingsPanel />}
+        </>
+      )}
     </div>
   );
 }

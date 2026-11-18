@@ -1,0 +1,2 @@
+{"elapsedMs":1101,"event":"begin","browser":"153.0.8010.0"}
+{"elapsedMs":32023,"event":"failed","error":"TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: /Đăng Ký/ })\u001b[22m\n"}

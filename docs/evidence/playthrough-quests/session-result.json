@@ -1,0 +1,151 @@
+{
+  "sessionId": "1794987267796-c0b447823c8c",
+  "source": {
+    "commit": "96470e74a64f3e9b61a2b3a026782a4d35e4a4bc",
+    "harnessSha256": "0a50643160628d6f4f0888c2b73e61f14023e452fff8b33fe1b14ecfb26a876c",
+    "gameSourceDirty": true,
+    "gameSourceDiffSha256": "c621a9fa2c40a700f60eab107471f2a708f0e1b44f48dc85d67f28dbbaaf450a"
+  },
+  "clientBuild": {
+    "commit": "287dd8c1cf5c94a0483abc5ddf92ba3ed5a61d48",
+    "harnessSha256": "0a50643160628d6f4f0888c2b73e61f14023e452fff8b33fe1b14ecfb26a876c",
+    "gameSourceDirty": true,
+    "gameSourceDiffSha256": "c621a9fa2c40a700f60eab107471f2a708f0e1b44f48dc85d67f28dbbaaf450a",
+    "buildSha256": "1460fa931c50224c62e54db301d112c1344a36a3b911a39ac9870009b24b25c4",
+    "buildFiles": 92,
+    "builtDuringFreeze": true,
+    "buildLog": "\n> van-dao-truong-sinh-client@1.0.0 build\n> tsc && vite build\n\nvite v5.4.21 building for production...\ntransforming...\n✓ 157 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                     1.03 kB │ gzip:   0.52 kB\ndist/assets/index-BQxPQ6mu.css      5.79 kB │ gzip:   1.84 kB\ndist/assets/index-Ic7zauge.js   1,910.65 kB │ gzip: 468.83 kB\n✓ built in 9.03s\n",
+    "createdAt": "2026-11-18T07:30:05.503Z"
+  },
+  "startedAt": "2026-11-18T07:34:27.796Z",
+  "durationMs": 750163,
+  "browser": "153.0.8010.0",
+  "videoPath": "/workspace/scratch/c5685e889d73/vandaotruongsinh/docs/evidence/playthrough-quests/video/page@d95e822b1535d6b20e3b7fb54bf4feff.webm",
+  "videoMetadata": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "vp8",
+        "width": 1366,
+        "height": 768
+      }
+    ],
+    "format": {
+      "duration": "748.800000",
+      "size": "73015987"
+    }
+  },
+  "errors": [],
+  "sockets": 1,
+  "ticks": 14660,
+  "actions": {
+    "SKILL_1": 8,
+    "ATTACK": 20,
+    "DODGE": 10,
+    "SKILL_2": 1
+  },
+  "confirmedActions": {
+    "SKILL_1": 8,
+    "ATTACK": 19,
+    "DODGE": 10,
+    "SKILL_2": 1
+  },
+  "rewards": [
+    {
+      "exp": 25,
+      "spiritStones": 10,
+      "items": [
+        {
+          "itemId": "item_013",
+          "name": "item_013",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "exp": 30,
+      "spiritStones": 12,
+      "items": [
+        {
+          "itemId": "item_012",
+          "name": "item_012",
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "exp": 25,
+      "spiritStones": 10,
+      "items": [
+        {
+          "itemId": "item_014",
+          "name": "item_014",
+          "quantity": 2
+        },
+        {
+          "itemId": "item_013",
+          "name": "item_013",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "exp": 30,
+      "spiritStones": 12,
+      "items": [
+        {
+          "itemId": "item_012",
+          "name": "item_012",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "exp": 15,
+      "spiritStones": 6,
+      "items": [
+        {
+          "itemId": "item_014",
+          "name": "item_014",
+          "quantity": 2
+        },
+        {
+          "itemId": "item_012",
+          "name": "item_012",
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "deaths": 4,
+  "commandFailures": [
+    {
+      "command": {
+        "type": "walk",
+        "x": 1984,
+        "y": 1376
+      },
+      "error": "Error: Player died while walking"
+    },
+    {
+      "command": {
+        "type": "fight",
+        "templateId": "boss_001",
+        "timeout": 75000
+      },
+      "error": "Error: Defeated while fighting boss_001"
+    },
+    {
+      "command": {
+        "type": "fight",
+        "templateId": "boss_001",
+        "timeout": 75000
+      },
+      "error": "Error: Defeated while fighting boss_001"
+    }
+  ],
+  "completed": true,
+  "fatal": null,
+  "cleanupErrors": []
+}

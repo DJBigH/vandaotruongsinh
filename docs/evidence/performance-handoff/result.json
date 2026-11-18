@@ -1,0 +1,335 @@
+{
+  "source": {
+    "commit": "25a7864a39cc94f7e0960661b0157980bfddeefc",
+    "harnessSha256": "8736614e75c1874b95f54a893a7bbd3a253d9b048049af3d553ab99768b0ec9f",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null
+  },
+  "scope": "four-skills-and-load",
+  "hardware": {
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "logicalCpus": 9,
+    "totalMemoryBytes": 10451423232,
+    "platform": "linux",
+    "arch": "x64",
+    "cpuQuota": null,
+    "memoryLimit": null
+  },
+  "results": [
+    {
+      "kind": "four-slot-cost-cooldown-animation",
+      "skills": [
+        {
+          "slot": 1,
+          "mpCost": 15,
+          "cooldownSeconds": 1.5,
+          "displacement": 0,
+          "authoritativeTick": 19,
+          "scene": {
+            "map": "map_thanh_khe",
+            "player": {
+              "x": 1024,
+              "y": 1100,
+              "visible": true,
+              "texture": "player_cast",
+              "animation": "player_cast_right",
+              "frame": 1
+            },
+            "camera": {
+              "x": 341,
+              "y": 716,
+              "zoom": 1.3,
+              "width": 1366,
+              "height": 768
+            },
+            "render": {
+              "entities": 0,
+              "inView": 0
+            },
+            "canvas": {
+              "width": 1366,
+              "height": 768
+            },
+            "inputBlocked": false,
+            "rendererType": 2
+          }
+        },
+        {
+          "slot": 2,
+          "mpCost": 25,
+          "cooldownSeconds": 3,
+          "displacement": 0,
+          "authoritativeTick": 65,
+          "scene": {
+            "map": "map_thanh_khe",
+            "player": {
+              "x": 1024,
+              "y": 1100,
+              "visible": true,
+              "texture": "player_cast",
+              "animation": "player_cast_right",
+              "frame": 1
+            },
+            "camera": {
+              "x": 341,
+              "y": 716,
+              "zoom": 1.3,
+              "width": 1366,
+              "height": 768
+            },
+            "render": {
+              "entities": 0,
+              "inView": 0
+            },
+            "canvas": {
+              "width": 1366,
+              "height": 768
+            },
+            "inputBlocked": false,
+            "rendererType": 2
+          }
+        },
+        {
+          "slot": 3,
+          "mpCost": 50,
+          "cooldownSeconds": 6,
+          "displacement": 0,
+          "authoritativeTick": 126,
+          "scene": {
+            "map": "map_thanh_khe",
+            "player": {
+              "x": 1024,
+              "y": 1100,
+              "visible": true,
+              "texture": "player_cast",
+              "animation": "player_cast_right",
+              "frame": 1
+            },
+            "camera": {
+              "x": 341,
+              "y": 716,
+              "zoom": 1.3,
+              "width": 1366,
+              "height": 768
+            },
+            "render": {
+              "entities": 0,
+              "inView": 0
+            },
+            "canvas": {
+              "width": 1366,
+              "height": 768
+            },
+            "inputBlocked": false,
+            "rendererType": 2
+          }
+        },
+        {
+          "slot": 4,
+          "mpCost": 35,
+          "cooldownSeconds": 4.5,
+          "displacement": 160,
+          "authoritativeTick": 264,
+          "scene": {
+            "map": "map_thanh_khe",
+            "player": {
+              "x": 1024,
+              "y": 1100,
+              "visible": true,
+              "texture": "player_cast",
+              "animation": "player_cast_right",
+              "frame": 1
+            },
+            "camera": {
+              "x": 341,
+              "y": 716,
+              "zoom": 1.3,
+              "width": 1366,
+              "height": 768
+            },
+            "render": {
+              "entities": 0,
+              "inView": 0
+            },
+            "canvas": {
+              "width": 1366,
+              "height": 768
+            },
+            "inputBlocked": false,
+            "rendererType": 2
+          }
+        }
+      ],
+      "limitation": "Empty-ground fixture: projectile existence and dash landing are checked; melee/AoE hit damage is covered separately by combat tests and playthrough.",
+      "errors": []
+    },
+    {
+      "kind": "server-socket-ownership-after-reload",
+      "open": 1,
+      "closing": 0,
+      "total": 1,
+      "replacementSocket": 2,
+      "currentDocumentObservations": 1
+    },
+    {
+      "kind": "load",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "frames": {
+        "valid": true,
+        "frames": 849,
+        "intervals": 848,
+        "durationMs": 45050.60000000149,
+        "wallDurationMs": 45171.199999999255,
+        "averageFps": 18.795161518844175,
+        "intervalAverageFps": 18.823278713268458,
+        "coverage": 0.9973301572683975,
+        "firstGapMs": 44.69999999925494,
+        "endGapMs": 75.89999999850988,
+        "p50Ms": 41.29999999701977,
+        "p95Ms": 141.60000000149012,
+        "percentileConvention": "nearest rank",
+        "maxMs": 426.80000000074506,
+        "load": {
+          "observedFrames": 849,
+          "fullFrames": 849,
+          "minNormals": 10,
+          "minBosses": 1,
+          "maxSnapshotAgeMs": 100.30000000074506,
+          "badSamples": []
+        },
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "devicePixelRatio": 1,
+        "visibility": "visible"
+      },
+      "confirmedCasts": 7,
+      "sufficientCoverage": true,
+      "fullLoadEveryRenderedFrame": true,
+      "errors": [],
+      "passed": false
+    },
+    {
+      "kind": "load",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "frames": {
+        "valid": true,
+        "frames": 502,
+        "intervals": 501,
+        "durationMs": 44746.10000000149,
+        "wallDurationMs": 45059.800000000745,
+        "averageFps": 11.140750735688833,
+        "intervalAverageFps": 11.196506511181607,
+        "coverage": 0.9930381404267384,
+        "firstGapMs": 79.5,
+        "endGapMs": 234.19999999925494,
+        "p50Ms": 74.30000000074506,
+        "p95Ms": 229,
+        "percentileConvention": "nearest rank",
+        "maxMs": 862.5,
+        "load": {
+          "observedFrames": 502,
+          "fullFrames": 502,
+          "minNormals": 10,
+          "minBosses": 1,
+          "maxSnapshotAgeMs": 107.89999999850988,
+          "badSamples": []
+        },
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "devicePixelRatio": 1,
+        "visibility": "visible"
+      },
+      "confirmedCasts": 7,
+      "sufficientCoverage": true,
+      "fullLoadEveryRenderedFrame": true,
+      "errors": [],
+      "passed": false
+    }
+  ],
+  "cleanupErrors": [],
+  "clientBuild": {
+    "commit": "25a7864a39cc94f7e0960661b0157980bfddeefc",
+    "harnessSha256": "8736614e75c1874b95f54a893a7bbd3a253d9b048049af3d553ab99768b0ec9f",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null,
+    "buildSha256": "d0d973df6bef01487b411fb2ade8744ad2503117cab0b26d22121de722829469",
+    "buildFiles": 92,
+    "builtDuringFreeze": true,
+    "buildEnvironment": {
+      "NODE_ENV": "production",
+      "VITE_API_URL": "/api"
+    },
+    "buildLog": "\n> van-dao-truong-sinh-client@1.0.0 build\n> tsc && vite build\n\nvite v5.4.21 building for production...\ntransforming...\n✓ 157 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                     1.07 kB │ gzip:   0.54 kB\ndist/assets/index-BQxPQ6mu.css      5.79 kB │ gzip:   1.84 kB\ndist/assets/index-Cf-D1-P7.js   1,910.78 kB │ gzip: 468.86 kB\n✓ built in 9.82s\n",
+    "createdAt": "2026-11-18T09:02:42.075Z"
+  },
+  "browser": "153.0.8010.0",
+  "fixture": {
+    "map": "map_thanh_khe_rung",
+    "normalMonsters": 10,
+    "bosses": 1,
+    "spawnPositions": [
+      [
+        47,
+        53
+      ],
+      [
+        49,
+        53
+      ],
+      [
+        51,
+        53
+      ],
+      [
+        53,
+        53
+      ],
+      [
+        47,
+        55
+      ],
+      [
+        53,
+        55
+      ],
+      [
+        47,
+        57
+      ],
+      [
+        49,
+        57
+      ],
+      [
+        51,
+        57
+      ],
+      [
+        53,
+        57
+      ]
+    ],
+    "skillsRealm": {
+      "index": 1,
+      "tier": 1
+    },
+    "loadRealm": {
+      "index": 8,
+      "tier": 3
+    },
+    "equippedSkills": [
+      "skill_sword_01",
+      "skill_sword_02",
+      "skill_sword_03",
+      "skill_sword_04"
+    ],
+    "reason": "Only disposable save preparation and this process spawn layout differ. Original monster stats, AI and damage/cost/cooldown formulas remain. High-realm defense keeps the measured player alive. The player casts the target AoE on empty ground within its 200px range so no load actor dies.",
+    "loadSampling": "Every Phaser post-render: join snapshot IDs to visible in-camera sprites, require combat-active states, a living player and snapshot age <=250ms.",
+    "video": false
+  },
+  "passed": false
+}

@@ -1,0 +1,53 @@
+Downloading Electron binary...
+========================================================================
+ 🛡️  KIỂM THỬ KHỞI CHẠY & BẢO MẬT DESKTOP LAUNCHER - VẠN ĐẠO TRƯỜNG SINH
+========================================================================
+
+1. KIỂM THỬ CÀI ĐẶT & PERSISTENCE:
+  ✓ [PASS] Cổng server mặc định là 3001
+  ✓ [PASS] Cổng client mặc định là 5173
+  ✓ [PASS] Cổng PostgreSQL mặc định là 5432
+  ✓ [PASS] Mặc định kích hoạt che giấu thông tin nhạy cảm
+  ✓ [PASS] Cập nhật cài đặt thành công
+
+2. KIỂM THỬ LOGGER & CHE GIẤU THÔNG TIN NHẠY CẢM (SECRET REDACTION):
+  ✓ [PASS] Mật khẩu Database trong URL đã bị che giấu
+  ✓ [PASS] URL Database được thay thế bằng chuỗi an toàn
+  ✓ [PASS] Token Bearer/JWT đã bị che giấu
+  ✓ [PASS] Định dạng Bearer *** xuất hiện chính xác
+  ✓ [PASS] Mật khẩu password="..." đã bị che giấu
+  ✓ [PASS] Đường dẫn thư mục cá nhân đã được che giấu
+  ✓ [PASS] Thay thế đường dẫn cá nhân bằng <USER_DIR>
+  ✓ [PASS] Circular buffer lưu giữ nhật ký trong bộ nhớ
+
+3. KIỂM THỬ XUẤT NHẬT KÝ CHO AI (.TXT):
+  ✓ [PASS] Xuất file .txt thành công
+  ✓ [PASS] File .txt tồn tại trên ổ đĩa
+  ✓ [PASS] Có PHẦN 1: Thông tin báo cáo & môi trường
+  ✓ [PASS] Có PHẦN 2: Tổng quan trạng thái dịch vụ
+  ✓ [PASS] Có PHẦN 3: Tóm tắt hành vi gần nhất
+  ✓ [PASS] Có PHẦN 4: Danh sách lỗi & bối cảnh phát sinh
+  ✓ [PASS] Có PHẦN 5: Toàn bộ nhật ký theo nguồn
+  ✓ [PASS] Có PHẦN 6: Phạm vi dữ liệu & giới hạn kỹ thuật
+  ✓ [PASS] Tiêu đề tiếng Việt chính xác
+
+4. KIỂM THỬ XUẤT GÓI CHẨN ĐOÁN CHO AI (.ZIP):
+  ✓ [PASS] Xuất gói chẩn đoán .zip thành công
+  ✓ [PASS] File .zip tồn tại trên ổ đĩa
+  ✓ [PASS] Gói ZIP chứa summary.md
+  ✓ [PASS] Gói ZIP chứa manifest.json
+  ✓ [PASS] Gói ZIP chứa events.jsonl
+  ✓ [PASS] Gói ZIP chứa logs/launcher.log
+  ✓ [PASS] events.jsonl tuân thủ định dạng JSON Lines chuẩn máy học/AI
+
+5. KIỂM THỬ CHẨN ĐOÁN HỆ THỐNG (7 HẠNG MỤC):
+  ✓ [PASS] Đầy đủ 7 hạng mục tiền kiểm
+  ✓ [PASS] Tiền kiểm Node.js & npm Runtime thành công
+  ✓ [PASS] Cấu trúc thư mục Server & Client hợp lệ
+  ✗ [FAIL] Kết nối cơ sở dữ liệu PostgreSQL 5432 phản hồi thành công
+  ✓ [PASS] Quyền ghi thư mục logs hợp lệ
+
+========================================================================
+ 📊 KẾT QUẢ: 33/34 KIỂM THỬ ĐẠT (100% THÀNH CÔNG)
+========================================================================
+

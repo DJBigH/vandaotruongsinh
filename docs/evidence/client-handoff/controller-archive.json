@@ -1,0 +1,77 @@
+{
+  "sourceCommit": "3ac3fe5ed078347145b0199cd136c9a6c05939fa",
+  "gameSourceDirty": false,
+  "harnessSha256": "aa402c03e5fe0a763002031dc355c865731185b12648a230acf9b462f2f7d09d",
+  "frozenClientBuildSha256": "09fdb6bee76796db3cc7dfd58280ed115490eb2e756cb97822f4693743efdfaf",
+  "harnessWorkingTreeDirtyAtCapture": true,
+  "note": "The controller changes were not yet committed at capture; this archive preserves every measured .mjs plus the exact scratch entrypoint and command recorder. Product paths were clean.",
+  "files": [
+    {
+      "path": "scripts/verification/browser-helpers.mjs",
+      "sha256": "059d1341f1ef93dbade46dee7073e3e52a923baede1264b81150b44f870af142",
+      "bytes": 12784
+    },
+    {
+      "path": "scripts/verification/browser-smoke.mjs",
+      "sha256": "1e1035260e253b1c47314ca67c66cf8b3dfe043a88f048b5dc2ba185ac971392",
+      "bytes": 10137
+    },
+    {
+      "path": "scripts/verification/evidence-utils.mjs",
+      "sha256": "f6e8b67bb1ce294f120e11aa2b80a89aeaf489c30d3df62fcb73cd8970c3953f",
+      "bytes": 2260
+    },
+    {
+      "path": "scripts/verification/focus-probe.mjs",
+      "sha256": "7f1986eac82681e844541a1a556fc464d39d806bcf680c3b562a41df3fe50c35",
+      "bytes": 3804
+    },
+    {
+      "path": "scripts/verification/frozen-preview.mjs",
+      "sha256": "4e3a2d4b51c36836500c0df0e4e9b17d2733c30e80f225770c8b85dcfb5a903d",
+      "bytes": 2704
+    },
+    {
+      "path": "scripts/verification/performance-fixture.mjs",
+      "sha256": "03c2a4ad9e035d249f01d615ad353a4847f00703d42dfc3bf886b51e79286f61",
+      "bytes": 11445
+    },
+    {
+      "path": "scripts/verification/play-session.mjs",
+      "sha256": "e92c1a18a0e56bb5529701ac71416775cfa19c2a125e0f965a02968c6aaf5eff",
+      "bytes": 23781
+    },
+    {
+      "path": "scripts/verification/send-command.mjs",
+      "sha256": "a4ab088e053171e81363793baa6feec22baf655b022feb59e181335b315edaad",
+      "bytes": 2034
+    },
+    {
+      "path": "scripts/verification/serve-and-play.mjs",
+      "sha256": "9ddcb249620da9bb1152dd11b73872ab99e3f290104cf7399a99ece82eeccbf8",
+      "bytes": 573
+    },
+    {
+      "path": "scripts/verification/terminal-handover-browser.mjs",
+      "sha256": "726c8f66079a9b0aea8122ac90aeb07be8b301d1641b5d095c7b375bfe53e0c0",
+      "bytes": 6593
+    },
+    {
+      "path": "scripts/verification/walking-route.mjs",
+      "sha256": "28bc570135026ba18f063f5ecb5d1c7c7bc68c8e04e96479015a9ba93b967621",
+      "bytes": 3263
+    },
+    {
+      "path": "scratch/run-final-smoke.mjs",
+      "sha256": "cf8e1c140807b42c9947cf7f7eb291dde356cf01a18f0c594863d094e64abc47",
+      "bytes": 2185
+    },
+    {
+      "path": "scratch/run-handoff-verification.py",
+      "sha256": "c9190c3b5765925b50914b9b6b3efc067928918cafaf499b61ca7377777b41a4",
+      "bytes": 1770
+    }
+  ],
+  "archiveFile": "harness-source.zip",
+  "archiveSha256": "b428bda04a6ef135d43e5f01a4dd4d866957480cdc7fdb9c5de01945f5b832fe"
+}

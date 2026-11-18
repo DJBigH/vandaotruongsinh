@@ -1,0 +1,16 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/client
+node --import ../server/node_modules/tsx/dist/loader.mjs --test '--test-name-pattern=a slot retirement' tests/exploration.test.ts
+✖ a slot retirement closes the scene permanently across retry and focus (7.543833ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 545.458273
+✖ failing tests:
+✖ a slot retirement closes the scene permanently across retry and focus (7.543833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  1 !== 0
+exit=1

@@ -1,0 +1,124 @@
+{
+  "base": "e36a57b",
+  "date": "2026-11-18T04:55:41.537Z",
+  "browser": "153.0.8010.0",
+  "renderer": "headless Chromium, SwiftShader requested",
+  "errors": [],
+  "failedRequests": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif:wght@400;500;600;700&display=swap",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    }
+  ],
+  "initialFrames": [
+    {
+      "type": "connected"
+    },
+    {
+      "type": "INIT",
+      "serverTime": 1794977737614,
+      "currentMapId": "map_thanh_khe",
+      "playerState": {
+        "id": "070d0ff6-cb44-4dd6-8f7f-6823b6768ac6",
+        "name": "Khách7733697",
+        "type": "PLAYER",
+        "x": 1024,
+        "y": 1280,
+        "vx": 0,
+        "vy": 0,
+        "facingAngle": 0,
+        "hp": 115,
+        "maxHp": 115,
+        "mp": 60,
+        "maxMp": 60,
+        "realm": 0,
+        "tier": 0,
+        "state": "IDLE",
+        "isInvulnerable": false,
+        "cultivationPath": "SWORD",
+        "stats": {
+          "spd": 12
+        }
+      }
+    },
+    {
+      "type": "TICK",
+      "tick": 1,
+      "serverTime": 1794977737625,
+      "currentMapId": "map_thanh_khe",
+      "playerState": {
+        "id": "070d0ff6-cb44-4dd6-8f7f-6823b6768ac6",
+        "name": "Khách7733697",
+        "type": "PLAYER",
+        "x": 1024,
+        "y": 1280,
+        "vx": 0,
+        "vy": 0,
+        "facingAngle": 0,
+        "hp": 115,
+        "maxHp": 115,
+        "mp": 60,
+        "maxMp": 60,
+        "realm": 0,
+        "tier": 0,
+        "state": "IDLE",
+        "isInvulnerable": false,
+        "cultivationPath": "SWORD",
+        "stats": {
+          "spd": 12
+        }
+      },
+      "entities": [],
+      "projectiles": [],
+      "telegraphs": [],
+      "events": [],
+      "cooldowns": {
+        "dodgeRemainingSec": 0,
+        "attackRemainingSec": 0,
+        "skillsRemainingSec": [
+          0
+        ]
+      }
+    },
+    {
+      "type": "TICK",
+      "tick": 2,
+      "serverTime": 1794977737673,
+      "currentMapId": "map_thanh_khe",
+      "playerState": {
+        "id": "070d0ff6-cb44-4dd6-8f7f-6823b6768ac6",
+        "name": "Khách7733697",
+        "type": "PLAYER",
+        "x": 1024,
+        "y": 1280,
+        "vx": 0,
+        "vy": 0,
+        "facingAngle": -2.246,
+        "hp": 115,
+        "maxHp": 115,
+        "mp": 60,
+        "maxMp": 60,
+        "realm": 0,
+        "tier": 0,
+        "state": "IDLE",
+        "isInvulnerable": false,
+        "cultivationPath": "SWORD",
+        "stats": {
+          "spd": 12
+        }
+      },
+      "entities": [],
+      "projectiles": [],
+      "telegraphs": [],
+      "events": [],
+      "cooldowns": {
+        "dodgeRemainingSec": 0,
+        "attackRemainingSec": 0,
+        "skillsRemainingSec": [
+          0
+        ]
+      }
+    }
+  ],
+  "bodyText": "Khách7733697\nLuyện Khí - Sơ Kỳ\nSinh Lực\n115 / 115\nLinh Lực\n60 / 60\n💎\n50\nLinh Thạch\n👤\n3 Đạo Thân\n📜 NHIỆM VỤ ĐANG LÀM\nKhởi Đầu Tu Đạo: Dị Biến Thanh Khê\n• Đàm thoại với Trưởng Lão Thanh Khê: 0/1\n• Tiêu diệt 3 con Sói Xám bìa rừng: 0/3\n⚔️\nL-Click\n💨\nSpace\n🗡️\n[1]\n🌀\n[2]\n🛡️\n[3]\n✨\n[4]\n🔽 Thu Gọn Menu\n🎒 Túi\n🧘 Tu Vi\n📜 N.Vụ\n🔥 Luyện\n⚔️ Tông\n🏡 Động\n🐉 Thú\n⏳ Bế Quan\n📖 Sử Ký\n🗼 Tháp\n🗺️ Bản Đồ\n⚙️ Cài Đặt"
+}

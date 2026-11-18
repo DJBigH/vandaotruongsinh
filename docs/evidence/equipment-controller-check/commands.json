@@ -1,0 +1,953 @@
+[
+  {
+    "id": "1794990055499-183819",
+    "sessionId": "1794990051572-1fd9f2036823",
+    "command": {
+      "type": "read",
+      "path": "character"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "id": "0f8ae525-8387-437e-a146-8856b229850c",
+        "name": "Thanh84414151",
+        "cultivationPath": "SWORD",
+        "realmIndex": 0,
+        "realmTier": 2,
+        "realmName": "Luyện Khí - Hậu Kỳ",
+        "level": 1,
+        "stats": {
+          "hp": 160,
+          "maxHp": 160,
+          "mp": 72,
+          "maxMp": 72,
+          "atk": 26,
+          "def": 22,
+          "spd": 12,
+          "critRate": 12,
+          "critDmg": 50,
+          "resist": 10
+        },
+        "currentMapId": "map_thanh_khe",
+        "gold": 605
+      }
+    }
+  },
+  {
+    "id": "1794990055799-f8a5f7",
+    "sessionId": "1794990051572-1fd9f2036823",
+    "command": {
+      "type": "inspect-item",
+      "templateId": "item_006"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "templateId": "item_006",
+        "name": "Linh Giáp Vệ",
+        "displayedQuantity": 2,
+        "serverQuantity": 2
+      }
+    }
+  },
+  {
+    "id": "1794990058698-62755d",
+    "sessionId": "1794990051572-1fd9f2036823",
+    "command": {
+      "type": "equip",
+      "templateId": "item_006",
+      "remove": true
+    },
+    "result": {
+      "ok": true,
+      "result": [
+        {
+          "id": "1ec6fe75-476d-45e8-bf34-7ba8577f994e",
+          "templateId": "item_013",
+          "name": "Thiết Khoáng",
+          "description": "Quặng sắt thô khai thác dưới lòng đất làng Thanh Khê, dùng để rèn đúc trang bị.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 2,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "14767c63-ba2a-42c1-956e-f642390b1fd7",
+          "templateId": "item_014",
+          "name": "Thú Bì",
+          "description": "Tấm da thú dẻo dai lột từ dã thú quanh làng, dùng chế tạo giáp bảo hộ.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 7,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "c3df4659-de93-4e40-b7c7-19d383684d7d",
+          "templateId": "item_012",
+          "name": "Linh Thảo",
+          "description": "Thảo mộc hấp thụ linh khí núi rừng, nguyên liệu căn bản luyện đan.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 7,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "d5a249b7-3d75-4551-bf19-d014f4ca8887",
+          "templateId": "item_002",
+          "name": "Xích Huyết Trượng",
+          "description": "Trượng gỗ tẩm máu yêu thú, tăng sức mạnh niệm chú pháp thuật.",
+          "type": "WEAPON",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false,
+          "stats": {
+            "atk": 7,
+            "maxMp": 15
+          },
+          "slot": "WEAPON"
+        },
+        {
+          "id": "8627258e-b99a-4b22-a3fd-85a9a94019ef",
+          "templateId": "item_015",
+          "name": "Mảnh Thiên Thư (Chương 1)",
+          "description": "Mảnh vỡ ngọc thạch phát ra ánh sáng vàng kim, ghi chép ký ức bị lãng quên.",
+          "type": "QUEST",
+          "quality": "MYSTIC",
+          "quantity": 2,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "e5921fc2-3ec3-470b-8165-b924f3d852ba",
+          "templateId": "item_009",
+          "name": "Hồi Nguyên Đan",
+          "description": "Đan dược cơ bản, hồi phục 50 điểm sinh lực.",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 2,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "7488a308-5e47-4157-9ed2-558ee0d6c59d",
+          "templateId": "item_010",
+          "name": "Tiểu Hoàn Linh Đan",
+          "description": "Đan dược hồi phục linh lực, giúp tu sĩ tiếp tục thi triển pháp thuật (+40 MP).",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "76d6307a-6a43-472a-b773-bdbad83684a5",
+          "templateId": "item_006",
+          "name": "Linh Giáp Vệ",
+          "description": "Giáp được khắc trận pháp, chống chịu sát thương tốt hơn.",
+          "type": "ARMOR",
+          "quality": "SPIRITUAL",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false,
+          "stats": {
+            "def": 12,
+            "maxHp": 40,
+            "resist": 5
+          },
+          "slot": "ARMOR"
+        },
+        {
+          "id": "3d36b453-f4e0-48bb-b8ab-30f5d6553f61",
+          "templateId": "item_015",
+          "name": "Mảnh Thiên Thư (Chương 1)",
+          "description": "Mảnh vỡ ngọc thạch phát ra ánh sáng vàng kim, ghi chép ký ức bị lãng quên.",
+          "type": "QUEST",
+          "quality": "MYSTIC",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "540639ee-7a9b-4c38-8afc-968fe65cb8ff",
+          "templateId": "item_005",
+          "name": "Thanh Vân Y",
+          "description": "Áo vải thường, phòng hộ cơ bản cho tu sĩ mới nhập môn.",
+          "type": "ARMOR",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false,
+          "stats": {
+            "def": 4,
+            "maxHp": 15
+          },
+          "slot": "ARMOR"
+        },
+        {
+          "id": "2c841cf3-a933-46cf-a1b6-e921b40fe442",
+          "templateId": "item_006",
+          "name": "Linh Giáp Vệ",
+          "description": "Giáp được khắc trận pháp, chống chịu sát thương tốt hơn.",
+          "type": "ARMOR",
+          "quality": "SPIRITUAL",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false,
+          "stats": {
+            "def": 12,
+            "maxHp": 40,
+            "resist": 5
+          },
+          "slot": "ARMOR"
+        },
+        {
+          "id": "617a9ce6-ba9b-4b99-b418-4e4feba5e892",
+          "templateId": "item_001",
+          "name": "Thanh Phong Kiếm",
+          "description": "Thanh kiếm thép thường được tôi luyện bằng nước suối Thanh Khê.",
+          "type": "WEAPON",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": true,
+          "isLocked": false,
+          "stats": {
+            "atk": 8,
+            "critRate": 2
+          },
+          "slot": "WEAPON"
+        },
+        {
+          "id": "2ffe335d-4950-43ec-a164-600d10c4953b",
+          "templateId": "item_010",
+          "name": "Tiểu Hoàn Linh Đan",
+          "description": "Đan dược hồi phục linh lực, giúp tu sĩ tiếp tục thi triển pháp thuật (+40 MP).",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 3,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "1dd6fd81-2ffa-423a-9f95-057630182bd6",
+          "templateId": "item_009",
+          "name": "Hồi Nguyên Đan",
+          "description": "Đan dược cơ bản, hồi phục 50 điểm sinh lực.",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 4,
+          "isEquipped": false,
+          "isLocked": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "1794990060952-6b1689",
+    "sessionId": "1794990051572-1fd9f2036823",
+    "command": {
+      "type": "read",
+      "path": "character"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "id": "0f8ae525-8387-437e-a146-8856b229850c",
+        "name": "Thanh84414151",
+        "cultivationPath": "SWORD",
+        "realmIndex": 0,
+        "realmTier": 2,
+        "realmName": "Luyện Khí - Hậu Kỳ",
+        "level": 1,
+        "stats": {
+          "hp": 120,
+          "maxHp": 120,
+          "mp": 72,
+          "maxMp": 72,
+          "atk": 26,
+          "def": 10,
+          "spd": 12,
+          "critRate": 12,
+          "critDmg": 50,
+          "resist": 5
+        },
+        "currentMapId": "map_thanh_khe",
+        "gold": 605
+      }
+    }
+  },
+  {
+    "id": "1794990061265-48a69d",
+    "sessionId": "1794990051572-1fd9f2036823",
+    "command": {
+      "type": "equip",
+      "templateId": "item_006"
+    },
+    "result": {
+      "ok": true,
+      "result": [
+        {
+          "id": "1ec6fe75-476d-45e8-bf34-7ba8577f994e",
+          "templateId": "item_013",
+          "name": "Thiết Khoáng",
+          "description": "Quặng sắt thô khai thác dưới lòng đất làng Thanh Khê, dùng để rèn đúc trang bị.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 2,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "14767c63-ba2a-42c1-956e-f642390b1fd7",
+          "templateId": "item_014",
+          "name": "Thú Bì",
+          "description": "Tấm da thú dẻo dai lột từ dã thú quanh làng, dùng chế tạo giáp bảo hộ.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 7,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "c3df4659-de93-4e40-b7c7-19d383684d7d",
+          "templateId": "item_012",
+          "name": "Linh Thảo",
+          "description": "Thảo mộc hấp thụ linh khí núi rừng, nguyên liệu căn bản luyện đan.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 7,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "d5a249b7-3d75-4551-bf19-d014f4ca8887",
+          "templateId": "item_002",
+          "name": "Xích Huyết Trượng",
+          "description": "Trượng gỗ tẩm máu yêu thú, tăng sức mạnh niệm chú pháp thuật.",
+          "type": "WEAPON",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false,
+          "stats": {
+            "atk": 7,
+            "maxMp": 15
+          },
+          "slot": "WEAPON"
+        },
+        {
+          "id": "8627258e-b99a-4b22-a3fd-85a9a94019ef",
+          "templateId": "item_015",
+          "name": "Mảnh Thiên Thư (Chương 1)",
+          "description": "Mảnh vỡ ngọc thạch phát ra ánh sáng vàng kim, ghi chép ký ức bị lãng quên.",
+          "type": "QUEST",
+          "quality": "MYSTIC",
+          "quantity": 2,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "e5921fc2-3ec3-470b-8165-b924f3d852ba",
+          "templateId": "item_009",
+          "name": "Hồi Nguyên Đan",
+          "description": "Đan dược cơ bản, hồi phục 50 điểm sinh lực.",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 2,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "7488a308-5e47-4157-9ed2-558ee0d6c59d",
+          "templateId": "item_010",
+          "name": "Tiểu Hoàn Linh Đan",
+          "description": "Đan dược hồi phục linh lực, giúp tu sĩ tiếp tục thi triển pháp thuật (+40 MP).",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "3d36b453-f4e0-48bb-b8ab-30f5d6553f61",
+          "templateId": "item_015",
+          "name": "Mảnh Thiên Thư (Chương 1)",
+          "description": "Mảnh vỡ ngọc thạch phát ra ánh sáng vàng kim, ghi chép ký ức bị lãng quên.",
+          "type": "QUEST",
+          "quality": "MYSTIC",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "540639ee-7a9b-4c38-8afc-968fe65cb8ff",
+          "templateId": "item_005",
+          "name": "Thanh Vân Y",
+          "description": "Áo vải thường, phòng hộ cơ bản cho tu sĩ mới nhập môn.",
+          "type": "ARMOR",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false,
+          "stats": {
+            "def": 4,
+            "maxHp": 15
+          },
+          "slot": "ARMOR"
+        },
+        {
+          "id": "2c841cf3-a933-46cf-a1b6-e921b40fe442",
+          "templateId": "item_006",
+          "name": "Linh Giáp Vệ",
+          "description": "Giáp được khắc trận pháp, chống chịu sát thương tốt hơn.",
+          "type": "ARMOR",
+          "quality": "SPIRITUAL",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false,
+          "stats": {
+            "def": 12,
+            "maxHp": 40,
+            "resist": 5
+          },
+          "slot": "ARMOR"
+        },
+        {
+          "id": "76d6307a-6a43-472a-b773-bdbad83684a5",
+          "templateId": "item_006",
+          "name": "Linh Giáp Vệ",
+          "description": "Giáp được khắc trận pháp, chống chịu sát thương tốt hơn.",
+          "type": "ARMOR",
+          "quality": "SPIRITUAL",
+          "quantity": 1,
+          "isEquipped": true,
+          "isLocked": false,
+          "stats": {
+            "def": 12,
+            "maxHp": 40,
+            "resist": 5
+          },
+          "slot": "ARMOR"
+        },
+        {
+          "id": "617a9ce6-ba9b-4b99-b418-4e4feba5e892",
+          "templateId": "item_001",
+          "name": "Thanh Phong Kiếm",
+          "description": "Thanh kiếm thép thường được tôi luyện bằng nước suối Thanh Khê.",
+          "type": "WEAPON",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": true,
+          "isLocked": false,
+          "stats": {
+            "atk": 8,
+            "critRate": 2
+          },
+          "slot": "WEAPON"
+        },
+        {
+          "id": "2ffe335d-4950-43ec-a164-600d10c4953b",
+          "templateId": "item_010",
+          "name": "Tiểu Hoàn Linh Đan",
+          "description": "Đan dược hồi phục linh lực, giúp tu sĩ tiếp tục thi triển pháp thuật (+40 MP).",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 3,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "1dd6fd81-2ffa-423a-9f95-057630182bd6",
+          "templateId": "item_009",
+          "name": "Hồi Nguyên Đan",
+          "description": "Đan dược cơ bản, hồi phục 50 điểm sinh lực.",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 4,
+          "isEquipped": false,
+          "isLocked": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "1794990063234-66dbf0",
+    "sessionId": "1794990051572-1fd9f2036823",
+    "command": {
+      "type": "read",
+      "path": "character"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "id": "0f8ae525-8387-437e-a146-8856b229850c",
+        "name": "Thanh84414151",
+        "cultivationPath": "SWORD",
+        "realmIndex": 0,
+        "realmTier": 2,
+        "realmName": "Luyện Khí - Hậu Kỳ",
+        "level": 1,
+        "stats": {
+          "hp": 160,
+          "maxHp": 160,
+          "mp": 72,
+          "maxMp": 72,
+          "atk": 26,
+          "def": 22,
+          "spd": 12,
+          "critRate": 12,
+          "critDmg": 50,
+          "resist": 10
+        },
+        "currentMapId": "map_thanh_khe",
+        "gold": 605
+      }
+    }
+  },
+  {
+    "id": "1794990063505-8c53dc",
+    "sessionId": "1794990051572-1fd9f2036823",
+    "command": {
+      "type": "reload"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1023,
+          "y": 364,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.55,
+          "hp": 160,
+          "maxHp": 160,
+          "mp": 72,
+          "maxMp": 72,
+          "realm": 0,
+          "tier": 2,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1023,
+            "y": 364,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 1
+          },
+          "camera": {
+            "x": 340,
+            "y": -20,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794990066272-ae5e49",
+    "sessionId": "1794990051572-1fd9f2036823",
+    "command": {
+      "type": "read",
+      "path": "inventory"
+    },
+    "result": {
+      "ok": true,
+      "result": [
+        {
+          "id": "1ec6fe75-476d-45e8-bf34-7ba8577f994e",
+          "templateId": "item_013",
+          "name": "Thiết Khoáng",
+          "description": "Quặng sắt thô khai thác dưới lòng đất làng Thanh Khê, dùng để rèn đúc trang bị.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 2,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "14767c63-ba2a-42c1-956e-f642390b1fd7",
+          "templateId": "item_014",
+          "name": "Thú Bì",
+          "description": "Tấm da thú dẻo dai lột từ dã thú quanh làng, dùng chế tạo giáp bảo hộ.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 7,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "c3df4659-de93-4e40-b7c7-19d383684d7d",
+          "templateId": "item_012",
+          "name": "Linh Thảo",
+          "description": "Thảo mộc hấp thụ linh khí núi rừng, nguyên liệu căn bản luyện đan.",
+          "type": "MATERIAL",
+          "quality": "COMMON",
+          "quantity": 7,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "d5a249b7-3d75-4551-bf19-d014f4ca8887",
+          "templateId": "item_002",
+          "name": "Xích Huyết Trượng",
+          "description": "Trượng gỗ tẩm máu yêu thú, tăng sức mạnh niệm chú pháp thuật.",
+          "type": "WEAPON",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false,
+          "stats": {
+            "atk": 7,
+            "maxMp": 15
+          },
+          "slot": "WEAPON"
+        },
+        {
+          "id": "8627258e-b99a-4b22-a3fd-85a9a94019ef",
+          "templateId": "item_015",
+          "name": "Mảnh Thiên Thư (Chương 1)",
+          "description": "Mảnh vỡ ngọc thạch phát ra ánh sáng vàng kim, ghi chép ký ức bị lãng quên.",
+          "type": "QUEST",
+          "quality": "MYSTIC",
+          "quantity": 2,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "e5921fc2-3ec3-470b-8165-b924f3d852ba",
+          "templateId": "item_009",
+          "name": "Hồi Nguyên Đan",
+          "description": "Đan dược cơ bản, hồi phục 50 điểm sinh lực.",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 2,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "7488a308-5e47-4157-9ed2-558ee0d6c59d",
+          "templateId": "item_010",
+          "name": "Tiểu Hoàn Linh Đan",
+          "description": "Đan dược hồi phục linh lực, giúp tu sĩ tiếp tục thi triển pháp thuật (+40 MP).",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "3d36b453-f4e0-48bb-b8ab-30f5d6553f61",
+          "templateId": "item_015",
+          "name": "Mảnh Thiên Thư (Chương 1)",
+          "description": "Mảnh vỡ ngọc thạch phát ra ánh sáng vàng kim, ghi chép ký ức bị lãng quên.",
+          "type": "QUEST",
+          "quality": "MYSTIC",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "540639ee-7a9b-4c38-8afc-968fe65cb8ff",
+          "templateId": "item_005",
+          "name": "Thanh Vân Y",
+          "description": "Áo vải thường, phòng hộ cơ bản cho tu sĩ mới nhập môn.",
+          "type": "ARMOR",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false,
+          "stats": {
+            "def": 4,
+            "maxHp": 15
+          },
+          "slot": "ARMOR"
+        },
+        {
+          "id": "2c841cf3-a933-46cf-a1b6-e921b40fe442",
+          "templateId": "item_006",
+          "name": "Linh Giáp Vệ",
+          "description": "Giáp được khắc trận pháp, chống chịu sát thương tốt hơn.",
+          "type": "ARMOR",
+          "quality": "SPIRITUAL",
+          "quantity": 1,
+          "isEquipped": false,
+          "isLocked": false,
+          "stats": {
+            "def": 12,
+            "maxHp": 40,
+            "resist": 5
+          },
+          "slot": "ARMOR"
+        },
+        {
+          "id": "76d6307a-6a43-472a-b773-bdbad83684a5",
+          "templateId": "item_006",
+          "name": "Linh Giáp Vệ",
+          "description": "Giáp được khắc trận pháp, chống chịu sát thương tốt hơn.",
+          "type": "ARMOR",
+          "quality": "SPIRITUAL",
+          "quantity": 1,
+          "isEquipped": true,
+          "isLocked": false,
+          "stats": {
+            "def": 12,
+            "maxHp": 40,
+            "resist": 5
+          },
+          "slot": "ARMOR"
+        },
+        {
+          "id": "617a9ce6-ba9b-4b99-b418-4e4feba5e892",
+          "templateId": "item_001",
+          "name": "Thanh Phong Kiếm",
+          "description": "Thanh kiếm thép thường được tôi luyện bằng nước suối Thanh Khê.",
+          "type": "WEAPON",
+          "quality": "COMMON",
+          "quantity": 1,
+          "isEquipped": true,
+          "isLocked": false,
+          "stats": {
+            "atk": 8,
+            "critRate": 2
+          },
+          "slot": "WEAPON"
+        },
+        {
+          "id": "2ffe335d-4950-43ec-a164-600d10c4953b",
+          "templateId": "item_010",
+          "name": "Tiểu Hoàn Linh Đan",
+          "description": "Đan dược hồi phục linh lực, giúp tu sĩ tiếp tục thi triển pháp thuật (+40 MP).",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 3,
+          "isEquipped": false,
+          "isLocked": false
+        },
+        {
+          "id": "1dd6fd81-2ffa-423a-9f95-057630182bd6",
+          "templateId": "item_009",
+          "name": "Hồi Nguyên Đan",
+          "description": "Đan dược cơ bản, hồi phục 50 điểm sinh lực.",
+          "type": "CONSUMABLE",
+          "quality": "COMMON",
+          "quantity": 4,
+          "isEquipped": false,
+          "isLocked": false
+        }
+      ]
+    }
+  },
+  {
+    "id": "1794990066558-f508f1",
+    "sessionId": "1794990051572-1fd9f2036823",
+    "command": {
+      "type": "read",
+      "path": "character"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "id": "0f8ae525-8387-437e-a146-8856b229850c",
+        "name": "Thanh84414151",
+        "cultivationPath": "SWORD",
+        "realmIndex": 0,
+        "realmTier": 2,
+        "realmName": "Luyện Khí - Hậu Kỳ",
+        "level": 1,
+        "stats": {
+          "hp": 160,
+          "maxHp": 160,
+          "mp": 72,
+          "maxMp": 72,
+          "atk": 26,
+          "def": 22,
+          "spd": 12,
+          "critRate": 12,
+          "critDmg": 50,
+          "resist": 10
+        },
+        "currentMapId": "map_thanh_khe",
+        "gold": 605
+      }
+    }
+  },
+  {
+    "id": "1794990066840-971067",
+    "sessionId": "1794990051572-1fd9f2036823",
+    "command": {
+      "type": "screenshot",
+      "name": "re-equipped-after-reload"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "player": {
+          "id": "0f8ae525-8387-437e-a146-8856b229850c",
+          "name": "Thanh84414151",
+          "type": "PLAYER",
+          "x": 1023,
+          "y": 364,
+          "vx": 0,
+          "vy": 0,
+          "facingAngle": -2.629,
+          "hp": 160,
+          "maxHp": 160,
+          "mp": 72,
+          "maxMp": 72,
+          "realm": 0,
+          "tier": 2,
+          "state": "IDLE",
+          "isInvulnerable": false,
+          "cultivationPath": "SWORD",
+          "stats": {
+            "spd": 12
+          }
+        },
+        "map": "map_thanh_khe",
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1023,
+            "y": 364,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 2
+          },
+          "camera": {
+            "x": 340,
+            "y": -20,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "1794990068629-d80860",
+    "sessionId": "1794990051572-1fd9f2036823",
+    "command": {
+      "type": "finish"
+    },
+    "result": {
+      "ok": true,
+      "result": {
+        "sessionId": "1794990051572-1fd9f2036823",
+        "elapsedMs": 17088,
+        "server": {
+          "type": "TICK",
+          "tick": 267,
+          "serverTime": 1794990068649,
+          "currentMapId": "map_thanh_khe",
+          "playerState": {
+            "id": "0f8ae525-8387-437e-a146-8856b229850c",
+            "name": "Thanh84414151",
+            "type": "PLAYER",
+            "x": 1023,
+            "y": 364,
+            "vx": 0,
+            "vy": 0,
+            "facingAngle": -2.629,
+            "hp": 160,
+            "maxHp": 160,
+            "mp": 72,
+            "maxMp": 72,
+            "realm": 0,
+            "tier": 2,
+            "state": "IDLE",
+            "isInvulnerable": false,
+            "cultivationPath": "SWORD",
+            "stats": {
+              "spd": 12
+            }
+          },
+          "entities": [],
+          "projectiles": [],
+          "telegraphs": [],
+          "events": [],
+          "cooldowns": {
+            "dodgeRemainingSec": 0,
+            "attackRemainingSec": 0,
+            "skillsRemainingSec": [
+              0,
+              0
+            ]
+          }
+        },
+        "scene": {
+          "map": "map_thanh_khe",
+          "player": {
+            "x": 1023,
+            "y": 364,
+            "visible": true,
+            "texture": "player_idle",
+            "animation": "player_idle_down",
+            "frame": 2
+          },
+          "camera": {
+            "x": 340,
+            "y": -20,
+            "zoom": 1.3,
+            "width": 1366,
+            "height": 768
+          },
+          "render": {
+            "entities": 0,
+            "inView": 0
+          },
+          "canvas": {
+            "width": 1366,
+            "height": 768
+          },
+          "inputBlocked": false,
+          "rendererType": 2
+        },
+        "openSockets": 1,
+        "pageErrors": [],
+        "bodyText": "Thanh84414151\nLuyện Khí - Hậu Kỳ\nSinh Lực\n160 / 160\nLinh Lực\n72 / 72\n💎\n605\nLinh Thạch\n👤\n3 Đạo Thân\n⚔️\nL-Click\n💨\nSpace\n✦\n[1]\n✦\n[2]\n–\n[3]\n–\n[4]\n🔽 Thu Gọn Menu\n🎒 Túi\n🧘 Tu Vi\n📜 N.Vụ\n🔥 Luyện\n⚔️ Tông\n🏡 Động\n🐉 Thú\n⏳ Bế Quan\n📖 Sử Ký\n🗼 Tháp\n🗺️ Bản Đồ\n⚙️ Cài Đặt\n💬 [E] hoặc Click chuột để đàm thoại với Trưởng Lão Thanh Khê\nFPS: 44 | Ping: 1ms | Quái: 0",
+        "manifest": "/workspace/scratch/c5685e889d73/vandaotruongsinh/docs/evidence/equipment-controller-check/session-result.json",
+        "videoPath": null,
+        "videoMetadata": null
+      }
+    }
+  }
+]

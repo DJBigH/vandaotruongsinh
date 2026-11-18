@@ -1,0 +1,37 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/server
+node /workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs /workspace/scratch/c5685e889d73/vandaotruongsinh/server env NODE_ENV=test node --env-file=../.env --import tsx --test '--test-name-pattern=slot (create|switch)|shrine|breakthrough retry|potion orders' src/tests/world-session-routes-test.ts
+✖ slot create hands off the active session and saves its last position (462.872411ms)
+✖ slot switch hands off the active session and saves its last position (130.512287ms)
+✖ a slot switch orders an authentication already reading the prior character (33.375572ms)
+✖ shrine restores authoritative HP and MP to current equipped maxima (100.036226ms)
+✖ offline shrine uses locked saved stats and preserves unrelated fields (18.287897ms)
+✖ breakthrough retry targets its original character and starting stage (51.287298ms)
+✖ potion orders a lethal tick and later dodge across before reservation (44.219933ms)
+✖ potion orders a lethal tick and later dodge across commit (34.308259ms)
+✔ potion orders a lethal tick and later dodge across rollback (68.215049ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 1
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4479.85765
+✖ failing tests:
+✖ slot create hands off the active session and saves its last position (462.872411ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+✖ slot switch hands off the active session and saves its last position (130.512287ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+✖ a slot switch orders an authentication already reading the prior character (33.375572ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+✖ shrine restores authoritative HP and MP to current equipped maxima (100.036226ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+✖ offline shrine uses locked saved stats and preserves unrelated fields (18.287897ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+✖ breakthrough retry targets its original character and starting stage (51.287298ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+✖ potion orders a lethal tick and later dodge across before reservation (44.219933ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+✖ potion orders a lethal tick and later dodge across commit (34.308259ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+exit=1

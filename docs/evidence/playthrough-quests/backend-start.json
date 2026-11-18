@@ -1,0 +1,17 @@
+{
+  "capturedAt": "2026-11-18T07:35:06.942Z",
+  "source": {
+    "commit": "96470e74a64f3e9b61a2b3a026782a4d35e4a4bc",
+    "harnessSha256": "0a50643160628d6f4f0888c2b73e61f14023e452fff8b33fe1b14ecfb26a876c",
+    "gameSourceDirty": true,
+    "gameSourceDiffSha256": "c621a9fa2c40a700f60eab107471f2a708f0e1b44f48dc85d67f28dbbaaf450a"
+  },
+  "verifiedBy": {
+    "sessionId": "1794987267796-c0b447823c8c",
+    "map": "map_thanh_khe",
+    "tick": 15,
+    "playerId": "0f8ae525-8387-437e-a146-8856b229850c"
+  },
+  "startCommand": "node --import tsx src/index.ts",
+  "note": "Main backend restarted while product edits were held; live authoritative browser snapshot observed before release. Frozen frontend identity is recorded separately."
+}

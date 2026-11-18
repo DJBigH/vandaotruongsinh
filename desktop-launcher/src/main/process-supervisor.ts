@@ -5,12 +5,14 @@
 // ============================================================
 
 import { ChildProcess, spawn, exec } from 'node:child_process';
-import http from 'node:http';
+import { probeGameService } from './game-readiness';
 import net from 'node:net';
 import path from 'node:path';
 import { StringDecoder } from 'node:string_decoder';
 import { promisify } from 'node:util';
 import { app, BrowserWindow, shell } from 'electron';
+import { parse } from 'dotenv';
+import { readBackendEnvironment } from '../shared/backend-environment';
 import {
   ServiceName,
   ServiceState,
@@ -46,6 +48,7 @@ export class ProcessSupervisor {
   // Timer kiểm tra định kỳ (Watchdog / Health Check)
   private healthCheckTimer: NodeJS.Timeout | null = null;
   private uptimeTimer: NodeJS.Timeout | null = null;
+  private databaseWarmupTimer: NodeJS.Timeout | null = null;
 
   private constructor() {
     this.logger = LauncherLogger.getInstance();
@@ -94,7 +97,7 @@ export class ProcessSupervisor {
     this.startWatchdog();
 
     // Tự động kiểm tra và đánh thức PostgreSQL ngay khi Launcher khởi động
-    setTimeout(() => {
+    this.databaseWarmupTimer = setTimeout(() => {
       this.ensureDatabaseRunning().catch(() => {});
     }, 500);
   }
@@ -179,7 +182,7 @@ export class ProcessSupervisor {
       // 4. Mở trình duyệt nếu bật tùy chọn autoOpenBrowser
       const settings = this.settingsManager.getSettings();
       if (settings.autoOpenBrowser) {
-        this.openGame();
+        await this.openGame();
       }
 
       this.isStartingAll = false;
@@ -210,16 +213,20 @@ export class ProcessSupervisor {
     }
   }
 
-  public openGame(): void {
-    const url = this.clientInfo.url;
-    this.logger.logAction('VÀO_GAME', url);
-    shell.openExternal(url);
-  }
+  public openGame(): Promise<boolean> { return this.openClientPage(''); }
 
-  public openAdmin(): void {
-    const url = `${this.clientInfo.url}/admin`;
-    this.logger.logAction('MỞ_ADMIN', url);
-    shell.openExternal(url);
+  public openAdmin(): Promise<boolean> { return this.openClientPage('/admin'); }
+
+  private async openClientPage(route: string): Promise<boolean> {
+    const port = this.settingsManager.getSettings().clientPort;
+    if (!await this.probeClientReadiness(port)) {
+      this.logger.warn('client', `Không tìm thấy giao diện Vạn Đạo Trường Sinh tại cổng ${port}.`);
+      return false;
+    }
+    const url = `http://127.0.0.1:${port}${route}`;
+    this.logger.logAction(route ? 'MỞ_ADMIN' : 'VÀO_GAME', url);
+    try { await shell.openExternal(url); return true; }
+    catch { this.logger.warn('client', 'Không thể mở trình duyệt.'); return false; }
   }
 
   public getStatusSnapshot(): SystemStatusSnapshot {
@@ -250,13 +257,22 @@ export class ProcessSupervisor {
   private async doStartServer(): Promise<{ success: boolean; message: string }> {
     const settings = this.settingsManager.getSettings();
     const port = settings.serverPort;
+    if (this.serverProc && this.serverInfo.port !== port) {
+      return { success: false, message: 'Hãy dừng dịch vụ đang quản lý trước khi đổi cổng.' };
+    }
+    this.serverInfo.port = port;
+    this.serverInfo.url = `http://127.0.0.1:${port}`;
 
-    // Kiểm tra xem cổng 3001 đã có tiến trình nào đang lắng nghe chưa
+    // Kiểm tra xem cổng cấu hình đã có tiến trình nào đang lắng nghe chưa
     const isPortOpen = await this.probePort(port);
     if (isPortOpen) {
       // Kiểm tra xem có phải server game của mình đang chạy ngoài launcher không
       const isOurServer = await this.probeServerReadiness(port);
       if (isOurServer) {
+        if (this.serverProc && this.serverInfo.isManagedByLauncher) {
+          this.serverInfo.state = 'READY';
+          return { success: true, message: 'Dịch vụ đang chạy dưới quyền quản lý của launcher.' };
+        }
         this.serverInfo.state = 'EXTERNAL_RUNNING';
         this.serverInfo.isManagedByLauncher = false;
         this.serverInfo.lastReadyTime = Date.now();
@@ -271,9 +287,6 @@ export class ProcessSupervisor {
       }
     }
 
-    // Đảm bảo cơ sở dữ liệu PostgreSQL đang chạy trước khi bật server
-    await this.ensureDatabaseRunning();
-
     // Đánh dấu đang khởi động
     this.serverInfo.state = 'STARTING';
     this.serverInfo.startTime = Date.now();
@@ -283,6 +296,9 @@ export class ProcessSupervisor {
     try {
       const projectDir = settings.projectDir;
       const serverDir = path.join(projectDir, 'server');
+      const configuration = readBackendEnvironment(projectDir, parse);
+      if ('error' in configuration) throw new Error(configuration.error);
+      await this.ensureDatabaseRunning();
 
       // Khởi chạy an toàn bằng npm run dev hoặc npx tsx
       this.logger.info('launcher', `Khởi tạo tiến trình máy chủ Backend tại: ${serverDir}`);
@@ -291,8 +307,9 @@ export class ProcessSupervisor {
       const isWin = process.platform === 'win32';
       const childEnv = {
         ...process.env,
-        PORT: port.toString(),
-        HOST: '127.0.0.1',
+        DATABASE_URL: configuration.env.DATABASE_URL,
+        SERVER_PORT: port.toString(),
+        SERVER_HOST: '127.0.0.1',
         LANG: 'vi_VN.UTF-8',
         LC_ALL: 'vi_VN.UTF-8',
         PYTHONIOENCODING: 'utf-8',
@@ -371,12 +388,21 @@ export class ProcessSupervisor {
   private async doStartClient(): Promise<{ success: boolean; message: string }> {
     const settings = this.settingsManager.getSettings();
     const port = settings.clientPort;
+    if (this.clientProc && this.clientInfo.port !== port) {
+      return { success: false, message: 'Hãy dừng dịch vụ đang quản lý trước khi đổi cổng.' };
+    }
+    this.clientInfo.port = port;
+    this.clientInfo.url = `http://127.0.0.1:${port}`;
 
-    // Kiểm tra cổng 5173
+    // Kiểm tra cổng cấu hình
     const isPortOpen = await this.probePort(port);
     if (isPortOpen) {
       const isOurClient = await this.probeClientReadiness(port);
       if (isOurClient) {
+        if (this.clientProc && this.clientInfo.isManagedByLauncher) {
+          this.clientInfo.state = 'READY';
+          return { success: true, message: 'Dịch vụ đang chạy dưới quyền quản lý của launcher.' };
+        }
         this.clientInfo.state = 'EXTERNAL_RUNNING';
         this.clientInfo.isManagedByLauncher = false;
         this.clientInfo.lastReadyTime = Date.now();
@@ -405,6 +431,7 @@ export class ProcessSupervisor {
       const isWin = process.platform === 'win32';
       const clientEnv = {
         ...process.env,
+        SERVER_PORT: settings.serverPort.toString(),
         LANG: 'vi_VN.UTF-8',
         LC_ALL: 'vi_VN.UTF-8',
       };
@@ -623,30 +650,12 @@ export class ProcessSupervisor {
     });
   }
 
-  private probeServerReadiness(port: number): Promise<boolean> {
-    return new Promise((resolve) => {
-      const req = http.get(`http://127.0.0.1:${port}/api/game/maps`, { timeout: 1200 }, (res) => {
-        resolve(res.statusCode === 200 || res.statusCode === 401);
-      });
-      req.once('error', () => resolve(false));
-      req.once('timeout', () => {
-        req.destroy();
-        resolve(false);
-      });
-    });
+  private async probeServerReadiness(port: number): Promise<boolean> {
+    return await probeGameService('server', port) === 'identified';
   }
 
-  private probeClientReadiness(port: number): Promise<boolean> {
-    return new Promise((resolve) => {
-      const req = http.get(`http://127.0.0.1:${port}`, { timeout: 1200 }, (res) => {
-        resolve(res.statusCode === 200);
-      });
-      req.once('error', () => resolve(false));
-      req.once('timeout', () => {
-        req.destroy();
-        resolve(false);
-      });
-    });
+  private async probeClientReadiness(port: number): Promise<boolean> {
+    return await probeGameService('client', port) === 'identified';
   }
 
   private async waitForServerReady(port: number, maxWaitMs: number): Promise<boolean> {
@@ -671,14 +680,27 @@ export class ProcessSupervisor {
 
   public async ensureDatabaseRunning(): Promise<DatabaseInfo> {
     const settings = this.settingsManager.getSettings();
+    const configuration = readBackendEnvironment(settings.projectDir, parse);
+    if ('error' in configuration) {
+      this.databaseInfo.state = 'DISCONNECTED';
+      this.databaseInfo.lastCheckedTime = Date.now();
+      this.databaseInfo.message = configuration.error;
+      this.broadcastStatus();
+      return { ...this.databaseInfo };
+    }
+
+    const { host, port } = configuration.database;
+    this.databaseInfo.host = host;
+    this.databaseInfo.port = port;
     this.databaseInfo.state = 'CHECKING';
-    this.databaseInfo.message = 'Đang tự động kiểm tra & đánh thức PostgreSQL...';
+    this.databaseInfo.message = 'Đang thăm dò cổng TCP PostgreSQL...';
     this.broadcastStatus();
 
-    let diag = await SystemDiagnostics.checkDatabase(settings.dbHost, settings.dbPort);
+    let diag = await SystemDiagnostics.checkDatabase(host, port);
 
     // Tự động phát hiện và kích hoạt PostgreSQL trong WSL Ubuntu nếu bị từ chối kết nối
-    if (diag.status !== 'PASS' && process.platform === 'win32') {
+    if (diag.status !== 'PASS' && process.platform === 'win32' &&
+      port === 5432 && ['localhost', '127.0.0.1', '::1'].includes(host)) {
       try {
         const { execSync, spawn } = require('child_process');
         this.logger.info('launcher', 'Đang tự động đánh thức dịch vụ PostgreSQL trong WSL Ubuntu...');
@@ -696,7 +718,7 @@ export class ProcessSupervisor {
 
         // Chờ 1.5s để wslrelay kết nối cổng 5432
         await new Promise(r => setTimeout(r, 1500));
-        diag = await SystemDiagnostics.checkDatabase(settings.dbHost, settings.dbPort);
+        diag = await SystemDiagnostics.checkDatabase(host, port);
       } catch (err: any) {
         this.logger.warn('launcher', `Không thể kích hoạt tự động PostgreSQL qua WSL: ${err.message}`);
       }
@@ -704,14 +726,9 @@ export class ProcessSupervisor {
 
     this.databaseInfo.lastCheckedTime = Date.now();
 
-    if (diag.status === 'PASS') {
-      this.databaseInfo.state = 'CONNECTED';
-      this.databaseInfo.message = `PostgreSQL đang hoạt động và chấp nhận kết nối tại ${settings.dbHost}:${settings.dbPort}.`;
-      this.logger.info('launcher', `Kết nối thành công Cơ Sở Dữ Liệu PostgreSQL (${settings.dbHost}:${settings.dbPort})`);
-    } else {
-      this.databaseInfo.state = 'DISCONNECTED';
-      this.databaseInfo.message = diag.message;
-    }
+    this.databaseInfo.state = diag.status === 'PASS' ? 'CONNECTED' : 'DISCONNECTED';
+    this.databaseInfo.message = diag.message;
+    if (diag.status === 'PASS') this.logger.info('launcher', diag.message);
 
     this.broadcastStatus();
     return { ...this.databaseInfo };
@@ -746,6 +763,8 @@ export class ProcessSupervisor {
         const isServerUp = await this.probeServerReadiness(settings.serverPort);
         if (isServerUp) {
           if (!this.serverProc) {
+            this.serverInfo.port = settings.serverPort;
+            this.serverInfo.url = `http://127.0.0.1:${settings.serverPort}`;
             this.serverInfo.state = 'EXTERNAL_RUNNING';
             this.serverInfo.isManagedByLauncher = false;
           }
@@ -759,6 +778,8 @@ export class ProcessSupervisor {
         const isClientUp = await this.probeClientReadiness(settings.clientPort);
         if (isClientUp) {
           if (!this.clientProc) {
+            this.clientInfo.port = settings.clientPort;
+            this.clientInfo.url = `http://127.0.0.1:${settings.clientPort}`;
             this.clientInfo.state = 'EXTERNAL_RUNNING';
             this.clientInfo.isManagedByLauncher = false;
           }
@@ -787,5 +808,6 @@ export class ProcessSupervisor {
   public cleanup(): void {
     if (this.healthCheckTimer) clearInterval(this.healthCheckTimer);
     if (this.uptimeTimer) clearInterval(this.uptimeTimer);
+    if (this.databaseWarmupTimer) clearTimeout(this.databaseWarmupTimer);
   }
 }

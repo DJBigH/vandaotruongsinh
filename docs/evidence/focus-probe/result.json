@@ -1,0 +1,23 @@
+{
+  "browser": "153.0.8010.0",
+  "background": {
+    "hidden": false,
+    "focus": true,
+    "blocked": false
+  },
+  "afterBackground": {
+    "x": 627,
+    "y": 300,
+    "ticks": 123
+  },
+  "foreground": {
+    "hidden": false,
+    "focus": true,
+    "blocked": false
+  },
+  "staleMovementDistance": 0,
+  "freshMovementDistance": 0,
+  "actualFocusLoss": false,
+  "limitation": "This headless shell did not expose focus loss for real tab activation; no focus-loss pass is claimed.",
+  "errors": []
+}

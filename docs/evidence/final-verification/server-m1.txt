@@ -1,0 +1,37 @@
+====================================================
+💎 BẮT ĐẦU KIỂM THỬ TÍNH NĂNG M1 & VÒNG CHƠI MỚI
+   (Rương Bí Cảnh, Chống Nhận Lặp, Bảng Ủy Thác, Toàn Vẹn Asset)
+====================================================
+
+--- 1. Kiểm Tra Tài Nguyên Hình Ảnh Đã Sinh Thật ---
+✅ [PASS] (1) Asset [prop_chest.png] tồn tại trên đĩa
+✅ [PASS] (2) Asset [prop_herb.png] tồn tại trên đĩa
+✅ [PASS] (3) Asset [prop_ore.png] tồn tại trên đĩa
+✅ [PASS] (4) Asset [monster_ghost.png] tồn tại trên đĩa
+✅ [PASS] (5) Asset [monster_snake.png] tồn tại trên đĩa
+✅ [PASS] (6) Asset [vfx_fire_orb.png] tồn tại trên đĩa
+✅ [PASS] (7) Asset [vfx_shockwave.png] tồn tại trên đĩa
+✅ [PASS] (8) Asset [vfx_talisman.png] tồn tại trên đĩa
+✅ [PASS] (9) Asset [player_magic_idle.png] tồn tại trên đĩa
+✅ [PASS] (10) Asset [player_body_idle.png] tồn tại trên đĩa
+
+--- 2. Khởi Tạo Tài Khoản & Nhân Vật Thử Nghiệm ---
+✅ [PASS] (11) Tạo nhân vật thử nghiệm thành công
+
+--- 3. Kiểm Thử Mở Rương Bí Cảnh & Giao Dịch Nguyên Tử ---
+✅ [PASS] (12) Linh thạch được cộng chính xác (+60): 110
+✅ [PASS] (13) Tu vi được cộng chính xác (+50): 50
+✅ [PASS] (14) Nhận được vật phẩm thưởng từ rương: item_012
+
+--- 4. Kiểm Thử Chống Nhận Thưởng Trùng Lặp Rương (Unique Constraint) ---
+✅ [PASS] (15) Chặn thành công việc mở lại rương đã mở (Unique Constraint P2002)
+
+--- 5. Kiểm Thử Hệ Thống Bảng Ủy Thác ---
+✅ [PASS] (16) Nhận ủy thác [quest_side_01] thành công từ bảng ủy thác
+
+--- 6. Dọn Dẹp Môi Trường Thử Nghiệm ---
+✅ [PASS] (17) Dọn dẹp dữ liệu thử nghiệm sạch sẽ
+
+====================================================
+🎉 KẾT QUẢ KIỂM THỬ: 17/17 TIÊU CHÍ ĐẠT (100%)
+====================================================

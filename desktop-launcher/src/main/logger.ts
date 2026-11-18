@@ -13,6 +13,16 @@ import { SettingsManager } from './settings-manager';
 // ANSI escape code regex pattern
 const ANSI_REGEX = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
 
+const QUOTED_LOG_VALUE = /"(?:[^"\\\r\n]|\\.)*"|'(?:[^'\\\r\n]|\\.)*'/.source;
+const LOG_COOKIE_FIELD = new RegExp(
+  String.raw`(["'](?:set-cookie|cookie)["']\s*:\s*)(?:\[\s*(?:(?:${QUOTED_LOG_VALUE})\s*(?:,\s*(?:${QUOTED_LOG_VALUE})\s*)*)?\]|${QUOTED_LOG_VALUE})`,
+  'gi',
+);
+const LOG_PASSWORD_FIELD = new RegExp(
+  String.raw`(\b(?:password|passwordHash|DB_PASSWORD|JWT_SECRET|mật[ \t]+khẩu)["']?[ \t]*[:=][ \t]*)(${QUOTED_LOG_VALUE}|[^\s"']+)`,
+  'gi',
+);
+
 export class LauncherLogger {
   private static instance: LauncherLogger;
   private runId: string;
@@ -54,8 +64,8 @@ export class LauncherLogger {
   public logAction(action: string, details?: string): void {
     const record: UserActionRecord = {
       timestamp: new Date().toISOString(),
-      action,
-      details,
+      action: this.redactSecrets(action),
+      details: details ? this.redactSecrets(details) : details,
     };
     this.userActions.push(record);
     if (this.userActions.length > 50) {
@@ -129,8 +139,17 @@ export class LauncherLogger {
     // 1. Che thư mục cá nhân người dùng
     text = text.replace(this.userHomeRegex, '<USER_DIR>');
 
-    // 2. Che Database URL có mật khẩu: postgres://user:password@host:5432/db -> postgres://user:***@host:5432/db
-    text = text.replace(/(postgres(?:ql)?:\/\/[^:\s"']+:)((?:(?!@[a-zA-Z0-9_.-]+(?::\d+)?\/).)+)(@[a-zA-Z0-9_.-]+(?::\d+)?\/[^\s"']*)/gi, '$1***$3');
+    // Apostrophes are valid in user info. After the authority they can delimit a quoted URL.
+    text = text.replace(/postgres(?:ql)?:\/\/(?:[^:\s"<>/?#]*:[^\s"<>/?#]*@)?[^\s"'<>]+/gi, (value) => {
+      try {
+        const url = new URL(value);
+        if (!url.password) return value;
+        url.password = '***';
+        return url.toString();
+      } catch {
+        return '<POSTGRES_URL_REDACTED>';
+      }
+    });
 
     // 3. Che Bearer Authorization header
     text = text.replace(/Bearer\s+[A-Za-z0-9._~+/-]+/gi, 'Bearer ***');
@@ -138,11 +157,15 @@ export class LauncherLogger {
     // 4. Che JWT tokens (3 phần base64 phân cách bởi dấu chấm)
     text = text.replace(/eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/g, '***JWT***');
 
-    // 5. Che Password trong JSON hoặc Query String
-    text = text.replace(/(["']?password["']?\s*[:=]\s*["'])([^"']+)(["'])/gi, '$1***REDACTED***$3');
-    text = text.replace(/(passwordHash["']?\s*[:=]\s*["'])([^"']+)(["'])/gi, '$1***REDACTED***$3');
+    // Redact quoted and unquoted passwords and configuration secrets.
+    text = text.replace(LOG_PASSWORD_FIELD, (_match, field: string, value: string) => {
+      const quote = value.startsWith('"') || value.startsWith("'") ? value[0] : '';
+      return `${field}${quote}***REDACTED***${quote}`;
+    });
 
-    // 6. Che Cookie header nhạy cảm
+    // Redact complete Cookie/Set-Cookie headers, including structured log fields.
+    text = text.replace(LOG_COOKIE_FIELD, '$1"<COOKIE_REDACTED>"');
+    text = text.replace(/(\b(?:set-cookie|cookie)\s*:[ \t]*)[^\r\n]+/gi, '$1<COOKIE_REDACTED>');
     text = text.replace(/(token=)([^;,\s]+)/gi, '$1<COOKIE_TOKEN_REDACTED>');
 
     return text;

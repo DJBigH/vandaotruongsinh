@@ -1,0 +1,28 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> desktop-launcher@1.0.0 build
+> npm run build:renderer && npm run build:main
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> desktop-launcher@1.0.0 build:renderer
+> vite build
+
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vite.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+vite v8.3.6 building client environment for production...
+transforming...
+✓ 26 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/renderer/index.html                   0.63 kB │ gzip:  0.41 kB
+dist/renderer/assets/index-BbMGDit1.css   14.77 kB │ gzip:  3.62 kB
+dist/renderer/assets/index-DxZdyqWV.js   268.49 kB │ gzip: 81.69 kB
+
+✓ built in 186ms
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> desktop-launcher@1.0.0 build:main
+> tsc -p tsconfig.node.json
+

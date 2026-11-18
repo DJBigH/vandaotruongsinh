@@ -1,0 +1,18 @@
+=== KIỂM THỬ MÔ-ĐUN CÀI ĐẶT TỰ ĐỘNG (AUTO-SETUP) ===
+
+[PASS] 1. SetupManager được khởi tạo dưới dạng Singleton
+[FAIL] 2. inspectEnvironment() phát hiện đúng thư mục dự án và runtime: server/.env phải tồn tại
+
+false !== true
+
+[PASS] 3. inspectEnvironment() phát hiện chính xác thư mục không hợp lệ
+[FAIL] 4. Kiểm tra sự tồn tại của server/.env và server/.env.example: server/.env phải tồn tại
+
+false !== true
+
+[PASS] 5. Cơ chế khóa ngăn chặn xung đột nhiều tiến trình cài đặt đồng thời
+
+==================================================
+KẾT QUẢ KIỂM THỬ: 3/5 BÀI TEST THÀNH CÔNG.
+==================================================
+

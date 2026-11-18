@@ -1,0 +1,21 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/server
+node /workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs /workspace/scratch/c5685e889d73/vandaotruongsinh/server env NODE_ENV=test node --env-file=../.env --import tsx src/tests/m1-content-test.ts
+✅ [PASS] (1) Asset [prop_chest.png] tồn tại trên đĩa
+✅ [PASS] (2) Asset [prop_herb.png] tồn tại trên đĩa
+✅ [PASS] (3) Asset [prop_ore.png] tồn tại trên đĩa
+✅ [PASS] (4) Asset [monster_ghost.png] tồn tại trên đĩa
+✅ [PASS] (5) Asset [monster_snake.png] tồn tại trên đĩa
+✅ [PASS] (6) Asset [vfx_fire_orb.png] tồn tại trên đĩa
+✅ [PASS] (7) Asset [vfx_shockwave.png] tồn tại trên đĩa
+✅ [PASS] (8) Asset [vfx_talisman.png] tồn tại trên đĩa
+✅ [PASS] (9) Asset [player_magic_idle.png] tồn tại trên đĩa
+✅ [PASS] (10) Asset [player_body_idle.png] tồn tại trên đĩa
+✅ [PASS] (11) Tạo nhân vật thử nghiệm thành công
+✅ [PASS] (12) Linh thạch được cộng chính xác (+60): 110
+✅ [PASS] (13) Tu vi được cộng chính xác (+50): 50
+✅ [PASS] (14) Nhận được vật phẩm thưởng từ rương: item_012
+✅ [PASS] (15) Chặn thành công việc mở lại rương đã mở (Unique Constraint P2002)
+✅ [PASS] (16) Nhận ủy thác [quest_side_01] thành công từ bảng ủy thác
+✅ [PASS] (17) Dọn dẹp dữ liệu thử nghiệm sạch sẽ
+🎉 KẾT QUẢ KIỂM THỬ: 17/17 TIÊU CHÍ ĐẠT (100%)
+exit=0

@@ -1,0 +1,119 @@
+{
+  "commit": "f3239016c6e6d95e97fd64d159f96d21dd1dd729",
+  "startedAt": "2026-11-18T05:49:21.129Z",
+  "durationMs": 62178,
+  "browser": "153.0.8010.0",
+  "checks": [
+    {
+      "name": "one live socket after character creation",
+      "passed": true,
+      "open": 1
+    },
+    {
+      "name": "server spawn applied",
+      "passed": true,
+      "x": 400,
+      "y": 300
+    },
+    {
+      "name": "opposed keys cancel",
+      "passed": true
+    },
+    {
+      "name": "panel blocks movement",
+      "passed": true
+    },
+    {
+      "name": "panel does not suspend session",
+      "passed": true,
+      "ticks": 124
+    },
+    {
+      "name": "panel does not emit attacks",
+      "passed": true
+    },
+    {
+      "name": "new character has one available skill",
+      "passed": true,
+      "skillCount": 1
+    },
+    {
+      "name": "locked skill keys send no cast",
+      "passed": true
+    },
+    {
+      "name": "elder dialogue request succeeds",
+      "passed": true
+    },
+    {
+      "name": "nearby elder talk advances real quest",
+      "passed": true
+    },
+    {
+      "name": "hall wall blocks normal movement",
+      "passed": true,
+      "y": 300
+    },
+    {
+      "name": "hall wall blocks dodge",
+      "passed": true,
+      "y": 300
+    },
+    {
+      "name": "portal replaces map and entities",
+      "passed": true
+    },
+    {
+      "name": "reload retains forest and saved position",
+      "passed": true,
+      "saved": {
+        "x": 1024,
+        "y": 229
+      },
+      "loaded": {
+        "x": 1024,
+        "y": 229
+      }
+    },
+    {
+      "name": "reload leaves one live socket",
+      "passed": false,
+      "open": 2
+    }
+  ],
+  "failure": "AssertionError [ERR_ASSERTION]: reload leaves one live socket\n    at check (file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/browser-smoke.mjs:22:100)\n    at file:///workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/browser-smoke.mjs:103:3",
+  "errors": [],
+  "sockets": 2,
+  "ticks": 1038,
+  "actions": {
+    "DODGE": 1
+  },
+  "finalScene": {
+    "map": "map_thanh_khe_rung",
+    "player": {
+      "x": 1024,
+      "y": 229,
+      "visible": true,
+      "texture": "player_idle",
+      "animation": "player_idle_down",
+      "frame": 4
+    },
+    "camera": {
+      "x": 341,
+      "y": -88.61538461538464,
+      "zoom": 1.3,
+      "width": 1366,
+      "height": 768
+    },
+    "render": {
+      "entities": 10,
+      "inView": 3
+    },
+    "canvas": {
+      "width": 1366,
+      "height": 768
+    },
+    "inputBlocked": false,
+    "rendererType": 2
+  }
+}

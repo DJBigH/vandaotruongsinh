@@ -1,0 +1,41 @@
+{"elapsedMs":1345,"event":"begin","browser":"153.0.8010.0"}
+{"elapsedMs":6274,"event":"network-socket-open","requestId":"1580.164"}
+{"elapsedMs":6280,"event":"socket-open","id":1}
+{"elapsedMs":6406,"event":"server-init","id":1,"map":"map_thanh_khe","position":{"x":400,"y":300}}
+{"elapsedMs":6957,"event":"check","name":"one live socket after character creation","open":1}
+{"elapsedMs":6957,"event":"check","name":"server spawn applied","x":400,"y":300}
+{"elapsedMs":7229,"event":"walking-route","map":"map_thanh_khe","from":{"x":400,"y":300},"to":{"x":1024,"y":448},"waypoints":[{"x":400,"y":304},{"x":624,"y":80},{"x":624,"y":48},{"x":720,"y":48},{"x":816,"y":144},{"x":816,"y":304},{"x":912,"y":400},{"x":944,"y":400},{"x":976,"y":432},{"x":1008,"y":432},{"x":1024,"y":448}]}
+{"elapsedMs":17615,"event":"check","name":"opposed keys cancel"}
+{"elapsedMs":24104,"event":"check","name":"panel blocks movement"}
+{"elapsedMs":24105,"event":"check","name":"panel does not suspend session","ticks":122}
+{"elapsedMs":24105,"event":"check","name":"panel does not emit attacks"}
+{"elapsedMs":27657,"event":"check","name":"new character has one available skill","skillCount":1}
+{"elapsedMs":28129,"event":"check","name":"locked skill keys send no cast"}
+{"elapsedMs":28228,"event":"walking-route","map":"map_thanh_khe","from":{"x":1021,"y":452},"to":{"x":1024,"y":352},"waypoints":[{"x":1008,"y":464},{"x":1008,"y":336},{"x":1024,"y":352}]}
+{"elapsedMs":29910,"event":"check","name":"elder dialogue request succeeds"}
+{"elapsedMs":32142,"event":"check","name":"nearby elder talk advances real quest"}
+{"elapsedMs":32237,"event":"walking-route","map":"map_thanh_khe","from":{"x":1026,"y":358},"to":{"x":1024,"y":310},"waypoints":[{"x":1040,"y":368},{"x":1040,"y":336},{"x":1008,"y":304},{"x":1024,"y":310}]}
+{"elapsedMs":35249,"event":"check","name":"hall wall blocks normal movement","y":300}
+{"elapsedMs":35311,"event":"action-input","id":1,"action":"DODGE","seq":379}
+{"elapsedMs":35730,"event":"check","name":"hall wall blocks dodge","y":300}
+{"elapsedMs":35818,"event":"walking-route","map":"map_thanh_khe","from":{"x":1026,"y":300},"to":{"x":1024,"y":1280},"waypoints":[{"x":1040,"y":304},{"x":1040,"y":1232},{"x":1008,"y":1264},{"x":1024,"y":1280}]}
+{"elapsedMs":45474,"event":"check","name":"portal replaces map and entities"}
+{"elapsedMs":45579,"event":"walking-route","map":"map_thanh_khe_rung","from":{"x":1024,"y":128},"to":{"x":1024,"y":224},"waypoints":[{"x":1008,"y":112},{"x":1008,"y":208},{"x":1024,"y":224}]}
+{"elapsedMs":60877,"event":"document-socket-scope-ended","observations":1}
+{"elapsedMs":62170,"event":"network-socket-open","requestId":"1580.332"}
+{"elapsedMs":62247,"event":"socket-open","id":2}
+{"elapsedMs":62319,"event":"server-init","id":2,"map":"map_thanh_khe_rung","position":{"x":1027,"y":225}}
+{"elapsedMs":62730,"event":"check","name":"reload retains forest and saved position","saved":{"x":1027,"y":225},"loaded":{"x":1027,"y":225}}
+{"elapsedMs":62730,"event":"check","name":"one socket in the current document after reload","open":1}
+{"elapsedMs":62744,"event":"network-socket-close","requestId":"1580.332"}
+{"elapsedMs":62744,"event":"socket-close","id":2}
+{"elapsedMs":65747,"event":"network-socket-open","requestId":"1580.334"}
+{"elapsedMs":65748,"event":"socket-open","id":3}
+{"elapsedMs":65772,"event":"server-init","id":3,"map":"map_thanh_khe_rung","position":{"x":1027,"y":225}}
+{"elapsedMs":66549,"event":"walking-route","map":"map_thanh_khe_rung","from":{"x":1027,"y":225},"to":{"x":1088,"y":224},"waypoints":[{"x":1040,"y":240},{"x":1072,"y":208},{"x":1088,"y":224}]}
+{"elapsedMs":67722,"event":"check","name":"movement resumes after reconnect"}
+{"elapsedMs":72062,"event":"check","name":"one canvas after reload and resize"}
+{"elapsedMs":72095,"event":"walking-route","map":"map_thanh_khe_rung","from":{"x":1093,"y":230},"to":{"x":1024,"y":128},"waypoints":[{"x":1104,"y":240},{"x":1040,"y":176},{"x":1040,"y":144},{"x":1024,"y":128}]}
+{"elapsedMs":74621,"event":"check","name":"return to village clears forest entities"}
+{"elapsedMs":74622,"event":"check","name":"no uncaught browser errors","errors":[]}
+{"elapsedMs":74623,"event":"complete"}

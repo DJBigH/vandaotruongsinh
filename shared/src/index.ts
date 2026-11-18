@@ -681,6 +681,9 @@ export interface PlayerInputPayload {
   action?: 'NONE' | 'ATTACK' | 'SKILL_1' | 'SKILL_2' | 'SKILL_3' | 'SKILL_4' | 'DODGE' | 'INTERACT';
 }
 
+// Application close codes are terminal for the displaced scene, including its focus and retry handlers.
+export const ARPG_CLOSE = { SLOT_CHANGED: 4001, WINDOW_REPLACED: 4002 } as const;
+
 export interface WsClientMessage {
   type: 'AUTH' | 'INPUT' | 'HEARTBEAT' | 'USE_ITEM' | 'RESPAWN';
   token?: string;
@@ -790,3 +793,5 @@ export interface AccountCharactersResponse {
   activeCharacterId: string | null;
 }
 
+
+export { isWorldPositionWalkable, resolveWorldMovement } from './world-collision';

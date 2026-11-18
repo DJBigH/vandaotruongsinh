@@ -1,0 +1,61 @@
+{
+  "source": {
+    "commit": "3ac3fe5ed078347145b0199cd136c9a6c05939fa",
+    "harnessSha256": "aa402c03e5fe0a763002031dc355c865731185b12648a230acf9b462f2f7d09d",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null
+  },
+  "startedAt": "2026-11-18T09:37:07.073Z",
+  "durationMs": 15262,
+  "browser": "153.0.8010.0",
+  "passed": true,
+  "checks": [
+    {
+      "name": "first page owns one live character socket",
+      "passed": true
+    },
+    {
+      "name": "displaced page shows terminal ownership message",
+      "passed": true
+    },
+    {
+      "name": "displaced page stays closed beyond the 3000ms retry interval",
+      "passed": true,
+      "waitMs": 3600
+    },
+    {
+      "name": "displaced controls send no further input",
+      "passed": true
+    },
+    {
+      "name": "replacement page keeps receiving ticks after old-page focus handler",
+      "passed": true,
+      "newTicks": 76
+    },
+    {
+      "name": "explicit reload is an intentional new session",
+      "passed": true
+    },
+    {
+      "name": "fresh page restores game UI",
+      "passed": true
+    },
+    {
+      "name": "both pages have no uncaught JavaScript errors",
+      "passed": true
+    }
+  ],
+  "failure": null,
+  "cleanupErrors": [],
+  "first": {
+    "sockets": 2,
+    "ticks": 75,
+    "errors": []
+  },
+  "second": {
+    "sockets": 1,
+    "ticks": 168,
+    "errors": []
+  },
+  "limitation": "Actual two browser pages and production client/server. Focus event was synthetic; physical OS focus remains unverified. Active-slot and missed-close races are covered by the separate server/client transport regression."
+}

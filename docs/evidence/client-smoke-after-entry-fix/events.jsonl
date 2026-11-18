@@ -1,0 +1,14 @@
+{"elapsedMs":1058,"event":"begin","browser":"153.0.8010.0"}
+{"elapsedMs":4323,"event":"socket-open","id":1}
+{"elapsedMs":4407,"event":"server-init","id":1,"map":"map_thanh_khe","position":{"x":400,"y":300}}
+{"elapsedMs":4982,"event":"check","name":"one live socket after character creation","open":1}
+{"elapsedMs":4982,"event":"check","name":"server spawn applied","x":400,"y":300}
+{"elapsedMs":5320,"event":"walking-route","map":"map_thanh_khe","from":{"x":400,"y":300},"to":{"x":1024,"y":448},"waypoints":[{"x":400,"y":304},{"x":624,"y":80},{"x":624,"y":48},{"x":720,"y":48},{"x":816,"y":144},{"x":816,"y":304},{"x":912,"y":400},{"x":944,"y":400},{"x":976,"y":432},{"x":1008,"y":432},{"x":1024,"y":448}]}
+{"elapsedMs":14984,"event":"check","name":"opposed keys cancel"}
+{"elapsedMs":21443,"event":"check","name":"panel blocks movement"}
+{"elapsedMs":21444,"event":"check","name":"panel does not suspend session","ticks":123}
+{"elapsedMs":21444,"event":"check","name":"panel does not emit attacks"}
+{"elapsedMs":24982,"event":"check","name":"new character has one available skill","skillCount":1}
+{"elapsedMs":25457,"event":"check","name":"locked skill keys send no cast"}
+{"elapsedMs":25586,"event":"walking-route","map":"map_thanh_khe","from":{"x":1029,"y":448},"to":{"x":1024,"y":352},"waypoints":[{"x":1040,"y":432},{"x":1040,"y":368},{"x":1024,"y":352}]}
+{"elapsedMs":27407,"event":"failed","error":"Error: Movement stalled at (1029.0,448.0) toward (1040,432)"}

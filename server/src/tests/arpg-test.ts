@@ -4,6 +4,7 @@
 // Boss Telegraph & Enrage, Quyết toán máy chủ, 3 Ô nhân vật, Chống hack.
 // ============================================================
 
+import './require-disposable-database';
 import { PrismaClient } from '@prisma/client';
 import { CultivationPath, DEFAULT_DODGE_CONFIG } from '@shared';
 import { ArpgGameSession, ArpgSessionManager } from '../engine/realtime-arpg-engine';

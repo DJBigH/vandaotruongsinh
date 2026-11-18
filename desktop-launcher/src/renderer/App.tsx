@@ -140,7 +140,7 @@ export const App: React.FC = () => {
     try {
       const dbInfo = await window.launcherAPI.checkDatabase();
       if (dbInfo.state === 'CONNECTED') {
-        showToast('✓ Đã kết nối thành công tới PostgreSQL (127.0.0.1:5432)!');
+        showToast(`✓ ${dbInfo.message}`);
       } else {
         showToast(`✕ Chưa thể kết nối: ${dbInfo.message}`);
       }

@@ -1,0 +1,50 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/server
+node /workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs /workspace/scratch/c5685e889d73/vandaotruongsinh/server env NODE_ENV=test node --env-file=../.env --import tsx --test src/tests/world-session-routes-test.ts
+✔ backend health publishes the launcher game identity (120.90709ms)
+✔ position route rejects coordinate writes and saves only live server movement (126.769305ms)
+✔ a replacement socket owns snapshots and can resume using valid input (32.501657ms)
+✔ HTTP teleport rebuilds the active map and old socket close cannot restore the prior position (38.984446ms)
+✔ retrying a teleport preserves the active destination position and encounter (36.564509ms)
+✔ chest interaction checks live position and only one simultaneous request rewards the player (58.579905ms)
+✔ a failed chest quest update rolls back the chest claim and reward (99.475506ms)
+✔ main quests appear and accept only after turning in their predecessor (102.807276ms)
+✔ nearby elder dialogue advances TALK from live coordinates (35.028459ms)
+✔ reading the elder dialogue from far away cannot credit TALK (39.250919ms)
+✔ matching coordinates on the wrong map cannot credit elder TALK (52.06734ms)
+✔ substituting an elder NPC id into a different dialogue cannot credit TALK (42.505043ms)
+✔ committed monster drops contribute their actual quantity to COLLECT objectives (20.440456ms)
+✔ a rejected monster reward transaction emits no REWARDS message (25.507075ms)
+✔ equipment updates active combat stats without refilling resources or reloading the map (52.24034ms)
+✔ HTTP potions restore live HP and MP without using saved resources or resetting the session (144.184272ms)
+✔ simultaneous uses of a one-item stack apply exactly one live effect (40.986679ms)
+✔ an overlapping full-stack sale cannot sell the unit a potion use already committed (106.279517ms)
+✔ a real consumable transaction rollback preserves the stack and live resource (36.135788ms)
+✔ a dead live actor may not use a restoration potion (26.701217ms)
+✔ offline consumables still update persisted stats and cultivation (64.777ms)
+✔ WebSocket item use follows the template effect and consumes only one matching stack (52.490103ms)
+✔ equip computes stats from realm committed while waiting for the character lock (57.611014ms)
+✔ unequip computes stats from realm committed while waiting for the character lock (43.848083ms)
+✔ breakthrough checks and updates the active second slot (30.856248ms)
+✔ SWORD learns its third skill at Luyện Khí Đại Viên Mãn (39.434031ms)
+✔ SPELL learns its third skill at Luyện Khí Đại Viên Mãn (40.901921ms)
+✔ BODY learns its third skill at Luyện Khí Đại Viên Mãn (38.073472ms)
+✔ slot create hands off the active session and saves its last position (48.606758ms)
+✔ slot switch hands off the active session and saves its last position (50.136398ms)
+✔ a slot switch orders an authentication already reading the prior character (49.266674ms)
+✔ shrine restores authoritative HP and MP to current equipped maxima (55.209354ms)
+✔ offline shrine uses locked saved stats and preserves unrelated fields (29.294197ms)
+✔ breakthrough retry targets its original character and starting stage (98.31915ms)
+✔ potion orders a lethal tick and later dodge across before reservation (32.765497ms)
+✔ potion orders a lethal tick and later dodge across next life (29.447941ms)
+✔ potion orders a lethal tick and later dodge across commit (36.682731ms)
+✔ potion orders a lethal tick and later dodge across rollback (32.285403ms)
+✔ an earned kill settling across handover credits only the prior slot (49.870627ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5162.304898
+exit=0

@@ -1,0 +1,6 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh
+node /workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs /workspace/scratch/c5685e889d73/vandaotruongsinh node scratch/sdd-vnext-m1/task-4-logs/renderer-readiness.mjs
+PASS: WARNING setup event yields the expected renderer state.
+PASS: ERROR setup event yields the expected renderer state.
+PASS: SUCCESS setup event yields the expected renderer state.
+exit=0

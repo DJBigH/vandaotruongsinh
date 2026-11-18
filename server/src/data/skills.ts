@@ -3,7 +3,7 @@
 // 12 Kiếm Tu | 12 Pháp Tu | 12 Thể Tu across 9 Cảnh Giới
 // ============================================================
 
-import { CultivationPath, SkillTargetType, type SkillRealtimeData, type SkillTemplate } from '@shared';
+import { CultivationPath, MAX_REALM_TIER, SkillTargetType, type SkillRealtimeData, type SkillTemplate } from '@shared';
 
 export type { SkillTemplate };
 
@@ -131,7 +131,7 @@ export const SKILL_TEMPLATES: Record<string, SkillTemplate> = {
     cooldown: 4,
     damageMultiplier: 2.2,
     unlockRealmIndex: 0,
-    unlockRealmTier: 4,
+    unlockRealmTier: MAX_REALM_TIER,
   },
   skill_sword_04: {
     id: 'skill_sword_04',
@@ -273,7 +273,7 @@ export const SKILL_TEMPLATES: Record<string, SkillTemplate> = {
     damageMultiplier: 2.1,
     effect: { type: 'FREEZE', value: 1, duration: 1 },
     unlockRealmIndex: 0,
-    unlockRealmTier: 4,
+    unlockRealmTier: MAX_REALM_TIER,
   },
   skill_spell_04: {
     id: 'skill_spell_04',
@@ -416,7 +416,7 @@ export const SKILL_TEMPLATES: Record<string, SkillTemplate> = {
     damageMultiplier: 1.7,
     effect: { type: 'RAGE', value: 1.5 },
     unlockRealmIndex: 0,
-    unlockRealmTier: 4,
+    unlockRealmTier: MAX_REALM_TIER,
   },
   skill_body_04: {
     id: 'skill_body_04',

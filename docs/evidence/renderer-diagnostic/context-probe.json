@@ -1,0 +1,56 @@
+{
+  "browser": "153.0.8010.0",
+  "readings": [
+    {
+      "id": "webgl",
+      "options": {
+        "failIfMajorPerformanceCaveat": true
+      },
+      "available": true,
+      "contextError": null,
+      "vendor": "Google Inc. (Google)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "unmasked": true
+    },
+    {
+      "id": "experimental-webgl",
+      "options": {
+        "failIfMajorPerformanceCaveat": true
+      },
+      "available": true,
+      "contextError": null,
+      "vendor": "Google Inc. (Google)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "unmasked": true
+    },
+    {
+      "id": "webgl",
+      "options": {},
+      "available": true,
+      "contextError": null,
+      "vendor": "Google Inc. (Google)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "unmasked": true
+    },
+    {
+      "id": "webgl2",
+      "options": {
+        "failIfMajorPerformanceCaveat": true
+      },
+      "available": true,
+      "contextError": null,
+      "vendor": "Google Inc. (Google)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "unmasked": true
+    },
+    {
+      "id": "webgl2",
+      "options": {},
+      "available": true,
+      "contextError": null,
+      "vendor": "Google Inc. (Google)",
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "unmasked": true
+    }
+  ]
+}

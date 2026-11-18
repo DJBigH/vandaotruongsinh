@@ -1,0 +1,13 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/client
+node /workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs /workspace/scratch/c5685e889d73/vandaotruongsinh/client node --test tests/vite-proxy-test.mjs
+✔ Vite keeps the default backend port without a launcher override (49.306147ms)
+✔ Vite forwards HTTP and WebSocket traffic to the configured backend port (108.733132ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 521.408288
+exit=0

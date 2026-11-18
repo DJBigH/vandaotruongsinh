@@ -6,9 +6,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import net from 'node:net';
-import http from 'node:http';
+import { probeGameService } from './game-readiness';
 import { exec } from 'node:child_process';
 import { promisify } from 'node:util';
+import { parse } from 'dotenv';
+import { readBackendEnvironment } from '../shared/backend-environment';
 import { DiagnosticItem, DiagnosticReport } from '../shared/types';
 import { SettingsManager } from './settings-manager';
 
@@ -25,8 +27,19 @@ export class SystemDiagnostics {
     // 2. Kiểm tra thư mục dự án và file cấu hình
     items.push(await this.checkProjectFiles(settings.projectDir));
 
-    // 3. Kiểm tra kết nối cơ sở dữ liệu PostgreSQL
-    items.push(await this.checkDatabase(settings.dbHost, settings.dbPort));
+    // 3. Thăm dò TCP địa chỉ PostgreSQL của cấu hình backend
+    const configuration = readBackendEnvironment(settings.projectDir, parse);
+    if ('error' in configuration) {
+      items.push({
+        id: 'diag_db',
+        name: 'Cổng TCP PostgreSQL',
+        category: 'DATABASE',
+        status: 'FAIL',
+        message: configuration.error,
+      });
+    } else {
+      items.push(await this.checkDatabase(configuration.database.host, configuration.database.port));
+    }
 
     // 4. Kiểm tra cổng Backend (3001)
     items.push(await this.checkPortStatus('server', settings.serverPort, 'Cổng Máy Chủ (Server Port)'));
@@ -115,10 +128,10 @@ export class SystemDiagnostics {
         socket.destroy();
         resolve({
           id: 'diag_db',
-          name: 'Cơ Sở Dữ Liệu PostgreSQL',
+          name: 'Cổng TCP PostgreSQL',
           category: 'DATABASE',
           status: 'PASS',
-          message: `PostgreSQL đang hoạt động và chấp nhận kết nối tại ${host}:${port}.`,
+          message: `Cổng TCP PostgreSQL phản hồi tại ${host}:${port}.`,
         });
       });
 
@@ -126,10 +139,10 @@ export class SystemDiagnostics {
         socket.destroy();
         resolve({
           id: 'diag_db',
-          name: 'Cơ Sở Dữ Liệu PostgreSQL',
+          name: 'Cổng TCP PostgreSQL',
           category: 'DATABASE',
           status: 'FAIL',
-          message: `Hết thời gian chờ khi kết nối tới PostgreSQL ${host}:${port}.`,
+          message: `Hết thời gian chờ cổng TCP PostgreSQL ${host}:${port}.`,
           recommendation: 'Đảm bảo dịch vụ PostgreSQL đang chạy (ví dụ trong WSL: sudo service postgresql start hoặc docker-compose up -d).',
         });
       });
@@ -138,10 +151,10 @@ export class SystemDiagnostics {
         socket.destroy();
         resolve({
           id: 'diag_db',
-          name: 'Cơ Sở Dữ Liệu PostgreSQL',
+          name: 'Cổng TCP PostgreSQL',
           category: 'DATABASE',
           status: 'FAIL',
-          message: `Không thể kết nối cổng PostgreSQL (${host}:${port}): ${err.message}`,
+          message: `Không thể kết nối cổng TCP PostgreSQL (${host}:${port}): ${err.message}`,
           recommendation: 'Kiểm tra xem PostgreSQL đã được bật chưa trước khi khởi động Game Server.',
         });
       });
@@ -220,48 +233,13 @@ export class SystemDiagnostics {
     }
   }
 
-  private static checkServerApiReadiness(serverPort: number): Promise<DiagnosticItem> {
-    return new Promise((resolve) => {
-      const req = http.get(`http://127.0.0.1:${serverPort}/api/game/maps`, { timeout: 1500 }, (res) => {
-        if (res.statusCode === 200 || res.statusCode === 401) {
-          resolve({
-            id: 'diag_api',
-            name: 'API Khám Phá Bản Đồ (Readiness Check)',
-            category: 'API',
-            status: 'PASS',
-            message: `Fastify Backend tại cổng ${serverPort} phản hồi thành công (HTTP ${res.statusCode}).`,
-          });
-        } else {
-          resolve({
-            id: 'diag_api',
-            name: 'API Khám Phá Bản Đồ (Readiness Check)',
-            category: 'API',
-            status: 'WARN',
-            message: `Fastify Backend phản hồi mã trạng thái bất thường: HTTP ${res.statusCode}.`,
-          });
-        }
-      });
-
-      req.once('error', () => {
-        resolve({
-          id: 'diag_api',
-          name: 'API Khám Phá Bản Đồ (Readiness Check)',
-          category: 'API',
-          status: 'PASS',
-          message: `Backend hiện chưa bật (Sẽ phản hồi khi bạn nhấn Bật Server).`,
-        });
-      });
-
-      req.once('timeout', () => {
-        req.destroy();
-        resolve({
-          id: 'diag_api',
-          name: 'API Khám Phá Bản Đồ (Readiness Check)',
-          category: 'API',
-          status: 'WARN',
-          message: 'Hết thời gian chờ phản hồi từ API Backend.',
-        });
-      });
-    });
+  private static async checkServerApiReadiness(serverPort: number): Promise<DiagnosticItem> {
+    const readiness = await probeGameService('server', serverPort);
+    return {
+      id: 'diag_api', name: 'API Vạn Đạo Trường Sinh', category: 'API',
+      status: readiness === 'unidentified' ? 'WARN' : 'PASS',
+      message: readiness === 'identified' ? `Đã nhận diện máy chủ game tại cổng ${serverPort}.` :
+        readiness === 'unavailable' ? 'Backend hiện chưa bật.' : 'Cổng đang mở nhưng chưa nhận diện được máy chủ game.',
+    };
   }
 }

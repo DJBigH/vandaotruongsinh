@@ -1,0 +1,38 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/client
+node /workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs /workspace/scratch/c5685e889d73/vandaotruongsinh/client node --import ../server/node_modules/tsx/dist/loader.mjs --test tests/authStore.test.ts tests/exploration.test.ts tests/presentation.test.ts tests/questPanel.test.ts tests/breakthrough.test.ts
+✔ direct registration starts enabled and stays busy only while the request is active (345.365143ms)
+✔ breakthrough requests carry the character and stage viewed by the player (213.594498ms)
+✔ one scene owns one socket and ignores callbacks from an old connection (2.367691ms)
+✔ scene shutdown cancels reconnect and a queued retry cannot acquire a socket (0.243005ms)
+✔ the saved map is prefetched once and drawn only on server confirmation (0.590173ms)
+✔ a delayed old map and a response after shutdown cannot paint the world (0.359225ms)
+✔ replacing an animation cancels its timer and completion handler and ignores callbacks already in flight (0.672992ms)
+✔ blur or panel reset releases movement and discards queued actions until a fresh press (0.436583ms)
+✔ a rejected cast has no presentation while its learned slot cooldown stays flat (0.376993ms)
+✔ server cooldown confirms a requested cast once, with the original facing for a timely reply (0.882755ms)
+✔ a delayed learned cast confirms once using server facing after the retry window (0.290906ms)
+✔ overlapping retry uses server facing when the earlier request finally confirms (0.482184ms)
+✔ slot removal and world reset invalidate pending action confirmations (0.248912ms)
+✔ at rest reconciliation has the same elapsed-time response at different frame rates (1.216052ms)
+✔ fresh movement is immediate and agreeing moving snapshots do not pull the player back on every frame (0.932202ms)
+✔ prediction and smooth reconciliation respect shared collision zones (0.702089ms)
+✔ fresh stationary server snapshots recover a position stranded on the far side of a wall (0.537295ms)
+✔ Phaser camera follows the same distance over 100ms at 30Hz and 120Hz (136.803696ms)
+✔ loader catalog uses the exported files and indexes the matching hero or creature row (5.177936ms)
+✔ hurt, death and respawn are edges of authoritative snapshots (1.646177ms)
+✔ class identity survives moving, action replacement and revival (0.863883ms)
+✔ village routes reach every door, NPC and portal; both maps keep route centerlines walkable (65.050793ms)
+✔ sound and motion preferences round-trip independently; invalid saved values use the motion preference (34.15681ms)
+✔ the hall roof clears the north portal disk even at its widest rotation (1.043753ms)
+✔ building foundations cover exposed solid tiles and leave walkable door approaches clear (4.595383ms)
+✔ ongoing quest view shows completed objectives and one unclaimed reward (330.882831ms)
+✔ claiming a quest refreshes the bag only after the server commits its reward (100.584004ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3334.298435
+exit=0

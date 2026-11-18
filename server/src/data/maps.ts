@@ -43,29 +43,29 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
 
     // --- NPCs ---
     npcs: [
-      // Trưởng Lão – Đại điện phía Bắc (1024,300) → tile (32,9)
+      // Trưởng Lão – trước Đại điện phía Bắc
       {
         id: 'npc_elder',
         name: 'Trưởng Lão Thanh Khê',
-        position: { x: 32, y: 9 },
+        position: { x: 32, y: 10 },
         dialogueId: 'dlg_elder_01',
         spriteKey: 'npc_elder',
         questIds: ['quest_main_01'],
       },
-      // Dược Sĩ – Dược phòng phía Tây (400,768) → tile (12,24)
+      // Dược Sĩ – lối vào Dược phòng phía Tây
       {
         id: 'npc_healer',
         name: 'Dược Sĩ Liễu Muội',
-        position: { x: 12, y: 24 },
+        position: { x: 17, y: 24 },
         dialogueId: 'dlg_healer_01',
         spriteKey: 'npc_healer',
         shopId: 'shop_herbs',
       },
-      // Đội Trưởng Vệ Binh – Doanh trại phía Đông (1600,768) → tile (50,24)
+      // Đội Trưởng Vệ Binh – lối vào Doanh trại phía Đông
       {
         id: 'npc_guard',
         name: 'Đội Trưởng Vệ Binh',
-        position: { x: 50, y: 24 },
+        position: { x: 47, y: 24 },
         dialogueId: 'dlg_guard_01',
         spriteKey: 'npc_guard',
         questIds: ['quest_side_01'],
@@ -85,12 +85,12 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
         position: { x: 32, y: 41 },
         targetPosition: { x: 32, y: 4 },
       },
-      // Cổng lên Thanh Vân Môn phía Bắc (1024,300) → tile (32,3)
+      // Cổng lên Thanh Vân Môn phía Bắc, sau Đại điện
       {
         id: 'portal_to_sect',
         label: 'Thanh Vân Kiếm Tông',
         targetMapId: 'map_thanh_van',
-        position: { x: 32, y: 3 },
+        position: { x: 32, y: 2 },
         targetPosition: { x: 12, y: 18 },
       },
     ],
@@ -100,10 +100,10 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
       // Bàn thờ linh thần – Quảng trường trung tâm (1024,768) → tile (32,24)
       { id: 'shrine_01', type: 'SHRINE', position: { x: 32, y: 24 } },
       // Linh thảo gần dược phòng
-      { id: 'herb_01', type: 'HERB', position: { x: 10, y: 22 } },
-      { id: 'herb_02', type: 'HERB', position: { x: 14, y: 26 } },
+      { id: 'herb_01', type: 'HERB', position: { x: 10, y: 19 } },
+      { id: 'herb_02', type: 'HERB', position: { x: 14, y: 29 } },
       // Khoáng thạch gần doanh trại
-      { id: 'ore_01', type: 'ORE', position: { x: 54, y: 22 } },
+      { id: 'ore_01', type: 'ORE', position: { x: 54, y: 19 } },
     ],
 
     // --- Collision Zones (buildings, water, walls) ---
@@ -130,7 +130,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     // --- Decorative Props ---
     decorativeProps: [
       // Cổng Môn Phái (Bắc, trên portal sect)
-      { key: 'prop_sect_gate', x: 32, y: 3, originY: 0.95 },
+      { key: 'prop_sect_gate', x: 32, y: 2, originY: 0.95 },
 
       // Bàn thờ linh thần (trung tâm) – quay chậm
       { key: 'prop_shrine', x: 32, y: 24, originY: 0.88 },
@@ -211,6 +211,8 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
       { id: 'spawn_wolf_2', monsterId: 'mon_001', position: { x: 22, y: 18 }, respawnTime: 15, level: 2 },
       { id: 'spawn_snake_1', monsterId: 'mon_003', position: { x: 28, y: 12 }, respawnTime: 20, level: 2 },
       // Khu B: Rừng rậm – quái tinh anh
+      { id: 'spawn_black_wolf_1', monsterId: 'mon_002', position: { x: 36, y: 23 }, respawnTime: 20, level: 3 },
+      { id: 'spawn_black_wolf_2', monsterId: 'mon_002', position: { x: 38, y: 29 }, respawnTime: 20, level: 3 },
       { id: 'spawn_wolf_3', monsterId: 'mon_001', position: { x: 36, y: 32 }, respawnTime: 20, level: 3 },
       { id: 'spawn_snake_2', monsterId: 'mon_003', position: { x: 42, y: 28 }, respawnTime: 20, level: 3 },
       { id: 'spawn_fox_1', monsterId: 'mon_004', position: { x: 44, y: 36 }, respawnTime: 25, level: 4 },
@@ -234,7 +236,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     // --- Interactables ---
     interactables: [
       // Rương ẩn gốc cây lớn Khu A
-      { id: 'chest_a1', type: 'CHEST', position: { x: 14, y: 20 }, lootTableId: 'loot_forest_common' },
+      { id: 'chest_a1', type: 'CHEST', position: { x: 15, y: 20 }, lootTableId: 'loot_forest_common' },
       // Rương ẩn Khu B (rừng rậm)
       { id: 'chest_b1', type: 'CHEST', position: { x: 48, y: 42 }, lootTableId: 'loot_forest_rare' },
       // Linh thảo rải rác
@@ -242,7 +244,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
       { id: 'herb_f2', type: 'HERB', position: { x: 10, y: 30 } },
       { id: 'herb_f3', type: 'HERB', position: { x: 40, y: 40 } },
       // Khoáng vật quý Khu C
-      { id: 'ore_f1', type: 'ORE', position: { x: 56, y: 50 } },
+      { id: 'ore_f1', type: 'ORE', position: { x: 56, y: 51 } },
       // Miếu thờ hang Lang Vương (kích hoạt boss fight)
       { id: 'shrine_boss', type: 'SHRINE', position: { x: 50, y: 52 } },
     ],
@@ -285,7 +287,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
       // Tinh thể linh khí nhỏ
       { key: 'prop_crystal_cluster', x: 16, y: 12, originY: 0.85 },
       // Rương ẩn gốc cây (Khu A)
-      { key: 'prop_shrine', x: 14, y: 20, originY: 0.88 },
+      { key: 'prop_shrine', x: 15, y: 20, originY: 0.88 },
 
       // === Đường mòn A→B (trục x~32, y 20→40) ===
       { key: 'prop_stone_lantern', x: 32, y: 24, originY: 0.88 },

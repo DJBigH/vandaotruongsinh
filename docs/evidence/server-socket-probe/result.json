@@ -1,0 +1,71 @@
+{
+  "commit": "ec5f5e9be5cff503a2402c30137a9c1a7368dbfd",
+  "browser": "153.0.8010.0",
+  "hardware": {
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "logicalCpus": 9,
+    "totalMemoryBytes": 10451423232,
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "fixture": {
+    "map": "map_thanh_khe_rung",
+    "normalMonsters": 10,
+    "bosses": 1,
+    "spawnPositions": [
+      [
+        47,
+        53
+      ],
+      [
+        49,
+        53
+      ],
+      [
+        51,
+        53
+      ],
+      [
+        53,
+        53
+      ],
+      [
+        47,
+        55
+      ],
+      [
+        53,
+        55
+      ],
+      [
+        47,
+        57
+      ],
+      [
+        49,
+        57
+      ],
+      [
+        51,
+        57
+      ],
+      [
+        53,
+        57
+      ]
+    ],
+    "characterRealm": 8,
+    "characterTier": 3,
+    "reason": "Existing high-realm defensive stats keep the measurement alive; monster templates, AI, damage/cost/cooldown formulas and scene rendering are unmodified. This is not the normal new-character encounter.",
+    "video": false
+  },
+  "results": [
+    {
+      "kind": "server-socket-ownership-after-reload",
+      "open": 1,
+      "closing": 0,
+      "total": 1,
+      "currentDocumentObservations": 1
+    }
+  ]
+}

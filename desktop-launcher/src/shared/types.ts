@@ -139,6 +139,8 @@ export interface SetupInspection {
   hasServerModules: boolean;
   hasClientModules: boolean;
   hasServerEnv: boolean;
+  configurationSource: string | null;
+  databaseEndpoint: { host: string; port: number } | null;
   isDbRunning: boolean;
   missingItems: string[];
   isReadyToPlay: boolean;

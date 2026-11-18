@@ -1,0 +1,136 @@
+{
+  "commit": "ddf2ab062c22fae6ee56f188baadfc9d2e12dc9e",
+  "startedAt": "2026-11-18T06:04:09.013Z",
+  "durationMs": 74662,
+  "browser": "153.0.8010.0",
+  "checks": [
+    {
+      "name": "one live socket after character creation",
+      "passed": true,
+      "open": 1
+    },
+    {
+      "name": "server spawn applied",
+      "passed": true,
+      "x": 400,
+      "y": 300
+    },
+    {
+      "name": "opposed keys cancel",
+      "passed": true
+    },
+    {
+      "name": "panel blocks movement",
+      "passed": true
+    },
+    {
+      "name": "panel does not suspend session",
+      "passed": true,
+      "ticks": 122
+    },
+    {
+      "name": "panel does not emit attacks",
+      "passed": true
+    },
+    {
+      "name": "new character has one available skill",
+      "passed": true,
+      "skillCount": 1
+    },
+    {
+      "name": "locked skill keys send no cast",
+      "passed": true
+    },
+    {
+      "name": "elder dialogue request succeeds",
+      "passed": true
+    },
+    {
+      "name": "nearby elder talk advances real quest",
+      "passed": true
+    },
+    {
+      "name": "hall wall blocks normal movement",
+      "passed": true,
+      "y": 300
+    },
+    {
+      "name": "hall wall blocks dodge",
+      "passed": true,
+      "y": 300
+    },
+    {
+      "name": "portal replaces map and entities",
+      "passed": true
+    },
+    {
+      "name": "reload retains forest and saved position",
+      "passed": true,
+      "saved": {
+        "x": 1027,
+        "y": 225
+      },
+      "loaded": {
+        "x": 1027,
+        "y": 225
+      }
+    },
+    {
+      "name": "one socket in the current document after reload",
+      "passed": true,
+      "open": 1
+    },
+    {
+      "name": "movement resumes after reconnect",
+      "passed": true
+    },
+    {
+      "name": "one canvas after reload and resize",
+      "passed": true
+    },
+    {
+      "name": "return to village clears forest entities",
+      "passed": true
+    },
+    {
+      "name": "no uncaught browser errors",
+      "passed": true,
+      "errors": []
+    }
+  ],
+  "failure": null,
+  "errors": [],
+  "sockets": 3,
+  "ticks": 1227,
+  "actions": {
+    "DODGE": 1
+  },
+  "finalScene": {
+    "map": "map_thanh_khe",
+    "player": {
+      "x": 1024,
+      "y": 1280,
+      "visible": true,
+      "texture": "player_idle",
+      "animation": "player_idle_down",
+      "frame": 2
+    },
+    "camera": {
+      "x": 64,
+      "y": 580.6153846153845,
+      "zoom": 1.3,
+      "width": 1920,
+      "height": 1080
+    },
+    "render": {
+      "entities": 0,
+      "inView": 0
+    },
+    "canvas": {
+      "width": 1920,
+      "height": 1080
+    },
+    "inputBlocked": false,
+    "rendererType": 2
+  }
+}

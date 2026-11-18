@@ -1,0 +1,252 @@
+{
+  "source": {
+    "commit": "fc74a0bc9527b1f50290485a9fa565c92745b65a",
+    "harnessSha256": "571ed6f2edd82a31cec6817ee91208f18030af3a43525cddf8aa26d625ee2600",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null
+  },
+  "scope": "four-skills-and-load",
+  "hardware": {
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "logicalCpus": 9,
+    "totalMemoryBytes": 10451423232,
+    "platform": "linux",
+    "arch": "x64",
+    "cpuQuota": null,
+    "memoryLimit": null
+  },
+  "results": [
+    {
+      "kind": "four-slot-cost-cooldown-animation",
+      "skills": [
+        {
+          "slot": 1,
+          "mpCost": 15,
+          "cooldownSeconds": 1.5,
+          "displacement": 0,
+          "authoritativeTick": 25,
+          "scene": {
+            "map": "map_thanh_khe",
+            "player": {
+              "x": 1024,
+              "y": 1100,
+              "visible": true,
+              "texture": "player_cast",
+              "animation": "player_cast_right",
+              "frame": 1
+            },
+            "camera": {
+              "x": 341,
+              "y": 716,
+              "zoom": 1.3,
+              "width": 1366,
+              "height": 768
+            },
+            "render": {
+              "entities": 0,
+              "inView": 0
+            },
+            "canvas": {
+              "width": 1366,
+              "height": 768
+            },
+            "inputBlocked": false,
+            "rendererType": 2
+          }
+        },
+        {
+          "slot": 2,
+          "mpCost": 25,
+          "cooldownSeconds": 3,
+          "displacement": 0,
+          "authoritativeTick": 84,
+          "scene": {
+            "map": "map_thanh_khe",
+            "player": {
+              "x": 1024,
+              "y": 1100,
+              "visible": true,
+              "texture": "player_cast",
+              "animation": "player_cast_right",
+              "frame": 1
+            },
+            "camera": {
+              "x": 341,
+              "y": 716,
+              "zoom": 1.3,
+              "width": 1366,
+              "height": 768
+            },
+            "render": {
+              "entities": 0,
+              "inView": 0
+            },
+            "canvas": {
+              "width": 1366,
+              "height": 768
+            },
+            "inputBlocked": false,
+            "rendererType": 2
+          }
+        },
+        {
+          "slot": 3,
+          "mpCost": 50,
+          "cooldownSeconds": 6,
+          "displacement": 0,
+          "authoritativeTick": 145,
+          "scene": {
+            "map": "map_thanh_khe",
+            "player": {
+              "x": 1024,
+              "y": 1100,
+              "visible": true,
+              "texture": "player_cast",
+              "animation": "player_cast_right",
+              "frame": 1
+            },
+            "camera": {
+              "x": 341,
+              "y": 716,
+              "zoom": 1.3,
+              "width": 1366,
+              "height": 768
+            },
+            "render": {
+              "entities": 0,
+              "inView": 0
+            },
+            "canvas": {
+              "width": 1366,
+              "height": 768
+            },
+            "inputBlocked": false,
+            "rendererType": 2
+          }
+        },
+        {
+          "slot": 4,
+          "mpCost": 35,
+          "cooldownSeconds": 4.5,
+          "displacement": 160,
+          "authoritativeTick": 284,
+          "scene": {
+            "map": "map_thanh_khe",
+            "player": {
+              "x": 1024,
+              "y": 1100,
+              "visible": true,
+              "texture": "player_cast",
+              "animation": "player_cast_right",
+              "frame": 1
+            },
+            "camera": {
+              "x": 341,
+              "y": 716,
+              "zoom": 1.3,
+              "width": 1366,
+              "height": 768
+            },
+            "render": {
+              "entities": 0,
+              "inView": 0
+            },
+            "canvas": {
+              "width": 1366,
+              "height": 768
+            },
+            "inputBlocked": false,
+            "rendererType": 2
+          }
+        }
+      ],
+      "limitation": "Empty-ground fixture: projectile existence and dash landing are checked; melee/AoE hit damage is covered separately by combat tests and playthrough.",
+      "errors": []
+    },
+    {
+      "kind": "server-socket-ownership-after-reload",
+      "open": 1,
+      "closing": 0,
+      "total": 1,
+      "replacementSocket": 2,
+      "currentDocumentObservations": 1
+    }
+  ],
+  "cleanupErrors": [],
+  "clientBuild": {
+    "commit": "fc74a0bc9527b1f50290485a9fa565c92745b65a",
+    "harnessSha256": "571ed6f2edd82a31cec6817ee91208f18030af3a43525cddf8aa26d625ee2600",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null,
+    "buildSha256": "ab6c016ea938d1577c27a555cd3d0e630a70f888c245696e746fda6570ab5024",
+    "buildFiles": 92,
+    "createdAt": "2026-11-18T06:29:25.379Z"
+  },
+  "browser": "153.0.8010.0",
+  "fixture": {
+    "map": "map_thanh_khe_rung",
+    "normalMonsters": 10,
+    "bosses": 1,
+    "spawnPositions": [
+      [
+        47,
+        53
+      ],
+      [
+        49,
+        53
+      ],
+      [
+        51,
+        53
+      ],
+      [
+        53,
+        53
+      ],
+      [
+        47,
+        55
+      ],
+      [
+        53,
+        55
+      ],
+      [
+        47,
+        57
+      ],
+      [
+        49,
+        57
+      ],
+      [
+        51,
+        57
+      ],
+      [
+        53,
+        57
+      ]
+    ],
+    "skillsRealm": {
+      "index": 1,
+      "tier": 1
+    },
+    "loadRealm": {
+      "index": 8,
+      "tier": 3
+    },
+    "equippedSkills": [
+      "skill_sword_01",
+      "skill_sword_02",
+      "skill_sword_03",
+      "skill_sword_04"
+    ],
+    "reason": "Only disposable save preparation and this process spawn layout differ. Original monster stats, AI and damage/cost/cooldown formulas remain. High-realm defense keeps the measured player alive. The player casts the target AoE on empty ground within its 200px range so no load actor dies.",
+    "loadSampling": "Every Phaser post-render: join snapshot IDs to visible in-camera sprites, require combat-active states, a living player and snapshot age <=250ms.",
+    "video": false
+  },
+  "failure": "browserContext.newPage: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /tmp/chromium --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --ash-no-nudges --disable-domain-reliability --disable-print-preview --disk-cache-size=33554432 --no-default-browser-check --no-pings --single-process --font-render-hinting=none --disable-features=AudioServiceOutOfProcess,IsolateOrigins,site-per-process --enable-features=SharedArrayBuffer --ignore-gpu-blocklist --in-process-gpu --use-gl=angle --use-angle=swiftshader --enable-unsafe-swiftshader --allow-running-insecure-content --disable-setuid-sandbox --disable-site-isolation-trials --disable-web-security --headless='shell' --no-sandbox --no-zygote --user-data-dir=/tmp/playwright_chromiumdev_profile-x3oLOC --remote-debugging-pipe --no-startup-window\n<launched> pid=1973\n[pid=1973][err] [1118/062927.555529:ERROR:../net/base/address_tracker_linux.cc:224] Could not create NETLINK socket: Operation not permitted (1)\n[pid=1973][err] [1118/062928.656676:INFO:CONSOLE:555] \"%c %c %c %c %c Phaser v3.90.0 (WebGL | Web Audio) %c https://phaser.io/v390 background: #ff0000 background: #ffff00 background: #00ff00 background: #00ffff color: #ffffff; background: #000000 background: transparent\", source: http://127.0.0.1:5185/assets/index-BPweXbId.js (555)\n[pid=1973][err] [1118/062948.879446:INFO:CONSOLE:555] \"%c %c %c %c %c Phaser v3.90.0 (WebGL | Web Audio) %c https://phaser.io/v390 background: #ff0000 background: #ffff00 background: #00ff00 background: #00ffff color: #ffffff; background: #000000 background: transparent\", source: http://127.0.0.1:5185/assets/index-BPweXbId.js (555)\n    at enter (/workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/performance-fixture.mjs:35:28)\n    at <anonymous> (/workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/performance-fixture.mjs:82:36)",
+  "passed": false
+}

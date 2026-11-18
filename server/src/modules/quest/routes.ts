@@ -11,7 +11,7 @@ import {
 } from '@shared';
 import { authenticate } from '../../middleware/auth';
 import { QUEST_TEMPLATES, ITEM_TEMPLATES } from '../../data/game-content';
-import { initQuestObjectives, areObjectivesComplete } from './quest-engine';
+import { initQuestObjectives, areObjectivesComplete, getQuestPrerequisites } from './quest-engine';
 import { getActiveCharacter } from '../character/helpers';
 
 export async function questRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
@@ -90,15 +90,7 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
         }
 
         // Check prerequisites
-        if (!cq && tmpl.prerequisites && tmpl.prerequisites.length > 0) {
-          const allPrereqsMet = tmpl.prerequisites.every((prereqId) => {
-            const prereq = questMap.get(prereqId);
-            return prereq && prereq.status === 'TURNED_IN';
-          });
-          if (!allPrereqsMet) {
-            continue;
-          }
-        }
+        if (!cq && !getQuestPrerequisites(tmpl).every((id) => questMap.get(id)?.status === 'TURNED_IN')) continue;
 
         responseQuests.push({
           id: cq ? cq.id : tmplId,
@@ -151,6 +143,16 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
 
       if (existing) {
         return reply.status(400).send({ success: false, error: 'Nhiệm vụ đã được nhận trước đó' });
+      }
+
+      const prerequisites = getQuestPrerequisites(tmpl);
+      if (prerequisites.length > 0) {
+        const turnedInCount = await prisma.characterQuest.count({
+          where: { characterId: char.id, questId: { in: prerequisites }, status: 'TURNED_IN' },
+        });
+        if (turnedInCount !== prerequisites.length) {
+          return reply.status(400).send({ success: false, error: 'Cần hoàn thành và nộp nhiệm vụ trước đó' });
+        }
       }
 
       const newQuest = await prisma.characterQuest.create({
@@ -215,20 +217,20 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
           },
         });
 
-        await tx.characterQuest.update({
-          where: { id: cq.id },
-          data: {
-            status: 'TURNED_IN',
-            completedAt: new Date(),
-          },
-        });
-
         await tx.character.update({
           where: { id: char.id },
           data: {
             gold: { increment: tmpl.rewards.gold },
             exp: { increment: BigInt(tmpl.rewards.exp) },
             cultivationExp: { increment: BigInt(tmpl.rewards.cultivationExp) },
+          },
+        });
+
+        await tx.characterQuest.update({
+          where: { id: cq.id },
+          data: {
+            status: 'TURNED_IN',
+            completedAt: new Date(),
           },
         });
 

@@ -1,0 +1,57 @@
+{
+  "sessionId": "1794988988572-479faf86658f",
+  "clientCommit": "795be99a26138393e786b70ef790944d65c08710",
+  "backendCommit": "795be99a26138393e786b70ef790944d65c08710",
+  "sourceVideo": "page@c33df69e64f55f64a8796e097056f93c.webm",
+  "sourceSha256": "4b718d6f9f50732bf405b83a7845578947d537cac9f1acd77113943d91a1bf11",
+  "sourceDurationSeconds": 313.92,
+  "output": "../boss-quest-demo.mp4",
+  "intervals": [
+    {
+      "startSeconds": 37,
+      "endSeconds": 58,
+      "purpose": "Boss fight and live potion use",
+      "speed": 1
+    },
+    {
+      "startSeconds": 87,
+      "endSeconds": 106,
+      "purpose": "Village return and main03 reward",
+      "speed": 1
+    },
+    {
+      "startSeconds": 174,
+      "endSeconds": 192,
+      "purpose": "Observed equipment click, reload and reconnect",
+      "speed": 1
+    },
+    {
+      "startSeconds": 300,
+      "endSeconds": 310,
+      "purpose": "Diagonal movement and blocked dodge at hall",
+      "speed": 1
+    }
+  ],
+  "outputMetadata": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1366,
+        "height": 768,
+        "r_frame_rate": "25/1"
+      }
+    ],
+    "format": {
+      "duration": "68.000000",
+      "size": "19464835"
+    }
+  },
+  "limitations": [
+    "Cuts omit inspection pauses; this is not an uninterrupted run.",
+    "25 fps encoding is not measured game FPS.",
+    "No audio stream.",
+    "The initial ambiguous equipment command remains in the session evidence; the clip shows the later real mouse click."
+  ]
+}

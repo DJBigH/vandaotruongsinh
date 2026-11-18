@@ -1,0 +1,4 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/server
+node /workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs /workspace/scratch/c5685e889d73/vandaotruongsinh/server env NODE_ENV=test node --env-file=../.env --import tsx src/tests/security-test.ts
+🎉 TỔNG KẾT BẢO MẬT: ĐẠT 26/26 TIÊU CHÍ (100% SECURE)
+exit=0

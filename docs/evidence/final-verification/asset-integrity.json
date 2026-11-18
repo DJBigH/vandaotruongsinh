@@ -1,0 +1,162 @@
+{
+  "sourceAndRuntimeManifestEqual": true,
+  "checked": 39,
+  "assets": [
+    {
+      "key": "player_walk",
+      "sha256Matches": true
+    },
+    {
+      "key": "player_slash",
+      "sha256Matches": true
+    },
+    {
+      "key": "player_cast",
+      "sha256Matches": true
+    },
+    {
+      "key": "player_idle",
+      "sha256Matches": true
+    },
+    {
+      "key": "player_dodge",
+      "sha256Matches": true
+    },
+    {
+      "key": "player_hurt",
+      "sha256Matches": true
+    },
+    {
+      "key": "player_death",
+      "sha256Matches": true
+    },
+    {
+      "key": "player_respawn",
+      "sha256Matches": true
+    },
+    {
+      "key": "building_hall",
+      "sha256Matches": true
+    },
+    {
+      "key": "building_herbalist",
+      "sha256Matches": true
+    },
+    {
+      "key": "building_barracks",
+      "sha256Matches": true
+    },
+    {
+      "key": "building_house",
+      "sha256Matches": true
+    },
+    {
+      "key": "prop_sect_gate",
+      "sha256Matches": true
+    },
+    {
+      "key": "prop_pine_tree",
+      "sha256Matches": true
+    },
+    {
+      "key": "prop_broadleaf_tree",
+      "sha256Matches": true
+    },
+    {
+      "key": "prop_ancient_rock",
+      "sha256Matches": true
+    },
+    {
+      "key": "prop_stone_lantern",
+      "sha256Matches": true
+    },
+    {
+      "key": "prop_dummy",
+      "sha256Matches": true
+    },
+    {
+      "key": "prop_weapon_rack",
+      "sha256Matches": true
+    },
+    {
+      "key": "prop_shrine",
+      "sha256Matches": true
+    },
+    {
+      "key": "prop_chest",
+      "sha256Matches": true
+    },
+    {
+      "key": "prop_herb",
+      "sha256Matches": true
+    },
+    {
+      "key": "prop_ore",
+      "sha256Matches": true
+    },
+    {
+      "key": "prop_stone_wall",
+      "sha256Matches": true
+    },
+    {
+      "key": "npc_elder",
+      "sha256Matches": true
+    },
+    {
+      "key": "npc_healer",
+      "sha256Matches": true
+    },
+    {
+      "key": "npc_guard",
+      "sha256Matches": true
+    },
+    {
+      "key": "monster_wolf",
+      "sha256Matches": true
+    },
+    {
+      "key": "monster_snake",
+      "sha256Matches": true
+    },
+    {
+      "key": "boss_lang_vuong",
+      "sha256Matches": true
+    },
+    {
+      "key": "monster_fox",
+      "sha256Matches": true
+    },
+    {
+      "key": "ground_grass",
+      "sha256Matches": true
+    },
+    {
+      "key": "ground_stone",
+      "sha256Matches": true
+    },
+    {
+      "key": "ground_dirt",
+      "sha256Matches": true
+    },
+    {
+      "key": "ground_water",
+      "sha256Matches": true
+    },
+    {
+      "key": "sfx_sword",
+      "sha256Matches": true
+    },
+    {
+      "key": "sfx_hit",
+      "sha256Matches": true
+    },
+    {
+      "key": "sfx_cast",
+      "sha256Matches": true
+    },
+    {
+      "key": "sfx_dodge",
+      "sha256Matches": true
+    }
+  ]
+}

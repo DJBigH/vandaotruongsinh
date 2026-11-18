@@ -2,7 +2,8 @@
 // VẠN ĐẠO TRƯỜNG SINH - Settings & Help Panel
 // ============================================================
 
-import React, { useState } from 'react';
+import React from 'react';
+import { usePresentationSettings } from '../../game/exploration/settings';
 import { useGameStore } from '../../stores/gameStore';
 import { useAuthStore } from '../../stores/authStore';
 import { useNavigate } from 'react-router-dom';
@@ -12,8 +13,7 @@ export default function SettingsPanel() {
   const { logout } = useAuthStore();
   const { setActivePanel } = useGameStore();
 
-  const [music, setMusic] = useState(true);
-  const [sfx, setSfx] = useState(true);
+  const { sfx, reducedEffects, change } = usePresentationSettings();
 
   const handleLogout = async () => {
     await logout();
@@ -39,6 +39,7 @@ export default function SettingsPanel() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h2 style={{ margin: 0, color: '#ffd700', fontSize: '1.4rem' }}>⚙️ THIẾT LẬP & HƯỚNG DẪN</h2>
         <button
+          aria-label="Đóng thiết lập"
           onClick={() => setActivePanel(null)}
           style={{ background: 'transparent', border: 'none', color: '#94a3b8', fontSize: '1.2rem', cursor: 'pointer' }}
         >
@@ -52,20 +53,20 @@ export default function SettingsPanel() {
           <h3 style={{ margin: '0 0 10px 0', color: '#c5a059', fontSize: '1rem' }}>🎮 Phím Điều Khiển</h3>
           <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '0.9rem', lineHeight: 1.6, color: '#cbd5e1' }}>
             <li><strong>W, A, S, D</strong> hoặc <strong>Phím Mũi Tên</strong>: Di chuyển đạo thân tự do</li>
-            <li><strong>Phím E</strong>: Tương tác với NPC, Thu thập dược liệu/khoáng sản, Vào chiến đấu, Cổng dịch chuyển</li>
-            <li><strong>Chiến Đấu</strong>: Theo lượt chuẩn RPG, chọn Tấn Công, Kỹ Năng, Phòng Thủ, Dược Phẩm</li>
-            <li><strong>Linh Miếu</strong>: Tương tác với miếu thờ trong làng để hồi phục đầy đủ Sinh Lực và Linh Lực</li>
+            <li><strong>Phím E</strong>: Trò chuyện, thu thập vật phẩm hoặc qua cổng khi đứng gần</li>
+            <li><strong>Chuột trái</strong> để tấn công theo hướng con trỏ. <strong>1–4</strong> dùng kỹ năng đã trang bị, <strong>Space</strong> để né</li>
+            <li><strong>I</strong> mở túi đồ, <strong>M</strong> mở bản đồ</li>
           </ul>
         </div>
 
         {/* Audio Toggles */}
         <div style={{ display: 'flex', gap: '16px' }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-            <input type="checkbox" checked={music} onChange={(e) => setMusic(e.target.checked)} />
-            <span>Âm Nhạc Tiên Hiệp</span>
+            <input type="checkbox" checked={reducedEffects} onChange={(e) => change({reducedEffects: e.target.checked})} />
+            <span>Giảm hiệu ứng và tắt rung màn hình</span>
           </label>
           <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-            <input type="checkbox" checked={sfx} onChange={(e) => setSfx(e.target.checked)} />
+            <input type="checkbox" checked={sfx} onChange={(e) => change({sfx: e.target.checked})} />
             <span>Hiệu Ứng Âm Thanh</span>
           </label>
         </div>

@@ -3,6 +3,8 @@
 // ============================================================
 
 import Phaser from 'phaser';
+import { ASSET_MANIFEST } from '../assets/AssetManifest';
+import { useGameStore } from '../../stores/gameStore';
 import { AnimationManager } from '../animations/AnimationManager';
 
 export default class BootScene extends Phaser.Scene {
@@ -11,61 +13,15 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    // 1. Tải Sprite Sheet thật cho Nhân Vật Chính (Kiếm Tu - Đạo Bào Cổ Phong)
-    this.load.spritesheet('player_walk', 'assets/player_walk.png', { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet('player_idle', 'assets/player_idle.png', { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet('player_slash', 'assets/player_slash.png', { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet('player_cast', 'assets/player_cast.png', { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet('player_hurt', 'assets/player_hurt.png', { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet('player_death', 'assets/player_death.png', { frameWidth: 64, frameHeight: 64 });
-
-    // 1.1 Tải Sprite Sheet cho Pháp Tu & Thể Tu
-    this.load.spritesheet('player_magic_idle', 'assets/player_magic_idle.png', { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet('player_body_idle', 'assets/player_body_idle.png', { frameWidth: 64, frameHeight: 64 });
-
-    // 2. Tải Sprite Sheet thật cho NPC
-    this.load.spritesheet('npc_elder', 'assets/npc_elder.png', { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet('npc_healer', 'assets/npc_healer.png', { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet('npc_guard', 'assets/npc_guard.png', { frameWidth: 64, frameHeight: 64 });
-
-    // 3. Tải Sprite Sheet thật cho Quái Vật & Boss
-    this.load.spritesheet('monster_wolf', 'assets/monster_wolf.png', { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet('boss_lang_vuong', 'assets/boss_lang_vuong.png', { frameWidth: 64, frameHeight: 64 });
-    this.load.spritesheet('monster_snake', 'assets/monster_snake.png', { frameWidth: 32, frameHeight: 32 });
-    this.load.spritesheet('monster_ghost', 'assets/monster_ghost.png', { frameWidth: 32, frameHeight: 32 });
-
-    // 4. Tải Texture Địa Hình & Bản Đồ Master Toàn Cảnh (Zero Draw Call Spikes)
-    this.load.image('map_thanh_khe_bg', 'assets/map_thanh_khe_bg.png');
-    this.load.image('map_rung_bg', 'assets/map_rung_bg.png');
-    this.load.image('tile_grass', 'assets/tile_grass.png');
-    this.load.image('tile_grass_flower', 'assets/tile_grass_flower.png');
-    this.load.image('tile_path', 'assets/tile_path.png');
-    this.load.image('tile_water', 'assets/tile_water.png');
-    this.load.image('tile_dirt', 'assets/tile_dirt.png');
-
-    // 5. Tải Vật Thể Cảnh Quan Cổ Phong (Props)
-    this.load.image('prop_sect_gate', 'assets/prop_sect_gate.png');
-    this.load.image('prop_stone_lantern', 'assets/prop_stone_lantern.png');
-    this.load.image('prop_dummy', 'assets/prop_dummy.png');
-    this.load.image('prop_weapon_rack', 'assets/prop_weapon_rack.png');
-    this.load.image('prop_pine_tree', 'assets/prop_pine_tree.png');
-    this.load.image('prop_ancient_rock', 'assets/prop_ancient_rock.png');
-    this.load.image('prop_crystal_cluster', 'assets/prop_crystal_cluster.png');
-    this.load.image('prop_shrine', 'assets/prop_shrine.png');
-    this.load.image('prop_portal', 'assets/prop_portal.png');
-    this.load.image('prop_bagua_array', 'assets/prop_bagua_array.png');
-    this.load.image('prop_chest', 'assets/prop_chest.png');
-    this.load.image('prop_herb', 'assets/prop_herb.png');
-    this.load.image('prop_ore', 'assets/prop_ore.png');
-
-    // 6. Tải Hiệu Ứng Chiến Đấu (VFX)
-    this.load.image('vfx_sword_slash', 'assets/vfx_sword_slash.png');
-    this.load.image('vfx_sword_beam', 'assets/vfx_sword_beam.png');
-    this.load.image('vfx_shield', 'assets/vfx_shield.png');
-    this.load.image('vfx_giant_sword', 'assets/vfx_giant_sword.png');
-    this.load.image('vfx_fire_orb', 'assets/vfx_fire_orb.png');
-    this.load.image('vfx_shockwave', 'assets/vfx_shockwave.png');
-    this.load.image('vfx_talisman', 'assets/vfx_talisman.png');
+    for (const asset of ASSET_MANIFEST.assets) {
+      if (asset.type === 'spritesheet') {
+        this.load.spritesheet(asset.key, asset.file, { frameWidth: asset.frameWidth, frameHeight: asset.frameHeight });
+      } else if (asset.type === 'audio') {
+        this.load.audio(asset.key, asset.file);
+      } else {
+        this.load.image(asset.key, asset.file);
+      }
+    }
   }
 
   create() {
@@ -76,7 +32,7 @@ export default class BootScene extends Phaser.Scene {
     this.generateFallbackTextures();
 
     // 3. Khởi động màn chơi thám hiểm ARPG
-    this.scene.start('ExplorationScene');
+    this.scene.start('ExplorationScene', { mapId: useGameStore.getState().character?.currentMapId });
   }
 
   private generateFallbackTextures() {

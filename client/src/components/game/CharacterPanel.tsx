@@ -16,7 +16,7 @@ export default function CharacterPanel() {
   const handleBreakthrough = async () => {
     setBreakthroughLoading(true);
     try {
-      const res = await gameApi.attemptBreakthrough();
+      const res = await gameApi.attemptBreakthrough(character);
       if (res.success && res.data) {
         addNotification(res.data.message || 'Đột phá thành công!', 'success');
         await loadCharacter();
@@ -24,6 +24,7 @@ export default function CharacterPanel() {
         addNotification(res.error || 'Chưa đủ điều kiện đột phá', 'warning');
       }
     } catch (err: any) {
+      if (err.response?.status === 409) await loadCharacter();
       addNotification(err.response?.data?.error || 'Chưa đủ điều kiện đột phá cảnh giới', 'error');
     } finally {
       setBreakthroughLoading(false);

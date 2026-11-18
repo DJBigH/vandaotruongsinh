@@ -1,0 +1,21 @@
+{
+  "commit": "a4e11b65af124eae7fa2f23b3b0a9b9a63488788",
+  "method": "Direct import of the unchanged TypeScript content registry; counts of data records only, not evidence of distinct finished art or completed gameplay loops",
+  "counts": {
+    "BOSS_TEMPLATES": 20,
+    "BREAKTHROUGH_REQUIREMENTS": 36,
+    "DIALOGUE_DATA": 12,
+    "ITEM_TEMPLATES": 150,
+    "MAP_DATA": 10,
+    "MAP_TEMPLATES": 10,
+    "MONSTER_TEMPLATES": 40,
+    "PET_TEMPLATES": 6,
+    "QUEST_TEMPLATES": 56,
+    "SECT_DATA": 3,
+    "SKILL_TEMPLATES": 36,
+    "STARTER_ITEMS": 3,
+    "STARTER_SKILLS": 3,
+    "STORY_CHAPTERS": 8,
+    "STORY_ENDINGS": 3
+  }
+}

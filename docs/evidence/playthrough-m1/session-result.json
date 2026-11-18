@@ -1,0 +1,116 @@
+{
+  "sessionId": "1794984413337-8931347457e1",
+  "source": {
+    "commit": "0213c2ae1bac3a819738820324fe7dae4d00067e",
+    "harnessSha256": "2f2cfda03604ff351e55ee2327cd91e1e97be6b87ea4c44fd338ae34fdd7c611",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null
+  },
+  "clientBuild": {
+    "commit": "0213c2ae1bac3a819738820324fe7dae4d00067e",
+    "harnessSha256": "2f2cfda03604ff351e55ee2327cd91e1e97be6b87ea4c44fd338ae34fdd7c611",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null,
+    "buildSha256": "c09790d5d62e6d02e0f27a0becdb5a6b189d8459b4d865e0a7d4e5f1162d94d2",
+    "buildFiles": 92,
+    "builtDuringFreeze": true,
+    "buildLog": "\n> van-dao-truong-sinh-client@1.0.0 build\n> tsc && vite build\n\nvite v5.4.21 building for production...\ntransforming...\n✓ 157 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                     1.03 kB │ gzip:   0.52 kB\ndist/assets/index-BQxPQ6mu.css      5.79 kB │ gzip:   1.84 kB\ndist/assets/index-BYQwJ60w.js   1,910.43 kB │ gzip: 468.76 kB\n✓ built in 9.76s\n",
+    "createdAt": "2026-11-18T06:46:52.599Z"
+  },
+  "startedAt": "2026-11-18T06:46:53.337Z",
+  "durationMs": 918278,
+  "browser": "153.0.8010.0",
+  "videoPath": "/workspace/scratch/c5685e889d73/vandaotruongsinh/docs/evidence/playthrough-m1/video/page@ab996103ee7fbf58d212091cd3c44b81.webm",
+  "videoMetadata": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "vp8",
+        "width": 1366,
+        "height": 768
+      }
+    ],
+    "format": {
+      "duration": "916.920000",
+      "size": "71506304"
+    }
+  },
+  "errors": [],
+  "sockets": 5,
+  "ticks": 17623,
+  "actions": {
+    "ATTACK": 10,
+    "DODGE": 1,
+    "SKILL_1": 3
+  },
+  "confirmedActions": {
+    "ATTACK": 10,
+    "DODGE": 1,
+    "SKILL_1": 3
+  },
+  "rewards": [
+    {
+      "exp": 15,
+      "spiritStones": 6,
+      "items": []
+    },
+    {
+      "exp": 30,
+      "spiritStones": 12,
+      "items": []
+    },
+    {
+      "exp": 15,
+      "spiritStones": 6,
+      "items": [
+        {
+          "itemId": "item_014",
+          "name": "item_014",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "exp": 15,
+      "spiritStones": 6,
+      "items": [
+        {
+          "itemId": "item_014",
+          "name": "item_014",
+          "quantity": 2
+        }
+      ]
+    }
+  ],
+  "deaths": 1,
+  "commandFailures": [
+    {
+      "command": {
+        "type": "walk",
+        "x": 576,
+        "y": 768
+      },
+      "error": "Error: Blocked destination {\"x\":576,\"y\":768}"
+    },
+    {
+      "command": {
+        "type": "quest",
+        "id": "quest_main_01",
+        "action": "turnin"
+      },
+      "error": "AssertionError [ERR_ASSERTION]: No visible Nhận Thưởng for Khởi Đầu Tu Đạo: Dị Biến Thanh Khê"
+    },
+    {
+      "command": {
+        "type": "slot-switch",
+        "name": "Thanh84414151",
+        "path": "SWORD"
+      },
+      "error": "AssertionError [ERR_ASSERTION]: No visible Xuất Hồn for Thanh84414151"
+    }
+  ],
+  "completed": true,
+  "fatal": null,
+  "cleanupErrors": []
+}

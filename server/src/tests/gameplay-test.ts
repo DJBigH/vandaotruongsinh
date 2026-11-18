@@ -2,6 +2,7 @@
 // VẠN ĐẠO TRƯỜNG SINH - Automated E2E Gameplay & Security Test
 // ============================================================
 
+import './require-disposable-database';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { CultivationPath, CombatAction } from '@shared';

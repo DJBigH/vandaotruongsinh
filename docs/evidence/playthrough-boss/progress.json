@@ -1,0 +1,7 @@
+{
+  "elapsedMs": 314000,
+  "event": "command",
+  "command": {
+    "type": "finish"
+  }
+}

@@ -5,13 +5,15 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import os from 'node:os';
 import { StringDecoder } from 'node:string_decoder';
 import AdmZip from 'adm-zip';
 import { LauncherLogger } from '../main/logger';
+import { ProcessSupervisor } from '../main/process-supervisor';
+import { SettingsManager } from '../main/settings-manager';
 import { AiLogExporter } from '../main/ai-log-exporter';
+import { reportAssertions, withLauncherFixture } from './test-fixtures';
 
-async function runVietnameseAndIconTests() {
+async function runVietnameseAndIconTests(tmpTestDir: string) {
   console.log('========================================================================');
   console.log(' 🌸 KIỂM THỬ HỒI QUY: MÃ HÓA TIẾNG VIỆT & TÀI NGUYÊN ICON TU TIÊN');
   console.log('========================================================================\n');
@@ -26,7 +28,6 @@ async function runVietnameseAndIconTests() {
       passed++;
     } else {
       console.error(`  ✗ [FAIL] ${name}`);
-      process.exitCode = 1;
     }
   }
 
@@ -127,9 +128,6 @@ async function runVietnameseAndIconTests() {
   // -------------------------------------------------------------
   console.log('\n4. KIỂM THỬ FILE XUẤT CHO AI (UTF-8 CHUẨN, KHÔNG MOJIBAKE):');
 
-  const tmpTestDir = path.join(os.tmpdir(), 'vdao_enc_test');
-  if (!fs.existsSync(tmpTestDir)) fs.mkdirSync(tmpTestDir, { recursive: true });
-
   logger.info('launcher', 'Kiểm thử tiếng Việt: Vạn Đạo Trường Sinh');
   logger.info('server', 'Tu luyện · Đột phá · Khởi động · Dừng máy chủ · Xuất log cho AI');
   logger.info('client', 'Đạo hữu Nguyễn Đặng đã nhận thưởng Trúc Cơ Đan');
@@ -174,18 +172,17 @@ async function runVietnameseAndIconTests() {
   assert(validJsonl, 'events.jsonl parse JSON hợp lệ từng dòng');
   assert(foundSampleInJsonl, 'events.jsonl bảo tồn nguyên vẹn chuỗi tiếng Việt');
 
-  // Dọn dẹp
-  try {
-    fs.rmSync(tmpTestDir, { recursive: true, force: true });
-  } catch {}
-
-  console.log('\n========================================================================');
-  console.log(` 📊 KẾT QUẢ: ${passed}/${total} KIỂM THỬ ĐẠT (100% THÀNH CÔNG)`);
-  console.log('========================================================================\n');
-  process.exit(0);
+  reportAssertions(passed, total);
 }
 
-runVietnameseAndIconTests().catch(err => {
+withLauncherFixture(async (dir) => {
+  SettingsManager.getInstance().updateSettings({ projectDir: dir });
+  try {
+    await runVietnameseAndIconTests(dir);
+  } finally {
+    ProcessSupervisor.getInstance().cleanup();
+  }
+}).catch((err) => {
   console.error('Lỗi khi chạy kiểm thử:', err);
-  process.exit(1);
+  process.exitCode = 1;
 });

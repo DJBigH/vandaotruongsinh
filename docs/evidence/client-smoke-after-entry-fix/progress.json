@@ -1,0 +1,5 @@
+{
+  "elapsedMs": 27407,
+  "event": "failed",
+  "error": "Error: Movement stalled at (1029.0,448.0) toward (1040,432)"
+}

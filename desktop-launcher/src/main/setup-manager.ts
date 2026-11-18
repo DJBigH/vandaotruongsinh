@@ -6,31 +6,34 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import net from 'node:net';
-import { ChildProcess, spawn, exec } from 'node:child_process';
+import { ChildProcess, spawn, exec, execSync } from 'node:child_process';
 import { StringDecoder } from 'node:string_decoder';
 import { promisify } from 'node:util';
 import { BrowserWindow } from 'electron';
+import { parse } from 'dotenv';
+import { readBackendEnvironment, type DatabaseEndpoint } from '../shared/backend-environment';
 import {
   IPC_CHANNELS,
   SetupInspection,
   SetupProgressPayload,
   SetupStep,
-  SetupStepStatus,
   SetupLogPayload,
   SetupRunOptions,
 } from '../shared/types';
 import { SettingsManager } from './settings-manager';
 import { LauncherLogger } from './logger';
+import { SystemDiagnostics } from './system-diagnostics';
 
 const execAsync = promisify(exec);
+const loopbackHosts = new Set(['localhost', '127.0.0.1', '::1']);
 
 export class SetupManager {
   private static instance: SetupManager;
   private logger: LauncherLogger;
   private settingsManager: SettingsManager;
 
-  private isRunning: boolean = false;
+  private isRunning = false;
+  private cancelRequested = false;
   private activeChildProcess: ChildProcess | null = null;
   private currentSteps: SetupStep[] = [];
   private activeStepId: string | null = null;
@@ -74,60 +77,34 @@ export class SetupManager {
     const hasClientFolder = fs.existsSync(path.join(projectDir, 'client'));
     const hasRootPackage = fs.existsSync(path.join(projectDir, 'package.json'));
 
-    const isValidProjectDir = hasRootPackage && hasServerFolder && hasClientFolder;
+    const isValidProjectDir = hasRootPackage && hasSharedFolder && hasServerFolder && hasClientFolder;
 
     // 3. Kiểm tra các module phụ thuộc (node_modules)
     const hasSharedModules = fs.existsSync(path.join(projectDir, 'shared', 'node_modules'));
     const hasServerModules = fs.existsSync(path.join(projectDir, 'server', 'node_modules'));
     const hasClientModules = fs.existsSync(path.join(projectDir, 'client', 'node_modules'));
 
-    // 4. Kiểm tra file cấu hình môi trường (.env)
-    const hasServerEnv = fs.existsSync(path.join(projectDir, 'server', '.env'));
+    const configuration = readBackendEnvironment(projectDir, parse);
+    const hasServerEnv = 'env' in configuration;
+    const databaseEndpoint = 'database' in configuration ? configuration.database : null;
+    const isDbRunning = databaseEndpoint
+      ? (await SystemDiagnostics.checkDatabase(databaseEndpoint.host, databaseEndpoint.port)).status === 'PASS'
+      : false;
+    const prismaClientDir = path.join(projectDir, 'server', 'node_modules', '.prisma', 'client');
+    const hasPrismaClient = fs.existsSync(path.join(prismaClientDir, 'index.js')) &&
+      fs.existsSync(path.join(prismaClientDir, 'schema.prisma'));
 
-    // 5. Kiểm tra kết nối CSDL PostgreSQL (cổng 5432)
-    const settings = this.settingsManager.getSettings();
-    let isDbRunning = await this.probeTcpPort(settings.dbHost || '127.0.0.1', settings.dbPort || 5432, 2000);
-    if (!isDbRunning && process.platform === 'win32') {
-      try {
-        const { execSync, spawn } = require('child_process');
-        execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 8000, stdio: 'ignore' });
-        try {
-          const keepalive = spawn('wsl', ['-d', 'Ubuntu', '--exec', 'sleep', 'infinity'], {
-            detached: true,
-            stdio: 'ignore',
-            windowsHide: true,
-          });
-          keepalive.unref();
-        } catch {}
-        await new Promise(r => setTimeout(r, 1500));
-        isDbRunning = await this.probeTcpPort(settings.dbHost || '127.0.0.1', settings.dbPort || 5432, 2000);
-      } catch (e) {}
-    }
-
-    // 6. Kiểm tra Prisma Client
-    const hasPrismaClient = fs.existsSync(path.join(projectDir, 'server', 'node_modules', '.prisma', 'client')) ||
-      fs.existsSync(path.join(projectDir, 'server', 'node_modules', '@prisma', 'client'));
-
-    // 7. Tổng hợp danh sách thiếu
     const missingItems: string[] = [];
     if (!nodeVersion) missingItems.push('Môi trường Node.js (chưa cài hoặc chưa nhận trong PATH)');
     if (!npmVersion) missingItems.push('Trình quản lý gói npm');
     if (!isValidProjectDir) missingItems.push('Cấu trúc thư mục dự án Vạn Đạo Trường Sinh không hợp lệ');
-    if (!hasServerEnv) missingItems.push('Tệp cấu hình máy chủ server/.env');
-    if (!hasSharedModules && hasSharedFolder) missingItems.push('Thư viện Shared (shared/node_modules)');
+    if ('error' in configuration) missingItems.push(configuration.error);
     if (!hasServerModules) missingItems.push('Thư viện Backend (server/node_modules)');
     if (!hasClientModules) missingItems.push('Thư viện Web Client (client/node_modules)');
     if (!hasPrismaClient && hasServerModules) missingItems.push('Thư viện Prisma Client (chưa sinh mã generate)');
-    if (!isDbRunning) missingItems.push('Cơ sở dữ liệu PostgreSQL (cổng 5432 chưa phản hồi)');
-
-    // Có thể chơi ngay nếu có Node, server/.env, server node_modules, client node_modules và DB
-    const isReadyToPlay =
-      Boolean(nodeVersion) &&
-      isValidProjectDir &&
-      hasServerEnv &&
-      hasServerModules &&
-      hasClientModules &&
-      isDbRunning;
+    if (databaseEndpoint && !isDbRunning) {
+      missingItems.push(`Cổng TCP PostgreSQL ${databaseEndpoint.host}:${databaseEndpoint.port} chưa phản hồi.`);
+    }
 
     return {
       projectDir,
@@ -141,9 +118,11 @@ export class SetupManager {
       hasServerModules,
       hasClientModules,
       hasServerEnv,
+      configurationSource: configuration.file ?? (hasServerEnv ? 'Biến môi trường' : null),
+      databaseEndpoint,
       isDbRunning,
       missingItems,
-      isReadyToPlay,
+      isReadyToPlay: missingItems.length === 0,
     };
   }
 
@@ -165,6 +144,7 @@ export class SetupManager {
     }
 
     this.isRunning = true;
+    this.cancelRequested = false;
     const projectDir = options.projectDir || this.settingsManager.getSettings().projectDir;
     const forceReinstall = Boolean(options.forceReinstall);
     const syncDatabase = options.syncDatabase !== false; // Mặc định bật
@@ -176,7 +156,7 @@ export class SetupManager {
     // Khởi tạo danh sách các bước
     this.currentSteps = [
       { id: 'check_runtime', title: '1. Kiểm tra môi trường Node.js & npm', status: 'PENDING' },
-      { id: 'prepare_env', title: '2. Chuẩn bị tệp cấu hình máy chủ (server/.env)', status: 'PENDING' },
+      { id: 'prepare_env', title: '2. Chuẩn bị cấu hình máy chủ', status: 'PENDING' },
       { id: 'install_shared', title: '3. Cài đặt phân hệ chia sẻ (@vandao/shared)', status: 'PENDING' },
       { id: 'install_server', title: '4. Cài đặt thư viện máy chủ Backend (server/node_modules)', status: 'PENDING' },
       { id: 'install_client', title: '5. Cài đặt thư viện giao diện Web Client (client/node_modules)', status: 'PENDING' },
@@ -208,31 +188,23 @@ export class SetupManager {
       });
 
       // ----------------------------------------------------
-      // BƯỚC 2: Chuẩn bị server/.env
+      // BƯỚC 2: Chuẩn bị cấu hình máy chủ
       // ----------------------------------------------------
+      let configuration = readBackendEnvironment(projectDir, parse);
       await this.runStep('prepare_env', async (step) => {
-        const serverEnvPath = path.join(projectDir, 'server', '.env');
-        const exampleEnvPath = path.join(projectDir, 'server', '.env.example');
-        const rootExampleEnvPath = path.join(projectDir, '.env.example');
-
-        if (fs.existsSync(serverEnvPath) && !forceReinstall) {
+        if (configuration.file || 'env' in configuration) {
+          if ('error' in configuration) throw new Error(configuration.error);
           step.status = 'SKIPPED';
-          step.message = 'server/.env đã có sẵn, bảo lưu cấu hình hiện tại';
-          this.sendInfoLog('ℹ️ server/.env đã tồn tại. Giữ nguyên tệp cấu hình hiện tại.');
+          step.message = `Giữ nguyên cấu hình hiện tại (${configuration.file ?? 'biến môi trường'}).`;
           return;
         }
 
-        this.sendInfoLog('Đang khởi tạo tệp cấu hình server/.env...');
-        if (fs.existsSync(exampleEnvPath)) {
-          fs.copyFileSync(exampleEnvPath, serverEnvPath);
-          step.message = 'Đã tự động sao chép từ server/.env.example';
-          this.sendInfoLog('✅ Đã sao chép cấu hình từ server/.env.example sang server/.env');
-        } else if (fs.existsSync(rootExampleEnvPath)) {
-          fs.copyFileSync(rootExampleEnvPath, serverEnvPath);
-          step.message = 'Đã tự động sao chép từ .env.example';
-          this.sendInfoLog('✅ Đã sao chép cấu hình từ .env.example sang server/.env');
+        const serverEnvPath = path.join(projectDir, 'server', '.env');
+        const template = ['server/.env.example', '.env.example'].find((file) => fs.existsSync(path.join(projectDir, file)));
+        if (template) {
+          fs.copyFileSync(path.join(projectDir, template), serverEnvPath, fs.constants.COPYFILE_EXCL);
+          step.message = `Đã tạo server/.env từ ${template}.`;
         } else {
-          // Tự tạo cấu hình chuẩn mặc định
           const defaultEnvContent = [
             '# VẠN ĐẠO TRƯỜNG SINH - Cấu hình máy chủ tự động khởi tạo',
             'DB_NAME=vandao',
@@ -240,7 +212,7 @@ export class SetupManager {
             'DB_PASSWORD=vandao_dev_password',
             'DB_HOST=127.0.0.1',
             'DB_PORT=5432',
-            'DATABASE_URL=postgresql://vandao_user:vandao_dev_password@127.0.0.1:5432/vandao',
+            'DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}',
             'JWT_SECRET=vandao_truong_sinh_secret_key_dev_2026',
             'JWT_EXPIRES_IN=7d',
             'SERVER_PORT=3001',
@@ -249,11 +221,15 @@ export class SetupManager {
             'VITE_API_URL=http://localhost:3001',
             '',
           ].join('\n');
-          fs.writeFileSync(serverEnvPath, defaultEnvContent, 'utf8');
-          step.message = 'Đã tạo mới server/.env với cấu hình phát triển mặc định';
-          this.sendInfoLog('✅ Đã tạo mới file server/.env chuẩn phát triển.');
+          fs.writeFileSync(serverEnvPath, defaultEnvContent, { encoding: 'utf8', flag: 'wx' });
+          step.message = 'Đã tạo server/.env với cấu hình phát triển mặc định.';
         }
+        configuration = readBackendEnvironment(projectDir, parse);
+        if ('error' in configuration) throw new Error(configuration.error);
+        this.sendInfoLog(step.message);
       });
+      if ('error' in configuration) throw new Error(configuration.error);
+      const { env, database, fileNodeEnv } = configuration;
 
       // ----------------------------------------------------
       // BƯỚC 3: Cài đặt Shared modules
@@ -297,7 +273,7 @@ export class SetupManager {
         }
 
         this.sendInfoLog('⏳ Đang chạy "npm install" trong server/ (Quá trình này có thể mất 30-90 giây)...');
-        await this.runCommandWithStreaming('npm', ['install'], serverDir);
+        await this.runCommandWithStreaming('npm', ['install'], serverDir, env);
         step.message = 'Đã cài đặt đầy đủ thư viện Backend';
         this.sendInfoLog('✅ Đã cài đặt thành công thư viện Backend (Fastify, Prisma, WebSocket...).');
       });
@@ -325,74 +301,52 @@ export class SetupManager {
       // ----------------------------------------------------
       // BƯỚC 6: Khởi tạo Prisma Client & Database
       // ----------------------------------------------------
+      let databaseWarning: string | undefined;
       await this.runStep('setup_database', async (step) => {
         const serverDir = path.join(projectDir, 'server');
-        const settings = this.settingsManager.getSettings();
-
-        // 6.1. Luôn cố gắng sinh Prisma Client (không cần DB trực tuyến)
         this.sendInfoLog('Đang sinh mã Prisma Client (npx prisma generate)...');
-        try {
-          await this.runCommandWithStreaming('npx', ['prisma', 'generate'], serverDir);
-          this.sendInfoLog('✅ Đã sinh mã Prisma Client thành công.');
-        } catch (genErr: any) {
-          this.sendInfoLog(`⚠️ Cảnh báo sinh mã Prisma: ${genErr.message}`);
+        await this.runCommandWithStreaming('npx', ['prisma', 'generate'], serverDir, env);
+        this.sendInfoLog('✅ Đã sinh mã Prisma Client thành công.');
+
+        if (!syncDatabase) {
+          databaseWarning = 'Đã bỏ qua đồng bộ lược đồ và seed dữ liệu theo tùy chọn.';
+        } else if (
+          env.NODE_ENV !== 'development' ||
+          fileNodeEnv === 'production' ||
+          !loopbackHosts.has(database.host.toLowerCase()) ||
+          [...new URL(env.DATABASE_URL).searchParams.keys()].some((key) => ['host', 'hostaddr'].includes(key.toLowerCase()))
+        ) {
+          databaseWarning = 'Đã bỏ qua đồng bộ lược đồ và seed. Cài đặt tự động chỉ ghi CSDL khi NODE_ENV=development và DATABASE_URL trỏ trực tiếp tới địa chỉ loopback. Cấu hình production luôn được bỏ qua.';
+        } else if (!(await this.checkDatabaseForSetup(database))) {
+          databaseWarning = `Cổng TCP PostgreSQL ${database.host}:${database.port} chưa phản hồi. Hãy khởi động PostgreSQL và chạy lại cài đặt để đồng bộ lược đồ.`;
         }
 
-        // 6.2. Kiểm tra xem PostgreSQL cổng 5432 có mở không (tự động thử bật WSL nếu có)
-        let isDbUp = await this.probeTcpPort(settings.dbHost || '127.0.0.1', settings.dbPort || 5432, 2500);
-        if (!isDbUp && process.platform === 'win32') {
-          try {
-            const { execSync } = require('child_process');
-            this.sendInfoLog('Đang tự động đánh thức PostgreSQL trong WSL Ubuntu...');
-            execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 6000, stdio: 'ignore' });
-            await new Promise(r => setTimeout(r, 1200));
-            isDbUp = await this.probeTcpPort(settings.dbHost || '127.0.0.1', settings.dbPort || 5432, 2500);
-          } catch (e) {}
-        }
-
-        if (!isDbUp) {
+        if (databaseWarning) {
           step.status = 'WARNING';
-          step.message = 'PostgreSQL (5432) chưa bật. Đã sinh Prisma Client; hãy bật PostgreSQL rồi bấm Chẩn đoán để kiểm tra.';
-          this.sendInfoLog('⚠️ CSDL PostgreSQL chưa mở cổng 5432. Bỏ qua bước đồng bộ schema và seed data.');
-          this.sendInfoLog('💡 Hướng dẫn: Khởi động PostgreSQL qua Docker ("docker-compose up -d") hoặc WSL/Windows Service khi bạn sẵn sàng vào chơi!');
+          step.message = databaseWarning;
+          this.sendInfoLog(`⚠️ ${databaseWarning}`);
           return;
         }
 
-        // 6.3. Nếu PostgreSQL đang mở và người dùng bật syncDatabase
-        if (syncDatabase) {
-          this.sendInfoLog('Cơ sở dữ liệu đang mở! Đang đồng bộ cấu trúc bảng (npx prisma db push)...');
-          try {
-            await this.runCommandWithStreaming('npx', ['prisma', 'db', 'push', '--skip-generate'], serverDir);
-            this.sendInfoLog('✅ Đã đồng bộ lược đồ CSDL thành công.');
-
-            // Seed dữ liệu
-            this.sendInfoLog('Đang nạp dữ liệu mẫu ban đầu (npm run seed)...');
-            try {
-              await this.runCommandWithStreaming('npm', ['run', 'seed'], serverDir);
-              this.sendInfoLog('✅ Đã nạp dữ liệu mẫu thành công!');
-              step.message = 'Đã sinh Prisma Client, đẩy cấu trúc bảng và nạp seed data thành công!';
-            } catch (seedErr: any) {
-              this.sendInfoLog(`ℹ️ Seed dữ liệu đã có sẵn hoặc báo: ${seedErr.message}`);
-              step.message = 'Đã sinh Prisma Client và đồng bộ cấu trúc bảng thành công';
-            }
-          } catch (dbPushErr: any) {
-            step.status = 'WARNING';
-            step.message = `Lỗi kết nối hoặc đồng bộ CSDL: ${dbPushErr.message}`;
-            this.sendInfoLog(`⚠️ Không thể hoàn thành db push: ${dbPushErr.message}`);
-          }
-        } else {
-          step.message = 'Đã sinh Prisma Client (Bỏ qua đồng bộ CSDL theo tùy chọn)';
-        }
+        this.sendInfoLog('Đang đồng bộ cấu trúc bảng (npx prisma db push)...');
+        await this.runCommandWithStreaming('npx', ['prisma', 'db', 'push', '--skip-generate'], serverDir, env);
+        this.sendInfoLog('Đang nạp dữ liệu mẫu ban đầu (npm run seed)...');
+        await this.runCommandWithStreaming('npm', ['run', 'seed'], serverDir, env);
+        step.message = 'Đã sinh Prisma Client, đồng bộ lược đồ và nạp dữ liệu mẫu.';
       });
 
       // ----------------------------------------------------
       // BƯỚC 7: Kiểm tra tổng thể & Hoàn tất
       // ----------------------------------------------------
       const finalInspection = await this.inspectEnvironment(projectDir);
+      if (databaseWarning) {
+        finalInspection.missingItems.push(databaseWarning);
+        finalInspection.isReadyToPlay = false;
+      }
 
       await this.runStep('final_verify', async (step) => {
-        if (finalInspection.missingItems.length === 0) {
-          step.message = 'Mọi thành phần đã đầy đủ 100%! Sẵn sàng vào game.';
+        if (finalInspection.isReadyToPlay) {
+          step.message = 'Các bước thiết lập đã hoàn tất. Sẵn sàng vào game.';
           this.sendInfoLog('🎉 Chúc mừng Đạo hữu! Dự án Vạn Đạo Trường Sinh đã hoàn tất cài đặt trọn gói.');
         } else {
           step.status = 'WARNING';
@@ -404,18 +358,15 @@ export class SetupManager {
       // Lưu cập nhật projectDir vào Settings nếu khác
       this.settingsManager.updateSettings({ projectDir });
 
-      this.isRunning = false;
-      this.activeStepId = null;
       this.broadcastProgress(null, true, false, undefined, finalInspection.isReadyToPlay);
 
       return {
         success: true,
-        message: 'Hoàn thành quy trình cài đặt tự động!',
+        message: finalInspection.isReadyToPlay ? 'Cài đặt tự động đã hoàn tất.' : 'Cài đặt tự động hoàn tất với lưu ý.',
         inspection: finalInspection,
       };
     } catch (error: any) {
-      this.isRunning = false;
-      const errorMsg = error.message || 'Lỗi không xác định trong quá trình cài đặt';
+      const errorMsg = (this.cancelRequested ? 'Người dùng đã hủy tiến trình.' : error.message) || 'Lỗi không xác định trong quá trình cài đặt';
       this.logger.error('launcher', `Lỗi cài đặt tự động: ${errorMsg}`);
       this.sendInfoLog(`❌ [LỖI DỪNG] ${errorMsg}`, 'stderr');
 
@@ -428,13 +379,14 @@ export class SetupManager {
         }
       }
 
-      this.broadcastProgress(this.activeStepId, true, true, errorMsg);
-
-      return {
-        success: false,
-        message: errorMsg,
-        inspection: await this.inspectEnvironment(projectDir),
-      };
+      this.broadcastProgress(this.activeStepId, true, true, errorMsg, false);
+      const inspection = await this.inspectEnvironment(projectDir);
+      if (!inspection.missingItems.includes(errorMsg)) inspection.missingItems.push(errorMsg);
+      inspection.isReadyToPlay = false;
+      return { success: false, message: errorMsg, inspection };
+    } finally {
+      this.isRunning = false;
+      this.activeStepId = null;
     }
   }
 
@@ -446,6 +398,7 @@ export class SetupManager {
       return { success: true, message: 'Không có tiến trình cài đặt nào đang chạy.' };
     }
 
+    this.cancelRequested = true;
     this.sendInfoLog('⏹️ Đang gửi tín hiệu dừng tiến trình cài đặt theo yêu cầu người dùng...', 'stderr');
 
     if (this.activeChildProcess && this.activeChildProcess.pid) {
@@ -459,17 +412,7 @@ export class SetupManager {
       } catch {}
     }
 
-    this.isRunning = false;
-    if (this.activeStepId) {
-      const step = this.currentSteps.find((s) => s.id === this.activeStepId);
-      if (step) {
-        step.status = 'ERROR';
-        step.message = 'Người dùng đã hủy tiến trình';
-      }
-    }
-
-    this.broadcastProgress(this.activeStepId, true, true, 'Người dùng đã bấm hủy');
-    return { success: true, message: 'Đã hủy tiến trình cài đặt.' };
+    return { success: true, message: 'Đã gửi yêu cầu hủy tiến trình cài đặt.' };
   }
 
   // ============================================================
@@ -480,6 +423,7 @@ export class SetupManager {
     stepId: string,
     action: (step: SetupStep) => Promise<void>
   ): Promise<void> {
+    if (this.cancelRequested) throw new Error('Người dùng đã hủy tiến trình.');
     const step = this.currentSteps.find((s) => s.id === stepId);
     if (!step) return;
 
@@ -490,6 +434,7 @@ export class SetupManager {
 
     try {
       await action(step);
+      if (this.cancelRequested) throw new Error('Người dùng đã hủy tiến trình.');
       if (step.status === 'RUNNING') {
         step.status = 'SUCCESS';
       }
@@ -508,8 +453,10 @@ export class SetupManager {
   private runCommandWithStreaming(
     command: string,
     args: string[],
-    cwd: string
+    cwd: string,
+    env: NodeJS.ProcessEnv = process.env,
   ): Promise<void> {
+    if (this.cancelRequested) return Promise.reject(new Error('Người dùng đã hủy tiến trình.'));
     return new Promise((resolve, reject) => {
       const isWin = process.platform === 'win32';
       const fullCmd = `${command} ${args.join(' ')}`;
@@ -518,12 +465,14 @@ export class SetupManager {
 
       const childEnv = {
         ...process.env,
+        ...(env.DATABASE_URL ? { DATABASE_URL: env.DATABASE_URL } : {}),
         LANG: 'vi_VN.UTF-8',
         LC_ALL: 'vi_VN.UTF-8',
         PYTHONIOENCODING: 'utf-8',
       };
 
-      const child = isWin
+      const needsShell = isWin && (command === 'npm' || command === 'npx');
+      const child = needsShell
         ? spawn(fullCmd, {
             cwd,
             env: childEnv,
@@ -539,6 +488,12 @@ export class SetupManager {
 
       this.activeChildProcess = child;
 
+      const secrets = [env.DATABASE_URL, env.DB_PASSWORD, env.JWT_SECRET].filter(Boolean);
+      const sendCommandLog = (line: string, stream: 'stdout' | 'stderr') => {
+        for (const secret of secrets) line = line.replaceAll(secret, '***');
+        this.sendLog(line, stream);
+      };
+
       const stdoutDecoder = new StringDecoder('utf8');
       const stderrDecoder = new StringDecoder('utf8');
       let stdoutBuffer = '';
@@ -550,7 +505,7 @@ export class SetupManager {
         stdoutBuffer = lines.pop() || '';
         for (const line of lines) {
           if (line.trim()) {
-            this.sendLog(line, 'stdout');
+            sendCommandLog(line, 'stdout');
           }
         }
       });
@@ -563,7 +518,7 @@ export class SetupManager {
           if (line.trim()) {
             // npm thường in progress ra stderr, nếu không phải error nghiêm trọng thì log bình thường
             const isError = line.toLowerCase().includes('npm err!') || line.toLowerCase().includes('error:');
-            this.sendLog(line, isError ? 'stderr' : 'stdout');
+            sendCommandLog(line, isError ? 'stderr' : 'stdout');
           }
         }
       });
@@ -576,9 +531,9 @@ export class SetupManager {
       child.on('close', (code) => {
         // Xả nốt buffer còn lại
         const remStdout = stdoutBuffer + stdoutDecoder.end();
-        if (remStdout.trim()) this.sendLog(remStdout.trim(), 'stdout');
+        if (remStdout.trim()) sendCommandLog(remStdout.trim(), 'stdout');
         const remStderr = stderrBuffer + stderrDecoder.end();
-        if (remStderr.trim()) this.sendLog(remStderr.trim(), 'stderr');
+        if (remStderr.trim()) sendCommandLog(remStderr.trim(), 'stderr');
 
         this.activeChildProcess = null;
 
@@ -591,39 +546,17 @@ export class SetupManager {
     });
   }
 
-  private probeTcpPort(host: string, port: number, timeoutMs: number = 2000): Promise<boolean> {
-    return new Promise((resolve) => {
-      const socket = new net.Socket();
-      let resolved = false;
-
-      socket.setTimeout(timeoutMs);
-
-      socket.on('connect', () => {
-        if (!resolved) {
-          resolved = true;
-          socket.destroy();
-          resolve(true);
-        }
-      });
-
-      socket.on('timeout', () => {
-        if (!resolved) {
-          resolved = true;
-          socket.destroy();
-          resolve(false);
-        }
-      });
-
-      socket.on('error', () => {
-        if (!resolved) {
-          resolved = true;
-          socket.destroy();
-          resolve(false);
-        }
-      });
-
-      socket.connect(port, host);
-    });
+  private async checkDatabaseForSetup({ host, port }: DatabaseEndpoint): Promise<boolean> {
+    if ((await SystemDiagnostics.checkDatabase(host, port)).status === 'PASS') return true;
+    if (process.platform !== 'win32' || port !== 5432 || !loopbackHosts.has(host.toLowerCase())) return false;
+    try {
+      this.sendInfoLog('Đang thử khởi động PostgreSQL trong WSL Ubuntu...');
+      execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 6000, stdio: 'ignore' });
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+      return (await SystemDiagnostics.checkDatabase(host, port)).status === 'PASS';
+    } catch {
+      return false;
+    }
   }
 
   private broadcastProgress(
@@ -655,7 +588,7 @@ export class SetupManager {
 
   private sendLog(text: string, stream: 'stdout' | 'stderr' | 'info'): void {
     const payload: SetupLogPayload = {
-      text,
+      text: this.logger.sanitize(text),
       stream,
       timestamp: new Date().toLocaleTimeString('vi-VN', { hour12: false }),
     };

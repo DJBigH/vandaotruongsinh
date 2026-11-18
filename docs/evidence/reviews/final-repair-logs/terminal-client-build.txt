@@ -1,0 +1,6 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/client
+npm run build
+> van-dao-truong-sinh-client@1.0.0 build
+> tsc && vite build
+✓ built in 8.64s
+exit=0

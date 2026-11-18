@@ -5,15 +5,21 @@
 
 import path from 'node:path';
 import fs from 'node:fs';
+import http from 'node:http';
+import net from 'node:net';
 import os from 'node:os';
 import AdmZip from 'adm-zip';
+import { parse } from 'dotenv';
+import { SetupManager } from '../main/setup-manager';
 import { LauncherLogger } from '../main/logger';
 import { SettingsManager } from '../main/settings-manager';
 import { AiLogExporter } from '../main/ai-log-exporter';
 import { SystemDiagnostics } from '../main/system-diagnostics';
-import { ProcessStatusSnapshot } from '../shared/types';
+import { ProcessSupervisor } from '../main/process-supervisor';
+import { readBackendEnvironment } from '../shared/backend-environment';
+import { closeLocal, listenLocal, reportAssertions, withLauncherFixture } from './test-fixtures';
 
-async function runTests() {
+async function runTests(dir: string) {
   console.log('========================================================================');
   console.log(' 🛡️  KIỂM THỬ KHỞI CHẠY & BẢO MẬT DESKTOP LAUNCHER - VẠN ĐẠO TRƯỜNG SINH');
   console.log('========================================================================\n');
@@ -28,7 +34,6 @@ async function runTests() {
       passed++;
     } else {
       console.error(`  ✗ [FAIL] ${name}`);
-      process.exitCode = 1;
     }
   }
 
@@ -42,8 +47,8 @@ async function runTests() {
   assert(initSettings.secretRedactionEnabled === true, 'Mặc định kích hoạt che giấu thông tin nhạy cảm');
 
   // Cập nhật cài đặt
-  settingsMgr.updateSettings({ theme: 'dark' });
-  assert(settingsMgr.getSettings().theme === 'dark', 'Cập nhật cài đặt thành công');
+  settingsMgr.updateSettings({ theme: 'light' });
+  assert(settingsMgr.getSettings().theme === 'light', 'Cập nhật cài đặt thành công');
 
   // 2. Kiểm thử Logger & Redaction bí mật
   console.log('\n2. KIỂM THỬ LOGGER & CHE GIẤU THÔNG TIN NHẠY CẢM (SECRET REDACTION):');
@@ -58,6 +63,57 @@ async function runTests() {
   assert(sanitized.includes('Bearer ***'), 'Định dạng Bearer *** xuất hiện chính xác');
   assert(!sanitized.includes('MySuperSecretPassword'), 'Mật khẩu password="..." đã bị che giấu');
 
+  const localized = { marker: 'syntheticLocalizedOnly', line: '[Seed] Đã tạo Owner (Mật khẩu: syntheticLocalizedOnly)' };
+  const delivered: string[] = [];
+  const originalSanitize = logger.sanitize.bind(logger);
+  logger.sanitize = (text) => {
+    const cleaned = originalSanitize(text);
+    delivered.push(cleaned);
+    return cleaned;
+  };
+  try {
+    const childScript = path.join(dir, 'seed-fixture.cjs');
+    fs.writeFileSync(childScript, 'console.log(' + JSON.stringify(localized.line) + ')');
+    await SetupManager.getInstance()['runCommandWithStreaming'](process.execPath, [childScript], dir, {});
+  } finally { logger.sanitize = originalSanitize; }
+  assert(delivered.some(line => line.includes('[Seed]') && !line.includes(localized.marker)), 'GUI setup stdout masks the localized owner password');
+  const exportSecretSamples = [
+    localized,
+    { marker: 'syntheticPgIPv6Only', line: 'postgresql://fixture:syntheticPgIPv6Only@[::1]:5432/world?schema=public' },
+    { marker: 'syntheticOpaqueCookieOnly', line: 'Cookie: session=syntheticOpaqueCookieOnly; token=syntheticApplicationToken' },
+    { marker: 'syntheticSetCookieOnly', line: '{"set-cookie":["session=syntheticSetCookieOnly; Path=/; HttpOnly"]}' },
+    { marker: 'syntheticPlainPasswordOnly', line: 'database password=syntheticPlainPasswordOnly+p%25! connection refused' },
+    { marker: 'syntheticActionSecretOnly', line: 'password="syntheticActionSecretOnly"' },
+  ];
+  for (const { line } of exportSecretSamples) logger.warn('server', line);
+  logger.logAction('FIXTURE_EXPORT', exportSecretSamples.at(-1)?.line);
+
+  const postgresPasswordFixtures = [
+    { label: 'current leading apostrophe', marker: 'SyntheticCurrentStart', password: "'SyntheticCurrentStart!+%:@/?#[]()", historical: false },
+    { label: 'current embedded apostrophe', marker: 'SyntheticCurrentMiddle', password: "prefix'SyntheticCurrentMiddle&=%:@/?#", historical: false },
+    { label: 'historical leading apostrophe', marker: 'SyntheticHistoricalStart', password: "'SyntheticHistoricalStart!+%:@/?#[]()", historical: true },
+    { label: 'historical embedded apostrophe', marker: 'SyntheticHistoricalMiddle', password: "prefix'SyntheticHistoricalMiddle&=%:@/?#", historical: true },
+  ];
+  const postgresSecretForms = postgresPasswordFixtures.flatMap(({ marker, password }) => {
+    const encoded = encodeURIComponent(password);
+    return [marker, password, encoded, encoded.replaceAll("'", '%27')];
+  });
+  const redactedPostgresUrl = 'postgresql://fixture:***@[::1]:5432/world?schema=public';
+  for (const { label, password, historical } of postgresPasswordFixtures) {
+    const fixture = readBackendEnvironment(dir, parse, {
+      DATABASE_URL: 'postgresql://fixture:${DB_PASSWORD}@[::1]:5432/world?schema=public',
+      DB_PASSWORD: password,
+      JWT_SECRET: 'synthetic_fixture',
+    });
+    if ('error' in fixture) throw new Error(fixture.error);
+    const url = fixture.env.DATABASE_URL;
+    const lines = [`${label}: '${url}'`, `${label} encoded: '${url.replaceAll("'", '%27')}'`];
+    for (const line of lines) {
+      if (historical) fs.appendFileSync(path.join(settingsMgr.getLogDir(), 'server.log'), `${line}\n`);
+      else logger.warn('server', line);
+    }
+  }
+
   // Kiểm tra chuẩn hóa đường dẫn người dùng
   const homedir = os.homedir();
   const homePathMsg = `Đọc file tại ${homedir}\\AppData\\Local\\Temp\\sample.log`;
@@ -67,6 +123,7 @@ async function runTests() {
 
   // Ghi log vào logger
   logger.info('launcher', 'Khởi chạy kiểm thử hệ thống');
+  logger.info('server', secretMsg);
   logger.warn('server', 'Cảnh báo tài nguyên tạm thời');
   logger.error('client', 'Lỗi kết nối kiểm thử minh họa', 'Chi tiết stack trace an toàn');
 
@@ -75,44 +132,7 @@ async function runTests() {
 
   // 3. Kiểm thử Xuất Log cho AI (.txt)
   console.log('\n3. KIỂM THỬ XUẤT NHẬT KÝ CHO AI (.TXT):');
-  const mockSnapshot: ProcessStatusSnapshot = {
-    server: {
-      name: 'server',
-      displayName: 'Backend Server (Fastify / WebSocket)',
-      state: 'READY',
-      port: 3001,
-      pid: 12345,
-      isManagedByLauncher: true,
-      lastError: null,
-      uptimeSec: 360,
-      startTime: Date.now() - 360000,
-    },
-    client: {
-      name: 'client',
-      displayName: 'Frontend Client (Vite / React)',
-      state: 'READY',
-      port: 5173,
-      pid: 12346,
-      isManagedByLauncher: true,
-      lastError: null,
-      uptimeSec: 360,
-      startTime: Date.now() - 360000,
-    },
-    database: {
-      isReachable: true,
-      host: '127.0.0.1',
-      port: 5432,
-      lastChecked: new Date().toISOString(),
-    },
-    isStartingAll: false,
-    isStoppingAll: false,
-    recentActions: ['Khởi động Server thành công', 'Khởi động Client thành công'],
-  };
-
-  const testExportDir = path.join(os.tmpdir(), 'vdao_launcher_test_export');
-  if (!fs.existsSync(testExportDir)) fs.mkdirSync(testExportDir, { recursive: true });
-
-  const targetTxtPath = path.join(testExportDir, 'VanDao_Log_AI_Test.txt');
+  const targetTxtPath = path.join(dir, 'VanDao_Log_AI_Test.txt');
   const txtResult = await AiLogExporter.exportTxt(targetTxtPath);
   assert(txtResult.success === true, 'Xuất file .txt thành công');
   assert(fs.existsSync(txtResult.filePath!), 'File .txt tồn tại trên ổ đĩa');
@@ -125,10 +145,24 @@ async function runTests() {
   assert(txtContent.includes('PHẦN 5: TOÀN BỘ NHẬT KÝ THEO NGUỒN'), 'Có PHẦN 5: Toàn bộ nhật ký theo nguồn');
   assert(txtContent.includes('PHẦN 6: PHẠM VI DỮ LIỆU & GIỚI HẠN KỸ THUẬT'), 'Có PHẦN 6: Phạm vi dữ liệu & giới hạn kỹ thuật');
   assert(txtContent.includes('VẠN ĐẠO TRƯỜNG SINH (萬道長生)'), 'Tiêu đề tiếng Việt chính xác');
+  assert(txtContent.includes('Bearer ***') && !txtContent.includes('P@ssw0rd123!') && !txtContent.includes('MySuperSecretPassword'), 'TXT export redacts fixture credentials');
+
+  for (const { marker } of exportSecretSamples) {
+    assert(!txtContent.includes(marker), `TXT redacts ${marker}`);
+  }
+  assert(!postgresSecretForms.some((secret) => txtContent.includes(secret)), 'TXT redacts raw and encoded apostrophe password forms');
+  for (const { label } of postgresPasswordFixtures.filter(({ historical }) => !historical)) {
+    assert(txtContent.includes(`${label}: '${redactedPostgresUrl}'`) && txtContent.includes(`${label} encoded: '${redactedPostgresUrl}'`),
+      `TXT retains the quoted IPv6 URL for ${label}`);
+  }
+  fs.appendFileSync(path.join(settingsMgr.getLogDir(), 'server.log'), 'Historical seed (Mật khẩu: syntheticOldLocalizedOnly)\n');
+  const historicalMarker = 'syntheticOldLogPasswordOnly';
+  fs.appendFileSync(path.join(settingsMgr.getLogDir(), 'server.log'),
+    `historical: postgresql://fixture:${historicalMarker}@[::1]:5432/world\n`);
 
   // 4. Kiểm thử Xuất Gói Chẩn Đoán (.zip)
   console.log('\n4. KIỂM THỬ XUẤT GÓI CHẨN ĐOÁN CHO AI (.ZIP):');
-  const targetZipPath = path.join(testExportDir, 'VanDao_Diagnostics_Test.zip');
+  const targetZipPath = path.join(dir, 'VanDao_Diagnostics_Test.zip');
   const zipResult = await AiLogExporter.exportZip(targetZipPath);
   assert(zipResult.success === true, 'Xuất gói chẩn đoán .zip thành công');
   assert(fs.existsSync(zipResult.filePath!), 'File .zip tồn tại trên ổ đĩa');
@@ -140,8 +174,23 @@ async function runTests() {
   assert(zipEntries.includes('events.jsonl'), 'Gói ZIP chứa events.jsonl');
   assert(zipEntries.includes('logs/launcher.log'), 'Gói ZIP chứa logs/launcher.log');
 
+  const zipSecretForms = [...exportSecretSamples.map(({ marker }) => marker), historicalMarker, 'syntheticOldLocalizedOnly', ...postgresSecretForms];
+  for (const entry of zip.getEntries()) {
+    if (entry.isDirectory) continue;
+    const content = zip.readAsText(entry);
+    assert(!zipSecretForms.some((secret) => content.includes(secret)),
+      `ZIP redacts every fixture secret in ${entry.entryName}`);
+  }
+  assert(zip.readAsText('logs/server.log').includes('historical:'), 'ZIP retains the redacted historical log line');
+  const archivedServerLog = zip.readAsText('logs/server.log');
+  for (const { label } of postgresPasswordFixtures) {
+    assert(archivedServerLog.includes(`${label}: '${redactedPostgresUrl}'`) &&
+      archivedServerLog.includes(`${label} encoded: '${redactedPostgresUrl}'`), `ZIP retains the quoted IPv6 URL for ${label}`);
+  }
+
   // Xác minh tính hợp lệ của JSONL events
   const eventsContent = zip.readAsText('events.jsonl');
+  assert(eventsContent.includes('Bearer ***') && !eventsContent.includes('P@ssw0rd123!') && !eventsContent.includes('MySuperSecretPassword'), 'ZIP events redact fixture credentials');
   const lines = eventsContent.trim().split('\n').filter(Boolean);
   let validJsonl = lines.length > 0;
   for (const line of lines) {
@@ -156,33 +205,93 @@ async function runTests() {
 
   // 5. Kiểm thử Chẩn đoán Hệ thống 7 điểm (SystemDiagnostics)
   console.log('\n5. KIỂM THỬ CHẨN ĐOÁN HỆ THỐNG (7 HẠNG MỤC):');
-  const diagReport = await SystemDiagnostics.runAll();
-  assert(diagReport.items.length === 7, 'Đầy đủ 7 hạng mục tiền kiểm');
-
-  const nodeCheck = diagReport.items.find(c => c.id === 'diag_runtime');
-  assert(nodeCheck?.status === 'PASS', 'Tiền kiểm Node.js & npm Runtime thành công');
-
-  const dirCheck = diagReport.items.find(c => c.id === 'diag_files');
-  assert(dirCheck?.status === 'PASS', 'Cấu trúc thư mục Server & Client hợp lệ');
-
-  const dbCheck = diagReport.items.find(c => c.id === 'diag_db');
-  assert(dbCheck?.status === 'PASS', 'Kết nối cơ sở dữ liệu PostgreSQL 5432 phản hồi thành công');
-
-  const logDirCheck = diagReport.items.find(c => c.id === 'diag_log_dir');
-  assert(logDirCheck?.status === 'PASS', 'Quyền ghi thư mục logs hợp lệ');
-
-  // Dọn dẹp file test
+  const tcpFixture = net.createServer((socket) => socket.end());
+  const dbPort = await listenLocal(tcpFixture);
+  const closedTcp = net.createServer();
+  const unavailablePort = await listenLocal(closedTcp);
+  await closeLocal(closedTcp);
+  const projectDir = path.join(dir, 'project');
+  for (const name of ['server', 'client', 'shared']) fs.mkdirSync(path.join(projectDir, name), { recursive: true });
+  fs.writeFileSync(path.join(projectDir, 'package.json'), '{}');
+  fs.writeFileSync(path.join(projectDir, '.env'),
+    `DATABASE_URL=postgresql://fixture@127.0.0.1:${dbPort}/fixture\nJWT_SECRET=fixture_only\n`);
+  let respondsLikeGame = false;
+  const foreignHttp = http.createServer((req, res) => {
+    if (req.url === '/api/health') {
+      res.setHeader('content-type', 'application/json');
+      res.end(JSON.stringify({ status: 'ok', game: respondsLikeGame ? 'Vạn Đạo Trường Sinh' : 'another app' }));
+    } else if (req.url === '/') {
+      res.setHeader('content-type', 'text/html');
+      res.end(respondsLikeGame ? fs.readFileSync(path.resolve(__dirname, '../../../client/index.html')) : '<title>Another app</title>');
+    } else {
+      res.statusCode = 401;
+      res.end('external fixture');
+    }
+  });
+  const externalPort = await listenLocal(foreignHttp);
+  settingsMgr.updateSettings({ projectDir, serverPort: externalPort, clientPort: externalPort, dbPort: unavailablePort });
+  const supervisor = ProcessSupervisor.getInstance();
   try {
-    fs.rmSync(testExportDir, { recursive: true, force: true });
-  } catch {}
+    const diagReport = await SystemDiagnostics.runAll();
+    assert(diagReport.items.length === 7, 'Đầy đủ 7 hạng mục tiền kiểm');
 
-  console.log('\n========================================================================');
-  console.log(` 📊 KẾT QUẢ: ${passed}/${total} KIỂM THỬ ĐẠT (100% THÀNH CÔNG)`);
-  console.log('========================================================================\n');
-  process.exit(0);
+    const nodeCheck = diagReport.items.find(c => c.id === 'diag_runtime');
+    assert(nodeCheck?.status === 'PASS', 'Tiền kiểm Node.js & npm Runtime thành công');
+
+    const dirCheck = diagReport.items.find(c => c.id === 'diag_files');
+    assert(dirCheck?.status === 'PASS', 'Cấu trúc thư mục Server & Client hợp lệ');
+
+    const dbCheck = diagReport.items.find(c => c.id === 'diag_db');
+    assert(dbCheck?.status === 'PASS' && dbCheck.message.includes(String(dbPort)), 'TCP probe uses the open endpoint in DATABASE_URL');
+    const closedCheck = await SystemDiagnostics.checkDatabase('127.0.0.1', unavailablePort);
+    assert(closedCheck.status === 'FAIL', 'TCP probe detects an unavailable loopback port');
+
+    const logDirCheck = diagReport.items.find(c => c.id === 'diag_log_dir');
+    assert(logDirCheck?.status === 'PASS', 'Quyền ghi thư mục logs hợp lệ');
+
+    console.log('\n6. KIỂM THỬ QUYỀN QUẢN LÝ TIẾN TRÌNH:');
+    assert(!(await supervisor.startService('client')).success, 'An unrelated HTML page cannot become the game frontend');
+    assert(!(await supervisor.openGame()), 'Open Game declines an unidentified page');
+    const occupied = await supervisor.startService('server');
+    assert(!occupied.success, 'Launcher refuses to start on an unrelated occupied port');
+    assert(!supervisor.getStatusSnapshot().services.server.isManagedByLauncher, 'An unrelated listener is never owned');
+    await supervisor.stopService('server', true);
+    const address = `http://127.0.0.1:${externalPort}/api/game/maps`;
+    assert((await fetch(address)).status === 401, 'The unrelated listener survives a forced stop request');
+
+    respondsLikeGame = true;
+    assert((await supervisor.startService('client')).success, 'The game document identifies the external frontend');
+    const externalClient = supervisor.getStatusSnapshot().services.client;
+    assert(externalClient.state === 'EXTERNAL_RUNNING' && !externalClient.isManagedByLauncher, 'Identified frontend remains externally owned');
+    assert((await supervisor.startService('server')).success, 'A preexisting game listener can be detected');
+    assert(supervisor.getStatusSnapshot().services.server.state === 'EXTERNAL_RUNNING', 'A preexisting game listener is marked external');
+    assert(!(await supervisor.stopService('server', true)).success, 'Launcher refuses to stop the external game listener');
+    assert((await fetch(address)).status === 401, 'The external game listener remains reachable');
+    respondsLikeGame = false;
+    const deadline = Date.now() + 6500;
+    while (Date.now() < deadline && supervisor.getStatusSnapshot().services.client.state === 'EXTERNAL_RUNNING') {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    const afterWatchdog = supervisor.getStatusSnapshot().services;
+    assert(afterWatchdog.client.state === 'STOPPED' && afterWatchdog.server.state === 'STOPPED',
+      'Watchdog withdraws external game status when both identities disappear');
+    assert((await fetch(address)).status === 401, 'Wrong listeners survive watchdog reclassification');
+  } finally {
+    await closeLocal(foreignHttp);
+    await closeLocal(tcpFixture);
+  }
+
+  reportAssertions(passed, total);
 }
 
-runTests().catch(err => {
+withLauncherFixture(async (dir) => {
+  SettingsManager.getInstance().updateSettings({ projectDir: dir });
+  try {
+    await runTests(dir);
+  } finally {
+    ProcessSupervisor.getInstance().cleanup();
+  }
+}).catch((err) => {
   console.error('Lỗi khi chạy kiểm thử:', err);
-  process.exit(1);
+  process.exitCode = 1;
 });

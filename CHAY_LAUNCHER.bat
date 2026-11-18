@@ -21,7 +21,10 @@ cd desktop-launcher
 if not exist "node_modules\" (
     echo [THÔNG BÁO] Đang cài đặt thư viện cho Desktop Launcher...
     call npm install
+    if errorlevel 1 exit /b 1
 )
 
-npm run build:main
-npm run start
+call npm run build
+if errorlevel 1 exit /b %errorlevel%
+call npm run start
+exit /b %errorlevel%

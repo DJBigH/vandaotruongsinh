@@ -1,0 +1,23 @@
+{"elapsedMs":2782,"event":"network-socket-open","window":"first","requestId":"6776.130"}
+{"elapsedMs":2783,"event":"socket-open","window":"first","id":1}
+{"elapsedMs":2923,"event":"server-init","window":"first","id":1,"map":"map_thanh_khe","position":{"x":400,"y":300}}
+{"elapsedMs":2942,"event":"check","name":"first page owns one live character socket"}
+{"elapsedMs":5423,"event":"network-socket-open","window":"second","requestId":"6776.258"}
+{"elapsedMs":5426,"event":"socket-open","window":"second","id":1}
+{"elapsedMs":5594,"event":"server-init","window":"second","id":1,"map":"map_thanh_khe","position":{"x":400,"y":300}}
+{"elapsedMs":5595,"event":"socket-close","window":"first","id":1}
+{"elapsedMs":5595,"event":"network-socket-close","window":"first","requestId":"6776.130"}
+{"elapsedMs":6186,"event":"check","name":"displaced page shows terminal ownership message"}
+{"elapsedMs":7319,"event":"synthetic-focus-event","window":"first","visibility":{"hidden":false,"hasFocus":true},"limitation":"Dispatch only; no physical focus-loss claim."}
+{"elapsedMs":10923,"event":"check","name":"displaced page stays closed beyond the 3000ms retry interval","waitMs":3600}
+{"elapsedMs":10923,"event":"check","name":"displaced controls send no further input"}
+{"elapsedMs":10923,"event":"check","name":"replacement page keeps receiving ticks after old-page focus handler","newTicks":76}
+{"elapsedMs":12155,"event":"document-socket-scope-ended","window":"first","observations":0}
+{"elapsedMs":13861,"event":"network-socket-open","window":"first","requestId":"6776.386"}
+{"elapsedMs":13966,"event":"socket-open","window":"first","id":2}
+{"elapsedMs":14184,"event":"server-init","window":"first","id":2,"map":"map_thanh_khe","position":{"x":400,"y":300}}
+{"elapsedMs":14194,"event":"network-socket-close","window":"second","requestId":"6776.258"}
+{"elapsedMs":14194,"event":"socket-close","window":"second","id":1}
+{"elapsedMs":14225,"event":"check","name":"explicit reload is an intentional new session"}
+{"elapsedMs":14250,"event":"check","name":"fresh page restores game UI"}
+{"elapsedMs":15161,"event":"check","name":"both pages have no uncaught JavaScript errors"}

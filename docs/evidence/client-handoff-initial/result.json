@@ -1,0 +1,10 @@
+{
+  "stage": "controller-health-preflight",
+  "sourceCommit": "3ac3fe5ed078347145b0199cd136c9a6c05939fa",
+  "harnessSha256": "aa402c03e5fe0a763002031dc355c865731185b12648a230acf9b462f2f7d09d",
+  "exitCode": 1,
+  "gameChecksRun": 0,
+  "fpsMeasured": false,
+  "cause": "The Node fetch Response.ok boolean was called as a function by the scratch wrapper. Its catch suppressed the TypeError, so forty successful HTTP200 health responses were misreported as unhealthy. Product server and game source were unchanged.",
+  "commandResult": "../final-verification/client-handoff-initial-command-result.json"
+}

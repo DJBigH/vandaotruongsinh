@@ -1,0 +1,15 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/server
+node --import tsx --test '--test-name-pattern=a rewarded boss' src/tests/boss-lifecycle-test.ts
+✖ a rewarded boss keeps its own respawn timer through an unrelated death (10.019649ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1303.860838
+✖ failing tests:
+✖ a rewarded boss keeps its own respawn timer through an unrelated death (10.019649ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+exit=1

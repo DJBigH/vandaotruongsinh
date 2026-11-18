@@ -31,7 +31,7 @@ async function main() {
         role: 'OWNER',
       },
     });
-    console.log(`[Seed] Đã tạo tài khoản Quản trị viên (Owner): ${owner.username} (Mật khẩu: admin@1234)`);
+    console.log(`[Seed] Đã tạo tài khoản Quản trị viên (Owner): ${owner.username}`);
   }
 
   // 2. Insert initial ContentVersion entries for all items, monsters, bosses, quests

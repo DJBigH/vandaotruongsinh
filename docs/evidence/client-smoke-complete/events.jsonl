@@ -1,0 +1,26 @@
+{"elapsedMs":1090,"event":"begin","browser":"153.0.8010.0"}
+{"elapsedMs":6135,"event":"socket-open","id":1}
+{"elapsedMs":6297,"event":"server-init","id":1,"map":"map_thanh_khe","position":{"x":400,"y":300}}
+{"elapsedMs":6841,"event":"check","name":"one live socket after character creation","open":1}
+{"elapsedMs":6842,"event":"check","name":"server spawn applied","x":400,"y":300}
+{"elapsedMs":7120,"event":"walking-route","map":"map_thanh_khe","from":{"x":400,"y":300},"to":{"x":1024,"y":448},"waypoints":[{"x":400,"y":304},{"x":624,"y":80},{"x":624,"y":48},{"x":720,"y":48},{"x":816,"y":144},{"x":816,"y":304},{"x":912,"y":400},{"x":944,"y":400},{"x":976,"y":432},{"x":1008,"y":432},{"x":1024,"y":448}]}
+{"elapsedMs":17006,"event":"check","name":"opposed keys cancel"}
+{"elapsedMs":23425,"event":"check","name":"panel blocks movement"}
+{"elapsedMs":23426,"event":"check","name":"panel does not suspend session","ticks":123}
+{"elapsedMs":23428,"event":"check","name":"panel does not emit attacks"}
+{"elapsedMs":26908,"event":"check","name":"new character has one available skill","skillCount":1}
+{"elapsedMs":27367,"event":"check","name":"locked skill keys send no cast"}
+{"elapsedMs":27420,"event":"walking-route","map":"map_thanh_khe","from":{"x":1029,"y":445},"to":{"x":1024,"y":352},"waypoints":[{"x":1040,"y":432},{"x":1040,"y":368},{"x":1024,"y":352}]}
+{"elapsedMs":28613,"event":"check","name":"elder dialogue request succeeds"}
+{"elapsedMs":30342,"event":"check","name":"nearby elder talk advances real quest"}
+{"elapsedMs":30400,"event":"walking-route","map":"map_thanh_khe","from":{"x":1029,"y":350},"to":{"x":1024,"y":310},"waypoints":[{"x":1040,"y":336},{"x":1008,"y":304},{"x":1024,"y":310}]}
+{"elapsedMs":32862,"event":"check","name":"hall wall blocks normal movement","y":300}
+{"elapsedMs":32924,"event":"action-input","id":1,"action":"DODGE","seq":339}
+{"elapsedMs":33330,"event":"check","name":"hall wall blocks dodge","y":300}
+{"elapsedMs":33388,"event":"walking-route","map":"map_thanh_khe","from":{"x":1024,"y":300},"to":{"x":1024,"y":1280},"waypoints":[{"x":1008,"y":304},{"x":1008,"y":1264},{"x":1024,"y":1280}]}
+{"elapsedMs":42917,"event":"check","name":"portal replaces map and entities"}
+{"elapsedMs":43039,"event":"walking-route","map":"map_thanh_khe_rung","from":{"x":1024,"y":128},"to":{"x":1024,"y":224},"waypoints":[{"x":1008,"y":112},{"x":1008,"y":208},{"x":1024,"y":224}]}
+{"elapsedMs":59147,"event":"socket-open","id":2}
+{"elapsedMs":59191,"event":"server-init","id":2,"map":"map_thanh_khe_rung","position":{"x":1024,"y":229}}
+{"elapsedMs":59607,"event":"check","name":"reload retains forest and saved position","saved":{"x":1024,"y":229},"loaded":{"x":1024,"y":229}}
+{"elapsedMs":59608,"event":"failed","error":"AssertionError [ERR_ASSERTION]: reload leaves one live socket"}

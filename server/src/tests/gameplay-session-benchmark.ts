@@ -4,6 +4,7 @@
 // Teleport, Death/Respawn) and measures performance metrics.
 // ============================================================
 
+import './require-disposable-database';
 import { ArpgGameSession } from '../engine/realtime-arpg-engine';
 import { CultivationPath } from '@shared';
 import { prisma } from '../index';

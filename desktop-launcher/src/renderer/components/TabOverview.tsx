@@ -126,10 +126,10 @@ export const TabOverview: React.FC<TabOverviewProps> = ({
           📜 HƯỚNG DẪN KHỞI CHẠY TIÊN ĐẠO:
         </div>
         <div>
-          1. Đảm bảo <strong>PostgreSQL</strong> đang lắng nghe tại cổng 5432 (WSL, Docker hoặc Windows Service).
+          1. Đảm bảo <strong>PostgreSQL</strong> đang lắng nghe tại địa chỉ trong <code>DATABASE_URL</code> (WSL, Docker hoặc Windows Service).
         </div>
         <div>
-          2. Nhấn nút <strong>[⚡ Khởi Động Tất Cả]</strong> trên thanh tiêu đề để tự động bật Máy chủ (Port 3001) và Giao diện (Port 5173).
+          2. Nhấn nút <strong>[⚡ Khởi Động Tất Cả]</strong> trên thanh tiêu đề để tự động bật Máy chủ và Giao diện theo các cổng trong Cài Đặt.
         </div>
         <div>
           3. Khi cả hai thẻ dịch vụ chuyển sang trạng thái <strong>[● Sẵn Sàng]</strong>, nút <strong>[🎮 Vào Game]</strong> sẽ sáng lên để mở trò chơi trên trình duyệt.

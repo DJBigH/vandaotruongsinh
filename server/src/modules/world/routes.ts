@@ -3,22 +3,56 @@
 // ============================================================
 
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { PrismaClient } from '@prisma/client';
-import { DialogueLine } from '@shared';
+import type { Character, Prisma, PrismaClient } from '@prisma/client';
+import { DialogueLine, isWorldPositionWalkable, type CharacterStats, type MapData, type Position } from '@shared';
 import { authenticate } from '../../middleware/auth';
 import {
   MAP_DATA,
   DIALOGUE_DATA,
   ITEM_TEMPLATES,
 } from '../../data/game-content';
-import { updateQuestProgress } from '../quest/quest-engine';
+import { updateQuestProgress, updateQuestProgressBatch } from '../quest/quest-engine';
 import { getActiveCharacter } from '../character/helpers';
+import { ArpgSessionManager, RestorationConflict } from '../../engine/realtime-arpg-engine';
+
+type CharacterLocation = Pick<Character, 'id' | 'currentMapId' | 'positionX' | 'positionY'>;
+
+function worldDistance(map: MapData, position: Position, target: Position): number {
+  return Math.hypot(position.x - target.x * map.tileSize, position.y - target.y * map.tileSize);
+}
+
+async function grantCollectedItem(tx: Prisma.TransactionClient, characterId: string, templateId: string) {
+  const stack = await tx.inventoryItem.findFirst({ where: { characterId, templateId, isEquipped: false } });
+  if (stack) {
+    await tx.inventoryItem.update({ where: { id: stack.id }, data: { quantity: { increment: 1 } } });
+  } else {
+    await tx.inventoryItem.create({ data: { characterId, templateId, quantity: 1, isEquipped: false } });
+  }
+}
 
 export async function worldRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
   const { prisma } = options;
+  const sessions = ArpgSessionManager.getInstance();
 
   async function getCharacter(userId: string) {
     return getActiveCharacter(prisma, userId);
+  }
+
+  function getLocation(character: CharacterLocation) {
+    const session = sessions.getSession(character.id);
+    const mapId = session?.mapId ?? character.currentMapId;
+    const map = Object.hasOwn(MAP_DATA, mapId) ? MAP_DATA[mapId] : undefined;
+    const position = session?.player ?? { x: character.positionX, y: character.positionY };
+    const canInteract = !!map && (!session || session.player.hp > 0) && isWorldPositionWalkable(map, position);
+    return { map, position, canInteract };
+  }
+
+  function findNearbyDialogueNpc(character: CharacterLocation, dialogueId: string, npcId?: unknown) {
+    const { map, position, canInteract } = getLocation(character);
+    if (!map || !canInteract) return undefined;
+    return map.npcs.find((npc) => npc.dialogueId === dialogueId &&
+      (npcId === undefined || npcId === npc.id) &&
+      worldDistance(map, position, npc.position) <= 3 * map.tileSize);
   }
 
   // GET /api/game/maps
@@ -45,15 +79,13 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
       const char = await getCharacter(user.userId);
       if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
 
-      const { mapId, x, y } = (request.body as any) || {};
-      await prisma.character.update({
-        where: { id: char.id },
-        data: {
-          currentMapId: mapId || char.currentMapId,
-          positionX: x ?? char.positionX,
-          positionY: y ?? char.positionY,
-        },
-      });
+      const body = request.body;
+      if (body && typeof body === 'object' && ['mapId', 'x', 'y'].some((key) => Object.hasOwn(body, key))) {
+        return reply.status(400).send({ success: false, error: 'Vị trí do máy chủ quyết định' });
+      }
+      if (!await sessions.persistPosition(char.id)) {
+        return reply.status(409).send({ success: false, error: 'Chưa có vị trí hợp lệ trong phiên chơi hiện tại' });
+      }
 
       return reply.send({ success: true });
     } catch (err: any) {
@@ -70,26 +102,17 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
       if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
 
       const { targetMapId } = (request.body as any) || {};
-      const targetMap = MAP_DATA[targetMapId];
+      const targetMap = typeof targetMapId === 'string' && Object.hasOwn(MAP_DATA, targetMapId)
+        ? MAP_DATA[targetMapId] : undefined;
       if (!targetMap) return reply.status(404).send({ success: false, error: 'Bản đồ đích không tồn tại' });
 
-      await prisma.character.update({
-        where: { id: char.id },
-        data: {
-          currentMapId: targetMapId,
-          positionX: targetMap.spawnPoint.x * targetMap.tileSize,
-          positionY: targetMap.spawnPoint.y * targetMap.tileSize,
-        },
-      });
+      const position = await sessions.teleportCharacter(char.id, targetMap);
 
       return reply.send({
         success: true,
         data: {
           mapId: targetMapId,
-          position: {
-            x: targetMap.spawnPoint.x * targetMap.tileSize,
-            y: targetMap.spawnPoint.y * targetMap.tileSize,
-          },
+          position,
         },
       });
     } catch (err: any) {
@@ -107,45 +130,32 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
 
       const { interactableId } = (request.body as any) || {};
 
-      // Check current map for interactable
-      const map = MAP_DATA[char.currentMapId] || MAP_DATA['map_thanh_khe'];
-      const target = map.interactables.find((i) => i.id === interactableId);
+      const { map, position, canInteract } = getLocation(char);
+      const target = map?.interactables.find((i) => i.id === interactableId);
 
-      if (!target) {
+      if (!map || !target) {
         return reply.status(404).send({ success: false, error: 'Không tìm thấy vật thể tương tác' });
       }
 
       // Xác minh khoảng cách tương tác (chống hack vị trí)
-      const targetWorldX = target.position.x * map.tileSize;
-      const targetWorldY = target.position.y * map.tileSize;
-      const dist = Math.hypot((char.positionX ?? 0) - targetWorldX, (char.positionY ?? 0) - targetWorldY);
-      if (dist > 300) {
+      if (!canInteract || worldDistance(map, position, target.position) > 300) {
         return reply.status(400).send({ success: false, error: 'Khoảng cách quá xa, không thể tương tác!' });
       }
 
       if (target.type === 'CHEST') {
         const eventKey = `chest_${target.id}`;
-        const alreadyClaimed = await prisma.rewardClaim.findUnique({
-          where: { characterId_eventKey: { characterId: char.id, eventKey } },
-        });
-
-        if (alreadyClaimed) {
-          return reply.status(400).send({
-            success: false,
-            error: 'Rương bí cảnh này đạo hữu đã mở rồi, bên trong không còn bảo vật!',
-          });
-        }
-
         const isRare = target.lootTableId === 'loot_forest_rare';
         const rewardLinhThach = isRare ? 180 : 60;
         const rewardExp = isRare ? 120 : 50;
         const rewardItemId = isRare ? 'item_015' : 'item_012'; // Tụ Khí Đan hoặc Hồi Linh Thảo
         const rewardTmpl = ITEM_TEMPLATES[rewardItemId];
 
-        await prisma.$transaction(async (tx) => {
-          await tx.rewardClaim.create({
-            data: { characterId: char.id, eventKey },
+        const claimed = await prisma.$transaction(async (tx) => {
+          const inserted = await tx.rewardClaim.createMany({
+            data: [{ characterId: char.id, eventKey }],
+            skipDuplicates: true,
           });
+          if (!inserted.count) return false;
 
           await tx.character.update({
             where: { id: char.id },
@@ -155,29 +165,21 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
             },
           });
 
+          const events = [{ type: 'COLLECT' as const, targetId: 'chest', amount: 1 }];
           if (rewardTmpl) {
-            const existing = await tx.inventoryItem.findFirst({
-              where: { characterId: char.id, templateId: rewardItemId, isEquipped: false },
-            });
-            if (existing) {
-              await tx.inventoryItem.update({
-                where: { id: existing.id },
-                data: { quantity: { increment: 1 } },
-              });
-            } else {
-              await tx.inventoryItem.create({
-                data: {
-                  characterId: char.id,
-                  templateId: rewardItemId,
-                  quantity: 1,
-                  isEquipped: false,
-                },
-              });
-            }
+            await grantCollectedItem(tx, char.id, rewardItemId);
+            events.push({ type: 'COLLECT', targetId: rewardItemId, amount: 1 });
           }
+          await updateQuestProgressBatch(tx, char.id, events);
+          return true;
         });
 
-        await updateQuestProgress(prisma, char.id, 'COLLECT', 'chest', 1);
+        if (!claimed) {
+          return reply.status(400).send({
+            success: false,
+            error: 'Rương bí cảnh này đạo hữu đã mở rồi, bên trong không còn bảo vật!',
+          });
+        }
 
         return reply.send({
           success: true,
@@ -186,79 +188,44 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
             message: `Mở Rương Bí Cảnh thành công! Thu hoạch: +${rewardLinhThach} Linh Thạch, +${rewardExp} Tu Vi, 1x [${rewardTmpl?.name || 'Linh Dược'}]!`,
           },
         });
-      } else if (target.type === 'HERB') {
-        const dropId = target.lootTableId || 'item_012';
+      } else if (target.type === 'HERB' || target.type === 'ORE') {
+        const isHerb = target.type === 'HERB';
+        const dropId = target.lootTableId || (isHerb ? 'item_012' : 'item_013');
         const tmpl = ITEM_TEMPLATES[dropId];
-        const existing = await prisma.inventoryItem.findFirst({
-          where: { characterId: char.id, templateId: dropId, isEquipped: false },
+        await prisma.$transaction(async (tx) => {
+          await tx.$queryRaw`SELECT id FROM characters WHERE id = ${char.id}::uuid FOR NO KEY UPDATE`;
+          await grantCollectedItem(tx, char.id, dropId);
+          await updateQuestProgress(tx, char.id, 'COLLECT', dropId);
         });
-
-        if (existing) {
-          await prisma.inventoryItem.update({
-            where: { id: existing.id },
-            data: { quantity: { increment: 1 } },
-          });
-        } else {
-          await prisma.inventoryItem.create({
-            data: {
-              characterId: char.id,
-              templateId: dropId,
-              quantity: 1,
-              isEquipped: false,
-            },
-          });
-        }
-
-        // Update COLLECT quest progress
-        await updateQuestProgress(prisma, char.id, 'COLLECT', dropId, 1);
 
         return reply.send({
           success: true,
           data: {
-            type: 'HERB',
-            message: `Thu hái thành công 1x [${tmpl?.name || 'Linh Thảo'}]!`,
-          },
-        });
-      } else if (target.type === 'ORE') {
-        const dropId = target.lootTableId || 'item_013';
-        const tmpl = ITEM_TEMPLATES[dropId];
-        const existing = await prisma.inventoryItem.findFirst({
-          where: { characterId: char.id, templateId: dropId, isEquipped: false },
-        });
-
-        if (existing) {
-          await prisma.inventoryItem.update({
-            where: { id: existing.id },
-            data: { quantity: { increment: 1 } },
-          });
-        } else {
-          await prisma.inventoryItem.create({
-            data: {
-              characterId: char.id,
-              templateId: dropId,
-              quantity: 1,
-              isEquipped: false,
-            },
-          });
-        }
-
-        return reply.send({
-          success: true,
-          data: {
-            type: 'ORE',
-            message: `Khai thác thành công 1x [${tmpl?.name || 'Thiết Khoáng'}]!`,
+            type: target.type,
+            message: `${isHerb ? 'Thu hái' : 'Khai thác'} thành công 1x [${tmpl?.name || (isHerb ? 'Linh Thảo' : 'Thiết Khoáng')}]!`,
           },
         });
       } else if (target.type === 'SHRINE') {
-        // Restore HP and MP to full
-        const stats = char.stats as any;
-        stats.hp = stats.maxHp;
-        stats.mp = stats.maxMp;
-
-        await prisma.character.update({
-          where: { id: char.id },
-          data: { stats },
-        });
+        const result = await sessions.updateCharacterCombat(char.id, async (tx, current, session) => {
+          const location = getLocation(current);
+          if (!location.canInteract || location.map?.id !== map.id ||
+              worldDistance(map, location.position, target.position) > 300 ||
+              (!current.isActive && await tx.character.count({ where: { accountId: current.accountId, isActive: true } }))) {
+            return { success: false };
+          }
+          if (!session) {
+            const stats = current.stats as unknown as CharacterStats;
+            if (stats.hp <= 0) return { success: false };
+            await tx.character.update({ where: { id: current.id }, data: {
+              stats: { ...stats, hp: stats.maxHp, mp: stats.maxMp },
+            } });
+          }
+          return { success: true };
+        }, (session, _result, life) => session.reserveRestoration(life, () => {
+          session.player.hp = session.player.maxHp;
+          session.player.mp = session.player.maxMp;
+        }));
+        if (!result.success) return reply.status(409).send({ success: false, error: 'Không thể hồi phục tại linh miếu' });
 
         return reply.send({
           success: true,
@@ -271,6 +238,7 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
 
       return reply.send({ success: true, data: { message: 'Tương tác hoàn tất' } });
     } catch (err: any) {
+      if (err instanceof RestorationConflict) return reply.status(409).send({ success: false, error: err.message });
       request.log.error(err);
       return reply.status(500).send({ success: false, error: 'Lỗi khi tương tác' });
     }
@@ -289,11 +257,8 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
       const user = (request as any).user;
       const char = await getCharacter(user.userId);
       if (char) {
-        const queryNpcId = (request.query as any)?.npcId;
-        if (queryNpcId) {
-          await updateQuestProgress(prisma, char.id, 'TALK', queryNpcId, 1);
-        }
-        await updateQuestProgress(prisma, char.id, 'TALK', id, 1);
+        const npc = findNearbyDialogueNpc(char, id, (request.query as { npcId?: unknown })?.npcId);
+        if (npc) await updateQuestProgress(prisma, char.id, 'TALK', npc.id);
       }
     } catch {
       // Ignore quest update errors to not block dialogue
@@ -356,11 +321,9 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
 
       const nextNode: any = tree[choice.nextId];
 
-      if (char) {
-        if (id.startsWith('dialogue_quest_')) {
-          const questId = id.replace('dialogue_', '').replace('_start', '').replace('_complete', '');
-          await updateQuestProgress(prisma, char.id, 'TALK', questId, 1);
-        }
+      if (char && id.startsWith('dialogue_quest_') && findNearbyDialogueNpc(char, id)) {
+        const questId = id.replace('dialogue_', '').replace('_start', '').replace('_complete', '');
+        await updateQuestProgress(prisma, char.id, 'TALK', questId, 1);
       }
 
       return reply.send({

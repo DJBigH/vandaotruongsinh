@@ -1,0 +1,38 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/server
+node --import tsx --test src/tests/boss-lifecycle-test.ts src/tests/world-movement-test.ts
+✔ a boss starts from authored stats after player revival and enrages once again (7.146384ms)
+✔ an old warning is cleared by death even when no simulation ticks run before revival (0.88449ms)
+✔ a defeated boss respawns at its authored position and clean phase one stats (0.956101ms)
+✔ leave and reenter during windup keeps one warning and starts cooldown on resolution (1.417539ms)
+✔ phase crossing preserves the current warning and uses enrage damage on the next one (0.786731ms)
+✔ revival leaves the new map generation untouched (1.076112ms)
+✔ a due boss warning can still cause simultaneous death on the lethal tick (0.441339ms)
+✔ a normal melee monster keeps its 400 ms windup and 1600 ms cooldown (0.584203ms)
+✔ a rewarded boss keeps its own respawn timer through an unrelated death (0.827459ms)
+✔ server walking stops at a building edge (3.318035ms)
+✔ server diagonal movement slides along a blocked axis (1.195505ms)
+✔ server dodge cannot cross the building (1.722224ms)
+✔ server movement keeps the actor inside the border collision layer (0.343929ms)
+✔ non-finite movement input cannot corrupt the session position (0.272912ms)
+✔ projectiles cannot cross a wall between simulation ticks (0.258148ms)
+✔ session initialization uses a valid saved position in the selected map (1.164436ms)
+✔ session initialization falls back to the spawn for blocked, invalid or different-map positions (0.451372ms)
+✔ a blocked configured spawn falls back to a clear tile center (0.483772ms)
+✔ shared geometry sweeps past no tile-sized barrier even with a long move (1.39061ms)
+✔ shared geometry clamps at unbordered map edges and rejects invalid coordinates (0.581157ms)
+✔ diagonal movement slides when the swept actor clips a rounded building corner (0.27329ms)
+✔ Bạt Kiếm dash stops at the wall and damages enemies near its actual endpoint (1.859222ms)
+✔ Bạt Kiếm dash respects map edges and retains full range on clear ground (2.242311ms)
+✔ Vạn Kiếm clamps distant finite targets to its radial cast range (0.556984ms)
+✔ Vạn Kiếm preserves valid supplied centers and the default facing center (0.372265ms)
+✔ first-area world data has reachable actors, portals and interactables (310.191227ms)
+✔ Thanh Khê forest has black wolves for the second main quest (0.947249ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1357.791267
+exit=0

@@ -1,0 +1,75 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/desktop-launcher
+node /workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs /workspace/scratch/c5685e889d73/vandaotruongsinh/desktop-launcher node --import ../server/node_modules/tsx/dist/loader.mjs src/tests/launcher-core-test.ts
+  ✓ [PASS] Cổng server mặc định là 3001
+  ✓ [PASS] Cổng client mặc định là 5173
+  ✓ [PASS] Cổng PostgreSQL mặc định là 5432
+  ✓ [PASS] Mặc định kích hoạt che giấu thông tin nhạy cảm
+  ✓ [PASS] Cập nhật cài đặt thành công
+  ✓ [PASS] Mật khẩu Database trong URL đã bị che giấu
+  ✓ [PASS] URL Database được thay thế bằng chuỗi an toàn
+  ✓ [PASS] Token Bearer/JWT đã bị che giấu
+  ✓ [PASS] Định dạng Bearer *** xuất hiện chính xác
+  ✓ [PASS] Mật khẩu password="..." đã bị che giấu
+  ✓ [PASS] GUI setup stdout masks the localized owner password
+  ✓ [PASS] Đường dẫn thư mục cá nhân đã được che giấu
+  ✓ [PASS] Thay thế đường dẫn cá nhân bằng <USER_DIR>
+  ✓ [PASS] Circular buffer lưu giữ nhật ký trong bộ nhớ
+  ✓ [PASS] Xuất file .txt thành công
+  ✓ [PASS] File .txt tồn tại trên ổ đĩa
+  ✓ [PASS] Có PHẦN 1: Thông tin báo cáo & môi trường
+  ✓ [PASS] Có PHẦN 2: Tổng quan trạng thái dịch vụ
+  ✓ [PASS] Có PHẦN 3: Tóm tắt hành vi gần nhất
+  ✓ [PASS] Có PHẦN 4: Danh sách lỗi & bối cảnh phát sinh
+  ✓ [PASS] Có PHẦN 5: Toàn bộ nhật ký theo nguồn
+  ✓ [PASS] Có PHẦN 6: Phạm vi dữ liệu & giới hạn kỹ thuật
+  ✓ [PASS] Tiêu đề tiếng Việt chính xác
+  ✓ [PASS] TXT export redacts fixture credentials
+  ✓ [PASS] TXT redacts syntheticLocalizedOnly
+  ✓ [PASS] TXT redacts syntheticPgIPv6Only
+  ✓ [PASS] TXT redacts syntheticOpaqueCookieOnly
+  ✓ [PASS] TXT redacts syntheticSetCookieOnly
+  ✓ [PASS] TXT redacts syntheticPlainPasswordOnly
+  ✓ [PASS] TXT redacts syntheticActionSecretOnly
+  ✓ [PASS] TXT redacts raw and encoded apostrophe password forms
+  ✓ [PASS] TXT retains the quoted IPv6 URL for current leading apostrophe
+  ✓ [PASS] TXT retains the quoted IPv6 URL for current embedded apostrophe
+  ✓ [PASS] Xuất gói chẩn đoán .zip thành công
+  ✓ [PASS] File .zip tồn tại trên ổ đĩa
+  ✓ [PASS] Gói ZIP chứa summary.md
+  ✓ [PASS] Gói ZIP chứa manifest.json
+  ✓ [PASS] Gói ZIP chứa events.jsonl
+  ✓ [PASS] Gói ZIP chứa logs/launcher.log
+  ✓ [PASS] ZIP redacts every fixture secret in events.jsonl
+  ✓ [PASS] ZIP redacts every fixture secret in logs/client.log
+  ✓ [PASS] ZIP redacts every fixture secret in logs/launcher.log
+  ✓ [PASS] ZIP redacts every fixture secret in logs/server.log
+  ✓ [PASS] ZIP redacts every fixture secret in manifest.json
+  ✓ [PASS] ZIP redacts every fixture secret in summary.md
+  ✓ [PASS] ZIP retains the redacted historical log line
+  ✓ [PASS] ZIP retains the quoted IPv6 URL for current leading apostrophe
+  ✓ [PASS] ZIP retains the quoted IPv6 URL for current embedded apostrophe
+  ✓ [PASS] ZIP retains the quoted IPv6 URL for historical leading apostrophe
+  ✓ [PASS] ZIP retains the quoted IPv6 URL for historical embedded apostrophe
+  ✓ [PASS] ZIP events redact fixture credentials
+  ✓ [PASS] events.jsonl tuân thủ định dạng JSON Lines chuẩn máy học/AI
+  ✓ [PASS] Đầy đủ 7 hạng mục tiền kiểm
+  ✓ [PASS] Tiền kiểm Node.js & npm Runtime thành công
+  ✓ [PASS] Cấu trúc thư mục Server & Client hợp lệ
+  ✓ [PASS] TCP probe uses the open endpoint in DATABASE_URL
+  ✓ [PASS] TCP probe detects an unavailable loopback port
+  ✓ [PASS] Quyền ghi thư mục logs hợp lệ
+  ✓ [PASS] An unrelated HTML page cannot become the game frontend
+  ✓ [PASS] Open Game declines an unidentified page
+  ✓ [PASS] Launcher refuses to start on an unrelated occupied port
+  ✓ [PASS] An unrelated listener is never owned
+  ✓ [PASS] The unrelated listener survives a forced stop request
+  ✓ [PASS] The game document identifies the external frontend
+  ✓ [PASS] Identified frontend remains externally owned
+  ✓ [PASS] A preexisting game listener can be detected
+  ✓ [PASS] A preexisting game listener is marked external
+  ✓ [PASS] Launcher refuses to stop the external game listener
+  ✓ [PASS] The external game listener remains reachable
+  ✓ [PASS] Watchdog withdraws external game status when both identities disappear
+  ✓ [PASS] Wrong listeners survive watchdog reclassification
+📊 KẾT QUẢ: 71/71 KIỂM THỬ ĐẠT (100% THÀNH CÔNG)
+exit=0

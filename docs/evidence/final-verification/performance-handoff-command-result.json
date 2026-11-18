@@ -1,0 +1,20 @@
+{
+  "cwd": "/workspace/scratch/c5685e889d73/vandaotruongsinh/server",
+  "command": "env",
+  "args": [
+    "VANDAO_EVIDENCE_DIR=/workspace/scratch/c5685e889d73/vandaotruongsinh/docs/evidence/performance-handoff",
+    "VANDAO_PLAYWRIGHT_MODULE=/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js",
+    "VANDAO_CHROMIUM_MODULE=/workspace/scratch/c5685e889d73/runtime_tools/node_modules/@sparticuz/chromium/build/index.js",
+    "PLAYWRIGHT_BROWSERS_PATH=/workspace/scratch/c5685e889d73/runtime_tools/browser-cache",
+    "node",
+    "--import",
+    "tsx",
+    "../scripts/verification/performance-fixture.mjs"
+  ],
+  "exitCode": 1,
+  "outputFile": "performance-handoff-command.txt",
+  "outputBytes": 1731,
+  "outputSha256": "77de60d9cdef415c7962939e772d8b3f0e9d5984612a78ceccf577ea23282a12",
+  "recordOrigin": "Saved result of the local test queue job; collected after completion.",
+  "expectedOutcome": "Exit1 because both full-load frame targets failed; no page or cleanup errors."
+}

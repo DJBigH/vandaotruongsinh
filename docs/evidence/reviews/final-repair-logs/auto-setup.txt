@@ -1,0 +1,23 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/desktop-launcher
+node /workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs /workspace/scratch/c5685e889d73/vandaotruongsinh/desktop-launcher node --import ../server/node_modules/tsx/dist/loader.mjs src/tests/auto-setup-test.ts
+[PASS] SetupManager là singleton
+[PASS] Rà soát cấu hình gốc hợp lệ và thăm dò TCP tại cổng trong DATABASE_URL
+[PASS] Rà soát thất bại với thư mục không hợp lệ hoặc dự án thiếu cấu hình
+[PASS] Rà soát từ chối placeholder chưa giải quyết và Prisma chưa sinh mã
+[PASS] Shared chỉ có mã nguồn vẫn sẵn sàng khi không có phụ thuộc riêng
+[PASS] Tệp mặc định từ @prisma/client không thay cho kết quả generate
+[PASS] Giữ nguyên cả hai tệp cấu hình khi cài lại và truyền URL đã giải quyết cho Prisma/seed
+[PASS] Tạo server/.env từ mẫu nếu dự án chưa có cấu hình
+[PASS] Lỗi lệnh prisma generate ngăn báo cài đặt thành công
+[PASS] Lỗi lệnh prisma db push --skip-generate ngăn báo cài đặt thành công
+[PASS] Lỗi lệnh run seed ngăn báo cài đặt thành công
+[PASS] Bỏ qua đồng bộ theo tùy chọn nhưng vẫn sinh Prisma Client
+[PASS] Cài đặt production chỉ sinh Prisma, bỏ qua schema và seed
+[PASS] Cài đặt production-file-with-override chỉ sinh Prisma, bỏ qua schema và seed
+[PASS] Cài đặt non-loopback chỉ sinh Prisma, bỏ qua schema và seed
+[PASS] Cài đặt host-override chỉ sinh Prisma, bỏ qua schema và seed
+[PASS] Cài đặt unmarked chỉ sinh Prisma, bỏ qua schema và seed
+[PASS] Cổng TCP không phản hồi cho phép hoàn tất với lưu ý và không đồng bộ
+[PASS] Cơ chế khóa từ chối cài đặt thứ hai khi lệnh đầu tiên đang chạy
+📊 KẾT QUẢ: 19/19 KIỂM THỬ ĐẠT (100% THÀNH CÔNG)
+exit=0

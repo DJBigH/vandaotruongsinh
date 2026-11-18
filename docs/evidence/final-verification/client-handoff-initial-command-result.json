@@ -1,0 +1,26 @@
+{
+  "cwd": "/workspace/scratch/c5685e889d73/vandaotruongsinh/server",
+  "command": [
+    "node",
+    "/workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs",
+    "/workspace/scratch/c5685e889d73/vandaotruongsinh/server",
+    "env",
+    "NODE_ENV=test",
+    "VANDAO_EXPECTED_BACKEND_COMMIT=3ac3fe5ed078347145b0199cd136c9a6c05939fa",
+    "VANDAO_PLAYWRIGHT_MODULE=/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.js",
+    "VANDAO_CHROMIUM_MODULE=/workspace/scratch/c5685e889d73/runtime_tools/node_modules/@sparticuz/chromium/build/index.js",
+    "PLAYWRIGHT_BROWSERS_PATH=/workspace/scratch/c5685e889d73/runtime_tools/browser-cache",
+    "node",
+    "--import",
+    "tsx",
+    "../scratch/run-final-smoke.mjs"
+  ],
+  "sourceCommit": "3ac3fe5ed078347145b0199cd136c9a6c05939fa",
+  "startedAt": "2026-11-18T09:32:27.243290+00:00",
+  "endedAt": "2026-11-18T09:32:38.404547+00:00",
+  "exitCode": 1,
+  "outputFile": "client-handoff-initial-command.txt",
+  "outputBytes": 385,
+  "outputSha256": "2e986debd51a9007c5b3d0a5ba90bcb26a783915195bd9e2e9cb98fc621a87a7",
+  "recordOrigin": "Direct subprocess result of the shared local test queue runner."
+}

@@ -1,0 +1,50 @@
+{
+  "sourceVideo": "/workspace/scratch/c5685e889d73/vandaotruongsinh/docs/evidence/playthrough-m1/video/page@ab996103ee7fbf58d212091cd3c44b81.webm",
+  "sourceSession": "1794984413337-8931347457e1",
+  "segments": [
+    {
+      "sourceStartSeconds": 78,
+      "durationSeconds": 22,
+      "caption": "Kiếm Tu: bốn hướng, đánh, né, thi triển"
+    },
+    {
+      "sourceStartSeconds": 147,
+      "durationSeconds": 9,
+      "caption": "Cổng phía bắc và bố trí Thanh Khê"
+    },
+    {
+      "sourceStartSeconds": 287,
+      "durationSeconds": 26,
+      "caption": "Chiến đấu bằng chuột và bàn phím thật"
+    },
+    {
+      "sourceStartSeconds": 313,
+      "durationSeconds": 16,
+      "caption": "Trúng đòn, chết và hồi sinh"
+    },
+    {
+      "sourceStartSeconds": 449,
+      "durationSeconds": 12,
+      "caption": "Khám phá rương trong rừng"
+    }
+  ],
+  "speed": 1,
+  "audio": "Source recording has no audio track; no replacement audio added",
+  "output": "../runtime-demo.mp4",
+  "ffprobe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1366,
+        "height": 768,
+        "r_frame_rate": "25/1"
+      }
+    ],
+    "format": {
+      "duration": "85.000000",
+      "size": "13969043"
+    }
+  }
+}

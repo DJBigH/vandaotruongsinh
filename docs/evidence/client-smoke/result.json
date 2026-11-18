@@ -1,0 +1,13 @@
+{
+  "commit": "c371be587e629e51e3297d6bbade1d251af438f2",
+  "startedAt": "2026-11-18T05:42:16.124Z",
+  "durationMs": 32482,
+  "browser": "153.0.8010.0",
+  "checks": [],
+  "failure": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: /Đăng Ký/ })\u001b[22m\n\n    at /workspace/scratch/c5685e889d73/vandaotruongsinh/scripts/verification/browser-smoke.mjs:50:51",
+  "errors": [],
+  "sockets": 0,
+  "ticks": 0,
+  "actions": {},
+  "finalScene": null
+}

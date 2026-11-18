@@ -1,0 +1,5 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/server
+npm run build
+> vandao-truong-sinh-server@1.0.0 build
+> tsc
+exit=0

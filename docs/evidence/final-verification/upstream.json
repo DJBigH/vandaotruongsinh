@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-11-18 08:46:16 UTC",
+  "repository": "DJBigH/vandaotruongsinh",
+  "requestedBranch": "version-1",
+  "baseCommit": "e36a57bf83bded68d22a19818c5ca89cc2014cb1",
+  "permissions": {
+    "admin": false,
+    "maintain": false,
+    "pull": true,
+    "push": false,
+    "triage": false
+  },
+  "comparison": {
+    "status": "identical",
+    "ahead_by": 0,
+    "behind_by": 0,
+    "total_commits": 0
+  },
+  "remoteWritesPerformed": false
+}

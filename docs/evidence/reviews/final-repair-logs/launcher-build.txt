@@ -1,0 +1,10 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/desktop-launcher
+npm run build
+> desktop-launcher@1.0.0 build
+> npm run build:renderer && npm run build:main
+> desktop-launcher@1.0.0 build:renderer
+> vite build
+✓ built in 419ms
+> desktop-launcher@1.0.0 build:main
+> tsc -p tsconfig.node.json
+exit=0

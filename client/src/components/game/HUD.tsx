@@ -7,8 +7,11 @@ import { useGameStore } from '../../stores/gameStore';
 import { useAuthStore } from '../../stores/authStore';
 import { useNavigate } from 'react-router-dom';
 import { AccountRole } from '@shared/index';
+import type { Cooldowns } from '../../game/exploration/actions';
 import { eventBridge } from '../../game/EventBridge';
-import CharacterSlotsModal from './CharacterSlotsModal';
+type Vitals = { hp: number; maxHp: number; mp: number; maxMp: number };
+
+const emptyCooldowns: Cooldowns = { dodgeRemainingSec: 0, attackRemainingSec: 0, skillsRemainingSec: [] };
 
 export default function HUD() {
   const navigate = useNavigate();
@@ -19,52 +22,55 @@ export default function HUD() {
     activeQuestId,
     activePanel,
     setActivePanel,
+    setCharacterSlotsOpen,
     notifications,
   } = useGameStore();
 
-  const [showSlotsModal, setShowSlotsModal] = useState(false);
   const [menuCollapsed, setMenuCollapsed] = useState(false);
-  const [realtimeHp, setRealtimeHp] = useState<number | null>(null);
-  const [realtimeMp, setRealtimeMp] = useState<number | null>(null);
-  const [cooldowns, setCooldowns] = useState<{
-    dodgeRemainingSec: number;
-    attackRemainingSec: number;
-    skillsRemainingSec: number[];
-  }>({
-    dodgeRemainingSec: 0,
-    attackRemainingSec: 0,
-    skillsRemainingSec: [0, 0, 0, 0],
-  });
+  const [vitals, setVitals] = useState<Vitals | null>(null);
+  const [cooldowns, setCooldowns] = useState<Cooldowns>(emptyCooldowns);
+  const [prompt, setPrompt] = useState('');
+  const [debug, setDebug] = useState('');
+  const [worldStatus, setWorldStatus] = useState('');
 
   useEffect(() => {
-    const handleHpMp = (data: { hp: number; maxHp: number; mp: number; maxMp: number }) => {
-      setRealtimeHp(data.hp);
-      setRealtimeMp(data.mp);
+    const handleHpMp = (data: Vitals | null) => {
+      setVitals(previous => (previous && data && previous.hp === data.hp && previous.mp === data.mp &&
+        previous.maxHp === data.maxHp && previous.maxMp === data.maxMp) ? previous : data);
     };
-
-    const handleCds = (cds: any) => {
-      setCooldowns(cds);
+    const handleCds = (data: Cooldowns | null) => {
+      const next = data ?? emptyCooldowns;
+      setCooldowns(previous => previous.dodgeRemainingSec === next.dodgeRemainingSec &&
+        previous.attackRemainingSec === next.attackRemainingSec &&
+        previous.skillsRemainingSec.length === next.skillsRemainingSec.length &&
+        previous.skillsRemainingSec.every((value, i) => value === next.skillsRemainingSec[i]) ? previous : next);
     };
 
     eventBridge.on('playerHpMpUpdate', handleHpMp);
     eventBridge.on('cooldownsUpdate', handleCds);
+    eventBridge.on('worldPromptUpdate', setPrompt);
+    eventBridge.on('worldDebugUpdate', setDebug);
+    eventBridge.on('worldStatusUpdate', setWorldStatus);
 
     return () => {
       eventBridge.off('playerHpMpUpdate', handleHpMp);
       eventBridge.off('cooldownsUpdate', handleCds);
+      eventBridge.off('worldPromptUpdate', setPrompt);
+      eventBridge.off('worldDebugUpdate', setDebug);
+      eventBridge.off('worldStatusUpdate', setWorldStatus);
     };
   }, []);
 
   const isStaff = user?.role === AccountRole.OWNER || user?.role === AccountRole.GAME_MASTER || user?.role === AccountRole.CONTENT_EDITOR;
   const activeQuest = quests.find((q) => q.id === activeQuestId) || quests.find((q) => q.status === 'ACTIVE');
 
-  const curHp = realtimeHp ?? character?.stats.hp ?? 100;
-  const maxHp = character?.stats.maxHp ?? 100;
-  const curMp = realtimeMp ?? character?.stats.mp ?? 100;
-  const maxMp = character?.stats.maxMp ?? 100;
+  const curHp = vitals?.hp ?? character?.stats.hp ?? 100;
+  const maxHp = vitals?.maxHp ?? character?.stats.maxHp ?? 100;
+  const curMp = vitals?.mp ?? character?.stats.mp ?? 100;
+  const maxMp = vitals?.maxMp ?? character?.stats.maxMp ?? 100;
 
-  const hpRatio = (curHp / maxHp) * 100;
-  const mpRatio = (curMp / maxMp) * 100;
+  const hpRatio = maxHp > 0 ? (curHp / maxHp) * 100 : 0;
+  const mpRatio = maxMp > 0 ? (curMp / maxMp) * 100 : 0;
 
   return (
     <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, overflow: 'hidden' }}>
@@ -142,7 +148,7 @@ export default function HUD() {
 
         {/* 3 Character Slots Modal Trigger */}
         <button
-          onClick={() => setShowSlotsModal(true)}
+          onClick={() => setCharacterSlotsOpen(true)}
           title="Quản lý và chuyển đổi 3 Đạo Thân (Nhân vật)"
           style={{
             background: 'linear-gradient(135deg, #1e3a8a, #2563eb)',
@@ -309,35 +315,31 @@ export default function HUD() {
           )}
         </div>
 
-        {/* Skills 1, 2, 3, 4 */}
-        {[
-          { num: 1, name: 'Thanh Phong Kiếm Khí', icon: '🗡️', mp: 10 },
-          { num: 2, name: 'Huyền Thiên Nhất Kiếm', icon: '🌀', mp: 20 },
-          { num: 3, name: 'Hộ Thể Kiếm Cương', icon: '🛡️', mp: 25 },
-          { num: 4, name: 'Vạn Kiếm Quy Tông', icon: '✨', mp: 40 },
-        ].map((sk, idx) => {
-          const cd = cooldowns.skillsRemainingSec[idx] ?? 0;
-          const notEnoughMp = curMp < sk.mp;
+        {[1, 2, 3, 4].map(num => {
+          const cooldown = cooldowns.skillsRemainingSec[num - 1];
+          const learned = cooldown !== undefined;
+          const cd = cooldown ?? 0;
+          const label = learned ? `Kỹ năng ${num}` : `Ô kỹ năng ${num} · Chưa học`;
           return (
             <div
-              key={sk.num}
-              title={`${sk.name} [Phím ${sk.num}] - Tiêu hao: ${sk.mp} Linh Lực`}
+              key={num}
+              title={label}
               style={{
                 position: 'relative',
                 width: '46px',
                 height: '46px',
-                background: cd > 0 ? '#334155' : notEnoughMp ? '#1e1b4b' : '#0f172a',
-                border: cd > 0 ? '1px solid #475569' : notEnoughMp ? '1px dashed #6366f1' : '1px solid #38bdf8',
+                background: cd > 0 ? '#334155' : '#0f172a',
+                border: learned && cd === 0 ? '1px solid #38bdf8' : '1px solid #475569',
                 borderRadius: '8px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                opacity: notEnoughMp && cd === 0 ? 0.75 : 1,
+                opacity: learned ? 1 : 0.55,
               }}
             >
-              <span style={{ fontSize: '1.1rem' }}>{sk.icon}</span>
-              <span style={{ fontSize: '0.65rem', color: notEnoughMp ? '#94a3b8' : '#7dd3fc', fontWeight: 'bold' }}>[{sk.num}]</span>
+              <span style={{ fontSize: '1.1rem' }}>{learned ? '✦' : '–'}</span>
+              <span style={{ fontSize: '0.65rem', color: learned ? '#7dd3fc' : '#94a3b8', fontWeight: 'bold' }}>[{num}]</span>
               {cd > 0 && (
                 <div style={{
                   position: 'absolute',
@@ -373,7 +375,9 @@ export default function HUD() {
       }}>
         {/* Toggle Collapse/Expand Button */}
         <button
-          onClick={() => setMenuCollapsed(!menuCollapsed)}
+          onClick={() => setMenuCollapsed(collapsed => !collapsed)}
+          aria-expanded={!menuCollapsed}
+          aria-controls="game-system-menu"
           style={{
             background: 'rgba(13, 19, 29, 0.92)',
             border: '1px solid #c5a059',
@@ -389,21 +393,24 @@ export default function HUD() {
             gap: '6px',
           }}
         >
-          <span>{menuCollapsed ? '📜 Mở Menu Hệ Thống (12)' : '🔽 Thu Gọn Menu'}</span>
+          <span>{menuCollapsed ? '📜 Mở Menu Hệ Thống' : '🔽 Thu Gọn Menu'}</span>
         </button>
 
         {/* Menu Items Container (Bố cục 4 cột gọn gàng, bề ngang chỉ 310px, hoàn toàn thoáng đãng) */}
         {!menuCollapsed && (
-          <div style={{
+          <div id="game-system-menu" style={{
             background: 'rgba(13, 19, 29, 0.94)',
             border: '1px solid #37474f',
             borderRadius: '12px',
             padding: '8px 10px',
             display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
+            gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
             gap: '6px',
             boxShadow: '0 4px 20px rgba(0,0,0,0.6)',
-            width: '310px',
+            width: '344px',
+            maxWidth: 'calc(100vw - 32px)',
+            maxHeight: 'min(200px, calc(100vh - 130px))',
+            overflowY: 'auto',
           }}>
             {[
               { key: 'inventory', label: '🎒 Túi' },
@@ -426,12 +433,12 @@ export default function HUD() {
                   background: activePanel === btn.key ? '#c5a059' : '#1e293b',
                   color: activePanel === btn.key ? '#000' : '#cfd8dc',
                   border: '1px solid #334155',
-                  padding: '6px 10px',
+                  padding: '6px 4px',
                   borderRadius: '8px',
                   cursor: 'pointer',
                   fontWeight: 600,
                   fontSize: '0.78rem',
-                  whiteSpace: 'nowrap',
+                  minWidth: 0,
                   transition: 'all 0.15s',
                 }}
               >
@@ -442,9 +449,32 @@ export default function HUD() {
         )}
       </div>
 
-      {/* 3 Character Slots Modal */}
-      {showSlotsModal && (
-        <CharacterSlotsModal onClose={() => setShowSlotsModal(false)} />
+      {prompt && (
+        <div role="status" style={{
+          position: 'absolute', bottom: 88, left: '50%', transform: 'translateX(-50%)',
+          maxWidth: 'calc(100vw - 32px)', padding: '8px 16px', borderRadius: 8,
+          color: '#ffd700', background: 'rgba(15, 23, 42, 0.9)', textAlign: 'center', fontSize: '0.9rem',
+        }}>
+          {prompt}
+        </div>
+      )}
+
+      {debug && (
+        <div style={{
+          position: 'absolute', top: 136, left: 16, padding: '4px 8px', borderRadius: 4,
+          color: '#38bdf8', background: 'rgba(15, 23, 42, 0.75)', font: '12px monospace',
+        }}>
+          {debug}
+        </div>
+      )}
+
+      {worldStatus && (
+        <div role="status" style={{
+          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+          background: 'rgba(15, 23, 42, 0.9)', color: '#e2e8f0', padding: '12px 20px', borderRadius: 8,
+        }}>
+          {worldStatus}
+        </div>
       )}
     </div>
   );

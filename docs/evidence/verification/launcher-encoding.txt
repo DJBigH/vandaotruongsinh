@@ -1,0 +1,46 @@
+========================================================================
+ 🌸 KIỂM THỬ HỒI QUY: MÃ HÓA TIẾNG VIỆT & TÀI NGUYÊN ICON TU TIÊN
+========================================================================
+
+1. KIỂM THỬ TÀI NGUYÊN ICON TU TIÊN:
+  ✓ [PASS] Tồn tại ảnh nguồn icon-1024.png
+  ✓ [PASS] icon-1024.png có dung lượng độ phân giải cao thực tế
+  ✓ [PASS] Tồn tại tệp icon.ico
+  ✓ [PASS] ICO header: idReserved = 0
+  ✓ [PASS] ICO header: idType = 1 (Chuẩn Microsoft ICO)
+  ✓ [PASS] ICO chứa đúng 7 kích thước phân giải (Thực tế: 7)
+  ✓ [PASS] Đủ 7 kích thước chuẩn Windows: 16, 24, 32, 48, 64, 128, 256 px
+  ✓ [PASS] Tồn tại biểu tượng khay hệ thống tray-icon.png
+  ✓ [PASS] Tồn tại mã nguồn vector nguyên bản icon.svg
+  ✓ [PASS] Tồn tại favicon.ico trong client web
+  ✓ [PASS] Tồn tại favicon.svg vector trong client web
+
+2. KIỂM THỬ BẢO VỆ TIẾNG VIỆT KHI STREAM BỊ XÉ RÁCH BYTE (STRINGDECODER):
+  ✓ [PASS] Stream cắt theo khối 1 byte: Tiếng Việt 100% nguyên vẹn
+  ✓ [PASS] Stream cắt theo khối 2 byte: Tiếng Việt 100% nguyên vẹn
+  ✓ [PASS] Stream cắt theo khối 3 byte: Tiếng Việt 100% nguyên vẹn
+  ✓ [PASS] Stream cắt theo khối 5 byte: Tiếng Việt 100% nguyên vẹn
+  ✓ [PASS] Stream cắt theo khối 7 byte: Tiếng Việt 100% nguyên vẹn
+  ✓ [PASS] Stream cắt theo khối 11 byte: Tiếng Việt 100% nguyên vẹn
+
+3. KIỂM THỬ KHÔNG BỊ MÃ HÓA LẶP (IDEMPOTENT SANITIZATION):
+  ✓ [PASS] Lần 1: Chuỗi tiếng Việt chuẩn không bị thay đổi
+  ✓ [PASS] Lần 2: Chuỗi qua sanitize lặp lại vẫn giữ nguyên 100%
+  ✓ [PASS] Lần 3: Đảm bảo tính ổn định tuyệt đối (Idempotent)
+
+4. KIỂM THỬ FILE XUẤT CHO AI (UTF-8 CHUẨN, KHÔNG MOJIBAKE):
+  ✓ [PASS] Xuất file TXT thành công
+  ✓ [PASS] File TXT chuẩn UTF-8 không BOM
+  ✓ [PASS] File TXT chứa chính xác "Vạn Đạo Trường Sinh"
+  ✓ [PASS] File TXT chứa chính xác các mẫu kiểm thử tu luyện
+  ✓ [PASS] File TXT chứa chính xác họ tên Nguyễn Đặng
+  ✓ [PASS] File TXT hoàn toàn không chứa ký tự mojibake hay U+FFFD
+  ✓ [PASS] Xuất gói ZIP thành công
+  ✓ [PASS] events.jsonl chuẩn JSON Lines không BOM
+  ✓ [PASS] events.jsonl parse JSON hợp lệ từng dòng
+  ✓ [PASS] events.jsonl bảo tồn nguyên vẹn chuỗi tiếng Việt
+
+========================================================================
+ 📊 KẾT QUẢ: 30/30 KIỂM THỬ ĐẠT (100% THÀNH CÔNG)
+========================================================================
+

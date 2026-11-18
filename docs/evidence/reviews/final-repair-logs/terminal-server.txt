@@ -1,0 +1,60 @@
+cwd /workspace/scratch/c5685e889d73/vandaotruongsinh/server
+node /workspace/scratch/c5685e889d73/runtime_tools/run-in-stack.mjs /workspace/scratch/c5685e889d73/vandaotruongsinh/server env NODE_ENV=test node --env-file=../.env --import tsx --test src/tests/world-session-routes-test.ts
+✔ backend health publishes the launcher game identity (103.753804ms)
+✔ position route rejects coordinate writes and saves only live server movement (215.606764ms)
+✔ a replacement socket owns snapshots and can resume using valid input (55.504208ms)
+✔ HTTP teleport rebuilds the active map and old socket close cannot restore the prior position (54.339495ms)
+✔ retrying a teleport preserves the active destination position and encounter (39.813626ms)
+✔ chest interaction checks live position and only one simultaneous request rewards the player (85.293627ms)
+✔ a failed chest quest update rolls back the chest claim and reward (112.506008ms)
+✔ main quests appear and accept only after turning in their predecessor (171.940655ms)
+✔ nearby elder dialogue advances TALK from live coordinates (58.387093ms)
+✔ reading the elder dialogue from far away cannot credit TALK (40.131152ms)
+✔ matching coordinates on the wrong map cannot credit elder TALK (38.225659ms)
+✔ substituting an elder NPC id into a different dialogue cannot credit TALK (83.375512ms)
+✔ committed monster drops contribute their actual quantity to COLLECT objectives (23.429222ms)
+✔ a rejected monster reward transaction emits no REWARDS message (31.764598ms)
+✔ equipment updates active combat stats without refilling resources or reloading the map (53.81337ms)
+✔ HTTP potions restore live HP and MP without using saved resources or resetting the session (147.769621ms)
+✔ simultaneous uses of a one-item stack apply exactly one live effect (75.743676ms)
+✔ an overlapping full-stack sale cannot sell the unit a potion use already committed (149.443688ms)
+✔ a real consumable transaction rollback preserves the stack and live resource (47.354511ms)
+✔ a dead live actor may not use a restoration potion (39.583724ms)
+✔ offline consumables still update persisted stats and cultivation (83.360183ms)
+✔ WebSocket item use follows the template effect and consumes only one matching stack (72.691586ms)
+✔ equip computes stats from realm committed while waiting for the character lock (78.226738ms)
+✔ unequip computes stats from realm committed while waiting for the character lock (52.293958ms)
+✔ breakthrough checks and updates the active second slot (79.42718ms)
+✔ SWORD learns its third skill at Luyện Khí Đại Viên Mãn (60.392226ms)
+✔ SPELL learns its third skill at Luyện Khí Đại Viên Mãn (55.779492ms)
+✔ BODY learns its third skill at Luyện Khí Đại Viên Mãn (67.791185ms)
+✔ slot create hands off the active session and saves its last position (112.066531ms)
+✔ slot switch hands off the active session and saves its last position (51.140656ms)
+✔ a slot switch orders an authentication already reading the prior character (47.522943ms)
+✔ shrine restores authoritative HP and MP to current equipped maxima (106.762648ms)
+✔ offline shrine uses locked saved stats and preserves unrelated fields (47.812553ms)
+✔ breakthrough retry targets its original character and starting stage (131.649259ms)
+✔ potion orders a lethal tick and later dodge across before reservation (48.505789ms)
+✔ potion orders a lethal tick and later dodge across next life (51.029591ms)
+✔ potion orders a lethal tick and later dodge across commit (31.711903ms)
+✔ potion orders a lethal tick and later dodge across rollback (27.366948ms)
+✔ an earned kill settling across handover credits only the prior slot (49.032444ms)
+✖ displaced scene stays retired after retry and focus, transport lost = false (3291.877297ms)
+✖ displaced scene stays retired after retry and focus, transport lost = true (30.7848ms)
+✔ a transient disconnect reacquires the same viewed character after the retry interval (3082.645064ms)
+ℹ tests 42
+ℹ suites 0
+ℹ pass 40
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10703.846014
+✖ failing tests:
+✖ displaced scene stays retired after retry and focus, transport lost = false (3291.877297ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  7 !== 1
+✖ displaced scene stays retired after retry and focus, transport lost = true (30.7848ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  7 !== 1
+exit=1

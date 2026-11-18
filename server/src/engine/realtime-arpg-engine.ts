@@ -14,14 +14,82 @@ import {
   WsServerMessage,
   DEFAULT_DODGE_CONFIG,
   SkillTargetType,
+  isWorldPositionWalkable,
+  resolveWorldMovement,
+  type MapData,
 } from '@shared';
+import { isWorldPathWalkable } from '@shared/world-collision';
+import type { Character, InventoryItem, Prisma } from '@prisma/client';
 import { MAP_TEMPLATES } from '../data/maps';
 import { MONSTER_TEMPLATES, MonsterTemplate } from '../data/monsters';
 import { BOSS_TEMPLATES, BossTemplate } from '../data/bosses';
 import { SKILL_TEMPLATES, getSkillRealtimeData } from '../data/skills';
 import { computeCharacterStats } from '../modules/character/stats';
 import { prisma } from '../index';
-import { updateQuestProgress } from '../modules/quest/quest-engine';
+import { updateQuestProgressBatch } from '../modules/quest/quest-engine';
+
+interface SessionCharacter {
+  id: string;
+  name: string;
+  cultivationPath: string;
+  realmIndex: number;
+  realmTier: number;
+  currentMapId?: string;
+  positionX?: number;
+  positionY?: number;
+  inventory?: { templateId: string; isEquipped: boolean }[];
+  skills?: { skillId: string; isEquipped: boolean }[];
+}
+
+function getMapTemplate(mapId: string) {
+  return Object.hasOwn(MAP_TEMPLATES, mapId) ? MAP_TEMPLATES[mapId] : MAP_TEMPLATES.map_thanh_khe;
+}
+
+function getMapSpawn(map: MapData) {
+  const { tileSize, spawnPoint } = map;
+  const spawn = { x: spawnPoint.x * tileSize, y: spawnPoint.y * tileSize };
+  if (isWorldPositionWalkable(map, spawn)) return spawn;
+
+  let safePosition: { x: number; y: number } | undefined;
+  let bestDistance = Infinity;
+  for (let y = tileSize / 2; y < map.height * tileSize; y += tileSize) {
+    for (let x = tileSize / 2; x < map.width * tileSize; x += tileSize) {
+      const distance = Math.hypot(x - spawn.x, y - spawn.y);
+      if (distance < bestDistance && isWorldPositionWalkable(map, { x, y })) {
+        safePosition = { x, y };
+        bestDistance = distance;
+      }
+    }
+  }
+  if (!safePosition) throw new Error(`No walkable spawn in ${map.id}`);
+  return safePosition;
+}
+
+function selectSpawn(map: MapData, position?: { x: number; y: number }) {
+  return position && isWorldPositionWalkable(map, position) ? position : getMapSpawn(map);
+}
+
+function getSavedPosition(character: SessionCharacter, map: MapData) {
+  const { currentMapId, positionX, positionY } = character;
+  if (currentMapId === map.id && positionX !== undefined && positionY !== undefined) {
+    return { x: positionX, y: positionY };
+  }
+}
+
+function getCombatConfiguration(character: SessionCharacter) {
+  const path = character.cultivationPath as CultivationPath;
+  const stats = computeCharacterStats(
+    path, character.realmIndex, character.realmTier,
+    character.inventory?.filter((item) => item.isEquipped) ?? [],
+  );
+  const skills = character.skills?.filter((skill) => skill.isEquipped).map((skill) => skill.skillId) ?? [];
+  if (skills.length === 0) {
+    if (path === CultivationPath.SWORD) skills.push('skill_sword_01');
+    else if (path === CultivationPath.SPELL) skills.push('skill_spell_01');
+    else skills.push('skill_body_01');
+  }
+  return { path, stats, skills: skills.slice(0, 4) };
+}
 
 export interface ArpgMonsterEntity {
   id: string;
@@ -111,6 +179,10 @@ export interface ArpgPlayerState {
   lastHeartbeat: number;
 }
 
+export class RestorationConflict extends Error {
+  constructor() { super('Không thể hồi phục khi phiên chơi hoặc sinh mệnh đã thay đổi'); }
+}
+
 export class ArpgGameSession {
   public characterId: string;
   public mapId: string;
@@ -128,47 +200,31 @@ export class ArpgGameSession {
   // Simultaneous death tracking and reward queuing per tick
   public pendingKillsInTick: ArpgMonsterEntity[] = [];
   public playerDiedInTick: boolean = false;
+  public lifeSequence = 0;
+  private pendingCombatSteps?: Array<() => void>;
+  private revival?: { at: number; finish: () => void };
   public lastKillerName: string = 'Địch thủ';
   public lastInputTime: number = Date.now();
 
   // Callback to broadcast to the player's WebSocket
   public sendSnapshotCallback: ((msg: WsServerMessage) => void) | null = null;
 
-  constructor(character: any, mapId: string = 'map_thanh_khe_rung') {
+  constructor(character: SessionCharacter | null, mapId = character?.currentMapId ?? 'map_thanh_khe_rung') {
+    if (!character) throw new Error('A character is required to open an ARPG session');
     this.characterId = character.id;
-    this.mapId = mapId;
-
-    // 1. Calculate effective stats
-    const equippedItems = character.inventory?.filter((i: any) => i.isEquipped).map((i: any) => ({ templateId: i.templateId })) || [];
-    const stats = computeCharacterStats(
-      character.cultivationPath as CultivationPath,
-      character.realmIndex,
-      character.realmTier,
-      equippedItems
-    );
-
-    // 2. Equipped skills
-    const equippedSkills = character.skills?.filter((s: any) => s.isEquipped).map((s: any) => s.skillId) || [];
-    if (equippedSkills.length === 0) {
-      if (character.cultivationPath === CultivationPath.SWORD) equippedSkills.push('skill_sword_01');
-      else if (character.cultivationPath === CultivationPath.SPELL) equippedSkills.push('skill_spell_01');
-      else equippedSkills.push('skill_body_01');
-    }
-
-    // 3. Spawn Coordinates from map
-    const map = MAP_TEMPLATES[mapId] || MAP_TEMPLATES['map_thanh_khe'];
-    const spawnX = (map.spawnPoint?.x ?? 3) * map.tileSize;
-    const spawnY = (map.spawnPoint?.y ?? 3) * map.tileSize;
+    const map = getMapTemplate(mapId);
+    this.mapId = map.id;
+    const { path, stats, skills } = getCombatConfiguration(character);
+    const position = selectSpawn(map, getSavedPosition(character, map));
 
     this.player = {
       id: character.id,
       characterId: character.id,
       name: character.name,
-      cultivationPath: character.cultivationPath as CultivationPath,
+      cultivationPath: path,
       realmIndex: character.realmIndex,
       realmTier: character.realmTier,
-      x: spawnX,
-      y: spawnY,
+      ...position,
       vx: 0,
       vy: 0,
       facingAngle: 0,
@@ -184,15 +240,88 @@ export class ArpgGameSession {
       lastDodgeTime: 0,
       lastAttackTime: 0,
       skillCooldowns: new Map(),
-      equippedSkillIds: equippedSkills.slice(0, 4),
+      equippedSkillIds: skills,
       lastHeartbeat: Date.now(),
     };
 
-    // 4. Initialize monsters from map
     this.initMonstersForMap(map);
   }
 
-  private initMonstersForMap(map: any) {
+  public transitionToMap(map: MapData, position?: { x: number; y: number }) {
+    const spawn = selectSpawn(map, position);
+    this.mapId = map.id;
+    Object.assign(this.player, spawn, {
+      vx: 0, vy: 0,
+      state: this.player.hp > 0 ? 'IDLE' : 'DEAD',
+      isInvulnerable: false,
+      dodgeEndTime: 0,
+      dodgeIframeEndTime: 0,
+    });
+    this.projectiles = [];
+    this.telegraphs = [];
+    this.floatingTexts = [];
+    this.pendingKillsInTick = [];
+    this.playerDiedInTick = false;
+    this.initMonstersForMap(map);
+  }
+
+  public refreshStats(stats: CharacterStats) {
+    const player = this.player;
+    if (player.hp > 0) player.hp = Math.max(1, Math.floor(player.hp * stats.maxHp / player.maxHp));
+    player.mp = Math.floor(player.mp * stats.maxMp / player.maxMp);
+    player.maxHp = stats.maxHp;
+    player.maxMp = stats.maxMp;
+    player.stats = stats;
+  }
+
+  public canRestoreResources(): boolean {
+    return !this.isTerminated && this.player.hp > 0 && this.player.state !== 'DEAD';
+  }
+
+  // Reserve only at the end of the transaction, after row waits and writes. Simulation
+  // arriving during commit acknowledgement is replayed in receipt order on either outcome.
+  public reserveRestoration(life: number | undefined, restore: () => void): (committed: boolean) => void {
+    if (life !== this.lifeSequence || !this.canRestoreResources()) throw new RestorationConflict();
+    const steps: Array<() => void> = [];
+    this.pendingCombatSteps = steps;
+    return (committed) => {
+      this.pendingCombatSteps = undefined;
+      if (committed) restore();
+      for (const step of steps) step();
+    };
+  }
+
+  public refreshCharacter(character: SessionCharacter) {
+    const { path, stats, skills } = getCombatConfiguration(character);
+    this.refreshStats(stats);
+    this.player.name = character.name;
+    this.player.cultivationPath = path;
+    this.player.realmIndex = character.realmIndex;
+    this.player.realmTier = character.realmTier;
+    this.player.equippedSkillIds = skills;
+  }
+
+  public receiveHeartbeat(now = Date.now()) {
+    if (this.pendingCombatSteps) {
+      this.pendingCombatSteps.push(() => this.receiveHeartbeat(now));
+      return;
+    }
+    this.player.lastHeartbeat = now;
+    this.isPaused = false;
+  }
+
+  public pause() {
+    if (this.pendingCombatSteps) {
+      this.pendingCombatSteps.push(() => this.pause());
+      return;
+    }
+    this.isPaused = true;
+    this.player.vx = 0;
+    this.player.vy = 0;
+    if (this.player.state === 'MOVING') this.player.state = 'IDLE';
+  }
+
+  private initMonstersForMap(map: MapData) {
     this.monsters = [];
     if (!map.monsters || map.monsters.length === 0) return;
 
@@ -234,15 +363,22 @@ export class ArpgGameSession {
   }
 
   // --- Input Processing ---
-  public handleInput(input: PlayerInputPayload) {
-    if (this.isPaused || this.player.hp <= 0) return;
-    const now = Date.now();
+  public handleInput(input: PlayerInputPayload, now = Date.now()) {
+    if (this.pendingCombatSteps) {
+      this.pendingCombatSteps.push(() => this.handleInput(input, now));
+      return;
+    }
+    this.reviveIfDue(now);
+    if (this.isTerminated || !Number.isFinite(input.moveX) ||
+        !Number.isFinite(input.moveY) || !Number.isFinite(input.angle)) return;
+    this.receiveHeartbeat(now);
+    if (this.player.hp <= 0) return;
     this.lastInputTime = now;
 
     // 1. Angle & Facing
-    if (typeof input.angle === 'number') {
-      this.player.facingAngle = input.angle;
-    }
+    this.player.facingAngle = Math.abs(input.angle) <= Math.PI
+      ? input.angle
+      : Math.atan2(Math.sin(input.angle), Math.cos(input.angle));
 
     // 2. Movement (unless dodging or in attack windup)
     if (this.player.state !== 'DODGING') {
@@ -336,7 +472,7 @@ export class ArpgGameSession {
           let diff = Math.abs(angle - toMonsterAngle);
           while (diff > Math.PI) diff = Math.abs(diff - 2 * Math.PI);
           if (diff < Math.PI / 2.5) {
-            this.applyDamageToMonster(m, this.player.stats.atk, 1.0, false);
+            this.applyDamageToMonster(m, this.player.stats.atk, 1.0, false, now);
           }
         }
       }
@@ -384,32 +520,44 @@ export class ArpgGameSession {
       });
       this.addFloatingText(this.player.x, this.player.y - 25, template.name, '#ffd700');
     } else if (rt.targetType === SkillTargetType.AOE_TARGET) {
-      const tx = targetX ?? this.player.x + Math.cos(this.player.facingAngle) * rt.range;
-      const ty = targetY ?? this.player.y + Math.sin(this.player.facingAngle) * rt.range;
+      const { x, y, facingAngle } = this.player;
+      let tx = targetX !== undefined && Number.isFinite(targetX) ? targetX : x + Math.cos(facingAngle) * rt.range;
+      let ty = targetY !== undefined && Number.isFinite(targetY) ? targetY : y + Math.sin(facingAngle) * rt.range;
+      const dx = tx - x;
+      const dy = ty - y;
+      if (Math.hypot(dx, dy) > rt.range) {
+        // Scale first so even very large finite inputs retain their direction.
+        const scale = Math.max(Math.abs(dx), Math.abs(dy));
+        const nx = dx / scale;
+        const ny = dy / scale;
+        const length = Math.hypot(nx, ny);
+        tx = x + rt.range * nx / length;
+        ty = y + rt.range * ny / length;
+      }
       const radius = rt.radius || 90;
 
       for (const m of this.monsters) {
         if (m.state === 'DEAD') continue;
         if (Math.hypot(m.x - tx, m.y - ty) <= radius) {
-          this.applyDamageToMonster(m, dmg, 1.2, true);
+          this.applyDamageToMonster(m, dmg, 1.2, true, now);
         }
       }
       this.addFloatingText(tx, ty, `💥 ${template.name}`, '#ffaa33');
     } else if (rt.targetType === SkillTargetType.DASH_ATTACK) {
-      // Dash forward dealing damage
       const dashDist = rt.range || 150;
-      const nx = this.player.x + Math.cos(this.player.facingAngle) * dashDist;
-      const ny = this.player.y + Math.sin(this.player.facingAngle) * dashDist;
-      this.player.x = nx;
-      this.player.y = ny;
+      const landing = resolveWorldMovement(getMapTemplate(this.mapId), this.player, {
+        x: Math.cos(this.player.facingAngle) * dashDist,
+        y: Math.sin(this.player.facingAngle) * dashDist,
+      });
+      Object.assign(this.player, landing);
 
       for (const m of this.monsters) {
         if (m.state === 'DEAD') continue;
-        if (Math.hypot(m.x - nx, m.y - ny) <= (rt.radius || 60)) {
-          this.applyDamageToMonster(m, dmg, 1.3, true);
+        if (Math.hypot(m.x - landing.x, m.y - landing.y) <= (rt.radius || 60)) {
+          this.applyDamageToMonster(m, dmg, 1.3, true, now);
         }
       }
-      this.addFloatingText(nx, ny, `⚡ ${template.name}`, '#ff44ff');
+      this.addFloatingText(landing.x, landing.y, `⚡ ${template.name}`, '#ff44ff');
     } else if (rt.targetType === SkillTargetType.SELF) {
       // Buff
       this.player.hp = Math.min(this.player.maxHp, this.player.hp + Math.round(this.player.maxHp * 0.25));
@@ -419,7 +567,7 @@ export class ArpgGameSession {
       for (const m of this.monsters) {
         if (m.state === 'DEAD') continue;
         if (Math.hypot(m.x - this.player.x, m.y - this.player.y) <= rt.range) {
-          this.applyDamageToMonster(m, dmg, 1.0, false);
+          this.applyDamageToMonster(m, dmg, 1.0, false, now);
         }
       }
       this.addFloatingText(this.player.x, this.player.y - 25, template.name, '#ffff44');
@@ -427,7 +575,7 @@ export class ArpgGameSession {
   }
 
   // --- Damage Calculations ---
-  private applyDamageToMonster(monster: ArpgMonsterEntity, rawAtk: number, multiplier: number, isSkill: boolean) {
+  private applyDamageToMonster(monster: ArpgMonsterEntity, rawAtk: number, multiplier: number, isSkill: boolean, now = Date.now()) {
     const isCrit = Math.random() * 100 < this.player.stats.critRate;
     const critMult = isCrit ? (1 + this.player.stats.critDmg / 100) : 1;
     const effectiveAtk = rawAtk * multiplier * critMult;
@@ -442,16 +590,16 @@ export class ArpgGameSession {
       const phase2 = boss.phases?.[0];
       if (phase2 && monster.hp / monster.maxHp <= phase2.triggerHpPercent) {
         monster.currentPhase = 2;
-        monster.state = 'ENRAGED';
-        monster.atk = Math.round(monster.atk * 1.35);
-        monster.spd = Math.round(monster.spd * 1.25);
+        if (!monster.windupEndTime) monster.state = 'ENRAGED';
+        monster.atk = Math.round(boss.stats.atk * 1.35);
+        monster.spd = Math.round(boss.stats.spd * 1.25);
         this.addFloatingText(monster.x, monster.y - 40, `🔥 CUỒNG BẠO: ${phase2.dialogue}`, '#ff0000', true);
       }
     }
 
     if (monster.hp <= 0 && monster.state !== 'DEAD') {
       monster.state = 'DEAD';
-      monster.respawnAt = Date.now() + 25000;
+      monster.respawnAt = now + 25000;
       this.pendingKillsInTick.push(monster);
       this.addFloatingText(monster.x, monster.y - 30, '💀 BỊ TIÊU DIỆT!', '#ffdd44');
     }
@@ -465,6 +613,7 @@ export class ArpgGameSession {
     this.addFloatingText(this.player.x, this.player.y - 20, `-${damage}`, '#ff3333');
 
     if (this.player.hp <= 0) {
+      this.lifeSequence++;
       this.player.state = 'DEAD';
       this.player.vx = 0;
       this.player.vy = 0;
@@ -521,11 +670,14 @@ export class ArpgGameSession {
           }
         }
 
-        // Advance Quest Progress
-        await updateQuestProgress(tx as any, this.characterId, 'KILL', monster.templateId, 1);
+        await updateQuestProgressBatch(tx, this.characterId, [
+          { type: 'KILL', targetId: monster.templateId, amount: 1 },
+          ...itemsGained.map((item) => ({ type: 'COLLECT' as const, targetId: item.itemId, amount: item.quantity })),
+        ]);
       });
     } catch (err) {
       console.error('Lỗi khi quyết toán phần thưởng diệt quái:', err);
+      return;
     }
 
     // Notify player
@@ -542,34 +694,51 @@ export class ArpgGameSession {
     }
   }
 
-  private handlePlayerDeath(killerName: string) {
+  private resetBossEncounter(boss: ArpgMonsterEntity) {
+    Object.assign(boss, {
+      hp: boss.maxHp,
+      atk: boss.template.stats.atk,
+      spd: boss.template.stats.spd,
+      vx: 0,
+      vy: 0,
+      state: 'IDLE',
+      targetId: null,
+      lastAttackTime: 0,
+      windupEndTime: 0,
+      currentPhase: 1,
+      respawnAt: 0,
+    });
+    this.telegraphs = this.telegraphs.filter((warning) => warning.bossId !== boss.id);
+  }
+
+  private handlePlayerDeath(killerName: string, now: number) {
     this.player.state = 'DEAD';
     this.player.vx = 0;
     this.player.vy = 0;
 
-    // Check simultaneous death rule
-    // "Mặc định: nếu nhân vật chính và boss cùng chết trong một bước xử lý, trận tính thất bại và không cấp thưởng thắng boss."
-    const deadBoss = this.monsters.find(m => m.isBoss && m.hp <= 0 && m.state === 'DEAD');
-    if (deadBoss) {
-      this.addFloatingText(this.player.x, this.player.y - 45, 'CÙNG CHẾT! TRẬN ĐẤU THẤT BẠI!', '#ff0000', true);
+    // Retire warnings from the defeated attempt even if no ticks run before revival.
+    this.telegraphs = [];
+    for (const boss of this.monsters) {
+      if (!boss.isBoss) continue;
+      boss.windupEndTime = 0;
+      if (boss.state === 'WINDUP') boss.state = 'IDLE';
     }
 
     // Respawn player after 2 seconds at safe point
-    setTimeout(() => {
+    const defeatedMapMonsters = this.monsters;
+    const at = now + 2000;
+    const finish = () => {
+      if (this.isTerminated) return;
       this.player.hp = this.player.maxHp;
       this.player.mp = this.player.maxMp;
       this.player.state = 'IDLE';
 
-      const map = MAP_TEMPLATES[this.mapId] || MAP_TEMPLATES['map_thanh_khe'];
-      this.player.x = (map.spawnPoint?.x ?? 3) * map.tileSize;
-      this.player.y = (map.spawnPoint?.y ?? 3) * map.tileSize;
+      const map = getMapTemplate(this.mapId);
+      Object.assign(this.player, getMapSpawn(map));
 
-      // Reset any active boss
-      for (const m of this.monsters) {
-        if (m.isBoss) {
-          m.hp = m.maxHp;
-          m.state = 'IDLE';
-          m.currentPhase = 1;
+      if (this.monsters === defeatedMapMonsters) {
+        for (const m of this.monsters) {
+          if (m.isBoss && !m.hasBeenRewarded) this.resetBossEncounter(m);
         }
       }
 
@@ -580,13 +749,27 @@ export class ArpgGameSession {
           error: `Đạo thân trọng thương bởi ${killerName}! Đã hồi sinh tại điểm an toàn.`,
         });
       }
-    }, 2000);
+    };
+    this.revival = { at, finish };
+    setTimeout(() => this.reviveIfDue(at), Math.max(0, at - Date.now()));
+  }
+
+  private reviveIfDue(now: number) {
+    const revival = this.revival;
+    if (revival && now >= revival.at) {
+      this.revival = undefined;
+      revival.finish();
+    }
   }
 
   // --- Fixed Simulation Tick (50ms) ---
-  public tick(dt: number) {
+  public tick(dt: number, now = Date.now()) {
+    if (this.pendingCombatSteps) {
+      this.pendingCombatSteps.push(() => this.tick(dt, now));
+      return;
+    }
+    this.reviveIfDue(now);
     if (this.isPaused || this.isTerminated) return;
-    const now = Date.now();
     this.tickCount++;
 
     // 0. Tab switch / background sleep watchdog: stop moving if no client input for > 350ms
@@ -610,16 +793,13 @@ export class ArpgGameSession {
       this.player.isInvulnerable = false;
     }
 
-    // Move player
-    this.player.x += this.player.vx * dt;
-    this.player.y += this.player.vy * dt;
-
-    // Clamp to map bounds
-    const map = MAP_TEMPLATES[this.mapId] || { width: 30, height: 25, tileSize: 32 };
-    const maxX = (map.width - 1) * map.tileSize;
-    const maxY = (map.height - 1) * map.tileSize;
-    this.player.x = Math.max(map.tileSize, Math.min(maxX, this.player.x));
-    this.player.y = Math.max(map.tileSize, Math.min(maxY, this.player.y));
+    const map = getMapTemplate(this.mapId);
+    if (this.player.vx !== 0 || this.player.vy !== 0) {
+      Object.assign(this.player, resolveWorldMovement(map, this.player, {
+        x: this.player.vx * dt,
+        y: this.player.vy * dt,
+      }));
+    }
 
     // Passive MP regen (1% per second)
     if (this.tickCount % 20 === 0 && this.player.mp < this.player.maxMp) {
@@ -629,20 +809,19 @@ export class ArpgGameSession {
     // 2. Update Projectiles
     for (let i = this.projectiles.length - 1; i >= 0; i--) {
       const p = this.projectiles[i];
-      p.x += p.vx * dt;
-      p.y += p.vy * dt;
-
-      if (now >= p.expiresAt || p.x < 0 || p.x > maxX || p.y < 0 || p.y > maxY) {
+      const next = { x: p.x + p.vx * dt, y: p.y + p.vy * dt };
+      if (now >= p.expiresAt || !isWorldPathWalkable(map, p, next, p.radius)) {
         this.projectiles.splice(i, 1);
         continue;
       }
+      Object.assign(p, next);
 
       // Hit checks
       if (p.isPlayer) {
         for (const m of this.monsters) {
           if (m.state === 'DEAD' || p.piercedTargetIds.has(m.id)) continue;
           if (Math.hypot(m.x - p.x, m.y - p.y) <= p.radius + 18) {
-            this.applyDamageToMonster(m, p.damage, 1.0, true);
+            this.applyDamageToMonster(m, p.damage, 1.0, true, now);
             p.piercedTargetIds.add(m.id);
             if (p.type !== 'SKILL_BEAM' || p.piercedTargetIds.size >= 2) {
               this.projectiles.splice(i, 1);
@@ -659,17 +838,25 @@ export class ArpgGameSession {
       }
     }
 
-    // 3. Update Telegraphs (Red Warning AoE Zones)
+    // 3. Resolve boss attacks at their committed warning locations.
     for (let i = this.telegraphs.length - 1; i >= 0; i--) {
       const tg = this.telegraphs[i];
-      if (now >= tg.triggersAt) {
-        // Strike now!
-        const dist = Math.hypot(this.player.x - tg.x, this.player.y - tg.y);
-        const radius = tg.radius || 90;
-        if (dist <= radius) {
-          this.applyDamageToPlayer(tg.damage, 'Đòn Tuyệt Kỹ Báo Trước');
-        }
-        this.telegraphs.splice(i, 1);
+      if (now < tg.triggersAt) continue;
+      this.telegraphs.splice(i, 1);
+      const boss = this.monsters.find((monster) => monster.id === tg.bossId);
+      if (!boss || boss.windupEndTime !== tg.triggersAt ||
+          (boss.state === 'DEAD' && now >= boss.respawnAt)) continue;
+
+      boss.windupEndTime = 0;
+      if (boss.state !== 'DEAD') {
+        boss.state = 'ATTACK';
+        boss.lastAttackTime = now;
+      }
+
+      const dist = Math.hypot(this.player.x - tg.x, this.player.y - tg.y);
+      const radius = tg.radius || 90;
+      if (dist <= radius) {
+        this.applyDamageToPlayer(tg.damage, 'Đòn Tuyệt Kỹ Báo Trước');
       }
     }
 
@@ -682,9 +869,12 @@ export class ArpgGameSession {
           m.y = m.spawnY;
           m.state = 'IDLE';
           m.hasBeenRewarded = false;
+          if (m.isBoss) this.resetBossEncounter(m);
         }
         continue;
       }
+
+      if (m.isBoss && (m.windupEndTime > 0 || (m.state === 'ATTACK' && m.lastAttackTime === now))) continue;
 
       const distToPlayer = Math.hypot(this.player.x - m.x, this.player.y - m.y);
       const aggroRange = m.isBoss ? 350 : 200;
@@ -727,14 +917,12 @@ export class ArpgGameSession {
                 expiresAt: m.windupEndTime + 100,
               });
             }
-          } else if (m.state === 'WINDUP' && now >= m.windupEndTime) {
-            // Strike execution
+          } else if (!m.isBoss && m.state === 'WINDUP' && now >= m.windupEndTime) {
+            // Normal monster strike execution
             m.state = 'ATTACK';
             m.lastAttackTime = now;
-            if (!m.isBoss) {
-              if (distToPlayer <= attackRange + 15) {
-                this.applyDamageToPlayer(m.atk, m.name);
-              }
+            if (distToPlayer <= attackRange + 15) {
+              this.applyDamageToPlayer(m.atk, m.name);
             }
           }
         }
@@ -763,7 +951,7 @@ export class ArpgGameSession {
       // Khi người chơi chết, huỷ bỏ toàn bộ phần thưởng giết quái/boss chưa cam kết trong tick này
       this.pendingKillsInTick = [];
       if (this.playerDiedInTick) {
-        this.handlePlayerDeath(this.lastKillerName);
+        this.handlePlayerDeath(this.lastKillerName, now);
         this.playerDiedInTick = false;
       }
     } else {
@@ -888,6 +1076,7 @@ export class ArpgGameSession {
 export class ArpgSessionManager {
   private static instance: ArpgSessionManager;
   private sessions: Map<string, ArpgGameSession> = new Map(); // characterId -> session
+  private characterWrites = new Map<string, Promise<unknown>>();
   private intervalId: NodeJS.Timeout | null = null;
 
   public static getInstance(): ArpgSessionManager {
@@ -910,31 +1099,143 @@ export class ArpgSessionManager {
       for (const [charId, session] of this.sessions.entries()) {
         // Heartbeat timeout check: 5 seconds of silence -> pause session
         if (now - session.player.lastHeartbeat > 5000) {
-          if (!session.isPaused) {
-            session.isPaused = true;
-          }
+          if (!session.isPaused) session.pause();
         }
 
         if (!session.isPaused && !session.isTerminated) {
           session.tick(dt);
+          if (session.sendSnapshotCallback && session.tickCount % 200 === 0) {
+            void this.persistPosition(charId).catch((err) => console.error('Lỗi khi lưu vị trí ARPG:', err));
+          }
         }
       }
-    }, 50);
+    }, 50).unref();
   }
 
-  public getOrCreateSession(character: any, mapId: string): ArpgGameSession {
+  public getOrCreateSession(character: SessionCharacter, mapId: string): ArpgGameSession {
     let session = this.sessions.get(character.id);
     if (!session || session.isTerminated) {
       session = new ArpgGameSession(character, mapId);
       this.sessions.set(character.id, session);
     } else {
-      session.isPaused = false;
-      session.player.lastHeartbeat = Date.now();
-      if (session.mapId !== mapId) {
-        session.mapId = mapId;
+      const map = getMapTemplate(mapId);
+      if (session.mapId !== map.id) {
+        session.transitionToMap(map, getSavedPosition(character, map));
       }
+      session.refreshCharacter(character);
     }
+    session.receiveHeartbeat();
     return session;
+  }
+
+  public openSession(characterId: string, accountId: string): Promise<ArpgGameSession | undefined> {
+    // Loading the position and transitioning the map share the same per-character queue.
+    return this.withCharacterWrite(characterId, async () => {
+      const character = await prisma.character.findFirst({
+        where: { id: characterId, accountId, isActive: true },
+        include: {
+          inventory: { where: { isEquipped: true } },
+          skills: { where: { isEquipped: true } },
+        },
+      });
+      if (!character) return undefined;
+      return this.getOrCreateSession(character, character.currentMapId);
+    });
+  }
+
+  public persistPosition(characterId: string): Promise<boolean> {
+    return this.withCharacterWrite(characterId, async () => {
+      const session = this.sessions.get(characterId);
+      if (!session || session.isTerminated) return false;
+      const { mapId, player: { x, y } } = session;
+      if (!isWorldPositionWalkable(getMapTemplate(mapId), { x, y })) return false;
+      const result = await prisma.character.updateMany({
+        where: { id: characterId },
+        data: { currentMapId: mapId, positionX: x, positionY: y },
+      });
+      return result.count === 1;
+    });
+  }
+
+  public teleportCharacter(characterId: string, map: MapData, position?: { x: number; y: number }) {
+    return this.withCharacterWrite(characterId, async () => {
+      const session = this.sessions.get(characterId);
+      if (session?.mapId === map.id) {
+        return { x: session.player.x, y: session.player.y };
+      }
+      if (!session) {
+        const saved = await prisma.character.findUniqueOrThrow({
+          where: { id: characterId },
+          select: { currentMapId: true, positionX: true, positionY: true },
+        });
+        const currentPosition = { x: saved.positionX, y: saved.positionY };
+        if (saved.currentMapId === map.id && isWorldPositionWalkable(map, currentPosition)) return currentPosition;
+      }
+
+      const spawn = selectSpawn(map, position);
+      await prisma.character.update({
+        where: { id: characterId },
+        data: { currentMapId: map.id, positionX: spawn.x, positionY: spawn.y },
+      });
+      session?.transitionToMap(map, spawn);
+      return spawn;
+    });
+  }
+
+  public updateCharacterCombat<T extends { success: boolean; refreshCombat?: boolean }>(
+    characterId: string,
+    update: (
+      tx: Prisma.TransactionClient,
+      current: Character & { inventory: InventoryItem[] },
+      session: ArpgGameSession | undefined,
+    ) => Promise<T>,
+    prepareEffect?: (session: ArpgGameSession, result: T, life: number | undefined) =>
+      ((committed: boolean) => void) | undefined,
+  ): Promise<T> {
+    const startingSession = this.sessions.get(characterId);
+    const startingLife = startingSession?.canRestoreResources() ? startingSession.lifeSequence : undefined;
+    return this.withCharacterWrite(characterId, async () => {
+      let finishEffect: ((committed: boolean) => void) | undefined;
+      const { result, refreshed, session } = await prisma.$transaction(async (tx) => {
+        await tx.$queryRaw`SELECT id FROM characters WHERE id = ${characterId}::uuid FOR NO KEY UPDATE`;
+        const current = await tx.character.findUniqueOrThrow({
+          where: { id: characterId }, include: { inventory: true },
+        });
+        const session = this.sessions.get(characterId);
+        if (prepareEffect && startingSession && session !== startingSession) throw new RestorationConflict();
+        const result = await update(tx, current, session);
+        if (result.success && session && prepareEffect) {
+          finishEffect = prepareEffect(session, result, session === startingSession ? startingLife : undefined);
+        }
+        const refreshed = result.success && result.refreshCombat !== false && session && !prepareEffect
+          ? await tx.character.findUniqueOrThrow({
+              where: { id: characterId },
+              include: {
+                inventory: { where: { isEquipped: true } },
+                skills: { where: { isEquipped: true } },
+              },
+            })
+          : undefined;
+        return { result, refreshed, session };
+      }).catch((error) => {
+        finishEffect?.(false);
+        throw error;
+      });
+      finishEffect?.(true);
+      if (refreshed && session && this.sessions.get(characterId) === session) session.refreshCharacter(refreshed);
+      return result;
+    });
+  }
+
+  private withCharacterWrite<T>(characterId: string, operation: () => Promise<T>): Promise<T> {
+    const pending = this.characterWrites.get(characterId);
+    const result = pending ? pending.then(operation, operation) : operation();
+    this.characterWrites.set(characterId, result);
+    const clear = () => {
+      if (this.characterWrites.get(characterId) === result) this.characterWrites.delete(characterId);
+    };
+    void result.then(clear, clear);
+    return result;
   }
 
   public getSession(characterId: string): ArpgGameSession | undefined {
@@ -942,10 +1243,12 @@ export class ArpgSessionManager {
   }
 
   public removeSession(characterId: string) {
-    const session = this.sessions.get(characterId);
-    if (session) {
-      session.isTerminated = true;
-      this.sessions.delete(characterId);
-    }
+    return this.withCharacterWrite(characterId, async () => {
+      const session = this.sessions.get(characterId);
+      if (session) {
+        session.isTerminated = true;
+        this.sessions.delete(characterId);
+      }
+    });
   }
 }

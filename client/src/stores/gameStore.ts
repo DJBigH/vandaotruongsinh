@@ -26,6 +26,7 @@ interface GameState {
   loadMap: (mapId: string) => Promise<void>;
 
   // Dialogue
+  dialogueLoading: boolean;
   dialogueState: {
     isOpen: boolean;
     npcName: string;
@@ -42,6 +43,8 @@ interface GameState {
   // UI Panel states
   activePanel: 'inventory' | 'character' | 'quest' | 'map' | 'crafting' | 'settings' | 'sect' | 'cave' | 'pets' | 'offline' | 'story' | 'tower' | null;
   setActivePanel: (panel: GameState['activePanel']) => void;
+  characterSlotsOpen: boolean;
+  setCharacterSlotsOpen: (open: boolean) => void;
 
   // Notifications
   notifications: { id: number; message: string; type: 'info' | 'success' | 'warning' | 'error' }[];
@@ -50,6 +53,7 @@ interface GameState {
 }
 
 let notifId = 0;
+let dialogueRequest = 0;
 
 export const useGameStore = create<GameState>((set, get) => ({
   character: null,
@@ -59,14 +63,16 @@ export const useGameStore = create<GameState>((set, get) => ({
   combatState: null,
   currentMap: null,
   dialogueState: null,
+  dialogueLoading: false,
   activePanel: null,
+  characterSlotsOpen: false,
   notifications: [],
 
   loadCharacter: async () => {
     try {
       const res = await gameApi.getCharacter();
-      if (res.success && res.data) {
-        set({ character: res.data });
+      if (res.success) {
+        set({ character: res.data ?? null });
       }
     } catch (err) {
       console.error('Failed to load character:', err);
@@ -111,45 +117,33 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   openDialogue: async (npcName, npcSpriteKey, dialogueId, npcId) => {
-    try {
-      const res = await gameApi.getDialogue(dialogueId, npcId);
-      if (res.success && res.data && res.data.length > 0) {
-        set({
-          dialogueState: {
-            isOpen: true,
-            npcName,
-            npcSpriteKey,
-            lines: res.data,
-            currentIndex: 0,
-            dialogueId,
-          },
-        });
-        get().loadQuests();
-      } else {
-        // Fallback dialogue if empty
-        set({
-          dialogueState: {
-            isOpen: true,
-            npcName,
-            npcSpriteKey,
-            lines: [{ speaker: npcName, text: 'Chào đạo hữu, con đường tu tiên đầy trắc trở, hãy bảo trọng!' }],
-            currentIndex: 0,
-            dialogueId,
-          },
-        });
-      }
-    } catch {
-      // Fallback dialogue if API error
+    const request = ++dialogueRequest;
+    set({ dialogueLoading: true });
+    const open = (lines: DialogueLine[]) => {
+      if (request !== dialogueRequest) return;
       set({
+        dialogueLoading: false,
         dialogueState: {
           isOpen: true,
           npcName,
           npcSpriteKey,
-          lines: [{ speaker: npcName, text: 'Chào đạo hữu, ta không có gì để nói lúc này.' }],
+          lines,
           currentIndex: 0,
           dialogueId,
         },
       });
+    };
+
+    try {
+      const res = await gameApi.getDialogue(dialogueId, npcId);
+      if (res.success && res.data?.length) {
+        open(res.data);
+        if (request === dialogueRequest) void get().loadQuests();
+      } else {
+        open([{ speaker: npcName, text: 'Chào đạo hữu, con đường tu tiên đầy trắc trở, hãy bảo trọng!' }]);
+      }
+    } catch {
+      open([{ speaker: npcName, text: 'Chào đạo hữu, ta không có gì để nói lúc này.' }]);
     }
   },
 
@@ -159,16 +153,17 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (state.currentIndex < state.lines.length - 1) {
       set({ dialogueState: { ...state, currentIndex: state.currentIndex + 1 } });
     } else {
-      set({ dialogueState: null });
+      get().closeDialogue();
     }
   },
 
   selectChoice: async (choiceIndex) => {
     const state = get().dialogueState;
     if (!state) return;
+    const request = dialogueRequest;
     try {
       const res = await gameApi.dialogueChoice(state.dialogueId, choiceIndex);
-      if (res.success && res.data) {
+      if (request === dialogueRequest && res.success && res.data) {
         set({
           dialogueState: {
             ...state,
@@ -178,16 +173,21 @@ export const useGameStore = create<GameState>((set, get) => ({
         });
       }
     } catch {
-      set({ dialogueState: null });
+      if (request === dialogueRequest) get().closeDialogue();
     }
   },
 
-  closeDialogue: () => set({ dialogueState: null }),
+  closeDialogue: () => {
+    dialogueRequest++;
+    set({ dialogueState: null, dialogueLoading: false });
+  },
 
   setActivePanel: (panel) => {
     const current = get().activePanel;
     set({ activePanel: current === panel ? null : panel });
   },
+
+  setCharacterSlotsOpen: (open) => set({ characterSlotsOpen: open }),
 
   addNotification: (message, type = 'info') => {
     const id = ++notifId;

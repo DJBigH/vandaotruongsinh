@@ -4,6 +4,7 @@
 // 40 Monsters, 56 Quests, 10 Maps, 3 Endings & Trấn Yêu Tháp
 // ============================================================
 
+import './require-disposable-database';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { CultivationPath, CombatAction, StoryEndingType, RealmIndex } from '@shared';

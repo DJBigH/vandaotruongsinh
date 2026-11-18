@@ -1,0 +1,16 @@
+{
+  "capturedAt": "2026-11-18T08:02:57.640Z",
+  "source": {
+    "commit": "795be99a26138393e786b70ef790944d65c08710",
+    "harnessSha256": "ee6bae6f0733b3da7c3d1ecd79feb3343e6244e9412c7b65790ecf595370147a",
+    "gameSourceDirty": false,
+    "gameSourceDiffSha256": null
+  },
+  "health": {
+    "status": "ok",
+    "time": "2026-11-18T08:02:57.628Z",
+    "game": "Vạn Đạo Trường Sinh"
+  },
+  "startCommand": "node --import tsx src/index.ts",
+  "note": "Main backend restarted while product edits were held; identity recorded after health response. Frontend build identity is recorded separately."
+}
