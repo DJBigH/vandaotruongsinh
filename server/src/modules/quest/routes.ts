@@ -21,6 +21,42 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
     return getActiveCharacter(prisma, userId);
   }
 
+  // GET /api/game/quests/board
+  fastify.get('/quests/board', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const user = (request as any).user;
+      const char = await getCharacter(user.userId);
+      if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
+
+      const charQuests = await prisma.characterQuest.findMany({
+        where: { characterId: char.id },
+      });
+      const questMap = new Map(charQuests.map((q) => [q.questId, q]));
+
+      const boardQuests = Object.values(QUEST_TEMPLATES)
+        .filter((q) => q.type === 'SIDE' || q.type === 'HIDDEN')
+        .map((tmpl) => {
+          const cq = questMap.get(tmpl.id);
+          const status = cq ? (cq.status as QuestStatus) : QuestStatus.AVAILABLE;
+          return {
+            id: tmpl.id,
+            name: tmpl.name,
+            description: tmpl.description,
+            type: tmpl.type,
+            chapter: tmpl.chapter,
+            status,
+            objectives: cq ? (cq.progress as unknown as QuestObjective[]) : initQuestObjectives(tmpl),
+            rewards: tmpl.rewards,
+          };
+        });
+
+      return reply.send({ success: true, data: boardQuests });
+    } catch (err: any) {
+      request.log.error(err);
+      return reply.status(500).send({ success: false, error: 'Lỗi khi tải bảng ủy thác' });
+    }
+  });
+
   // GET /api/game/quests
   fastify.get('/quests', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
     try {

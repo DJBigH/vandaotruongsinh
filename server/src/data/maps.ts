@@ -3,7 +3,7 @@
 // 8 Khu Vực Cốt Truyện + Rừng Săn + Trấn Yêu Tháp
 // ============================================================
 
-import { MapData } from '@shared';
+import { MapData, MapCollisionZone, MapDecorativeProp, MapSpawnZone } from '@shared';
 
 function generateBaseLayer(w: number, h: number, fillTile: number): number[] {
   return new Array(w * h).fill(fillTile);
@@ -22,63 +22,366 @@ function generateBorderCollision(w: number, h: number): number[] {
 }
 
 export const MAP_TEMPLATES: Record<string, MapData> = {
-  // 1. Làng Thanh Khê (Chương 1)
+  // ============================================================
+  // 1. Làng Thanh Khê (Chương 1) – 2048×1536 (64×48 tiles @ 32px)
+  //    Bố cục: Quảng trường trung tâm, Đại điện phía Bắc,
+  //            Dược phòng phía Tây, Doanh trại phía Đông,
+  //            Cổng Rừng phía Nam, nhà dân + cây thông + suối.
+  // ============================================================
   map_thanh_khe: {
     id: 'map_thanh_khe',
     name: 'Làng Thanh Khê',
-    width: 60,
-    height: 45,
+    width: 64,   // tiles
+    height: 48,  // tiles  (64*32=2048, 48*32=1536)
     tileSize: 32,
     layers: [
-      { name: 'ground', data: generateBaseLayer(60, 45, 0) },
-      { name: 'collision', data: generateBorderCollision(60, 45), collision: true },
+      { name: 'ground', data: generateBaseLayer(64, 48, 0) },
+      { name: 'collision', data: generateBorderCollision(64, 48), collision: true },
     ],
-    spawnPoint: { x: 30, y: 22 },
+    // Spawn ở gần cổng Nam (vừa vào từ rừng lên)
+    spawnPoint: { x: 32, y: 40 },
+
+    // --- NPCs ---
     npcs: [
-      { id: 'npc_elder', name: 'Trưởng Lão Thanh Khê', position: { x: 30, y: 18 }, dialogueId: 'dlg_elder_01', spriteKey: 'npc_elder' },
-      { id: 'npc_healer', name: 'Dược Sĩ Liễu Muội', position: { x: 46, y: 21 }, dialogueId: 'dlg_healer_01', spriteKey: 'npc_healer' },
-      { id: 'npc_guard', name: 'Đội Trưởng Vệ Binh', position: { x: 14, y: 21 }, dialogueId: 'dlg_guard_01', spriteKey: 'npc_guard' },
+      // Trưởng Lão – Đại điện phía Bắc (1024,300) → tile (32,9)
+      {
+        id: 'npc_elder',
+        name: 'Trưởng Lão Thanh Khê',
+        position: { x: 32, y: 9 },
+        dialogueId: 'dlg_elder_01',
+        spriteKey: 'npc_elder',
+        questIds: ['quest_main_01'],
+      },
+      // Dược Sĩ – Dược phòng phía Tây (400,768) → tile (12,24)
+      {
+        id: 'npc_healer',
+        name: 'Dược Sĩ Liễu Muội',
+        position: { x: 12, y: 24 },
+        dialogueId: 'dlg_healer_01',
+        spriteKey: 'npc_healer',
+        shopId: 'shop_herbs',
+      },
+      // Đội Trưởng Vệ Binh – Doanh trại phía Đông (1600,768) → tile (50,24)
+      {
+        id: 'npc_guard',
+        name: 'Đội Trưởng Vệ Binh',
+        position: { x: 50, y: 24 },
+        dialogueId: 'dlg_guard_01',
+        spriteKey: 'npc_guard',
+        questIds: ['quest_side_01'],
+      },
     ],
+
+    // Không có quái trong làng
     monsters: [],
+
+    // --- Portals ---
     portals: [
-      { id: 'portal_to_forest', label: 'Rừng Thanh Khê', targetMapId: 'map_thanh_khe_rung', position: { x: 30, y: 42 }, targetPosition: { x: 4, y: 22 } },
-      { id: 'portal_to_sect', label: 'Thanh Vân Kiếm Tông', targetMapId: 'map_thanh_van', position: { x: 30, y: 3 }, targetPosition: { x: 12, y: 18 } },
+      // Cổng ra rừng phía Nam (1024,1300) → tile (32,40)
+      {
+        id: 'portal_to_forest',
+        label: 'Rừng Thanh Khê',
+        targetMapId: 'map_thanh_khe_rung',
+        position: { x: 32, y: 41 },
+        targetPosition: { x: 32, y: 4 },
+      },
+      // Cổng lên Thanh Vân Môn phía Bắc (1024,300) → tile (32,3)
+      {
+        id: 'portal_to_sect',
+        label: 'Thanh Vân Kiếm Tông',
+        targetMapId: 'map_thanh_van',
+        position: { x: 32, y: 3 },
+        targetPosition: { x: 12, y: 18 },
+      },
     ],
+
+    // --- Interactables ---
     interactables: [
-      { id: 'herb_01', type: 'HERB', position: { x: 44, y: 19 } },
-      { id: 'herb_02', type: 'HERB', position: { x: 48, y: 23 } },
-      { id: 'shrine_01', type: 'SHRINE', position: { x: 30, y: 14 } },
-      { id: 'ore_01', type: 'ORE', position: { x: 12, y: 18 } },
+      // Bàn thờ linh thần – Quảng trường trung tâm (1024,768) → tile (32,24)
+      { id: 'shrine_01', type: 'SHRINE', position: { x: 32, y: 24 } },
+      // Linh thảo gần dược phòng
+      { id: 'herb_01', type: 'HERB', position: { x: 10, y: 22 } },
+      { id: 'herb_02', type: 'HERB', position: { x: 14, y: 26 } },
+      // Khoáng thạch gần doanh trại
+      { id: 'ore_01', type: 'ORE', position: { x: 54, y: 22 } },
     ],
+
+    // --- Collision Zones (buildings, water, walls) ---
+    collisionZones: [
+      // Đại điện Thanh Khê Môn (Bắc)
+      { x: 26, y: 3, w: 12, h: 6, label: 'Đại Điện' },
+      // Dược phòng (Tây)
+      { x: 6, y: 20, w: 10, h: 8, label: 'Dược Phòng' },
+      // Doanh trại vệ binh (Đông)
+      { x: 48, y: 20, w: 10, h: 8, label: 'Doanh Trại' },
+      // Nhà dân 1 (Tây Bắc)
+      { x: 8, y: 10, w: 7, h: 5, label: 'Nhà Dân 1' },
+      // Nhà dân 2 (Đông Bắc)
+      { x: 49, y: 10, w: 7, h: 5, label: 'Nhà Dân 2' },
+      // Nhà dân 3 (Tây Nam)
+      { x: 8, y: 32, w: 7, h: 5, label: 'Nhà Dân 3' },
+      // Nhà dân 4 (Đông Nam)
+      { x: 49, y: 32, w: 7, h: 5, label: 'Nhà Dân 4' },
+      // Suối nhỏ từ Bắc xuống Tây (một chuỗi ô nước 2 tiles rộng)
+      { x: 20, y: 2, w: 2, h: 14, label: 'Suối (Bắc)' },
+      { x: 18, y: 16, w: 2, h: 10, label: 'Suối (Tây)' },
+    ],
+
+    // --- Decorative Props ---
+    decorativeProps: [
+      // Cổng Môn Phái (Bắc, trên portal sect)
+      { key: 'prop_sect_gate', x: 32, y: 3, originY: 0.95 },
+
+      // Bàn thờ linh thần (trung tâm) – quay chậm
+      { key: 'prop_shrine', x: 32, y: 24, originY: 0.88 },
+
+      // Thạch đăng hai bên quảng trường
+      { key: 'prop_stone_lantern', x: 28, y: 20, originY: 0.88 },
+      { key: 'prop_stone_lantern', x: 36, y: 20, originY: 0.88 },
+      { key: 'prop_stone_lantern', x: 28, y: 28, originY: 0.88 },
+      { key: 'prop_stone_lantern', x: 36, y: 28, originY: 0.88 },
+      // Thạch đăng dọc đường chính Bắc-Nam
+      { key: 'prop_stone_lantern', x: 29, y: 32, originY: 0.88 },
+      { key: 'prop_stone_lantern', x: 35, y: 32, originY: 0.88 },
+      { key: 'prop_stone_lantern', x: 29, y: 36, originY: 0.88 },
+      { key: 'prop_stone_lantern', x: 35, y: 36, originY: 0.88 },
+
+      // Hàng cây thông dọc đường chính (trục y = 32..40, x = 26 và 38)
+      { key: 'prop_pine_tree', x: 26, y: 32, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 26, y: 35, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 26, y: 38, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 38, y: 32, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 38, y: 35, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 38, y: 38, originY: 0.92 },
+      // Cây thông rải hai cánh Đông-Tây
+      { key: 'prop_pine_tree', x: 18, y: 15, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 18, y: 18, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 46, y: 15, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 46, y: 18, originY: 0.92 },
+      // Cây biên bản đồ
+      { key: 'prop_pine_tree', x: 4, y: 6, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 4, y: 12, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 60, y: 6, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 60, y: 12, originY: 0.92 },
+
+      // Tảng đá linh khí dọc suối
+      { key: 'prop_ancient_rock', x: 21, y: 8, originY: 0.85 },
+      { key: 'prop_ancient_rock', x: 21, y: 14, originY: 0.85 },
+      { key: 'prop_ancient_rock', x: 19, y: 20, originY: 0.85 },
+
+      // Tinh thể linh khí gần dược phòng
+      { key: 'prop_crystal_cluster', x: 10, y: 22, originY: 0.85 },
+      { key: 'prop_crystal_cluster', x: 54, y: 22, originY: 0.85 },
+
+      // Bát Quái trận tại quảng trường (depth thấp, slow spin)
+      { key: 'prop_bagua_array', x: 32, y: 24, originY: 0.5, alpha: 0.75, spin: true, depth: 1 },
+
+      // Cổng portal rừng phía Nam (spin)
+      { key: 'prop_portal', x: 32, y: 41, originY: 0.5, spin: true },
+    ],
+
+    // Không có spawnZone trong làng
+    spawnZones: [],
+    ambientTint: 0xf8f4e8, // ánh sáng vàng nhạt buổi chiều
   },
 
-  // 2. Rừng Thanh Khê (Vùng Cày Cấp Đầu Game)
+  // ============================================================
+  // 2. Rừng Thanh Khê (Vùng Cày Cấp) – 2048×2048 (64×64 tiles @ 32px)
+  //    Khu A (thưa, cấp thấp) → Khu B (rậm, tinh anh) → Khu C (sâu, Boss)
+  // ============================================================
   map_thanh_khe_rung: {
     id: 'map_thanh_khe_rung',
     name: 'Rừng Thanh Khê',
-    width: 60,
-    height: 45,
+    width: 64,
+    height: 64,  // 64*32=2048
     tileSize: 32,
     layers: [
-      { name: 'ground', data: generateBaseLayer(60, 45, 1) },
-      { name: 'collision', data: generateBorderCollision(60, 45), collision: true },
+      { name: 'ground', data: generateBaseLayer(64, 64, 1) },
+      { name: 'collision', data: generateBorderCollision(64, 64), collision: true },
     ],
-    spawnPoint: { x: 4, y: 22 },
+    // Spawn gần cổng vào từ làng (phía Bắc bản đồ)
+    spawnPoint: { x: 32, y: 4 },
+
     npcs: [],
+
+    // --- Monsters (legacy single-spawn kept for server compatibility) ---
     monsters: [
-      { id: 'spawn_wolf_1', monsterId: 'mon_001', position: { x: 16, y: 16 }, respawnTime: 15, level: 1 },
-      { id: 'spawn_wolf_2', monsterId: 'mon_001', position: { x: 24, y: 28 }, respawnTime: 15, level: 2 },
-      { id: 'spawn_snake_1', monsterId: 'mon_003', position: { x: 34, y: 14 }, respawnTime: 20, level: 3 },
-      { id: 'spawn_fox_1', monsterId: 'mon_004', position: { x: 42, y: 30 }, respawnTime: 25, level: 4 },
-      { id: 'spawn_boss_wolf', monsterId: 'boss_001', position: { x: 50, y: 22 }, respawnTime: 60, level: 5 },
+      // Khu A: Rừng thưa – sói cấp thấp
+      { id: 'spawn_wolf_1', monsterId: 'mon_001', position: { x: 16, y: 14 }, respawnTime: 15, level: 1 },
+      { id: 'spawn_wolf_2', monsterId: 'mon_001', position: { x: 22, y: 18 }, respawnTime: 15, level: 2 },
+      { id: 'spawn_snake_1', monsterId: 'mon_003', position: { x: 28, y: 12 }, respawnTime: 20, level: 2 },
+      // Khu B: Rừng rậm – quái tinh anh
+      { id: 'spawn_wolf_3', monsterId: 'mon_001', position: { x: 36, y: 32 }, respawnTime: 20, level: 3 },
+      { id: 'spawn_snake_2', monsterId: 'mon_003', position: { x: 42, y: 28 }, respawnTime: 20, level: 3 },
+      { id: 'spawn_fox_1', monsterId: 'mon_004', position: { x: 44, y: 36 }, respawnTime: 25, level: 4 },
+      { id: 'spawn_fox_2', monsterId: 'mon_004', position: { x: 50, y: 30 }, respawnTime: 25, level: 4 },
+      // Khu C: Vùng sâu – Boss Lang Vương
+      { id: 'spawn_boss_wolf', monsterId: 'boss_001', position: { x: 50, y: 54 }, respawnTime: 60, level: 5 },
     ],
+
+    // --- Portals ---
     portals: [
-      { id: 'portal_back_to_village', label: 'Làng Thanh Khê', targetMapId: 'map_thanh_khe', position: { x: 2, y: 22 }, targetPosition: { x: 54, y: 22 } },
+      // Trở về làng từ phía Bắc rừng
+      {
+        id: 'portal_back_to_village',
+        label: 'Làng Thanh Khê',
+        targetMapId: 'map_thanh_khe',
+        position: { x: 32, y: 3 },
+        targetPosition: { x: 32, y: 40 },
+      },
     ],
+
+    // --- Interactables ---
     interactables: [
-      { id: 'herb_f1', type: 'HERB', position: { x: 14, y: 34 } },
-      { id: 'ore_f1', type: 'ORE', position: { x: 36, y: 10 } },
+      // Rương ẩn gốc cây lớn Khu A
+      { id: 'chest_a1', type: 'CHEST', position: { x: 14, y: 20 }, lootTableId: 'loot_forest_common' },
+      // Rương ẩn Khu B (rừng rậm)
+      { id: 'chest_b1', type: 'CHEST', position: { x: 48, y: 42 }, lootTableId: 'loot_forest_rare' },
+      // Linh thảo rải rác
+      { id: 'herb_f1', type: 'HERB', position: { x: 18, y: 22 } },
+      { id: 'herb_f2', type: 'HERB', position: { x: 10, y: 30 } },
+      { id: 'herb_f3', type: 'HERB', position: { x: 40, y: 40 } },
+      // Khoáng vật quý Khu C
+      { id: 'ore_f1', type: 'ORE', position: { x: 56, y: 50 } },
+      // Miếu thờ hang Lang Vương (kích hoạt boss fight)
+      { id: 'shrine_boss', type: 'SHRINE', position: { x: 50, y: 52 } },
     ],
+
+    // --- Collision Zones ---
+    collisionZones: [
+      // Dải cây rậm biên khu A-B (hàng rào tự nhiên)
+      { x: 30, y: 20, w: 4, h: 20, label: 'Dải Rừng A-B' },
+      // Vách đá Khu B-C
+      { x: 36, y: 44, w: 20, h: 4, label: 'Vách Đá B-C' },
+      // Hang Lang Vương (cửa hang hẹp)
+      { x: 44, y: 48, w: 16, h: 2, label: 'Cửa Hang' },
+      // Hồ nhỏ Khu A
+      { x: 8, y: 16, w: 6, h: 6, label: 'Hồ Rừng A' },
+      // Đống đá chắn đường mòn
+      { x: 24, y: 36, w: 4, h: 3, label: 'Đá Mòn 1' },
+      { x: 52, y: 20, w: 4, h: 3, label: 'Đá Mòn 2' },
+    ],
+
+    // --- Decorative Props ---
+    decorativeProps: [
+      // === Cổng vào từ làng (Bắc) ===
+      { key: 'prop_portal', x: 32, y: 3, originY: 0.5, spin: true },
+
+      // === Khu A: Rừng thưa ===
+      // Cây thưa thớt
+      { key: 'prop_pine_tree', x: 10, y: 8, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 14, y: 10, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 20, y: 8, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 25, y: 12, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 8, y: 14, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 18, y: 16, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 26, y: 18, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 10, y: 24, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 20, y: 26, originY: 0.92 },
+      // Đá rêu
+      { key: 'prop_ancient_rock', x: 12, y: 18, originY: 0.85 },
+      { key: 'prop_ancient_rock', x: 22, y: 22, originY: 0.85 },
+      { key: 'prop_ancient_rock', x: 8, y: 28, originY: 0.85 },
+      // Tinh thể linh khí nhỏ
+      { key: 'prop_crystal_cluster', x: 16, y: 12, originY: 0.85 },
+      // Rương ẩn gốc cây (Khu A)
+      { key: 'prop_shrine', x: 14, y: 20, originY: 0.88 },
+
+      // === Đường mòn A→B (trục x~32, y 20→40) ===
+      { key: 'prop_stone_lantern', x: 32, y: 24, originY: 0.88 },
+      { key: 'prop_stone_lantern', x: 32, y: 32, originY: 0.88 },
+
+      // === Khu B: Rừng rậm (tối hơn) ===
+      { key: 'prop_pine_tree', x: 34, y: 22, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 38, y: 24, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 44, y: 22, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 50, y: 24, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 56, y: 22, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 36, y: 28, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 42, y: 32, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 48, y: 28, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 54, y: 32, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 60, y: 28, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 38, y: 36, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 44, y: 40, originY: 0.92 },
+      { key: 'prop_pine_tree', x: 56, y: 36, originY: 0.92 },
+      { key: 'prop_ancient_rock', x: 36, y: 30, originY: 0.85 },
+      { key: 'prop_ancient_rock', x: 50, y: 34, originY: 0.85 },
+      { key: 'prop_ancient_rock', x: 60, y: 40, originY: 0.85 },
+      { key: 'prop_crystal_cluster', x: 54, y: 26, originY: 0.85, tint: 0x8855ff },
+      // Rương Khu B
+      { key: 'prop_shrine', x: 48, y: 42, originY: 0.88 },
+
+      // === Khu C: Vùng sâu – Hang Lang Vương ===
+      // Cây cổ thụ to hơn (scale 1.4)
+      { key: 'prop_pine_tree', x: 40, y: 50, originY: 0.92, scale: 1.4 },
+      { key: 'prop_pine_tree', x: 46, y: 52, originY: 0.92, scale: 1.4 },
+      { key: 'prop_pine_tree', x: 56, y: 48, originY: 0.92, scale: 1.4 },
+      { key: 'prop_pine_tree', x: 60, y: 54, originY: 0.92, scale: 1.4 },
+      // Đá lớn chặn hai bên cửa hang
+      { key: 'prop_ancient_rock', x: 42, y: 50, originY: 0.85, scale: 1.3 },
+      { key: 'prop_ancient_rock', x: 58, y: 50, originY: 0.85, scale: 1.3 },
+      // Tinh thể linh khí đỏ (aura Boss)
+      { key: 'prop_crystal_cluster', x: 46, y: 54, originY: 0.85, tint: 0xff2222 },
+      { key: 'prop_crystal_cluster', x: 54, y: 54, originY: 0.85, tint: 0xff2222 },
+      // Miếu thờ cửa hang (kích hoạt boss)
+      { key: 'prop_shrine', x: 50, y: 52, originY: 0.88 },
+      // Thạch đăng ma khí hai bên
+      { key: 'prop_stone_lantern', x: 46, y: 50, originY: 0.88, tint: 0xff4400 },
+      { key: 'prop_stone_lantern', x: 54, y: 50, originY: 0.88, tint: 0xff4400 },
+    ],
+
+    // --- Spawn Zones ---
+    spawnZones: [
+      {
+        id: 'zone_a_wolf',
+        label: 'Khu A – Sói Rừng',
+        monsterId: 'mon_001',
+        level: 1,
+        respawnTime: 15,
+        count: 4,
+        zone: { x: 6, y: 10, w: 22, h: 20 },
+      },
+      {
+        id: 'zone_a_snake',
+        label: 'Khu A – Rắn Độc',
+        monsterId: 'mon_003',
+        level: 2,
+        respawnTime: 20,
+        count: 3,
+        zone: { x: 6, y: 10, w: 22, h: 20 },
+      },
+      {
+        id: 'zone_b_wolf',
+        label: 'Khu B – Sói Tinh Anh',
+        monsterId: 'mon_001',
+        level: 3,
+        respawnTime: 20,
+        count: 4,
+        zone: { x: 32, y: 22, w: 28, h: 22 },
+      },
+      {
+        id: 'zone_b_fox',
+        label: 'Khu B – Hồ Ly',
+        monsterId: 'mon_004',
+        level: 4,
+        respawnTime: 25,
+        count: 3,
+        zone: { x: 32, y: 22, w: 28, h: 22 },
+      },
+      {
+        id: 'zone_c_boss',
+        label: 'Khu C – Lang Vương Boss',
+        monsterId: 'boss_001',
+        level: 5,
+        respawnTime: 60,
+        count: 1,
+        zone: { x: 42, y: 48, w: 18, h: 14 },
+      },
+    ],
+
+    ambientTint: 0xc8e8c0, // xanh lục mờ của rừng
+    fogDensity: 0.3,
   },
 
   // 3. Thanh Vân Môn (Chương 2)

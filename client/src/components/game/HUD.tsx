@@ -94,7 +94,7 @@ export default function HUD() {
         <div style={{ marginBottom: '6px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#ffcdd2', marginBottom: '2px' }}>
             <span>Sinh Lực</span>
-            <span>{character?.stats.hp} / {character?.stats.maxHp}</span>
+            <span>{Math.round(curHp)} / {maxHp}</span>
           </div>
           <div style={{ width: '100%', height: '8px', background: '#37474f', borderRadius: '4px', overflow: 'hidden' }}>
             <div style={{ width: `${Math.max(0, Math.min(100, hpRatio))}%`, height: '100%', background: '#ef5350', transition: 'width 0.3s' }} />
@@ -105,7 +105,7 @@ export default function HUD() {
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#bbdefb', marginBottom: '2px' }}>
             <span>Linh Lực</span>
-            <span>{character?.stats.mp} / {character?.stats.maxMp}</span>
+            <span>{Math.round(curMp)} / {maxMp}</span>
           </div>
           <div style={{ width: '100%', height: '6px', background: '#37474f', borderRadius: '4px', overflow: 'hidden' }}>
             <div style={{ width: `${Math.max(0, Math.min(100, mpRatio))}%`, height: '100%', background: '#29b6f6', transition: 'width 0.3s' }} />

@@ -123,7 +123,70 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
         return reply.status(400).send({ success: false, error: 'Khoảng cách quá xa, không thể tương tác!' });
       }
 
-      if (target.type === 'HERB') {
+      if (target.type === 'CHEST') {
+        const eventKey = `chest_${target.id}`;
+        const alreadyClaimed = await prisma.rewardClaim.findUnique({
+          where: { characterId_eventKey: { characterId: char.id, eventKey } },
+        });
+
+        if (alreadyClaimed) {
+          return reply.status(400).send({
+            success: false,
+            error: 'Rương bí cảnh này đạo hữu đã mở rồi, bên trong không còn bảo vật!',
+          });
+        }
+
+        const isRare = target.lootTableId === 'loot_forest_rare';
+        const rewardLinhThach = isRare ? 180 : 60;
+        const rewardExp = isRare ? 120 : 50;
+        const rewardItemId = isRare ? 'item_015' : 'item_012'; // Tụ Khí Đan hoặc Hồi Linh Thảo
+        const rewardTmpl = ITEM_TEMPLATES[rewardItemId];
+
+        await prisma.$transaction(async (tx) => {
+          await tx.rewardClaim.create({
+            data: { characterId: char.id, eventKey },
+          });
+
+          await tx.character.update({
+            where: { id: char.id },
+            data: {
+              gold: { increment: rewardLinhThach },
+              cultivationExp: { increment: BigInt(rewardExp) },
+            },
+          });
+
+          if (rewardTmpl) {
+            const existing = await tx.inventoryItem.findFirst({
+              where: { characterId: char.id, templateId: rewardItemId, isEquipped: false },
+            });
+            if (existing) {
+              await tx.inventoryItem.update({
+                where: { id: existing.id },
+                data: { quantity: { increment: 1 } },
+              });
+            } else {
+              await tx.inventoryItem.create({
+                data: {
+                  characterId: char.id,
+                  templateId: rewardItemId,
+                  quantity: 1,
+                  isEquipped: false,
+                },
+              });
+            }
+          }
+        });
+
+        await updateQuestProgress(prisma, char.id, 'COLLECT', 'chest', 1);
+
+        return reply.send({
+          success: true,
+          data: {
+            type: 'CHEST',
+            message: `Mở Rương Bí Cảnh thành công! Thu hoạch: +${rewardLinhThach} Linh Thạch, +${rewardExp} Tu Vi, 1x [${rewardTmpl?.name || 'Linh Dược'}]!`,
+          },
+        });
+      } else if (target.type === 'HERB') {
         const dropId = target.lootTableId || 'item_012';
         const tmpl = ITEM_TEMPLATES[dropId];
         const existing = await prisma.inventoryItem.findFirst({

@@ -227,6 +227,36 @@ export interface CombatRewards {
   cultivationExp: number;
 }
 
+export interface MapCollisionZone {
+  x: number;      // tile x
+  y: number;      // tile y
+  w: number;      // width in tiles
+  h: number;      // height in tiles
+  label?: string; // optional debug label
+}
+
+export interface MapDecorativeProp {
+  key: string;    // texture key
+  x: number;      // tile x (center)
+  y: number;      // tile y (bottom anchor)
+  originY?: number; // default 0.9
+  scale?: number;
+  alpha?: number;
+  spin?: boolean; // slow rotate (bagua, portal)
+  tint?: number;
+  depth?: number; // override depth
+}
+
+export interface MapSpawnZone {
+  id: string;
+  label: string;
+  monsterId: string;
+  level: number;
+  respawnTime: number;
+  count: number;      // number of instances in zone
+  zone: { x: number; y: number; w: number; h: number }; // tile rect
+}
+
 export interface MapData {
   id: string;
   name: string;
@@ -239,6 +269,12 @@ export interface MapData {
   portals: MapPortal[];
   interactables: MapInteractable[];
   spawnPoint: Position;
+  // Extended layout data
+  collisionZones?: MapCollisionZone[];
+  decorativeProps?: MapDecorativeProp[];
+  spawnZones?: MapSpawnZone[];
+  ambientTint?: number;   // 0xrrggbb, applied to camera post-fx
+  fogDensity?: number;    // 0-1, for forest areas
 }
 
 export interface MapLayer {

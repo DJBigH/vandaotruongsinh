@@ -31,6 +31,26 @@ export class AnimationManager {
         frameRate: 6,
         repeat: -1,
       });
+
+      // Pháp Tu Idle (Tử Hà Đạo Bào)
+      if (scene.textures.exists('player_magic_idle')) {
+        scene.anims.create({
+          key: `player_magic_idle_${dir}`,
+          frames: scene.anims.generateFrameNumbers('player_magic_idle', { start, end: start + 3 }),
+          frameRate: 6,
+          repeat: -1,
+        });
+      }
+
+      // Thể Tu Idle (Xích Đồng Chiến Bào)
+      if (scene.textures.exists('player_body_idle')) {
+        scene.anims.create({
+          key: `player_body_idle_${dir}`,
+          frames: scene.anims.generateFrameNumbers('player_body_idle', { start, end: start + 3 }),
+          frameRate: 6,
+          repeat: -1,
+        });
+      }
     });
 
     // 2. Walk (9 frames per direction in player_walk)

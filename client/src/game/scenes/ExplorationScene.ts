@@ -6,16 +6,18 @@
 import Phaser from 'phaser';
 import { eventBridge } from '../EventBridge';
 import * as gameApi from '../../api/game';
+import { useGameStore } from '../../stores/gameStore';
 import { AnimationManager, FacingDirection } from '../animations/AnimationManager';
-import type {
-  MapData,
-  MapNPC,
-  MapInteractable,
-  MapPortal,
-  WsServerMessage,
-  EntitySnapshot,
-  ProjectileSnapshot,
-  TelegraphSnapshot,
+import {
+  CultivationPath,
+  type MapData,
+  type MapNPC,
+  type MapInteractable,
+  type MapPortal,
+  type WsServerMessage,
+  type EntitySnapshot,
+  type ProjectileSnapshot,
+  type TelegraphSnapshot,
 } from '@shared/index';
 
 export default class ExplorationScene extends Phaser.Scene {
@@ -53,6 +55,10 @@ export default class ExplorationScene extends Phaser.Scene {
   private entitySprites: Map<string, Phaser.GameObjects.Container> = new Map();
   private projectileGraphics!: Phaser.GameObjects.Graphics;
   private telegraphGraphics!: Phaser.GameObjects.Graphics;
+
+  // VFX state
+  private telegraphTime: number = 0;
+  private hitEffectsPool: Phaser.GameObjects.Graphics[] = [];
 
   private promptText!: Phaser.GameObjects.Text;
   private fpsText!: Phaser.GameObjects.Text;
@@ -466,15 +472,22 @@ export default class ExplorationScene extends Phaser.Scene {
       });
     }
 
-    // 7. Spawn Interactables (Linh Miếu, Linh Dược, Khoáng Thạch)
+    // 7. Spawn Interactables (Linh Miếu, Linh Dược, Khoáng Thạch, Rương Bí Cảnh)
     for (const item of this.mapData.interactables || []) {
       let texture = 'prop_ancient_rock';
       let label = 'Linh Thảo';
       let originY = 0.85;
 
       if (item.type === 'ORE') {
-        texture = 'prop_crystal_cluster';
-        label = 'Linh Tinh Cương';
+        texture = this.textures.exists('prop_ore') ? 'prop_ore' : 'prop_crystal_cluster';
+        label = 'Tử Tinh Cương';
+      } else if (item.type === 'HERB') {
+        texture = this.textures.exists('prop_herb') ? 'prop_herb' : 'prop_ancient_rock';
+        label = 'Cửu Diệp Linh Thảo';
+      } else if (item.type === 'CHEST') {
+        texture = this.textures.exists('prop_chest') ? 'prop_chest' : 'prop_ancient_rock';
+        label = 'Rương Bí Cảnh';
+        originY = 0.90;
       } else if (item.type === 'SHRINE') {
         texture = 'prop_shrine';
         label = 'Linh Miếu';
@@ -527,8 +540,30 @@ export default class ExplorationScene extends Phaser.Scene {
     this.player.setOffset(21, 44);
     this.player.setDepth(spawnY);
     this.currentFacing = 'down';
-    if (this.anims.exists('player_idle_down')) {
-      this.player.play('player_idle_down');
+    const char = useGameStore.getState().character;
+    let initialIdle = 'player_idle_down';
+    if (char?.cultivationPath === CultivationPath.SPELL && this.anims.exists('player_magic_idle_down')) {
+      initialIdle = 'player_magic_idle_down';
+    } else if (char?.cultivationPath === CultivationPath.BODY && this.anims.exists('player_body_idle_down')) {
+      initialIdle = 'player_body_idle_down';
+    }
+    if (this.anims.exists(initialIdle)) {
+      this.player.play(initialIdle);
+    }
+
+    // Setup collision zones from mapData
+    if (this.mapData.collisionZones && this.mapData.collisionZones.length > 0) {
+      const obstacleGroup = this.physics.add.staticGroup();
+      for (const zone of this.mapData.collisionZones) {
+        const zx = zone.x * tileSize + (zone.w * tileSize) / 2;
+        const zy = zone.y * tileSize + (zone.h * tileSize) / 2;
+        const obstacle = obstacleGroup.create(zx, zy, undefined) as Phaser.Physics.Arcade.Sprite;
+        obstacle.setVisible(false);
+        if (obstacle.body) {
+          obstacle.body.setSize(zone.w * tileSize, zone.h * tileSize);
+        }
+      }
+      this.physics.add.collider(this.player, obstacleGroup);
     }
 
     // Camera follow mượt mà và zoom tối ưu cho màn hình 1920x1080 / 1366x768
@@ -647,7 +682,14 @@ export default class ExplorationScene extends Phaser.Scene {
           this.player.play(walkKey, true);
         }
       } else {
-        const idleKey = `player_idle_${this.currentFacing}`;
+        const char = useGameStore.getState().character;
+        let prefix = 'player_idle';
+        if (char?.cultivationPath === CultivationPath.SPELL && this.anims.exists(`player_magic_idle_${this.currentFacing}`)) {
+          prefix = 'player_magic_idle';
+        } else if (char?.cultivationPath === CultivationPath.BODY && this.anims.exists(`player_body_idle_${this.currentFacing}`)) {
+          prefix = 'player_body_idle';
+        }
+        const idleKey = `${prefix}_${this.currentFacing}`;
         if (this.anims.exists(idleKey)) {
           this.player.play(idleKey, true);
         }
@@ -868,22 +910,122 @@ export default class ExplorationScene extends Phaser.Scene {
     for (const p of this.latestProjectiles) {
       const angle = Math.atan2(p.vy, p.vx);
       const radius = p.radius || 12;
+      // Determine projectile type from skillId or templateId stored on snapshot
+      const ptype: string = (p as any).skillType || 'sword';
 
-      this.projectileGraphics.fillStyle(0x0284c7, 0.35);
-      this.projectileGraphics.fillCircle(p.x, p.y, radius * 1.5);
+      if (ptype === 'spell') {
+        // ── Pháp cầu (spell ball): tím #9b59b6 với aura ──
+        // Outer aura
+        this.projectileGraphics.fillStyle(0x9b59b6, 0.18);
+        this.projectileGraphics.fillCircle(p.x, p.y, radius * 2.2);
+        // Mid glow
+        this.projectileGraphics.fillStyle(0xd198f5, 0.45);
+        this.projectileGraphics.fillCircle(p.x, p.y, radius * 1.4);
+        // Core
+        this.projectileGraphics.fillStyle(0x9b59b6, 1.0);
+        this.projectileGraphics.fillCircle(p.x, p.y, radius);
+        // Bright center
+        this.projectileGraphics.fillStyle(0xffffff, 0.85);
+        this.projectileGraphics.fillCircle(p.x, p.y, radius * 0.38);
+        // Small orbiting dot for aura feel
+        const orbitA = (Date.now() / 300) % (Math.PI * 2);
+        this.projectileGraphics.fillStyle(0xd198f5, 0.9);
+        this.projectileGraphics.fillCircle(
+          p.x + Math.cos(orbitA) * radius * 1.6,
+          p.y + Math.sin(orbitA) * radius * 1.6,
+          3
+        );
+      } else if (ptype === 'body') {
+        // ── Thể Phá: hitbox flash cam #e67e22 (không có projectile, chỉ burst) ──
+        this.projectileGraphics.fillStyle(0xe67e22, 0.22);
+        this.projectileGraphics.fillCircle(p.x, p.y, radius * 2.0);
+        this.projectileGraphics.fillStyle(0xe67e22, 0.65);
+        this.projectileGraphics.fillCircle(p.x, p.y, radius);
+        this.projectileGraphics.lineStyle(2, 0xf39c12, 0.95);
+        this.projectileGraphics.strokeCircle(p.x, p.y, radius * 1.1);
+        // Cross lines for impact feel
+        this.projectileGraphics.lineStyle(2, 0xffa500, 0.75);
+        this.projectileGraphics.beginPath();
+        this.projectileGraphics.moveTo(p.x - radius, p.y);
+        this.projectileGraphics.lineTo(p.x + radius, p.y);
+        this.projectileGraphics.moveTo(p.x, p.y - radius);
+        this.projectileGraphics.lineTo(p.x, p.y + radius);
+        this.projectileGraphics.strokePath();
+      } else {
+        // ── Kiếm khí (sword beam): ellipse trắng-xanh #89cff0 với glow ──
+        // Glow rings: lớn → nhỏ dần
+        this.projectileGraphics.fillStyle(0x89cff0, 0.08);
+        this.projectileGraphics.fillCircle(p.x, p.y, radius * 2.8);
+        this.projectileGraphics.fillStyle(0x89cff0, 0.18);
+        this.projectileGraphics.fillCircle(p.x, p.y, radius * 2.0);
+        this.projectileGraphics.fillStyle(0xc8eeff, 0.40);
+        this.projectileGraphics.fillCircle(p.x, p.y, radius * 1.4);
+        // Vẽ ellipse dài theo hướng bay (simulate với scale + clipping trick in graphics)
+        // Dùng line trail để thể hiện hình dạng kiếm khí
+        const trailLen = radius * 2.8;
+        this.projectileGraphics.lineStyle(radius * 1.1, 0x89cff0, 0.55);
+        this.projectileGraphics.beginPath();
+        this.projectileGraphics.moveTo(
+          p.x - Math.cos(angle) * trailLen,
+          p.y - Math.sin(angle) * trailLen
+        );
+        this.projectileGraphics.lineTo(p.x, p.y);
+        this.projectileGraphics.strokePath();
 
-      this.projectileGraphics.fillStyle(0x38bdf8, 0.9);
-      this.projectileGraphics.fillCircle(p.x, p.y, radius);
-
-      this.projectileGraphics.fillStyle(0xffffff, 1.0);
-      this.projectileGraphics.fillCircle(p.x, p.y, radius * 0.45);
-
-      this.projectileGraphics.lineStyle(3, 0x38bdf8, 0.8);
-      this.projectileGraphics.beginPath();
-      this.projectileGraphics.moveTo(p.x - Math.cos(angle) * 22, p.y - Math.sin(angle) * 22);
-      this.projectileGraphics.lineTo(p.x + Math.cos(angle) * 10, p.y + Math.sin(angle) * 10);
-      this.projectileGraphics.strokePath();
+        this.projectileGraphics.lineStyle(radius * 0.5, 0xffffff, 0.9);
+        this.projectileGraphics.beginPath();
+        this.projectileGraphics.moveTo(
+          p.x - Math.cos(angle) * trailLen * 0.65,
+          p.y - Math.sin(angle) * trailLen * 0.65
+        );
+        this.projectileGraphics.lineTo(
+          p.x + Math.cos(angle) * radius * 0.8,
+          p.y + Math.sin(angle) * radius * 0.8
+        );
+        this.projectileGraphics.strokePath();
+        // Bright tip
+        this.projectileGraphics.fillStyle(0xffffff, 1.0);
+        this.projectileGraphics.fillCircle(p.x, p.y, radius * 0.38);
+      }
     }
+  }
+
+  /**
+   * Spawn a quick hit splat effect (5-6 particles fade out in 300ms).
+   */
+  spawnHitEffect(x: number, y: number, color: number = 0xff4444) {
+    const g = this.add.graphics();
+    g.setDepth(2300);
+    const count = 5 + Math.floor(Math.random() * 2);
+    const particles: Array<{ px: number; py: number; vx: number; vy: number; r: number }> = [];
+    for (let i = 0; i < count; i++) {
+      const a = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.6;
+      const spd = 12 + Math.random() * 16;
+      particles.push({ px: x, py: y, vx: Math.cos(a) * spd, vy: Math.sin(a) * spd, r: 3 + Math.random() * 3 });
+    }
+
+    let elapsed = 0;
+    const dur = 300;
+    const ev = this.time.addEvent({
+      delay: 16,
+      repeat: Math.ceil(dur / 16),
+      callback: () => {
+        elapsed += 16;
+        const t = elapsed / dur;
+        g.clear();
+        const alpha = 1 - t;
+        g.fillStyle(color, alpha);
+        for (const p of particles) {
+          p.px += p.vx * (1 - t);
+          p.py += p.vy * (1 - t);
+          g.fillCircle(p.px, p.py, p.r * (1 - t * 0.5));
+        }
+        if (elapsed >= dur) {
+          g.destroy();
+          ev.remove();
+        }
+      },
+    });
   }
 
   private renderTelegraphs() {
@@ -907,7 +1049,6 @@ export default class ExplorationScene extends Phaser.Scene {
   }
 
   private spawnSlashWave() {
-    if (!this.textures.exists('vfx_sword_slash')) return;
     const offsets = {
       down: { x: 0, y: 16, angle: 90 },
       up: { x: 0, y: -24, angle: -90 },
@@ -915,6 +1056,24 @@ export default class ExplorationScene extends Phaser.Scene {
       right: { x: 24, y: 0, angle: 0 },
     };
     const off = offsets[this.currentFacing] || offsets.down;
+
+    const char = useGameStore.getState().character;
+    if (char?.cultivationPath === CultivationPath.BODY && this.textures.exists('vfx_shockwave')) {
+      const shock = this.add.sprite(this.player.x + off.x, this.player.y + off.y, 'vfx_shockwave');
+      shock.setOrigin(0.5, 0.5);
+      shock.setDepth(this.player.y + 10);
+      this.tweens.add({
+        targets: shock,
+        scaleX: 1.4,
+        scaleY: 1.4,
+        alpha: 0,
+        duration: 220,
+        onComplete: () => shock.destroy(),
+      });
+      return;
+    }
+
+    if (!this.textures.exists('vfx_sword_slash')) return;
     const slash = this.add.sprite(this.player.x + off.x, this.player.y + off.y, 'vfx_sword_slash');
     slash.setOrigin(0.5, 0.5);
     slash.setAngle(off.angle);
@@ -1145,7 +1304,17 @@ export default class ExplorationScene extends Phaser.Scene {
           if (dist < interactDistance) {
             const obj = child.getData('interactableData') as MapInteractable;
             this.currentInteractable = { type: 'OBJECT', id: obj.id, target: obj };
-            foundPrompt = `✨ [E] Thu thập / Kích hoạt`;
+            if (obj.type === 'CHEST') {
+              foundPrompt = `🎁 [E] Mở Rương Bí Cảnh`;
+            } else if (obj.type === 'HERB') {
+              foundPrompt = `🌿 [E] Hái Cửu Diệp Linh Thảo`;
+            } else if (obj.type === 'ORE') {
+              foundPrompt = `⛏️ [E] Khai Thác Linh Khoáng`;
+            } else if (obj.type === 'SHRINE') {
+              foundPrompt = `⛩️ [E] Tham Bái Linh Miếu`;
+            } else {
+              foundPrompt = `✨ [E] Thu thập / Kích hoạt`;
+            }
           }
         }
         return true;

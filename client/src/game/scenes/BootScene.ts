@@ -19,6 +19,10 @@ export default class BootScene extends Phaser.Scene {
     this.load.spritesheet('player_hurt', 'assets/player_hurt.png', { frameWidth: 64, frameHeight: 64 });
     this.load.spritesheet('player_death', 'assets/player_death.png', { frameWidth: 64, frameHeight: 64 });
 
+    // 1.1 Tải Sprite Sheet cho Pháp Tu & Thể Tu
+    this.load.spritesheet('player_magic_idle', 'assets/player_magic_idle.png', { frameWidth: 64, frameHeight: 64 });
+    this.load.spritesheet('player_body_idle', 'assets/player_body_idle.png', { frameWidth: 64, frameHeight: 64 });
+
     // 2. Tải Sprite Sheet thật cho NPC
     this.load.spritesheet('npc_elder', 'assets/npc_elder.png', { frameWidth: 64, frameHeight: 64 });
     this.load.spritesheet('npc_healer', 'assets/npc_healer.png', { frameWidth: 64, frameHeight: 64 });
@@ -50,12 +54,18 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('prop_shrine', 'assets/prop_shrine.png');
     this.load.image('prop_portal', 'assets/prop_portal.png');
     this.load.image('prop_bagua_array', 'assets/prop_bagua_array.png');
+    this.load.image('prop_chest', 'assets/prop_chest.png');
+    this.load.image('prop_herb', 'assets/prop_herb.png');
+    this.load.image('prop_ore', 'assets/prop_ore.png');
 
     // 6. Tải Hiệu Ứng Chiến Đấu (VFX)
     this.load.image('vfx_sword_slash', 'assets/vfx_sword_slash.png');
     this.load.image('vfx_sword_beam', 'assets/vfx_sword_beam.png');
     this.load.image('vfx_shield', 'assets/vfx_shield.png');
     this.load.image('vfx_giant_sword', 'assets/vfx_giant_sword.png');
+    this.load.image('vfx_fire_orb', 'assets/vfx_fire_orb.png');
+    this.load.image('vfx_shockwave', 'assets/vfx_shockwave.png');
+    this.load.image('vfx_talisman', 'assets/vfx_talisman.png');
   }
 
   create() {
