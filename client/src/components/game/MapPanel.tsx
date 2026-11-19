@@ -6,6 +6,65 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import * as gameApi from '../../api/game';
 
+interface MapMeta {
+  desc: string;
+  realm: string;
+  icon: string;
+}
+
+const MAP_METADATA: Record<string, MapMeta> = {
+  map_thanh_khe: {
+    desc: 'Tân Thủ Thôn an bình dưới chân núi, có Trưởng Lão chỉ dẫn, Dược Sĩ bốc thuốc và Vệ Binh bảo hộ.',
+    realm: 'Luyện Khí · Sơ Kỳ',
+    icon: '/assets/vnext/building_house.png',
+  },
+  map_thanh_khe_rung: {
+    desc: 'Vùng hoang dã quanh làng, nơi sói xám ẩn náu. Sâu bên trong là hang ổ của Xích Nha Lang Vương.',
+    realm: 'Luyện Khí · Trung Kỳ',
+    icon: '/assets/vnext/boss_lang_vuong.png',
+  },
+  map_thanh_van: {
+    desc: 'Thanh Vân Kiếm Tông ngút ngàn mây trắng. Nơi luyện kiếm khôi lỗi và thần thú Huyền Giáp Linh Quy trấn giữ.',
+    realm: 'Luyện Khí · Viên Mãn',
+    icon: '/assets/vnext/boss_turtle.png',
+  },
+  map_dan_ha: {
+    desc: 'Thung lũng địa hỏa hội tụ các bậc đại sư luyện đan, ẩn chứa Đan Lô Hỏa Linh và Xích Luyện Đan Sư.',
+    realm: 'Trúc Cơ · Sơ Kỳ',
+    icon: '/assets/vnext/prop_alchemy_furnace.png',
+  },
+  map_co_kiem_di_tich: {
+    desc: 'Chiến trường thượng cổ chôn vùi vạn kiếm. Viễn Cổ Chiến Vệ và Cổ Kiếm Tôn Giả canh giữ kiếm ý vô thượng.',
+    realm: 'Trúc Cơ · Trung Kỳ',
+    icon: '/assets/vnext/icon_item_sword.png',
+  },
+  map_u_minh_vuc: {
+    desc: 'Ranh giới âm dương, nơi Bạch Cốt Dạ Xoa và U Minh Quỷ Tốt hoành hành dưới trướng Hắc Ám Diêm La.',
+    realm: 'Trúc Cơ · Hậu Kỳ',
+    icon: '/assets/vnext/monster_ghost.png',
+  },
+  map_kinh_tam_canh: {
+    desc: 'Ảo cảnh tâm ma phản chiếu tận sâu đáy lòng người tu đạo, đối mặt với Tâm Ma Hóa Thân để đốn ngộ.',
+    realm: 'Kim Đan · Sơ Kỳ',
+    icon: '/assets/vnext/npc_elder.png',
+  },
+  map_long_mach_thien_son: {
+    desc: 'Dãy núi tuyết ngàn năm phong ấn long mạch, băng hàn thấu cốt, nơi Chân Long Tàn Hồn ngự trị.',
+    realm: 'Kim Đan · Trung Kỳ',
+    icon: '/assets/vnext/boss_lang_vuong.png',
+  },
+  map_thien_khe_dai: {
+    desc: 'Tế đài cổ đại tiếp giáp Thiên Đạo ý chí, nơi chư vị đại năng tiếp nhận đại thiên kiếp để phi thăng.',
+    realm: 'Kim Đan · Viên Mãn',
+    icon: '/assets/vnext/npc_mentor.png',
+  },
+  map_tran_yeu_thap: {
+    desc: 'Tháp cổ giam giữ ma thần và yêu vương vạn cổ: Cửu U Minh Hoàng, Diệt Thế Lôi Long, Vạn Đạo Thiên Tôn.',
+    realm: 'Endgame Đỉnh Phong',
+    icon: '/assets/vnext/boss_turtle.png',
+  },
+};
+
 export default function MapPanel() {
   const { character, currentMap, setActivePanel, addNotification } = useGameStore();
   const teleporting = useRef(false);
@@ -50,9 +109,9 @@ export default function MapPanel() {
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      width: '640px',
+      width: '720px',
       maxWidth: 'calc(100vw - 32px)',
-      maxHeight: 'calc(100vh - 32px)',
+      maxHeight: 'calc(100vh - 40px)',
       display: 'flex',
       flexDirection: 'column',
       background: 'rgba(15, 23, 42, 0.96)',
@@ -63,8 +122,13 @@ export default function MapPanel() {
       zIndex: 100,
       color: '#e2e8f0',
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexShrink: 0 }}>
-        <h2 id="world-map-heading" style={{ margin: 0, color: '#ffd700', fontSize: '1.4rem' }}>🗺️ THẦN CHÂU ĐỊA ĐỒ</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexShrink: 0 }}>
+        <div>
+          <h2 id="world-map-heading" style={{ margin: 0, color: '#ffd700', fontSize: '1.4rem' }}>🗺️ THẦN CHÂU ĐỊA ĐỒ (10 ĐẠI PHÂN VỰC)</h2>
+          <div style={{ fontSize: '0.82rem', color: '#94a3b8', marginTop: '2px' }}>
+            Khám phá và tự do dịch chuyển qua các vùng đất tu tiên trong cửu châu
+          </div>
+        </div>
         <button
           onClick={() => setActivePanel(null)}
           aria-label="Đóng bản đồ"
@@ -74,37 +138,72 @@ export default function MapPanel() {
         </button>
       </div>
 
-      <div style={{ display: 'grid', gap: '12px', minHeight: 0, overflowY: 'auto', overscrollBehavior: 'contain' }}>
+      <div style={{ display: 'grid', gap: '10px', minHeight: 0, overflowY: 'auto', overscrollBehavior: 'contain', paddingRight: '4px' }}>
         {maps.map((m) => {
           const isCurrent = (currentMap?.id ?? character?.currentMapId) === m.id;
+          const meta = MAP_METADATA[m.id] || {
+            desc: 'Vùng đất linh khí u ẩn, chờ đạo hữu đến khám phá.',
+            realm: 'Trúc Cơ Kỳ',
+            icon: '/assets/vnext/prop_ancient_rock.png',
+          };
+
           return (
             <div
               key={m.id}
               style={{
-                background: isCurrent ? 'rgba(197, 160, 89, 0.15)' : '#1e293b',
+                background: isCurrent ? 'rgba(197, 160, 89, 0.18)' : '#1e293b',
                 border: isCurrent ? '1px solid #ffd700' : '1px solid #334155',
                 borderRadius: '8px',
-                padding: '16px',
+                padding: '12px 16px',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '14px',
               }}
             >
-              <div>
-                <div style={{ fontWeight: 'bold', fontSize: '1.05rem', color: isCurrent ? '#ffd700' : '#e2e8f0' }}>
-                  {m.name} {isCurrent && '(Vị trí hiện tại)'}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flex: 1 }}>
+                <div style={{
+                  width: '46px',
+                  height: '46px',
+                  borderRadius: '6px',
+                  background: '#0f172a',
+                  border: isCurrent ? '1px solid #ffd700' : '1px solid #475569',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  overflow: 'hidden',
+                  flexShrink: 0,
+                }}>
+                  <img
+                    src={meta.icon}
+                    alt={m.name}
+                    style={{
+                      height: '36px',
+                      maxWidth: '36px',
+                      imageRendering: 'pixelated',
+                      objectFit: 'contain',
+                    }}
+                  />
                 </div>
-                {m.id === 'map_thanh_khe' && (
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '4px' }}>
-                    Khu vực an toàn, có thương nhân, trưởng lão và linh miếu hồi phục.
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontWeight: 'bold', fontSize: '1.05rem', color: isCurrent ? '#ffd700' : '#f1f5f9' }}>
+                      {m.name}
+                    </span>
+                    {isCurrent ? (
+                      <span style={{ fontSize: '0.72rem', background: '#ffd700', color: '#000', padding: '1px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
+                        Vị trí hiện tại
+                      </span>
+                    ) : (
+                      <span style={{ fontSize: '0.72rem', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '1px 6px', borderRadius: '4px', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
+                        {meta.realm}
+                      </span>
+                    )}
                   </div>
-                )}
-                {m.id === 'map_thanh_khe_rung' && (
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '4px' }}>
-                    Vùng hoang dã có sói xám và Lang Vương.
+                  <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '4px', lineHeight: 1.4 }}>
+                    {meta.desc}
                   </div>
-                )}
+                </div>
               </div>
 
               {!isCurrent && (
@@ -120,6 +219,8 @@ export default function MapPanel() {
                     borderRadius: '6px',
                     cursor: isTeleporting ? 'wait' : 'pointer',
                     flexShrink: 0,
+                    fontSize: '0.85rem',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
                   }}
                 >
                   Dịch Chuyển

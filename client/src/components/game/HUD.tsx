@@ -87,13 +87,22 @@ export default function HUD() {
         minWidth: '240px',
         boxShadow: '0 4px 16px rgba(0,0,0,0.5)',
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-          <span style={{ fontWeight: 'bold', color: '#ffd700', fontSize: '1rem' }}>
-            {character?.name || 'Tu Sĩ'}
-          </span>
-          <span style={{ fontSize: '0.8rem', color: '#81c784', background: 'rgba(76,175,80,0.15)', padding: '2px 6px', borderRadius: '4px' }}>
-            {character?.realmName || 'Luyện Khí - Sơ Kỳ'}
-          </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+          <img
+            src={character?.cultivationPath === 'SPELL' ? '/assets/vnext/icon_item_staff.png' : character?.cultivationPath === 'BODY' ? '/assets/vnext/icon_item_fist.png' : '/assets/vnext/icon_item_sword.png'}
+            alt="Đạo Thân"
+            style={{ width: '36px', height: '36px', imageRendering: 'pixelated', background: '#1e293b', border: '1px solid #ffd700', borderRadius: '6px', padding: '2px', flexShrink: 0 }}
+          />
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontWeight: 'bold', color: '#ffd700', fontSize: '1rem' }}>
+                {character?.name || 'Tu Sĩ'}
+              </span>
+              <span style={{ fontSize: '0.75rem', color: '#81c784', background: 'rgba(76,175,80,0.15)', padding: '1px 6px', borderRadius: '4px', border: '1px solid rgba(76,175,80,0.3)' }}>
+                {character?.realmName || 'Luyện Khí - Sơ Kỳ'}
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* HP Bar */}

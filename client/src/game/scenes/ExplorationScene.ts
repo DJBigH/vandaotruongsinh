@@ -730,7 +730,7 @@ export default class ExplorationScene extends Phaser.Scene {
         } else if (walk) {
           const horizontal = Math.cos(ent.facingAngle);
           if (Math.abs(horizontal) > 0.1) sprite.setFlipX(horizontal > 0);
-          const is6Frame = ['turtle_walk', 'puppet_walk', 'boss_wolf_walk'].includes(walk);
+          const is6Frame = ['turtle_walk', 'puppet_walk', 'boss_wolf_walk', 'wolf_walk', 'snake_walk', 'fox_walk', 'treant_walk'].includes(walk);
           const frame = is6Frame
             ? (ent.state === 'WINDUP' ? 4 : ent.state === 'ATTACK' ? 5 : ent.state === 'IDLE' ? 0 : null)
             : (ent.state === 'IDLE' ? 0 : null);

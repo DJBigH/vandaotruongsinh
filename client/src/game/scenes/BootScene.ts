@@ -39,14 +39,6 @@ export default class BootScene extends Phaser.Scene {
     // Fallback cho cây và đá phụ
     this.createTile('tile_tree', '#1b4d1b', '#0f2f0f');
     this.createTile('tile_rock', '#616161', '#424242');
-
-    // Fallback cho các phái khác nếu chưa có asset riêng
-    this.createPlayerTexture('player_0', '#4fc3f7');
-    this.createPlayerTexture('player_1', '#ab47bc');
-    this.createPlayerTexture('player_2', '#66bb6a');
-    this.createPlayerTexture('player_3', '#ffa726');
-    this.createPlayerTexture('player_4', '#ef5350');
-    this.createPlayerTexture('player_5', '#ffd700');
   }
 
   private createTile(key: string, primary: string, secondary: string) {

@@ -5,6 +5,8 @@
 import Phaser from 'phaser';
 import { eventBridge } from '../EventBridge';
 import * as gameApi from '../../api/game';
+import { useGameStore } from '../../stores/gameStore';
+import { creatureAppearance } from '../exploration/presentation';
 import {
   CombatAction,
   type CombatState,
@@ -67,8 +69,16 @@ export default class CombatScene extends Phaser.Scene {
   private renderCombatants() {
     if (!this.combatState) return;
 
-    // Player (Left side)
-    this.playerSprite = this.add.sprite(220, 260, 'player_0').setScale(2.5);
+    // Player (Left side) - Chuẩn mỹ thuật Chibi 2D theo Đạo Thân (Kiếm/Pháp/Thể)
+    const char = useGameStore.getState().character;
+    const path = char?.cultivationPath || 'SWORD';
+    const playerTexture = path === 'SPELL' ? 'player_magic_idle' : path === 'BODY' ? 'player_body_idle' : 'player_idle';
+    this.playerSprite = this.add.sprite(220, 260, playerTexture).setScale(2.0);
+    const animKey = `${playerTexture}_right`;
+    if (this.anims.exists(animKey)) {
+      this.playerSprite.play(animKey);
+    }
+
     this.add.text(220, 180, this.combatState.playerState.name, {
       fontSize: '16px',
       color: '#ffd700',
@@ -78,7 +88,7 @@ export default class CombatScene extends Phaser.Scene {
     this.playerHpBar = this.add.graphics();
     this.playerMpBar = this.add.graphics();
 
-    // Enemies (Right side)
+    // Enemies (Right side) - Sử dụng toàn bộ Spritesheet và hiệu ứng thực tế từ creatureAppearance
     this.enemySprites.clear();
     this.enemyHpBars.clear();
 
@@ -87,13 +97,20 @@ export default class CombatScene extends Phaser.Scene {
       const x = 700 + (index * 40);
       const y = 260 + (index * 50);
 
-      const texture = enemy.id.startsWith('boss') ? enemy.id : 'mon_001';
-      const sprite = this.add.sprite(x, y, texture).setScale(enemy.id.startsWith('boss') ? 2.2 : 2.0);
+      const isBoss = enemy.id.startsWith('boss');
+      const app = creatureAppearance({ id: enemy.id, monsterId: enemy.id, type: isBoss ? 'BOSS' : 'NORMAL' } as any);
+      const sprite = this.add.sprite(x, y, app.texture).setScale((app.scale || 1.0) * 1.5);
+      if (app.tint) sprite.setTint(app.tint);
+      if (app.walk && this.anims.exists(app.walk)) {
+        sprite.play(app.walk);
+      }
+      // Quay mặt sang trái về phía người chơi
+      sprite.setFlipX(true);
       this.enemySprites.set(enemy.id, sprite);
 
       this.add.text(x, y - 60, enemy.name, {
         fontSize: '16px',
-        color: enemy.id.startsWith('boss') ? '#ef5350' : '#e0e0e0',
+        color: isBoss ? '#ef5350' : '#e0e0e0',
         fontStyle: 'bold',
       }).setOrigin(0.5);
 
@@ -250,12 +267,26 @@ export default class CombatScene extends Phaser.Scene {
     if (!this.combatState || this.isProcessingAction) return;
     this.isProcessingAction = true;
 
-    // Animate player forward attack
+    // Hiệu ứng tấn công bộc phá theo phong cách Chibi Tu Tiên
+    const char = useGameStore.getState().character;
+    const path = char?.cultivationPath || 'SWORD';
+    const attackAnim = path === 'SWORD' ? 'player_slash_right' : path === 'SPELL' ? 'player_cast_right' : 'player_slash_right';
+    const idleAnim = path === 'SPELL' ? 'player_magic_idle_right' : path === 'BODY' ? 'player_body_idle_right' : 'player_idle_right';
+
+    if (this.anims.exists(attackAnim)) {
+      this.playerSprite.play(attackAnim);
+    }
+
     this.tweens.add({
       targets: this.playerSprite,
-      x: 260,
-      duration: 120,
+      x: 270,
+      duration: 140,
       yoyo: true,
+      onComplete: () => {
+        if (this.anims.exists(idleAnim)) {
+          this.playerSprite.play(idleAnim);
+        }
+      },
     });
 
     try {
