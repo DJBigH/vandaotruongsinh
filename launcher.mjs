@@ -117,12 +117,16 @@ async function ensurePostgres() {
 
   // Thử kích hoạt qua WSL trước
   try {
-    execSync('wsl -u root systemctl start postgresql@16-main', { stdio: 'ignore', timeout: 6000 });
+    execSync('wsl -u root service postgresql start', { stdio: 'ignore', timeout: 8000 });
   } catch (e) {
-    // Nếu WSL không chạy, thử qua docker compose
     try {
-      execSync('docker compose up -d postgres', { cwd: __dirname, stdio: 'ignore', timeout: 10000 });
-    } catch (e2) {}
+      execSync('wsl -u root systemctl start postgresql', { stdio: 'ignore', timeout: 6000 });
+    } catch (e1) {
+      // Nếu WSL không chạy, thử qua docker compose
+      try {
+        execSync('docker compose up -d postgres', { cwd: __dirname, stdio: 'ignore', timeout: 10000 });
+      } catch (e2) {}
+    }
   }
 
   const ok = await waitForPort(DB_HOST, DB_PORT, 12000);
