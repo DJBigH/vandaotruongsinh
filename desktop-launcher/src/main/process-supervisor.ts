@@ -35,6 +35,7 @@ export class ProcessSupervisor {
   // Tiến trình con thuộc quyền sở hữu của launcher
   private serverProc: ChildProcess | null = null;
   private clientProc: ChildProcess | null = null;
+  private wslKeepaliveProc: ChildProcess | null = null;
 
   // Thông tin trạng thái
   private serverInfo: ServiceInfo;
@@ -678,6 +679,21 @@ export class ProcessSupervisor {
     return false;
   }
 
+  private ensureWslKeepalive(): void {
+    if (process.platform !== 'win32') return;
+    try {
+      if (!this.wslKeepaliveProc || this.wslKeepaliveProc.exitCode !== null) {
+        const { spawn } = require('child_process');
+        this.wslKeepaliveProc = spawn('wsl', ['-d', 'Ubuntu', '--exec', 'sleep', 'infinity'], {
+          detached: true,
+          stdio: 'ignore',
+          windowsHide: true,
+        });
+        this.wslKeepaliveProc.unref();
+      }
+    } catch {}
+  }
+
   public async ensureDatabaseRunning(): Promise<DatabaseInfo> {
     const settings = this.settingsManager.getSettings();
     const configuration = readBackendEnvironment(settings.projectDir, parse);
@@ -702,26 +718,24 @@ export class ProcessSupervisor {
     if (diag.status !== 'PASS' && process.platform === 'win32' &&
       port === 5432 && ['localhost', '127.0.0.1', '::1'].includes(host)) {
       try {
-        const { execSync, spawn } = require('child_process');
+        const { execSync } = require('child_process');
         this.logger.info('launcher', 'Đang tự động đánh thức dịch vụ PostgreSQL trong WSL Ubuntu...');
         execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 8000, stdio: 'ignore' });
+        this.ensureWslKeepalive();
 
-        // Khởi động tiến trình duy trì keepalive để WSL không bị ngủ đông
-        try {
-          const keepalive = spawn('wsl', ['-d', 'Ubuntu', '--exec', 'sleep', 'infinity'], {
-            detached: true,
-            stdio: 'ignore',
-            windowsHide: true,
-          });
-          keepalive.unref();
-        } catch {}
-
-        // Chờ 1.5s để wslrelay kết nối cổng 5432
-        await new Promise(r => setTimeout(r, 1500));
-        diag = await SystemDiagnostics.checkDatabase(host, port);
+        // Đợi và thăm dò lại tối đa 5 lần (mỗi lần 1s) để dịch vụ PostgreSQL và cổng 5432 sẵn sàng hoàn toàn
+        for (let attempt = 0; attempt < 5; attempt++) {
+          await new Promise(r => setTimeout(r, 1000));
+          diag = await SystemDiagnostics.checkDatabase(host, port);
+          if (diag.status === 'PASS') break;
+        }
       } catch (err: any) {
         this.logger.warn('launcher', `Không thể kích hoạt tự động PostgreSQL qua WSL: ${err.message}`);
       }
+    }
+
+    if (diag.status === 'PASS' && process.platform === 'win32') {
+      this.ensureWslKeepalive();
     }
 
     this.databaseInfo.lastCheckedTime = Date.now();

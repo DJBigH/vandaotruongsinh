@@ -4,6 +4,14 @@ title VẠN ĐẠO TRƯỜNG SINH - Trình Khởi Chạy Desktop
 
 cd /d "%~dp0"
 
+:: Tự động kiểm tra và đánh thức dịch vụ PostgreSQL trong WSL Ubuntu
+where wsl >nul 2>&1
+if %errorlevel% equ 0 (
+    echo [CƠ SỞ DỮ LIỆU] Đang tự động kiểm tra và khởi động PostgreSQL trong WSL Ubuntu...
+    wsl -d Ubuntu -u root service postgresql start >nul 2>&1
+    start /b "" wsl -d Ubuntu --exec sleep infinity >nul 2>&1
+)
+
 if exist "desktop-launcher\dist-packaged\win-unpacked\VanDaoLauncher.exe" (
     start "" "desktop-launcher\dist-packaged\win-unpacked\VanDaoLauncher.exe"
     exit /b 0
