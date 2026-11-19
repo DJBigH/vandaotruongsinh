@@ -48,19 +48,17 @@ export default class BootScene extends Phaser.Scene {
     this.createPlayerTexture('player_4', '#ef5350');
     this.createPlayerTexture('player_5', '#ffd700');
 
-    // Fallback cho NPC phụ
-    this.createNPCTexture('npc_mentor', '#ba68c8', '#4a148c');
+    // Fallback cho NPC phụ nếu chưa có asset
+    // (npc_mentor và npc_elder đã có sprite vNext chính thức)
 
-    // Fallback cho quái vật ID phụ
+    // Fallback cho quái vật ID phụ (các quái chưa có sheet vNext riêng)
     this.createMonsterTexture('mon_004', '#e65100', '#ffb74d'); // Yêu Hồ
     this.createMonsterTexture('mon_005', '#3e2723', '#d32f2f'); // Sói Tinh
-    this.createMonsterTexture('mon_006', '#1565c0', '#90caf9'); // Kiếm Khí Khôi Lỗi
     this.createMonsterTexture('mon_007', '#b71c1c', '#ff8a80'); // Hỏa Viêm Mãng
     this.createMonsterTexture('mon_010', '#880e4f', '#f48fb1'); // Xích Diễm Chu
 
     // Boss phụ
     this.createBossTexture('boss_002', '#1b5e20', '#a5d6a7');
-    this.createBossTexture('boss_003', '#006064', '#80deea');
     this.createBossTexture('boss_004', '#283593', '#c5cae9');
   }
 

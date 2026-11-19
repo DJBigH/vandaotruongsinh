@@ -3,6 +3,7 @@ import { isWorldPathWalkable } from '../../../../shared/src/world-collision';
 
 export const isVillage = (map: MapData) => map.id === 'map_thanh_khe';
 export const isForest = (map: MapData) => map.id === 'map_thanh_khe_rung';
+export const isSect = (map: MapData) => map.id === 'map_thanh_van';
 export const isWater = (zone: MapCollisionZone) => /suối|hồ/iu.test(zone.label ?? '');
 
 export function buildingTexture(zone: MapCollisionZone): string | undefined {
@@ -98,6 +99,11 @@ export function worldTrails(map: MapData): Trail[] {
     for (const item of map.interactables.filter(obj => obj.type === 'CHEST')) {
       link(item.position.x < 32 ? gladeA : gladeB, item.position, 0.65);
     }
+  } else if (isSect(map)) {
+    const shrine = map.interactables.find(obj => obj.type === 'SHRINE')?.position ?? { x: 16, y: 12 };
+    link(shrine, map.spawnPoint, 2.0, true);
+    for (const npc of map.npcs) link(shrine, npc.position, 1.5, true);
+    for (const portal of map.portals) link(shrine, portal.position, 1.5, true);
   }
   return trails;
 }

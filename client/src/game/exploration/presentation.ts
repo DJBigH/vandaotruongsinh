@@ -21,6 +21,7 @@ export function creatureAppearance(ent: EntitySnapshot) {
     case 'mon_003': return { texture: 'monster_snake', walk: 'snake_walk', scale: 1 };
     case 'mon_004': return { texture: 'monster_fox', walk: 'fox_walk', scale: 1 };
     case 'boss_001': return { texture: 'boss_lang_vuong', walk: 'boss_wolf_walk', scale: 1.55 };
+    case 'boss_003': return { texture: 'boss_turtle', walk: 'turtle_walk', scale: 1.6 };
     case 'mon_006':
     case 'mon_007': return { texture: 'monster_puppet', walk: 'puppet_walk', scale: 1.1 };
     case 'mon_008':

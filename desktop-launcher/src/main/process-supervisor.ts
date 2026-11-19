@@ -720,11 +720,11 @@ export class ProcessSupervisor {
       try {
         const { execSync } = require('child_process');
         this.logger.info('launcher', 'Đang tự động đánh thức dịch vụ PostgreSQL trong WSL Ubuntu...');
-        execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 8000, stdio: 'ignore' });
+        execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 15000, stdio: 'ignore' });
         this.ensureWslKeepalive();
 
-        // Đợi và thăm dò lại tối đa 5 lần (mỗi lần 1s) để dịch vụ PostgreSQL và cổng 5432 sẵn sàng hoàn toàn
-        for (let attempt = 0; attempt < 5; attempt++) {
+        // Đợi và thăm dò lại tối đa 8 lần (mỗi lần 1s) để dịch vụ PostgreSQL và cổng 5432 sẵn sàng hoàn toàn
+        for (let attempt = 0; attempt < 8; attempt++) {
           await new Promise(r => setTimeout(r, 1000));
           diag = await SystemDiagnostics.checkDatabase(host, port);
           if (diag.status === 'PASS') break;
@@ -799,6 +799,21 @@ export class ProcessSupervisor {
           }
         } else if (!isClientUp && this.clientInfo.state === 'EXTERNAL_RUNNING') {
           this.clientInfo.state = 'STOPPED';
+        }
+      }
+
+      // 3. Tự động kiểm tra và phục hồi kết nối Database nếu đang DISCONNECTED
+      if (this.databaseInfo.state === 'DISCONNECTED') {
+        const conf = readBackendEnvironment(settings.projectDir, parse);
+        if (!('error' in conf)) {
+          const dbDiag = await SystemDiagnostics.checkDatabase(conf.database.host, conf.database.port);
+          if (dbDiag.status === 'PASS') {
+            this.databaseInfo.state = 'CONNECTED';
+            this.databaseInfo.message = dbDiag.message;
+            this.databaseInfo.lastCheckedTime = Date.now();
+            this.ensureWslKeepalive();
+            this.logger.info('launcher', `PostgreSQL đã tự động kết nối lại thành công trên cổng ${conf.database.port}.`);
+          }
         }
       }
 

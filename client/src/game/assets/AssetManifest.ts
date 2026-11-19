@@ -91,6 +91,19 @@ assets.push({
   animations: [{ key: 'puppet_walk', frameStart: 0, frameEnd: 3, duration: 540, repeat: -1 }],
 });
 
+// NPC & Boss Mở rộng: Đạo Sĩ Tiêu Dao & Huyền Giáp Linh Quy
+assets.push({
+  key: 'npc_mentor', file: 'assets/vnext/npc_mentor.png', type: 'spritesheet', frameWidth: 64, frameHeight: 64, provenance: 'original-M1',
+  animations: [{ key: 'npc_mentor_idle', frameStart: 0, frameEnd: 3, duration: 800, repeat: -1 }],
+});
+assets.push({
+  key: 'boss_turtle', file: 'assets/vnext/boss_turtle.png', type: 'spritesheet', frameWidth: 64, frameHeight: 64, provenance: 'original-M1',
+  animations: [
+    { key: 'turtle_walk', frameStart: 0, frameEnd: 3, duration: 600, repeat: -1 },
+    { key: 'turtle_attack', frameStart: 4, frameEnd: 5, duration: 500, repeat: 0 },
+  ],
+});
+
 assets.push({
   key: 'monster_ghost', file: 'assets/monster_ghost.png', type: 'spritesheet', frameWidth: 32, frameHeight: 32, provenance: 'legacy',
   animations: [{ key: 'ghost_float', frameStart: 0, frameEnd: 2, duration: 600, repeat: -1 }],

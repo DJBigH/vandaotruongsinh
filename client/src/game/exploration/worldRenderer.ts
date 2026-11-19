@@ -1,6 +1,6 @@
 import type Phaser from 'phaser';
 import type { MapCollisionZone, MapData, Position } from '@shared/index';
-import { buildingScale, buildingTexture, isForest, isVillage, isWater, worldTrails } from './worldLayout';
+import { buildingScale, buildingTexture, isForest, isSect, isVillage, isWater, worldTrails } from './worldLayout';
 
 type Occluder = {
   sprite: Phaser.GameObjects.Sprite;
@@ -139,7 +139,10 @@ export class WorldRenderer {
     ctx.imageSmoothingEnabled = false;
     const forest = isForest(map);
     const village = isVillage(map);
-    if (!forest && !village) {
+    const sect = isSect(map);
+    const hasMaterials = scene.textures.exists('ground_stone') && scene.textures.exists('ground_grass');
+
+    if (!hasMaterials) {
       const ground = map.layers.find(l => !l.collision);
       const solid = map.layers.filter(l => l.collision);
       for (let y = 0; y < map.height; y++) for (let x = 0; x < map.width; x++) {
@@ -170,9 +173,9 @@ export class WorldRenderer {
       };
       const grass = material('grass', forest ? '#475540' : '#747b58', forest ? 0.35 : 0.39, 154);
       const dirt = material('dirt', forest ? '#837459' : '#a89a78', 0.53, 142);
-      const stone = material('stone', '#948f79', 0.57, 174);
+      const stone = material('stone', sect ? '#4b5563' : '#948f79', sect ? 0.68 : 0.57, 174);
       const water = material('water', '#3c6868', 0.63, 126);
-      ctx.fillStyle = grass;
+      ctx.fillStyle = sect ? stone : grass;
       ctx.fillRect(0, 0, w, h);
       // Broad tonal changes keep the open grass readable at both desktop sizes.
       for (let i = 0; i < 26; i++) {
@@ -225,6 +228,53 @@ export class WorldRenderer {
             if (i) ctx.lineTo(px, py); else ctx.moveTo(px, py);
           }
           ctx.closePath(); ctx.fill(); ctx.stroke();
+        }
+      }
+      if (sect) {
+        // Mountain border stone styling
+        const solid = map.layers.filter(l => l.collision);
+        for (let y = 0; y < map.height; y++) {
+          for (let x = 0; x < map.width; x++) {
+            const index = y * map.width + x;
+            if (solid.some(l => l.data[index] > 0)) {
+              ctx.fillStyle = '#1e293b';
+              ctx.fillRect(x * s, y * s, s, s);
+              ctx.fillStyle = '#334155';
+              ctx.fillRect(x * s + 2, y * s + 2, s - 4, s - 4);
+              ctx.fillStyle = '#475569';
+              ctx.fillRect(x * s + 4, y * s + 4, s - 8, s - 8);
+            }
+          }
+        }
+        // Central Daoist Martial Array around shrine
+        const shrine = map.interactables.find(o => o.type === 'SHRINE');
+        if (shrine) {
+          const cx = shrine.position.x * s, cy = shrine.position.y * s;
+          ctx.save();
+          ctx.fillStyle = 'rgba(30, 41, 59, 0.6)';
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          for (let i = 0; i < 8; i++) {
+            const angle = Math.PI * (i / 4 + 1 / 8);
+            const px = cx + 3.8 * s * Math.cos(angle), py = cy + 3.8 * s * Math.sin(angle);
+            if (i) ctx.lineTo(px, py); else ctx.moveTo(px, py);
+          }
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(cx, cy, 2.8 * s, 0, Math.PI * 2);
+          ctx.stroke();
+
+          ctx.strokeStyle = 'rgba(224, 231, 255, 0.25)';
+          ctx.beginPath();
+          ctx.arc(cx, cy, 1.8 * s, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
         }
       }
       // Sample the opaque masonry between the pillars in the original wall module.
