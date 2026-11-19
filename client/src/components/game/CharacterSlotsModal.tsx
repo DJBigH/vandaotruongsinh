@@ -161,15 +161,23 @@ export default function CharacterSlotsModal({ onClose }: Props) {
                     <div style={{
                       width: '44px',
                       height: '44px',
-                      borderRadius: '50%',
+                      borderRadius: '8px',
                       background: isOccupied ? '#1e293b' : '#0f172a',
-                      border: '1px solid #64748b',
+                      border: '1px solid #c5a059',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '1.2rem',
+                      overflow: 'hidden',
                     }}>
-                      {isOccupied ? (s.cultivationPath === CultivationPath.SWORD ? '⚔️' : s.cultivationPath === CultivationPath.SPELL ? '✨' : '🛡️') : '➕'}
+                      {isOccupied ? (
+                        <img
+                          src={s.cultivationPath === CultivationPath.SWORD ? '/assets/vnext/icon_item_sword.png' : s.cultivationPath === CultivationPath.SPELL ? '/assets/vnext/icon_item_staff.png' : '/assets/vnext/icon_item_fist.png'}
+                          alt="Hệ Tu Luyện"
+                          style={{ width: '32px', height: '32px', imageRendering: 'pixelated' }}
+                        />
+                      ) : (
+                        <span style={{ fontSize: '1.2rem', color: '#64748b' }}>➕</span>
+                      )}
                     </div>
 
                     <div>

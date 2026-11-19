@@ -171,11 +171,15 @@ export class WorldRenderer {
         }
         return ctx.createPattern(tile, 'repeat')!;
       };
+      const isStoneMap = sect || ['map_co_kiem_di_tich', 'map_u_minh_vuc', 'map_kinh_tam_canh', 'map_thien_khe_dai', 'map_tran_yeu_thap', 'map_long_mach_thien_son'].includes(map.id);
+      const isDirtMap = map.id === 'map_dan_ha';
+
       const grass = material('grass', forest ? '#475540' : '#747b58', forest ? 0.35 : 0.39, 154);
       const dirt = material('dirt', forest ? '#837459' : '#a89a78', 0.53, 142);
-      const stone = material('stone', sect ? '#4b5563' : '#948f79', sect ? 0.68 : 0.57, 174);
+      const stoneTone = sect ? '#4b5563' : map.id === 'map_u_minh_vuc' ? '#2e1065' : map.id === 'map_long_mach_thien_son' ? '#475569' : '#64748b';
+      const stone = material('stone', stoneTone, 0.68, 174);
       const water = material('water', '#3c6868', 0.63, 126);
-      ctx.fillStyle = sect ? stone : grass;
+      ctx.fillStyle = isStoneMap ? stone : isDirtMap ? dirt : grass;
       ctx.fillRect(0, 0, w, h);
       // Broad tonal changes keep the open grass readable at both desktop sizes.
       for (let i = 0; i < 26; i++) {
@@ -230,7 +234,7 @@ export class WorldRenderer {
           ctx.closePath(); ctx.fill(); ctx.stroke();
         }
       }
-      if (sect) {
+      if (isStoneMap) {
         // Mountain border stone styling
         const solid = map.layers.filter(l => l.collision);
         for (let y = 0; y < map.height; y++) {

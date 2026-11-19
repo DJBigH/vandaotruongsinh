@@ -126,26 +126,46 @@ export default function TowerPanel() {
                   alignItems: 'center',
                 }}
               >
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <span style={{ fontWeight: 'bold', color: '#ffd700', fontSize: '1rem' }}>{fl.name}</span>
-                    <span style={{ fontSize: '0.75rem', color: '#ffb74d', background: 'rgba(255, 183, 77, 0.15)', padding: '2px 8px', borderRadius: '4px' }}>
-                      Cảnh giới đề cử: {fl.recommendedRealm}
-                    </span>
-                    {fl.isCleared && (
-                      <span style={{ fontSize: '0.75rem', color: '#81c784', background: 'rgba(76, 175, 80, 0.2)', padding: '2px 6px', borderRadius: '4px' }}>
-                        ✅ Đã Vượt Ải
+                <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+                  <div style={{
+                    width: '52px',
+                    height: '52px',
+                    borderRadius: '8px',
+                    border: '1px solid #ef5350',
+                    background: '#1a0505',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                    flexShrink: 0,
+                  }}>
+                    <img
+                      src={fl.bossId === 'boss_017' ? '/assets/vnext/boss_turtle.png' : fl.bossId === 'boss_013' ? '/assets/vnext/monster_snake.png' : fl.bossId === 'boss_014' ? '/assets/vnext/monster_fox.png' : fl.bossId === 'boss_016' ? '/assets/vnext/monster_ghost.png' : fl.bossId === 'boss_019' ? '/assets/vnext/npc_mentor.png' : fl.bossId === 'boss_020' || fl.bossId === 'boss_012' ? '/assets/vnext/npc_elder.png' : '/assets/vnext/boss_lang_vuong.png'}
+                      alt={fl.bossName}
+                      style={{ width: '42px', height: '42px', objectFit: 'cover', objectPosition: '0 0', imageRendering: 'pixelated' }}
+                    />
+                  </div>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <span style={{ fontWeight: 'bold', color: '#ffd700', fontSize: '1rem' }}>{fl.name}</span>
+                      <span style={{ fontSize: '0.75rem', color: '#ffb74d', background: 'rgba(255, 183, 77, 0.15)', padding: '2px 8px', borderRadius: '4px' }}>
+                        Cảnh giới đề cử: {fl.recommendedRealm}
                       </span>
-                    )}
-                  </div>
+                      {fl.isCleared && (
+                        <span style={{ fontSize: '0.75rem', color: '#81c784', background: 'rgba(76, 175, 80, 0.2)', padding: '2px 6px', borderRadius: '4px' }}>
+                          ✅ Đã Vượt Ải
+                        </span>
+                      )}
+                    </div>
 
-                  <div style={{ fontSize: '0.85rem', color: '#cfd8dc', marginTop: '4px' }}>
-                    👹 Boss trấn giữ: <strong style={{ color: '#ef5350' }}>{fl.bossName}</strong> - {fl.bossTitle}
-                  </div>
+                    <div style={{ fontSize: '0.85rem', color: '#cfd8dc', marginTop: '4px' }}>
+                      👹 Boss trấn giữ: <strong style={{ color: '#ef5350' }}>{fl.bossName}</strong> - {fl.bossTitle}
+                    </div>
 
-                  <div style={{ fontSize: '0.8rem', color: '#90a4ae', marginTop: '4px' }}>
-                    🎁 Quà vượt ải: +{fl.rewards.exp} EXP, +{fl.rewards.gold} 💎, +{fl.rewards.cultivationExp} Tu vi
-                    {fl.rewards.items?.length > 0 && ` | Vật phẩm: ${fl.rewards.items.map((i: any) => `${i.name} (x${i.quantity})`).join(', ')}`}
+                    <div style={{ fontSize: '0.8rem', color: '#90a4ae', marginTop: '4px' }}>
+                      🎁 Quà vượt ải: +{fl.rewards.exp} EXP, +{fl.rewards.gold} 💎, +{fl.rewards.cultivationExp} Tu vi
+                      {fl.rewards.items?.length > 0 && ` | Vật phẩm: ${fl.rewards.items.map((i: any) => `${i.name} (x${i.quantity})`).join(', ')}`}
+                    </div>
                   </div>
                 </div>
 

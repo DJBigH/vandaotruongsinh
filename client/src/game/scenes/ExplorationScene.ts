@@ -685,7 +685,8 @@ export default class ExplorationScene extends Phaser.Scene {
         // Monster sprite with Genuine 2D Assets
         const isBoss = ent.type === 'BOSS';
         const look = creatureAppearance(ent);
-        const texture = this.textures.exists(look.texture) ? look.texture : 'mon_005';
+        const fallback = isBoss ? 'boss_lang_vuong' : 'monster_wolf';
+        const texture = this.textures.exists(look.texture) ? look.texture : fallback;
         const sprite = this.add.sprite(0, 0, texture).setOrigin(0.5, 0.875).setScale(look.scale);
         if (look.tint) sprite.setTint(look.tint);
         container.add(sprite);
@@ -729,7 +730,10 @@ export default class ExplorationScene extends Phaser.Scene {
         } else if (walk) {
           const horizontal = Math.cos(ent.facingAngle);
           if (Math.abs(horizontal) > 0.1) sprite.setFlipX(horizontal > 0);
-          const frame = ent.state === 'WINDUP' ? 4 : ent.state === 'ATTACK' ? 5 : ent.state === 'IDLE' ? 0 : null;
+          const is6Frame = ['turtle_walk', 'puppet_walk', 'boss_wolf_walk'].includes(walk);
+          const frame = is6Frame
+            ? (ent.state === 'WINDUP' ? 4 : ent.state === 'ATTACK' ? 5 : ent.state === 'IDLE' ? 0 : null)
+            : (ent.state === 'IDLE' ? 0 : null);
           if (frame !== null) {
             if (sprite.anims.isPlaying) sprite.stop();
             sprite.setFrame(frame);

@@ -551,9 +551,12 @@ export class SetupManager {
     if (process.platform !== 'win32' || port !== 5432 || !loopbackHosts.has(host.toLowerCase())) return false;
     try {
       this.sendInfoLog('Đang thử khởi động PostgreSQL trong WSL Ubuntu...');
-      execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 6000, stdio: 'ignore' });
-      await new Promise((resolve) => setTimeout(resolve, 1200));
-      return (await SystemDiagnostics.checkDatabase(host, port)).status === 'PASS';
+      execSync('wsl -d Ubuntu -u root service postgresql start', { timeout: 15000, stdio: 'ignore' });
+      for (let attempt = 0; attempt < 6; attempt++) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        if ((await SystemDiagnostics.checkDatabase(host, port)).status === 'PASS') return true;
+      }
+      return false;
     } catch {
       return false;
     }

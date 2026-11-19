@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import * as gameApi from '../../api/game';
-import { CULTIVATION_PATH_NAMES } from '@shared/index';
+import { CultivationPath, CULTIVATION_PATH_NAMES } from '@shared/index';
 
 export default function CharacterPanel() {
   const { character, loadCharacter, setActivePanel, addNotification } = useGameStore();
@@ -49,11 +49,18 @@ export default function CharacterPanel() {
     }}>
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <div>
-          <h2 style={{ margin: 0, color: '#ffd700', fontSize: '1.4rem' }}>🧘 TU VI & ĐẠO THÂN</h2>
-          <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>
-            {CULTIVATION_PATH_NAMES[character.cultivationPath]} • {character.realmName}
-          </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <img
+            src={character.cultivationPath === CultivationPath.SWORD ? '/assets/vnext/icon_item_sword.png' : character.cultivationPath === CultivationPath.SPELL ? '/assets/vnext/icon_item_staff.png' : '/assets/vnext/icon_item_fist.png'}
+            alt="Đạo Thân"
+            style={{ width: '40px', height: '40px', imageRendering: 'pixelated', background: '#1e293b', border: '1px solid #ffd700', borderRadius: '6px', padding: '3px' }}
+          />
+          <div>
+            <h2 style={{ margin: 0, color: '#ffd700', fontSize: '1.4rem' }}>🧘 TU VI & ĐẠO THÂN</h2>
+            <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>
+              {CULTIVATION_PATH_NAMES[character.cultivationPath]} • {character.realmName}
+            </span>
+          </div>
         </div>
         <button
           onClick={() => setActivePanel(null)}

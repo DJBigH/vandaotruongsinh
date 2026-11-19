@@ -221,18 +221,25 @@ export default function CavePanel() {
                         </div>
 
                         {isPlanted ? (
-                          <div style={{ marginTop: '8px' }}>
-                            <div style={{ fontWeight: 'bold', color: isReady ? '#81c784' : '#ffd700', fontSize: '0.95rem' }}>
-                              {slot.harvestItemName || 'Linh Thảo'}
-                            </div>
-                            <div style={{ fontSize: '0.75rem', color: '#b0bec5', marginTop: '2px' }}>
-                              Giống: {slot.seedName}
-                            </div>
-                            {slot.harvestAt && !isReady && (
-                              <div style={{ fontSize: '0.75rem', color: '#ffb74d', marginTop: '4px' }}>
-                                Thu hoạch: {new Date(slot.harvestAt).toLocaleTimeString()}
+                          <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <img
+                              src="/assets/vnext/icon_item_herb.png"
+                              alt="Linh Thảo"
+                              style={{ width: '28px', height: '28px', imageRendering: 'pixelated', filter: isReady ? 'none' : 'grayscale(60%)' }}
+                            />
+                            <div>
+                              <div style={{ fontWeight: 'bold', color: isReady ? '#81c784' : '#ffd700', fontSize: '0.92rem' }}>
+                                {slot.harvestItemName || 'Linh Thảo'}
                               </div>
-                            )}
+                              <div style={{ fontSize: '0.75rem', color: '#b0bec5', marginTop: '2px' }}>
+                                Giống: {slot.seedName}
+                              </div>
+                              {slot.harvestAt && !isReady && (
+                                <div style={{ fontSize: '0.75rem', color: '#ffb74d', marginTop: '4px' }}>
+                                  Thu hoạch: {new Date(slot.harvestAt).toLocaleTimeString()}
+                                </div>
+                              )}
+                            </div>
                           </div>
                         ) : (
                           <div style={{ marginTop: '10px', fontSize: '0.85rem', color: '#78909c' }}>

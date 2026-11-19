@@ -204,7 +204,7 @@ export default function HUD() {
           boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
         }}>
           <div style={{ fontSize: '0.8rem', color: '#c5a059', fontWeight: 'bold', marginBottom: '4px' }}>
-            📜 NHIỆM VỤ ĐANG LÀM
+            📜 TIẾN ĐỘ NHIỆM VỤ
           </div>
           <div style={{ fontSize: '0.9rem', color: '#fff', fontWeight: 600, marginBottom: '6px' }}>
             {activeQuest.name}
@@ -367,7 +367,7 @@ export default function HUD() {
           };
           const skillName = (skillNames[p] && skillNames[p][num - 1]) || `Kỹ năng ${num}`;
           const skillIcon = (skillIcons[p] && skillIcons[p][num - 1]) || '/assets/vnext/icon_skill_sword_slash.png';
-          const label = learned ? `${skillName} [Phím ${num}]` : `Ô kỹ năng ${num} · Chưa mở khóa`;
+          const label = learned ? `${skillName} [Phím ${num}]` : `Ô kỹ năng ${num} · Chưa lĩnh ngộ (Yêu cầu tăng cảnh giới)`;
 
           return (
             <div

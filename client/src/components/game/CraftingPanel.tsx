@@ -113,9 +113,21 @@ export default function CraftingPanel() {
         <div style={{ background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', padding: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           {selectedRecipe ? (
             <div>
-              <h3 style={{ margin: '0 0 12px 0', color: '#ffd700', fontSize: '1.1rem' }}>
-                {selectedRecipe.name}
-              </h3>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                <img
+                  src={selectedRecipe.name.includes('Lực') ? '/assets/vnext/icon_item_pill_red.png' : selectedRecipe.name.includes('Khí') ? '/assets/vnext/icon_item_pill_blue.png' : '/assets/vnext/icon_item_pill_gold.png'}
+                  alt="Đan Dược"
+                  style={{ width: '38px', height: '38px', imageRendering: 'pixelated', border: '1px solid #c5a059', borderRadius: '4px', background: '#1e293b', padding: '3px' }}
+                />
+                <div>
+                  <h3 style={{ margin: 0, color: '#ffd700', fontSize: '1.15rem' }}>
+                    {selectedRecipe.name}
+                  </h3>
+                  <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '2px' }}>
+                    Phẩm cấp: Cửu Phẩm Linh Đan • Tỷ lệ thành công: 100%
+                  </div>
+                </div>
+              </div>
 
               <div style={{ marginBottom: '16px' }}>
                 <div style={{ color: '#c5a059', fontWeight: 600, fontSize: '0.85rem', marginBottom: '8px' }}>
@@ -125,10 +137,18 @@ export default function CraftingPanel() {
                   const owned = getOwnedCount(ing.itemTemplateId);
                   const totalNeed = ing.quantity * quantity;
                   const isEnough = owned >= totalNeed;
+                  const iconSrc = ing.name.includes('Thảo') || ing.name.includes('Linh')
+                    ? '/assets/vnext/icon_item_herb.png'
+                    : ing.name.includes('Thạch') || ing.name.includes('Khoáng')
+                    ? '/assets/vnext/icon_item_ore.png'
+                    : '/assets/vnext/icon_item_beast_core.png';
 
                   return (
-                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', marginBottom: '4px' }}>
-                      <span>• {ing.name} x{ing.quantity}:</span>
+                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem', marginBottom: '6px' }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <img src={iconSrc} alt={ing.name} style={{ width: '22px', height: '22px', imageRendering: 'pixelated' }} />
+                        {ing.name} x{ing.quantity}:
+                      </span>
                       <span style={{ color: isEnough ? '#81c784' : '#ef5350', fontWeight: 'bold' }}>
                         {owned} / {totalNeed}
                       </span>

@@ -194,16 +194,43 @@ export default function PetPanel() {
                 justifyContent: 'space-between',
               }}>
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h3 style={{ margin: 0, color: '#ffd700', fontSize: '1.2rem' }}>{selectedTmpl.name}</h3>
-                    <span style={{ fontSize: '0.8rem', color: '#ab47bc', border: '1px solid #ab47bc', padding: '2px 8px', borderRadius: '4px' }}>
-                      Phẩm chất: {selectedTmpl.quality}
-                    </span>
+                  <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+                    <div style={{
+                      width: '54px',
+                      height: '54px',
+                      background: 'radial-gradient(circle, rgba(171, 71, 188, 0.4) 0%, rgba(19, 27, 38, 0.8) 70%)',
+                      border: '2px solid #ab47bc',
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      overflow: 'hidden',
+                      flexShrink: 0,
+                    }}>
+                      <img
+                        src={selectedTmpl.id === 'pet_003' ? '/assets/vnext/boss_turtle.png' : selectedTmpl.id === 'pet_002' || selectedTmpl.id === 'pet_006' ? '/assets/vnext/monster_wolf.png' : '/assets/vnext/monster_fox.png'}
+                        alt={selectedTmpl.name}
+                        style={{
+                          width: '44px',
+                          height: '44px',
+                          objectFit: 'cover',
+                          objectPosition: '0 0',
+                          imageRendering: 'pixelated',
+                        }}
+                      />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <h3 style={{ margin: 0, color: '#ffd700', fontSize: '1.2rem' }}>{selectedTmpl.name}</h3>
+                        <span style={{ fontSize: '0.8rem', color: '#ab47bc', border: '1px solid #ab47bc', padding: '2px 8px', borderRadius: '4px' }}>
+                          Phẩm chất: {selectedTmpl.quality}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: '0.82rem', color: '#b0bec5', margin: '4px 0 0 0', lineHeight: '1.3' }}>
+                        {selectedTmpl.description}
+                      </p>
+                    </div>
                   </div>
-
-                  <p style={{ fontSize: '0.85rem', color: '#b0bec5', marginTop: '8px', lineHeight: '1.4' }}>
-                    {selectedTmpl.description}
-                  </p>
 
                   {/* Level & EXP if owned */}
                   {selectedOwned && (

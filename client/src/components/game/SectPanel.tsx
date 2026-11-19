@@ -280,14 +280,21 @@ export default function SectPanel() {
                         justifyContent: 'space-between',
                       }}
                     >
-                      <div>
-                        <div style={{ fontWeight: 'bold', color: '#ffd700', fontSize: '0.95rem' }}>{item.name}</div>
-                        <div style={{ fontSize: '0.8rem', color: '#81c784', marginTop: '2px' }}>
-                          Phẩm cấp: {item.quality}
+                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <img
+                          src={item.name.includes('Đan') ? '/assets/vnext/icon_item_pill_gold.png' : item.name.includes('Kiếm') ? '/assets/vnext/icon_item_sword.png' : item.name.includes('Bào') ? '/assets/vnext/icon_item_robe.png' : '/assets/vnext/icon_item_token.png'}
+                          alt={item.name}
+                          style={{ width: '32px', height: '32px', imageRendering: 'pixelated', background: '#1e293b', padding: '2px', borderRadius: '4px', border: '1px solid #c5a059', flexShrink: 0 }}
+                        />
+                        <div>
+                          <div style={{ fontWeight: 'bold', color: '#ffd700', fontSize: '0.95rem' }}>{item.name}</div>
+                          <div style={{ fontSize: '0.8rem', color: '#81c784', marginTop: '2px' }}>
+                            Phẩm cấp: {item.quality}
+                          </div>
                         </div>
-                        <div style={{ fontSize: '0.85rem', color: '#ffb74d', marginTop: '6px' }}>
-                          Giá: {item.priceContribution} Cống hiến
-                        </div>
+                      </div>
+                      <div style={{ fontSize: '0.85rem', color: '#ffb74d', marginTop: '6px' }}>
+                        Giá: {item.priceContribution} Cống hiến
                       </div>
                       <button
                         disabled={actionLoading || sectInfo.contribution < item.priceContribution}

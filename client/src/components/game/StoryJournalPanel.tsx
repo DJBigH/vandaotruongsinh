@@ -123,7 +123,7 @@ export default function StoryJournalPanel() {
                         Chương {ch.chapter}
                       </span>
                       <span style={{ fontSize: '0.75rem', color: ch.isCompleted ? '#81c784' : '#78909c' }}>
-                        {ch.isCompleted ? '✅ Xong' : '⏳ Đang làm'}
+                        {ch.isCompleted ? '✅ Đã Thông Suốt' : '⏳ Đang Tu Luyện'}
                       </span>
                     </div>
                     <div style={{ fontSize: '0.8rem', color: '#90a4ae', marginTop: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
