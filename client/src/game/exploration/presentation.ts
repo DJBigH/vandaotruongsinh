@@ -21,8 +21,12 @@ export function creatureAppearance(ent: EntitySnapshot) {
     case 'mon_003': return { texture: 'monster_snake', walk: 'snake_walk', scale: 1 };
     case 'mon_004': return { texture: 'monster_fox', walk: 'fox_walk', scale: 1 };
     case 'boss_001': return { texture: 'boss_lang_vuong', walk: 'boss_wolf_walk', scale: 1.55 };
+    case 'mon_006':
+    case 'mon_007': return { texture: 'monster_puppet', walk: 'puppet_walk', scale: 1.1 };
     case 'mon_008':
     case 'mon_009': return { texture: 'monster_ghost', walk: 'ghost_float', scale: 1 };
+    case 'mon_013':
+    case 'boss_treant': return { texture: 'monster_treant', walk: 'treant_walk', scale: 1.35 };
     default: return { texture: ent.templateId ?? 'mon_005', walk: '', scale: ent.type === 'BOSS' ? 1.3 : 1 };
   }
 }

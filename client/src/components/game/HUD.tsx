@@ -265,38 +265,58 @@ export default function HUD() {
         zIndex: 50,
       }}>
         {/* Basic Attack (Left click) */}
-        <div style={{
-          position: 'relative',
-          width: '46px',
-          height: '46px',
-          background: '#1e293b',
-          border: '1px solid #ffd700',
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-        }}>
-          <span style={{ fontSize: '1.2rem' }}>⚔️</span>
-          <span style={{ fontSize: '0.65rem', color: '#ffd700', fontWeight: 'bold' }}>L-Click</span>
+        <div
+          title="Đánh thường (Chuột trái)"
+          style={{
+            position: 'relative',
+            width: '46px',
+            height: '46px',
+            background: '#1e293b',
+            border: '1px solid #ffd700',
+            borderRadius: '8px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            overflow: 'hidden',
+          }}
+        >
+          <img
+            src="/assets/vnext/icon_action_attack.png"
+            alt="Đánh thường"
+            style={{ width: '32px', height: '32px', imageRendering: 'pixelated' }}
+          />
+          <span style={{ position: 'absolute', bottom: 1, fontSize: '0.6rem', color: '#ffd700', fontWeight: 'bold', textShadow: '0 1px 2px #000' }}>
+            L-Click
+          </span>
         </div>
 
         {/* Space Dodge */}
-        <div style={{
-          position: 'relative',
-          width: '46px',
-          height: '46px',
-          background: cooldowns.dodgeRemainingSec > 0 ? '#334155' : '#0f766e',
-          border: '1px solid #14b8a6',
-          borderRadius: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <span style={{ fontSize: '1.1rem' }}>💨</span>
-          <span style={{ fontSize: '0.65rem', color: '#99f6e4', fontWeight: 'bold' }}>Space</span>
+        <div
+          title="Thân pháp né đòn (Phím Space)"
+          style={{
+            position: 'relative',
+            width: '46px',
+            height: '46px',
+            background: cooldowns.dodgeRemainingSec > 0 ? '#334155' : '#0f766e',
+            border: '1px solid #14b8a6',
+            borderRadius: '8px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden',
+          }}
+        >
+          <img
+            src="/assets/vnext/icon_action_dodge.png"
+            alt="Né đòn"
+            style={{ width: '32px', height: '32px', imageRendering: 'pixelated' }}
+          />
+          <span style={{ position: 'absolute', bottom: 1, fontSize: '0.6rem', color: '#99f6e4', fontWeight: 'bold', textShadow: '0 1px 2px #000' }}>
+            Space
+          </span>
           {cooldowns.dodgeRemainingSec > 0 && (
             <div style={{
               position: 'absolute',
@@ -319,7 +339,36 @@ export default function HUD() {
           const cooldown = cooldowns.skillsRemainingSec[num - 1];
           const learned = cooldown !== undefined;
           const cd = cooldown ?? 0;
-          const label = learned ? `Kỹ năng ${num}` : `Ô kỹ năng ${num} · Chưa học`;
+          const p = character?.cultivationPath || 'SWORD';
+          const skillNames: Record<string, string[]> = {
+            SWORD: ['Kiếm Khí Trảm', 'Vạn Kiếm Quy Tông', 'Bạt Kiếm Thuật', 'Kiếm Ý Hộ Thể'],
+            SPELL: ['Cửu Thiên Dẫn Lôi', 'Hỏa Phượng Liêu Nguyên', 'Băng Phong Vạn Lý', 'Thái Hư Hộ Thuẫn'],
+            BODY: ['Băng Sơn Quyền', 'Bất Hoại Kim Thân', 'Cuồng Long Xuất Hải', 'Huyết Khí Liệt Ba'],
+          };
+          const skillIcons: Record<string, string[]> = {
+            SWORD: [
+              '/assets/vnext/icon_skill_sword_slash.png',
+              '/assets/vnext/icon_skill_sword_array.png',
+              '/assets/vnext/icon_skill_sword_dash.png',
+              '/assets/vnext/icon_skill_sword_shield.png',
+            ],
+            SPELL: [
+              '/assets/vnext/icon_skill_spell_thunder.png',
+              '/assets/vnext/icon_skill_spell_fire.png',
+              '/assets/vnext/icon_skill_spell_ice.png',
+              '/assets/vnext/icon_skill_spell_shield.png',
+            ],
+            BODY: [
+              '/assets/vnext/icon_skill_body_punch.png',
+              '/assets/vnext/icon_skill_body_iron.png',
+              '/assets/vnext/icon_skill_body_roar.png',
+              '/assets/vnext/icon_skill_body_wave.png',
+            ],
+          };
+          const skillName = (skillNames[p] && skillNames[p][num - 1]) || `Kỹ năng ${num}`;
+          const skillIcon = (skillIcons[p] && skillIcons[p][num - 1]) || '/assets/vnext/icon_skill_sword_slash.png';
+          const label = learned ? `${skillName} [Phím ${num}]` : `Ô kỹ năng ${num} · Chưa mở khóa`;
+
           return (
             <div
               key={num}
@@ -335,11 +384,29 @@ export default function HUD() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                opacity: learned ? 1 : 0.55,
+                opacity: learned ? 1 : 0.45,
+                overflow: 'hidden',
               }}
             >
-              <span style={{ fontSize: '1.1rem' }}>{learned ? '✦' : '–'}</span>
-              <span style={{ fontSize: '0.65rem', color: learned ? '#7dd3fc' : '#94a3b8', fontWeight: 'bold' }}>[{num}]</span>
+              {learned ? (
+                <img
+                  src={skillIcon}
+                  alt={skillName}
+                  style={{ width: '32px', height: '32px', imageRendering: 'pixelated' }}
+                />
+              ) : (
+                <span style={{ fontSize: '1.1rem', color: '#64748b' }}>–</span>
+              )}
+              <span style={{
+                position: 'absolute',
+                bottom: 1,
+                fontSize: '0.6rem',
+                color: learned ? '#7dd3fc' : '#94a3b8',
+                fontWeight: 'bold',
+                textShadow: '0 1px 2px #000',
+              }}>
+                [{num}]
+              </span>
               {cd > 0 && (
                 <div style={{
                   position: 'absolute',

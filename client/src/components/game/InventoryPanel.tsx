@@ -12,6 +12,37 @@ import {
   type InventoryItem,
 } from '@shared/index';
 
+function getItemIcon(item: InventoryItem): string {
+  const name = item.name?.toLowerCase() || '';
+
+  if (item.type === 'WEAPON') {
+    if (name.includes('trượng') || name.includes('pháp')) return '/assets/vnext/icon_item_staff.png';
+    if (name.includes('quyền') || name.includes('sáo') || name.includes('giáp thủ')) return '/assets/vnext/icon_item_fist.png';
+    return '/assets/vnext/icon_item_sword.png';
+  }
+  if (item.type === 'ARMOR') {
+    if (name.includes('bào') || name.includes('y')) return '/assets/vnext/icon_item_robe.png';
+    return '/assets/vnext/icon_item_armor.png';
+  }
+  if (item.type === 'SHOES') return '/assets/vnext/icon_item_boots.png';
+  if (item.type === 'ACCESSORY') return '/assets/vnext/icon_item_ring.png';
+  if (item.type === 'CONSUMABLE') {
+    if (name.includes('khí') || name.includes('lam')) return '/assets/vnext/icon_item_pill_blue.png';
+    if (name.includes('trúc cơ') || name.includes('kim')) return '/assets/vnext/icon_item_pill_gold.png';
+    return '/assets/vnext/icon_item_pill_red.png';
+  }
+  if (item.type === 'MATERIAL') {
+    if (name.includes('linh thạch')) return '/assets/vnext/icon_item_spirit_stone.png';
+    if (name.includes('thảo') || name.includes('chi') || name.includes('hoa')) return '/assets/vnext/icon_item_herb.png';
+    if (name.includes('khoáng') || name.includes('thiết') || name.includes('thạch')) return '/assets/vnext/icon_item_ore.png';
+    if (name.includes('đan') || name.includes('yêu') || name.includes('thú')) return '/assets/vnext/icon_item_beast_core.png';
+    if (name.includes('rương') || name.includes('hộp') || name.includes('túi')) return '/assets/vnext/icon_item_chest.png';
+    if (name.includes('lệnh') || name.includes('bài')) return '/assets/vnext/icon_item_token.png';
+    return '/assets/vnext/icon_item_spirit_stone.png';
+  }
+  return '/assets/vnext/icon_item_spirit_stone.png';
+}
+
 export default function InventoryPanel() {
   const { inventory, loadInventory, loadCharacter, setActivePanel, addNotification } = useGameStore();
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
@@ -171,9 +202,16 @@ export default function InventoryPanel() {
                   padding: '4px',
                 }}
               >
-                <span style={{ fontSize: '1.4rem' }}>
-                  {item.type === 'WEAPON' ? '⚔️' : item.type === 'ARMOR' ? '🛡️' : item.type === 'CONSUMABLE' ? '🧪' : '📦'}
-                </span>
+                <img
+                  src={getItemIcon(item)}
+                  alt={item.name}
+                  style={{
+                    width: '38px',
+                    height: '38px',
+                    imageRendering: 'pixelated',
+                    objectFit: 'contain',
+                  }}
+                />
                 {item.quantity > 1 && (
                   <span style={{
                     position: 'absolute',
@@ -227,23 +265,40 @@ export default function InventoryPanel() {
         }}>
           {selectedItem ? (
             <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <span style={{
-                  fontWeight: 'bold',
-                  fontSize: '1.05rem',
-                  color: QUALITY_COLORS[selectedItem.quality] || '#fff',
-                }}>
-                  {selectedItem.name}
-                </span>
-                <span style={{
-                  fontSize: '0.75rem',
-                  padding: '2px 6px',
-                  borderRadius: '4px',
-                  background: '#1e293b',
-                  color: QUALITY_COLORS[selectedItem.quality] || '#aaa',
-                }}>
-                  {QUALITY_NAMES[selectedItem.quality]}
-                </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                <img
+                  src={getItemIcon(selectedItem)}
+                  alt={selectedItem.name}
+                  style={{
+                    width: '48px',
+                    height: '48px',
+                    imageRendering: 'pixelated',
+                    background: '#1e293b',
+                    borderRadius: '8px',
+                    border: `1px solid ${QUALITY_COLORS[selectedItem.quality] || '#c5a059'}`,
+                    padding: '4px',
+                  }}
+                />
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{
+                      fontWeight: 'bold',
+                      fontSize: '1.05rem',
+                      color: QUALITY_COLORS[selectedItem.quality] || '#fff',
+                    }}>
+                      {selectedItem.name}
+                    </span>
+                    <span style={{
+                      fontSize: '0.75rem',
+                      padding: '2px 6px',
+                      borderRadius: '4px',
+                      background: '#1e293b',
+                      color: QUALITY_COLORS[selectedItem.quality] || '#aaa',
+                    }}>
+                      {QUALITY_NAMES[selectedItem.quality]}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               <p style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.4, marginBottom: '12px' }}>

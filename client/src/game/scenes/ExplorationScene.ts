@@ -544,7 +544,7 @@ export default class ExplorationScene extends Phaser.Scene {
     // Use the first authoritative world coordinates, including a saved mid-map position.
     const path = initialPlayer.cultivationPath ?? useGameStore.getState().character?.cultivationPath;
     const idleSheet = path === CultivationPath.SPELL ? 'player_magic_idle' : path === CultivationPath.BODY ? 'player_body_idle' : 'player_idle';
-    this.player = this.add.sprite(initialPlayer.x, initialPlayer.y, idleSheet).setOrigin(0.5, path === 'BODY' || path === 'SPELL' ? 0.90 : 0.875);
+    this.player = this.add.sprite(initialPlayer.x, initialPlayer.y, idleSheet).setOrigin(0.5, 0.875);
     const reduced = usePresentationSettings.getState().reducedEffects;
     this.worldRenderer.setReducedMotion(reduced);
     if (reduced) for (const tween of this.ambientTweens) tween.pause();
