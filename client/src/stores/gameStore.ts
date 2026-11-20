@@ -41,7 +41,7 @@ interface GameState {
   closeDialogue: () => void;
 
   // UI Panel states
-  activePanel: 'inventory' | 'character' | 'quest' | 'map' | 'crafting' | 'settings' | 'sect' | 'cave' | 'pets' | 'disciple' | 'offline' | 'story' | 'tower' | null;
+  activePanel: 'inventory' | 'character' | 'quest' | 'map' | 'crafting' | 'settings' | 'sect' | 'cave' | 'pets' | 'disciple' | 'offline' | 'story' | 'tower' | 'guide' | null;
   setActivePanel: (panel: GameState['activePanel']) => void;
   characterSlotsOpen: boolean;
   setCharacterSlotsOpen: (open: boolean) => void;

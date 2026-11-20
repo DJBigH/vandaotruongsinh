@@ -12,6 +12,15 @@ interface MapMeta {
   icon: string;
 }
 
+interface WorldMapOverview {
+  id: string;
+  name: string;
+  discovered: boolean;
+  clueFound: boolean;
+  clue?: string;
+  clueSite?: { x: number; y: number };
+}
+
 const MAP_METADATA: Record<string, MapMeta> = {
   map_thanh_khe: {
     desc: 'Tân Thủ Thôn an bình dưới chân núi, có Trưởng Lão chỉ dẫn, Dược Sĩ bốc thuốc và Vệ Binh bảo hộ.',
@@ -21,12 +30,12 @@ const MAP_METADATA: Record<string, MapMeta> = {
   map_thanh_khe_rung: {
     desc: 'Vùng hoang dã quanh làng, nơi sói xám ẩn náu. Sâu bên trong là hang ổ của Xích Nha Lang Vương.',
     realm: 'Luyện Khí · Trung Kỳ',
-    icon: '/assets/vnext/boss_lang_vuong.png',
+    icon: '/assets/vnext/icon_item_beast_core.png',
   },
   map_thanh_van: {
     desc: 'Thanh Vân Kiếm Tông ngút ngàn mây trắng. Nơi luyện kiếm khôi lỗi và thần thú Huyền Giáp Linh Quy trấn giữ.',
     realm: 'Luyện Khí · Viên Mãn',
-    icon: '/assets/vnext/boss_turtle.png',
+    icon: '/assets/vnext/icon_item_sword.png',
   },
   map_dan_ha: {
     desc: 'Thung lũng địa hỏa hội tụ các bậc đại sư luyện đan, ẩn chứa Đan Lô Hỏa Linh và Xích Luyện Đan Sư.',
@@ -41,27 +50,27 @@ const MAP_METADATA: Record<string, MapMeta> = {
   map_u_minh_vuc: {
     desc: 'Ranh giới âm dương, nơi Bạch Cốt Dạ Xoa và U Minh Quỷ Tốt hoành hành dưới trướng Hắc Ám Diêm La.',
     realm: 'Trúc Cơ · Hậu Kỳ',
-    icon: '/assets/vnext/monster_ghost.png',
+    icon: '/assets/vnext/icon_item_ring.png',
   },
   map_kinh_tam_canh: {
     desc: 'Ảo cảnh tâm ma phản chiếu tận sâu đáy lòng người tu đạo, đối mặt với Tâm Ma Hóa Thân để đốn ngộ.',
     realm: 'Kim Đan · Sơ Kỳ',
-    icon: '/assets/vnext/npc_elder.png',
+    icon: '/assets/vnext/icon_item_spirit_stone.png',
   },
   map_long_mach_thien_son: {
     desc: 'Dãy núi tuyết ngàn năm phong ấn long mạch, băng hàn thấu cốt, nơi Chân Long Tàn Hồn ngự trị.',
     realm: 'Kim Đan · Trung Kỳ',
-    icon: '/assets/vnext/boss_lang_vuong.png',
+    icon: '/assets/vnext/icon_item_ore.png',
   },
   map_thien_khe_dai: {
     desc: 'Tế đài cổ đại tiếp giáp Thiên Đạo ý chí, nơi chư vị đại năng tiếp nhận đại thiên kiếp để phi thăng.',
     realm: 'Kim Đan · Viên Mãn',
-    icon: '/assets/vnext/npc_mentor.png',
+    icon: '/assets/vnext/icon_item_token.png',
   },
   map_tran_yeu_thap: {
     desc: 'Tháp cổ giam giữ ma thần và yêu vương vạn cổ: Cửu U Minh Hoàng, Diệt Thế Lôi Long, Vạn Đạo Thiên Tôn.',
     realm: 'Endgame Đỉnh Phong',
-    icon: '/assets/vnext/boss_turtle.png',
+    icon: '/assets/vnext/icon_item_chest.png',
   },
 };
 
@@ -69,7 +78,9 @@ export default function MapPanel() {
   const { character, currentMap, setActivePanel, addNotification } = useGameStore();
   const teleporting = useRef(false);
   const [isTeleporting, setIsTeleporting] = useState(false);
-  const [maps, setMaps] = useState<{ id: string; name: string; discovered: boolean }[]>([]);
+  const [maps, setMaps] = useState<WorldMapOverview[]>([]);
+  const visitedCount = maps.filter((map) => map.discovered).length;
+  const clueCount = maps.filter((map) => map.clueFound).length;
 
   useEffect(() => {
     async function fetchMaps() {
@@ -112,9 +123,10 @@ export default function MapPanel() {
       width: '720px',
       maxWidth: 'calc(100vw - 32px)',
       maxHeight: 'calc(100vh - 40px)',
+      boxSizing: 'border-box',
       display: 'flex',
       flexDirection: 'column',
-      background: 'rgba(15, 23, 42, 0.96)',
+      background: '#0f172a',
       border: '2px solid #c5a059',
       borderRadius: '12px',
       padding: '24px',
@@ -124,9 +136,9 @@ export default function MapPanel() {
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexShrink: 0 }}>
         <div>
-          <h2 id="world-map-heading" style={{ margin: 0, color: '#ffd700', fontSize: '1.4rem' }}>🗺️ THẦN CHÂU ĐỊA ĐỒ (10 ĐẠI PHÂN VỰC)</h2>
+          <h2 id="world-map-heading" style={{ margin: 0, color: '#ffd700', fontSize: '1.4rem' }}>🗺️ THẦN CHÂU ĐỊA ĐỒ</h2>
           <div style={{ fontSize: '0.82rem', color: '#94a3b8', marginTop: '2px' }}>
-            Khám phá và tự do dịch chuyển qua các vùng đất tu tiên trong cửu châu
+            Đã đặt chân tới {visitedCount}/{maps.length} vùng · Tìm thấy {clueCount}/{maps.length} manh mối. Chạm linh miếu để ghi lại sự thật và nhận tu vi.
           </div>
         </div>
         <button
@@ -151,7 +163,7 @@ export default function MapPanel() {
             <div
               key={m.id}
               style={{
-                background: isCurrent ? 'rgba(197, 160, 89, 0.18)' : '#1e293b',
+                background: isCurrent ? 'rgba(197, 160, 89, 0.18)' : m.discovered ? '#1e293b' : '#151d29',
                 border: isCurrent ? '1px solid #ffd700' : '1px solid #334155',
                 borderRadius: '8px',
                 padding: '12px 16px',
@@ -159,6 +171,7 @@ export default function MapPanel() {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 gap: '14px',
+                flexWrap: 'wrap',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flex: 1 }}>
@@ -194,19 +207,28 @@ export default function MapPanel() {
                       <span style={{ fontSize: '0.72rem', background: '#ffd700', color: '#000', padding: '1px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
                         Vị trí hiện tại
                       </span>
-                    ) : (
+                    ) : m.discovered ? (
                       <span style={{ fontSize: '0.72rem', background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '1px 6px', borderRadius: '4px', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
                         {meta.realm}
+                      </span>
+                    ) : (
+                      <span style={{ fontSize: '0.72rem', background: '#26303b', color: '#aebbc6', padding: '1px 6px', borderRadius: 4 }}>
+                        Chưa đặt chân tới
                       </span>
                     )}
                   </div>
                   <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '4px', lineHeight: 1.4 }}>
-                    {meta.desc}
+                    {m.discovered ? meta.desc : 'Đi qua cổng nối từ vùng đang khám phá để mở đường tới đây.'}
                   </div>
+                  {m.discovered && (
+                    <div style={{ fontSize: '0.79rem', color: m.clueFound ? '#d8c18c' : '#9ed9d1', marginTop: 6, lineHeight: 1.4 }}>
+                      {m.clueFound ? `✦ ${m.clue}` : m.clueSite ? `◇ Chưa tìm manh mối · Linh miếu ở tọa độ (${m.clueSite.x}, ${m.clueSite.y})` : '◇ Chưa tìm manh mối'}
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {!isCurrent && (
+              {!isCurrent && m.discovered && (
                 <button
                   onClick={() => handleTeleport(m.id, m.name)}
                   disabled={isTeleporting}

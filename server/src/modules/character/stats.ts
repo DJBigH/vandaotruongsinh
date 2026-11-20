@@ -10,9 +10,11 @@ import {
   TIER_STAT_BONUS,
 } from '@shared';
 import { ITEM_TEMPLATES } from '../../data/game-content';
+import { enhancedStat } from '../inventory/enhancement';
 
 export interface EquippedItemSummary {
   templateId: string;
+  enhanceLevel?: number;
 }
 
 /**
@@ -49,20 +51,20 @@ export function computeCharacterStats(
     const template = ITEM_TEMPLATES[item.templateId];
     if (!template || !template.stats) continue;
 
-    if (template.stats.atk) calculated.atk += template.stats.atk;
-    if (template.stats.def) calculated.def += template.stats.def;
-    if (template.stats.spd) calculated.spd += template.stats.spd;
+    if (template.stats.atk) calculated.atk += enhancedStat(template.stats.atk, item.enhanceLevel ?? 0);
+    if (template.stats.def) calculated.def += enhancedStat(template.stats.def, item.enhanceLevel ?? 0);
+    if (template.stats.spd) calculated.spd += enhancedStat(template.stats.spd, item.enhanceLevel ?? 0);
     if (template.stats.maxHp) {
-      calculated.maxHp += template.stats.maxHp;
-      calculated.hp += template.stats.maxHp;
+      calculated.maxHp += enhancedStat(template.stats.maxHp, item.enhanceLevel ?? 0);
+      calculated.hp += enhancedStat(template.stats.maxHp, item.enhanceLevel ?? 0);
     }
     if (template.stats.maxMp) {
-      calculated.maxMp += template.stats.maxMp;
-      calculated.mp += template.stats.maxMp;
+      calculated.maxMp += enhancedStat(template.stats.maxMp, item.enhanceLevel ?? 0);
+      calculated.mp += enhancedStat(template.stats.maxMp, item.enhanceLevel ?? 0);
     }
-    if (template.stats.critRate) calculated.critRate += template.stats.critRate;
-    if (template.stats.critDmg) calculated.critDmg += template.stats.critDmg;
-    if (template.stats.resist) calculated.resist += template.stats.resist;
+    if (template.stats.critRate) calculated.critRate += enhancedStat(template.stats.critRate, item.enhanceLevel ?? 0);
+    if (template.stats.critDmg) calculated.critDmg += enhancedStat(template.stats.critDmg, item.enhanceLevel ?? 0);
+    if (template.stats.resist) calculated.resist += enhancedStat(template.stats.resist, item.enhanceLevel ?? 0);
   }
 
   if (sectId === 'sect_thanh_van') {

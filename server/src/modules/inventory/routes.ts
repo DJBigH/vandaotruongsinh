@@ -14,6 +14,7 @@ import { ITEM_TEMPLATES } from '../../data/game-content';
 import { computeCharacterStats } from '../character/stats';
 import { getActiveCharacter } from '../character/helpers';
 import { ArpgSessionManager, RestorationConflict } from '../../engine/realtime-arpg-engine';
+import { enhancementCost, enhancedStat, ENHANCEMENT_ORE_ID } from './enhancement';
 
 type ConsumableSelection = { inventoryItemId: string } | { templateId: string };
 
@@ -116,7 +117,9 @@ export async function inventoryRoutes(fastify: FastifyInstance, options: { prism
           quantity: item.quantity,
           isEquipped: item.isEquipped,
           isLocked: item.isLocked,
-          stats: tmpl?.stats,
+          enhanceLevel: item.enhanceLevel,
+          stats: tmpl?.stats ? Object.fromEntries(Object.entries(tmpl.stats).map(([stat, value]) =>
+            [stat, enhancedStat(value, item.enhanceLevel)])) as Partial<CharacterStats> : undefined,
           effects: tmpl?.effects,
           slot: item.slotType || tmpl?.slot,
         };
@@ -180,6 +183,61 @@ export async function inventoryRoutes(fastify: FastifyInstance, options: { prism
       }
     });
   }
+
+  fastify.post('/inventory/:id/enhance', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
+    try {
+      const user = (request as any).user;
+      const char = await getCharacter(user.userId);
+      if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
+      const { id } = request.params as { id: string };
+      const result = await sessions.updateCharacterCombat(char.id, async (tx, character) => {
+        if (!character.isActive && await tx.character.count({ where: { accountId: character.accountId, isActive: true } })) {
+          return { success: false as const, status: 409, error: 'Ô nhân vật đang hoạt động đã thay đổi' };
+        }
+        const item = character.inventory.find((entry) => entry.id === id && entry.quantity > 0);
+        if (!item) return { success: false as const, status: 404, error: 'Không tìm thấy trang bị' };
+        const template = ITEM_TEMPLATES[item.templateId];
+        if (!template?.slot) return { success: false as const, status: 400, error: 'Chỉ trang bị mới có thể cường hóa' };
+        const cost = enhancementCost(item.enhanceLevel);
+        if (!cost) return { success: false as const, status: 400, error: 'Trang bị đã đạt cường hóa tối đa +5' };
+        if (character.gold < cost.gold) {
+          return { success: false as const, status: 400, error: `Cần ${cost.gold} linh thạch để cường hóa +${cost.nextLevel}` };
+        }
+        const oreStacks = character.inventory.filter((entry) => entry.templateId === ENHANCEMENT_ORE_ID && entry.quantity > 0);
+        if (oreStacks.reduce((sum, stack) => sum + stack.quantity, 0) < cost.ore) {
+          return { success: false as const, status: 400, error: `Cần ${cost.ore} Thiết Khoáng để cường hóa +${cost.nextLevel}` };
+        }
+
+        let remaining = cost.ore;
+        for (const stack of oreStacks) {
+          const taken = Math.min(remaining, stack.quantity);
+          await tx.inventoryItem.update({ where: { id: stack.id }, data: { quantity: { decrement: taken } } });
+          await tx.inventoryItem.deleteMany({ where: { id: stack.id, quantity: 0 } });
+          remaining -= taken;
+          if (!remaining) break;
+        }
+        if (item.quantity > 1) {
+          await tx.inventoryItem.create({ data: {
+            characterId: char.id, templateId: item.templateId, quantity: item.quantity - 1,
+            isEquipped: false, isLocked: item.isLocked, slotType: item.slotType,
+          } });
+        }
+        await tx.inventoryItem.update({ where: { id: item.id }, data: { quantity: 1, enhanceLevel: cost.nextLevel } });
+        await tx.character.update({ where: { id: char.id }, data: { gold: { decrement: cost.gold } } });
+        const equipped = await tx.inventoryItem.findMany({ where: { characterId: char.id, isEquipped: true } });
+        const stats = computeCharacterStats(character.cultivationPath as CultivationPath,
+          character.realmIndex, character.realmTier, equipped, character.sectId);
+        await tx.character.update({ where: { id: char.id }, data: { stats: { ...stats } } });
+        return { success: true as const, data: { enhanceLevel: cost.nextLevel, goldSpent: cost.gold, oreSpent: cost.ore },
+          message: `${template.name} đã cường hóa +${cost.nextLevel}` };
+      });
+      if (!result.success) return reply.status(result.status).send({ success: false, error: result.error });
+      return reply.send(result);
+    } catch (err: any) {
+      request.log.error(err);
+      return reply.status(500).send({ success: false, error: 'Lỗi khi cường hóa trang bị' });
+    }
+  });
 
   // POST /api/game/inventory/:id/use
   fastify.post('/inventory/:id/use', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {

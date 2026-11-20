@@ -1,7 +1,7 @@
 # VẠN ĐẠO TRƯỜNG SINH (萬道長生)
 
 > **Tác giả:** BigK  
-> **Phiên bản:** 1.0.2
+> **Phiên bản:** 1.0.3
 > **Kho lưu trữ mã nguồn:** [DJBigH/vandaotruongsinh](https://github.com/DJBigH/vandaotruongsinh)
 > **Hướng dẫn cài đặt:** [HUONG_DAN_CAI_DAT.md](HUONG_DAN_CAI_DAT.md)
 > **Hướng dẫn Launcher:** [LAUNCHER_GUIDE.md](LAUNCHER_GUIDE.md)
@@ -168,7 +168,7 @@ Mở trình duyệt truy cập: `http://localhost:5173`.
 
 ## 4. Chạy Bộ Kiểm Thử Tự Động (Test Suite)
 
-Dự án có các bộ kiểm thử ARPG, nội dung, bảo mật và launcher. Chạy `npm run test:all` ở thư mục gốc, sau đó chạy `npm run test:v102` để kiểm tra các luồng của bản 1.0.2.
+Dự án có các bộ kiểm thử ARPG, nội dung, bảo mật và launcher. Chạy `npm run test:all`, `npm run test:v102` và `npm run test:v103` ở thư mục gốc. Bản 1.0.3 có hướng dẫn khi vào game, chân dung hội thoại NPC, nhật ký khám phá 10 vùng, các manh mối chính tuyến, cường hóa trang bị +5 và bảng tiến độ tu vi. Xem [ghi chú phát hành](docs/checkpoints/1.0.3-release.md) để nâng cấp save cũ.
 
 ```bash
 cd server

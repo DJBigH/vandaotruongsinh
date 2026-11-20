@@ -3,7 +3,7 @@
 > **Tác giả:** BigK  
 > **Repository:** [https://github.com/DJBigH/vandaotruongsinh](https://github.com/DJBigH/vandaotruongsinh)
 > **Thể loại:** Game Tu Tiên ARPG 2D Đồ Họa Cổ Phong — Chiến Đấu Thời Gian Thực Chơi Trực Tiếp Trên Web  
-> **Phiên bản:** 1.0.2
+> **Phiên bản:** 1.0.3
 
 ---
 

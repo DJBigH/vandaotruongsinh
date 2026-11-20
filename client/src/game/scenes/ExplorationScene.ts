@@ -120,10 +120,7 @@ export default class ExplorationScene extends Phaser.Scene {
       isForeground: () => !this.backgrounded,
       createSocket: () => {
         const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        // Khi chạy qua Vite dev server (cổng 5173), kết nối trực tiếp cổng 3001 của backend để tránh Vite dev proxy rớt gói
-        const isViteDev = window.location.port === '5173';
-        const targetHost = isViteDev ? `${window.location.hostname}:3001` : window.location.host;
-        return new WebSocket(`${protocol}//${targetHost}/ws/game`);
+        return new WebSocket(`${protocol}//${window.location.host}/ws/game`);
       },
       scheduleRetry: retry => {
         const timer = window.setTimeout(retry, EXPLORATION_RETRY_MS);

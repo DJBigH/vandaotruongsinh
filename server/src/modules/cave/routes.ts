@@ -258,7 +258,7 @@ export async function caveRoutes(fastify: FastifyInstance, options: { prisma: Pr
 
         // Add harvested herbs to inventory
         const existing = await tx.inventoryItem.findFirst({
-          where: { characterId: char.id, templateId: harvestItemId },
+          where: { characterId: char.id, templateId: harvestItemId, enhanceLevel: 0 },
         });
 
         if (existing) {

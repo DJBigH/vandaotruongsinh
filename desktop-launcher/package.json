@@ -1,6 +1,6 @@
 {
   "name": "desktop-launcher",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Trình khởi chạy có giao diện desktop cho Vạn Đạo Trường Sinh",
   "main": "dist/main/index.js",
   "author": "BigK",

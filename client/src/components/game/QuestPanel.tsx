@@ -21,7 +21,10 @@ export default function QuestPanel() {
   const { quests, activeQuestId, setActiveQuest, loadQuests, loadCharacter, loadInventory, setActivePanel, addNotification } = useGameStore();
   const [filter, setFilter] = useState<(typeof tabs)[number]['key']>('CURRENT');
 
-  const filteredQuests = quests.filter(quest => filter === 'CURRENT' ? isCurrentQuest(quest) : quest.status === filter);
+  const filteredQuests = quests.filter(quest => filter === 'CURRENT' ? isCurrentQuest(quest) : quest.status === filter)
+    .sort((a, b) => Number(b.type === 'MAIN') - Number(a.type === 'MAIN') || a.chapter - b.chapter);
+  const nextMain = quests.find((quest) => quest.type === 'MAIN' && isCurrentQuest(quest))
+    ?? quests.find((quest) => quest.type === 'MAIN' && quest.status === 'AVAILABLE');
 
   const handleAccept = async (templateId: string) => {
     try {
@@ -103,6 +106,20 @@ export default function QuestPanel() {
       </div>
 
       {/* Quest List */}
+      {nextMain && filter !== 'TURNED_IN' && (
+        <div style={{ background: 'rgba(197,160,89,0.13)', border: '1px solid #957542', borderRadius: 8,
+          padding: '10px 12px', marginBottom: 12, fontSize: '0.85rem', lineHeight: 1.45 }}>
+          <strong style={{ color: '#f5d47b' }}>Hành trình chính · Chương {nextMain.chapter}: {nextMain.name}</strong>
+          <div style={{ color: '#cfdae2', marginTop: 3 }}>{nextMain.description}</div>
+          <div style={{ color: '#a9d5cc', marginTop: 5 }}>
+            Tiếp theo: {nextMain.objectives.find((objective) => objective.current < objective.required)?.description ?? 'Nhận thưởng để mở hồi tiếp theo.'}
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
+            <button type="button" onClick={() => setActivePanel('map')} style={{ padding: '5px 9px', background: '#263d42', color: '#e2e8f0', border: '1px solid #547d78', borderRadius: 5, cursor: 'pointer' }}>Xem địa đồ và di tích</button>
+            <button type="button" onClick={() => setActivePanel('story')} style={{ padding: '5px 9px', background: '#342d45', color: '#e2e8f0', border: '1px solid #776292', borderRadius: 5, cursor: 'pointer' }}>Đọc sử ký</button>
+          </div>
+        </div>
+      )}
       <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {filteredQuests.map((quest) => {
           const isComplete = quest.objectives.every((o) => o.current >= o.required);
@@ -133,6 +150,9 @@ export default function QuestPanel() {
               {/* Objectives */}
               <div style={{ marginBottom: '12px' }}>
                 <div style={{ fontSize: '0.8rem', color: '#c5a059', fontWeight: 600, marginBottom: '4px' }}>Mục tiêu:</div>
+                <div style={{ height: 5, borderRadius: 999, background: '#263647', margin: '7px 0 10px', overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${quest.objectives.length ? quest.objectives.reduce((sum, obj) => sum + Math.min(obj.current / obj.required, 1), 0) / quest.objectives.length * 100 : 0}%`, background: '#c5a059' }} />
+                </div>
                 {quest.objectives.map((obj, i) => (
                   <div key={i} style={{ fontSize: '0.85rem', color: obj.current >= obj.required ? '#81c784' : '#e2e8f0', marginLeft: '8px' }}>
                     • {obj.description} ({obj.current}/{obj.required})

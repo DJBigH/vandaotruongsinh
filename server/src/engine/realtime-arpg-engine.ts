@@ -40,7 +40,7 @@ interface SessionCharacter {
   currentMapId?: string;
   positionX?: number;
   positionY?: number;
-  inventory?: { templateId: string; isEquipped: boolean }[];
+  inventory?: { templateId: string; isEquipped: boolean; enhanceLevel?: number }[];
   skills?: { skillId: string; isEquipped: boolean }[];
   disciple?: CharacterDisciple | null;
   storyFlags?: { flagKey: string; flagValue: string }[];
@@ -767,7 +767,7 @@ export class ArpgGameSession {
         // Add items
         for (const it of itemsGained) {
           const existing = await tx.inventoryItem.findFirst({
-            where: { characterId: this.characterId, templateId: it.itemId, isEquipped: false },
+            where: { characterId: this.characterId, templateId: it.itemId, isEquipped: false, enhanceLevel: 0 },
           });
           if (existing) {
             await tx.inventoryItem.update({

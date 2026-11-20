@@ -401,6 +401,55 @@ test('equipment updates active combat stats without refilling resources or reloa
   assert.equal(session.player.hp, Math.floor(maxHp / 2));
 });
 
+test('cường hóa trừ tài nguyên một lần, tách stack và cập nhật chiến đấu đang chạy', async (t) => {
+  const game = await setup(t);
+  await prisma.character.update({ where: { id: game.character.id }, data: { gold: 1000 } });
+  const weapon = await prisma.inventoryItem.create({ data: { characterId: game.character.id, templateId: 'item_001', quantity: 2 } });
+  const ore = await prisma.inventoryItem.create({ data: { characterId: game.character.id, templateId: 'item_013', quantity: 1 } });
+  const { session } = await game.connect();
+  assert.equal((await game.post(`/inventory/${weapon.id}/equip`)).statusCode, 200);
+  const attackBefore = session.player.stats.atk;
+  const [first, duplicate] = await Promise.all([
+    game.post(`/inventory/${weapon.id}/enhance`), game.post(`/inventory/${weapon.id}/enhance`),
+  ]);
+  assert.deepEqual([first.statusCode, duplicate.statusCode].sort(), [200, 400]);
+  assert.equal((await prisma.inventoryItem.findUniqueOrThrow({ where: { id: weapon.id } })).enhanceLevel, 1);
+  assert.equal((await prisma.inventoryItem.findUniqueOrThrow({ where: { id: weapon.id } })).quantity, 1);
+  assert.equal(await prisma.inventoryItem.count({ where: { characterId: game.character.id, templateId: 'item_001', enhanceLevel: 0, quantity: 1 } }), 1);
+  assert.equal(await prisma.inventoryItem.findUnique({ where: { id: ore.id } }), null);
+  assert.equal((await game.read()).gold, 960);
+  assert.equal(session.player.stats.atk, attackBefore + 1);
+  const bag = await app.inject({ method: 'GET', url: '/api/game/inventory', headers: game.headers });
+  assert.equal(bag.json().data.find((item: { id: string }) => item.id === weapon.id).enhanceLevel, 1);
+});
+
+test('linh miếu ghi manh mối và thưởng một lần, kể cả khi tham bái lại', async (t) => {
+  const game = await setup(t);
+  await prisma.character.update({ where: { id: game.character.id }, data: {
+    currentMapId: village.id, positionX: 1024, positionY: 768,
+  } });
+  await prisma.characterQuest.create({ data: {
+    characterId: game.character.id, questId: 'quest_main_01', status: 'ACTIVE',
+    progress: initQuestObjectives(QUEST_TEMPLATES.quest_main_01) as unknown as Prisma.InputJsonValue,
+  } });
+  const first = await game.post('/interact', { interactableId: 'shrine_01' });
+  const again = await game.post('/interact', { interactableId: 'shrine_01' });
+  assert.equal(first.statusCode, 200);
+  assert.match(first.json().data.message, /Phát hiện manh mối/);
+  assert.equal(again.statusCode, 200);
+  assert.doesNotMatch(again.json().data.message, /Phát hiện manh mối/);
+  assert.equal((await game.read()).gold, 80);
+  assert.equal((await game.read()).cultivationExp, 45n);
+  const progress = (await game.readQuest('quest_main_01')).progress as unknown as QuestObjective[];
+  assert.equal(progress.find((objective) => objective.targetId === 'shrine_01')?.current, 1);
+  const maps = await app.inject({ method: 'GET', url: '/api/game/maps', headers: game.headers });
+  assert.equal(maps.json().data.find((entry: { id: string }) => entry.id === village.id).clueFound, true);
+  assert.equal(maps.json().data.find((entry: { id: string }) => entry.id === forest.id).discovered, false);
+  assert.equal((await game.post('/maps/teleport', { targetMapId: forest.id })).statusCode, 200);
+  const arrived = await app.inject({ method: 'GET', url: '/api/game/maps', headers: game.headers });
+  assert.equal(arrived.json().data.find((entry: { id: string }) => entry.id === forest.id).discovered, true);
+});
+
 test('HTTP potions restore live HP and MP without using saved resources or resetting the session', async (t) => {
   const game = await setup(t);
   const characterId = game.character.id;

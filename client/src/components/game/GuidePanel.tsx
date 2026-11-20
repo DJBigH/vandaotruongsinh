@@ -1,0 +1,69 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { useGameStore } from '../../stores/gameStore';
+
+const STEPS = [
+  {
+    title: 'Thanh Khê đang quên tên người',
+    body: 'Linh khí biến đổi khiến sói rừng phát cuồng. Trưởng Lão Thanh Khê nhờ bạn tìm nguyên nhân; mỗi hồi truyện sẽ mở thêm một vùng, một lời chứng và một lựa chọn về Thiên Khế.',
+    action: 'Bắt đầu bằng nhiệm vụ chính ở góc phải. Gặp Trưởng Lão phía bắc làng.',
+  },
+  {
+    title: 'Di chuyển và tương tác',
+    body: 'Dùng WASD hoặc phím mũi tên để đi. Đến gần NPC, cổng, khoáng, rương hoặc linh miếu rồi nhấn E hay nhấp chuột. Chuột trái tấn công, Space né đòn; phím 1–4 dùng kỹ năng.',
+    action: 'Nếu bị thương, ghé linh miếu để hồi phục trước khi đi tiếp.',
+  },
+  {
+    title: 'Mỗi vùng có một manh mối',
+    body: 'Đi qua cổng để tới vùng mới. Trong Bản Đồ, các vùng đã đặt chân tới có thể dịch chuyển nhanh. Tìm linh miếu của từng vùng để mở lời chứng, nhận linh thạch và tu vi lần đầu.',
+    action: 'Bản Đồ ghi tọa độ linh miếu; Sử Ký giữ toàn bộ cốt truyện.',
+  },
+  {
+    title: 'Mạnh lên theo cách của bạn',
+    body: 'Nhận trang bị qua nhiệm vụ, trận đánh và chế tạo. Trong Túi, dùng Thiết Khoáng cùng linh thạch để cường hóa tối đa +5. Tích tu vi từ chiến đấu, manh mối và đan dược; xem Tu Vi để biết mốc đột phá và vật phẩm còn thiếu.',
+    action: 'Đệ tử Liễu Muội có thể đi theo hỗ trợ chiến đấu khi bạn chiêu mộ.',
+  },
+];
+
+export default function GuidePanel({ characterId }: { characterId: string }) {
+  const [index, setIndex] = useState(0);
+  const nextRef = useRef<HTMLButtonElement>(null);
+  const setActivePanel = useGameStore((state) => state.setActivePanel);
+  const step = STEPS[index];
+
+  useEffect(() => { nextRef.current?.focus(); }, [index]);
+
+  const finish = (nextPanel: 'quest' | null) => {
+    window.localStorage.setItem(`vandao-guide-v103:${characterId}`, 'done');
+    setActivePanel(nextPanel);
+  };
+
+  return (
+    <div role="dialog" aria-modal="true" aria-labelledby="guide-title" style={{
+      position: 'absolute', inset: 0, zIndex: 300, background: 'rgba(4, 10, 16, 0.76)',
+      display: 'grid', placeItems: 'center', padding: 16, boxSizing: 'border-box',
+    }}>
+      <div style={{ width: 'min(100%, 580px)', maxHeight: '90vh', overflowY: 'auto', boxSizing: 'border-box',
+        padding: '28px clamp(18px, 4vw, 32px)', background: '#101d29', border: '2px solid #c5a059',
+        borderRadius: 12, boxShadow: '0 16px 50px #000b', color: '#e2e8f0' }}>
+        <div style={{ fontSize: '0.8rem', color: '#d3b46e', fontWeight: 700 }}>HÀNH TRÌNH TU ĐẠO · {index + 1}/{STEPS.length}</div>
+        <h2 id="guide-title" style={{ color: '#ffe4a0', fontSize: '1.45rem', margin: '8px 0 15px' }}>{step.title}</h2>
+        <p style={{ lineHeight: 1.65, fontSize: '1rem' }}>{step.body}</p>
+        <p style={{ lineHeight: 1.5, color: '#9ed9d1', borderLeft: '3px solid #5ba49b', paddingLeft: 12 }}>{step.action}</p>
+        <div style={{ display: 'flex', gap: 6, margin: '22px 0', justifyContent: 'center' }} aria-label="Tiến độ hướng dẫn">
+          {STEPS.map((_, stepIndex) => <span key={stepIndex} style={{ width: stepIndex === index ? 27 : 9, height: 9, borderRadius: 9,
+            background: stepIndex === index ? '#c5a059' : '#465566' }} />)}
+        </div>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'space-between', flexWrap: 'wrap' }}>
+          <button type="button" onClick={() => finish(null)} style={{ background: 'transparent', border: '1px solid #718091', color: '#cbd5e1', borderRadius: 6, padding: '9px 14px', cursor: 'pointer' }}>Bỏ qua</button>
+          <div style={{ display: 'flex', gap: 8 }}>
+            {index > 0 && <button type="button" onClick={() => setIndex(index - 1)} style={{ background: '#273849', border: 0, color: '#e2e8f0', borderRadius: 6, padding: '9px 14px', cursor: 'pointer' }}>Quay lại</button>}
+            <button ref={nextRef} type="button" onClick={() => index < STEPS.length - 1 ? setIndex(index + 1) : finish('quest')}
+              style={{ background: '#c5a059', border: 0, color: '#111827', borderRadius: 6, padding: '9px 18px', fontWeight: 700, cursor: 'pointer' }}>
+              {index < STEPS.length - 1 ? 'Tiếp tục' : 'Mở nhiệm vụ chính'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

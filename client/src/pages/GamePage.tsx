@@ -25,6 +25,7 @@ import DisciplePanel from '../components/game/DisciplePanel';
 import OfflineModal from '../components/game/OfflineModal';
 import StoryJournalPanel from '../components/game/StoryJournalPanel';
 import TowerPanel from '../components/game/TowerPanel';
+import GuidePanel from '../components/game/GuidePanel';
 
 export default function GamePage() {
   const navigate = useNavigate();
@@ -38,10 +39,19 @@ export default function GamePage() {
     loadQuests,
     openDialogue,
     activePanel,
+    character,
+    currentMap,
     characterSlotsOpen,
     setCharacterSlotsOpen,
     addNotification,
   } = useGameStore();
+
+  useEffect(() => {
+    if (!character || !currentMap || activePanel || useGameStore.getState().dialogueState) return;
+    if (!window.localStorage.getItem(`vandao-guide-v103:${character.id}`)) {
+      useGameStore.getState().setActivePanel('guide');
+    }
+  }, [character?.id, currentMap?.id, activePanel]);
 
   useEffect(() => {
     let isMounted = true;
@@ -176,6 +186,7 @@ export default function GamePage() {
           {activePanel === 'tower' && <TowerPanel />}
           {activePanel === 'map' && <MapPanel />}
           {activePanel === 'settings' && <SettingsPanel />}
+          {activePanel === 'guide' && character && <GuidePanel characterId={character.id} />}
         </>
       )}
     </div>

@@ -2,7 +2,7 @@
 // VẠN ĐẠO TRƯỜNG SINH - Inventory Panel
 // ============================================================
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import * as gameApi from '../../api/game';
 import {
@@ -44,9 +44,33 @@ function getItemIcon(item: InventoryItem): string {
 }
 
 export default function InventoryPanel() {
-  const { inventory, loadInventory, loadCharacter, setActivePanel, addNotification } = useGameStore();
+  const { inventory, character, loadInventory, loadCharacter, setActivePanel, addNotification } = useGameStore();
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const [filterType, setFilterType] = useState<string>('ALL');
+  const [enhancing, setEnhancing] = useState(false);
+  const oreCount = inventory.filter((item) => item.templateId === 'item_013').reduce((total, item) => total + item.quantity, 0);
+  const nextLevel = selectedItem && selectedItem.enhanceLevel < 5 ? selectedItem.enhanceLevel + 1 : null;
+  const enhanceGold = nextLevel ? 40 * nextLevel * nextLevel : 0;
+
+  useEffect(() => {
+    if (selectedItem) setSelectedItem(inventory.find((item) => item.id === selectedItem.id) ?? null);
+  }, [inventory]);
+
+  const handleEnhance = async (item: InventoryItem) => {
+    if (enhancing) return;
+    setEnhancing(true);
+    try {
+      const res = await gameApi.enhanceItem(item.id);
+      if (res.success) {
+        addNotification(`${item.name} đã cường hóa +${res.data?.enhanceLevel}`, 'success');
+        await Promise.all([loadInventory(), loadCharacter()]);
+      }
+    } catch (err: any) {
+      addNotification(err.response?.data?.error || 'Không thể cường hóa trang bị', 'error');
+    } finally {
+      setEnhancing(false);
+    }
+  };
 
   const filteredItems = inventory.filter((item) => {
     if (filterType === 'ALL') return true;
@@ -243,6 +267,7 @@ export default function InventoryPanel() {
                 {item.isLocked && (
                   <span style={{ position: 'absolute', top: 2, right: 2, fontSize: '0.7rem' }}>🔒</span>
                 )}
+                {item.enhanceLevel > 0 && <span style={{ position: 'absolute', bottom: 2, left: 3, color: '#ffd700', fontSize: '0.68rem', fontWeight: 700 }}>+{item.enhanceLevel}</span>}
               </div>
             );
           })}
@@ -262,6 +287,7 @@ export default function InventoryPanel() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          overflowY: 'auto',
         }}>
           {selectedItem ? (
             <div>
@@ -286,7 +312,7 @@ export default function InventoryPanel() {
                       fontSize: '1.05rem',
                       color: QUALITY_COLORS[selectedItem.quality] || '#fff',
                     }}>
-                      {selectedItem.name}
+                      {selectedItem.name}{selectedItem.enhanceLevel > 0 ? ` +${selectedItem.enhanceLevel}` : ''}
                     </span>
                     <span style={{
                       fontSize: '0.75rem',
@@ -314,6 +340,24 @@ export default function InventoryPanel() {
                   {selectedItem.stats.spd && <div>• Tốc độ: +{selectedItem.stats.spd}</div>}
                   {selectedItem.stats.maxHp && <div>• Sinh lực tối đa: +{selectedItem.stats.maxHp}</div>}
                   {selectedItem.stats.maxMp && <div>• Linh lực tối đa: +{selectedItem.stats.maxMp}</div>}
+                </div>
+              )}
+
+              {selectedItem.slot && (
+                <div style={{ background: '#162333', border: '1px solid #546b6b', borderRadius: 6, padding: 10, fontSize: '0.82rem', lineHeight: 1.5 }}>
+                  <strong style={{ color: '#f5d47b' }}>Cường hóa {selectedItem.enhanceLevel}/5</strong>
+                  {nextLevel ? (
+                    <>
+                      <div>+{nextLevel}: {enhanceGold} linh thạch · {nextLevel} Thiết Khoáng</div>
+                      <div style={{ color: '#9fb0ba' }}>Hiện có: {character?.gold ?? 0} linh thạch · {oreCount} Thiết Khoáng. Thu khoáng khi khám phá và làm nhiệm vụ.</div>
+                      <button type="button" onClick={() => handleEnhance(selectedItem)}
+                        disabled={enhancing || (character?.gold ?? 0) < enhanceGold || oreCount < nextLevel}
+                        style={{ marginTop: 8, padding: '8px 12px', width: '100%', border: 0, borderRadius: 4, background: '#ad8243', color: '#0f172a', fontWeight: 700,
+                          cursor: enhancing ? 'wait' : 'pointer', opacity: (character?.gold ?? 0) < enhanceGold || oreCount < nextLevel ? 0.55 : 1 }}>
+                        {enhancing ? 'Đang cường hóa...' : `Cường hóa lên +${nextLevel}`}
+                      </button>
+                    </>
+                  ) : <div>Đã đạt cảnh giới tối đa của trang bị.</div>}
                 </div>
               )}
 

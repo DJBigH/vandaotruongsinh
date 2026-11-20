@@ -21,6 +21,7 @@ export default function HUD() {
     quests,
     activeQuestId,
     activePanel,
+    dialogueState,
     setActivePanel,
     setCharacterSlotsOpen,
     notifications,
@@ -444,7 +445,7 @@ export default function HUD() {
         bottom: 84,
         right: 16,
         zIndex: 50,
-        display: 'flex',
+        display: dialogueState?.isOpen ? 'none' : 'flex',
         flexDirection: 'column',
         alignItems: 'flex-end',
         gap: '6px',
@@ -502,6 +503,7 @@ export default function HUD() {
               { key: 'tower', label: '🗼 Tháp' },
               { key: 'map', label: '🗺️ Bản Đồ' },
               { key: 'settings', label: '⚙️ Cài Đặt' },
+              { key: 'guide', label: '❔ Hướng Dẫn' },
             ].map((btn) => (
               <button
                 id={btn.key === 'disciple' ? 'disciple-menu-button' : undefined}

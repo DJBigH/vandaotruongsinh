@@ -13,6 +13,7 @@ const mainQuests = Array.from({ length: 24 }, (_, index) => QUEST_TEMPLATES[`que
 test('the eight-chapter main quest chain has no missing predecessor or unreachable talk and kill targets', () => {
   const talkTargets = new Set(Object.values(MAP_TEMPLATES).flatMap((map) => map.npcs.map((npc) => npc.id)));
   const killTargets = new Set(Object.values(MAP_TEMPLATES).flatMap((map) => map.monsters.map((spawn) => spawn.monsterId)));
+  const exploreTargets = new Set(Object.values(MAP_TEMPLATES).flatMap((map) => map.interactables.map((site) => site.id)));
 
   mainQuests.forEach((quest, index) => {
     assert.ok(quest, `missing main quest ${index + 1}`);
@@ -22,6 +23,7 @@ test('the eight-chapter main quest chain has no missing predecessor or unreachab
     for (const objective of quest.objectives) {
       if (objective.type === 'TALK') assert.ok(talkTargets.has(objective.targetId!), `${quest.id}: ${objective.targetId} has no NPC`);
       if (objective.type === 'KILL') assert.ok(killTargets.has(objective.targetId!), `${quest.id}: ${objective.targetId} has no map spawn`);
+      if (objective.type === 'EXPLORE') assert.ok(exploreTargets.has(objective.targetId!), `${quest.id}: ${objective.targetId} has no landmark`);
       assert.notEqual(objective.type, 'REACH_REALM', `${quest.id}: realm objectives have no quest progress producer`);
     }
   });
@@ -59,7 +61,7 @@ test('active saves replace removed objectives while retaining progress on unchan
     { id: 'obj_talk_elder', description: 'old', type: 'TALK', targetId: 'npc_elder', required: 1, current: 1 },
     { id: 'obj_kill_wolves', description: 'old', type: 'KILL', targetId: 'mon_001', required: 3, current: 2 },
   ]);
-  assert.deepEqual(unchanged.map(({ current }) => current), [1, 2]);
+  assert.deepEqual(unchanged.map(({ current }) => current), [1, 0, 2]);
 });
 
 test('two optional recollection quests prepare the non-default endings through existing NPCs', () => {

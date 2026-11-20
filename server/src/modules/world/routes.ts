@@ -15,6 +15,7 @@ import { updateQuestProgress, updateQuestProgressBatch } from '../quest/quest-en
 import { getActiveCharacter } from '../character/helpers';
 import { ArpgSessionManager, RestorationConflict } from '../../engine/realtime-arpg-engine';
 import { resolvePortalTravel } from './portal-travel';
+import { discoveryKey, discoveryReward } from './discoveries';
 
 type CharacterLocation = Pick<Character, 'id' | 'currentMapId' | 'positionX' | 'positionY'>;
 
@@ -23,7 +24,7 @@ function worldDistance(map: MapData, position: Position, target: Position): numb
 }
 
 async function grantCollectedItem(tx: Prisma.TransactionClient, characterId: string, templateId: string) {
-  const stack = await tx.inventoryItem.findFirst({ where: { characterId, templateId, isEquipped: false } });
+  const stack = await tx.inventoryItem.findFirst({ where: { characterId, templateId, isEquipped: false, enhanceLevel: 0 } });
   if (stack) {
     await tx.inventoryItem.update({ where: { id: stack.id }, data: { quantity: { increment: 1 } } });
   } else {
@@ -57,11 +58,21 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
   }
 
   // GET /api/game/maps
-  fastify.get('/maps', { preHandler: authenticate }, async (_request: FastifyRequest, reply: FastifyReply) => {
+  fastify.get('/maps', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const user = (request as any).user;
+    const char = await getCharacter(user.userId);
+    if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
+    const claims = await prisma.rewardClaim.findMany({ where: { characterId: char.id,
+      OR: [{ eventKey: { startsWith: 'visit_map_' } }, { eventKey: { startsWith: 'discover_map_' } }],
+    }, select: { eventKey: true } });
+    const claimed = new Set(claims.map((entry) => entry.eventKey));
     const maps = Object.values(MAP_DATA).map((m) => ({
       id: m.id,
       name: m.name,
-      discovered: true,
+      discovered: m.id === 'map_thanh_khe' || m.id === char.currentMapId || claimed.has(`visit_${m.id}`),
+      clueFound: claimed.has(discoveryKey(m.id)),
+      clue: claimed.has(discoveryKey(m.id)) ? discoveryReward(m.id)?.clue : undefined,
+      clueSite: m.interactables.find((entry) => entry.type === 'SHRINE')?.position,
     }));
     return reply.send({ success: true, data: maps });
   });
@@ -117,6 +128,9 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
       }
 
       const position = await sessions.teleportCharacter(char.id, targetMap, arrival);
+      await prisma.rewardClaim.createMany({
+        data: [{ characterId: char.id, eventKey: `visit_${targetMapId}` }], skipDuplicates: true,
+      });
 
       return reply.send({
         success: true,
@@ -216,6 +230,7 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
           },
         });
       } else if (target.type === 'SHRINE') {
+        const discovery = discoveryReward(map.id);
         const result = await sessions.updateCharacterCombat(char.id, async (tx, current, session) => {
           const location = getLocation(current);
           if (!location.canInteract || location.map?.id !== map.id ||
@@ -230,7 +245,17 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
               stats: { ...stats, hp: stats.maxHp, mp: stats.maxMp },
             } });
           }
-          return { success: true };
+          const firstDiscovery = discovery ? (await tx.rewardClaim.createMany({
+            data: [{ characterId: current.id, eventKey: discoveryKey(map.id) }], skipDuplicates: true,
+          })).count === 1 : false;
+          if (firstDiscovery && discovery) {
+            await tx.character.update({ where: { id: current.id }, data: {
+              gold: { increment: discovery.gold },
+              cultivationExp: { increment: BigInt(discovery.cultivationExp) },
+            } });
+          }
+          await updateQuestProgressBatch(tx, current.id, [{ type: 'EXPLORE', targetId: target.id, amount: 1 }]);
+          return { success: true, firstDiscovery };
         }, (session, _result, life) => session.reserveRestoration(life, () => {
           session.player.hp = session.player.maxHp;
           session.player.mp = session.player.maxMp;
@@ -241,7 +266,9 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
           success: true,
           data: {
             type: 'SHRINE',
-            message: 'Tâm thần thanh tịnh trước Linh Miếu, sinh lực và linh lực đã hồi phục hoàn toàn!',
+            message: result.firstDiscovery && discovery
+              ? `Phát hiện manh mối: ${discovery.clue} +${discovery.gold} Linh Thạch, +${discovery.cultivationExp} Tu Vi. Sinh lực và linh lực đã hồi phục.`
+              : 'Tâm thần thanh tịnh trước Linh Miếu, sinh lực và linh lực đã hồi phục hoàn toàn!',
           },
         });
       }

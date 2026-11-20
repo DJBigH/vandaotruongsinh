@@ -4,38 +4,7 @@
 
 import React from 'react';
 import { useGameStore } from '../../stores/gameStore';
-
-const getSpeakerAvatar = (speakerName?: string, npcSpriteKey?: string) => {
-  if (npcSpriteKey) {
-    if (npcSpriteKey === 'npc_elder') return '/assets/vnext/npc_elder.png';
-    if (npcSpriteKey === 'npc_mentor') return '/assets/vnext/npc_mentor.png';
-    if (npcSpriteKey === 'npc_guard') return '/assets/vnext/npc_guard.png';
-    if (npcSpriteKey === 'npc_healer') return '/assets/vnext/npc_healer.png';
-  }
-  const name = speakerName || '';
-  if (name.includes('Trưởng Lão') || name.includes('Chưởng Môn') || name.includes('Thiên Khế') || name.includes('Ký Ức')) {
-    return '/assets/vnext/npc_elder.png';
-  }
-  if (name.includes('Dược Sĩ') || name.includes('Đan Tôn')) {
-    return '/assets/vnext/npc_healer.png';
-  }
-  if (name.includes('Vệ Binh')) {
-    return '/assets/vnext/npc_guard.png';
-  }
-  if (name.includes('Đạo Sĩ') || name.includes('Kiếm Hồn') || name.includes('Kiếm Tôn')) {
-    return '/assets/vnext/npc_mentor.png';
-  }
-  if (name.includes('U Minh') || name.includes('Quỷ')) {
-    return '/assets/vnext/monster_ghost.png';
-  }
-  if (name.includes('Tháp Linh')) {
-    return '/assets/vnext/boss_turtle.png';
-  }
-  if (name.includes('Sơn Thần') || name.includes('Lang Vương')) {
-    return '/assets/vnext/boss_lang_vuong.png';
-  }
-  return '/assets/vnext/npc_elder.png';
-};
+import NpcPortrait from './NpcPortrait';
 
 export default function DialogueModal() {
   const { dialogueState, advanceDialogue, selectChoice, closeDialogue } = useGameStore();
@@ -48,7 +17,6 @@ export default function DialogueModal() {
   const hasChoices = currentLine.choices && currentLine.choices.length > 0;
   const isLastLine = dialogueState.currentIndex >= dialogueState.lines.length - 1;
   const speakerName = currentLine.speaker || dialogueState.npcName || 'Nhân Vật Kỳ Bí';
-  const avatarUrl = getSpeakerAvatar(speakerName);
 
   return (
     <div style={{
@@ -58,6 +26,9 @@ export default function DialogueModal() {
       transform: 'translateX(-50%)',
       width: '780px',
       maxWidth: '92vw',
+      maxHeight: 'min(55vh, 430px)',
+      overflowY: 'auto',
+      boxSizing: 'border-box',
       background: 'rgba(15, 23, 42, 0.96)',
       border: '2px solid #c5a059',
       borderRadius: '12px',
@@ -68,9 +39,8 @@ export default function DialogueModal() {
     }}>
       {/* Speaker Name Tag */}
       <div style={{
-        position: 'absolute',
-        top: -16,
-        left: 24,
+        display: 'inline-block',
+        marginBottom: 8,
         background: '#c5a059',
         color: '#000',
         fontWeight: 'bold',
@@ -82,36 +52,12 @@ export default function DialogueModal() {
         {speakerName}
       </div>
 
-      <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start', marginTop: '6px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems: 'flex-start', marginTop: '6px' }}>
         {/* Speaker Avatar Frame */}
-        <div style={{
-          width: '64px',
-          height: '64px',
-          flexShrink: 0,
-          background: '#1e293b',
-          border: '2px solid #ffd700',
-          borderRadius: '8px',
-          overflow: 'hidden',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
-        }}>
-          <img
-            src={avatarUrl}
-            alt={speakerName}
-            style={{
-              height: '64px',
-              maxWidth: 'none',
-              imageRendering: 'pixelated',
-              objectFit: 'none',
-              objectPosition: '0 0',
-            }}
-          />
-        </div>
+        <NpcPortrait speaker={speakerName} spriteKey={dialogueState.npcSpriteKey} />
 
         {/* Dialogue Body & Actions */}
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: '1 1 220px' }}>
           <div style={{
             minHeight: '60px',
             fontSize: '1.05rem',

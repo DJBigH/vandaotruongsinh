@@ -30,6 +30,21 @@ export async function attemptBreakthrough(character: Pick<CharacterSummary, 'id'
   return res.data;
 }
 
+export interface BreakthroughInfo {
+  canBreakthrough: boolean;
+  currentRealmName: string;
+  nextRealmName: string;
+  requiredExp: number;
+  currentExp: number;
+  message: string;
+  requiredItems: { itemId: string; name: string; quantity: number; owned: number }[];
+}
+
+export async function getBreakthroughInfo(): Promise<ApiResponse<BreakthroughInfo>> {
+  const res = await apiClient.get('/game/character/breakthrough-info');
+  return res.data;
+}
+
 // === Inventory ===
 export async function getInventory(): Promise<ApiResponse<InventoryItem[]>> {
   const res = await apiClient.get('/game/inventory');
@@ -43,6 +58,11 @@ export async function equipItem(itemId: string): Promise<ApiResponse<CharacterSu
 
 export async function unequipItem(itemId: string): Promise<ApiResponse<CharacterSummary>> {
   const res = await apiClient.post(`/game/inventory/${itemId}/unequip`);
+  return res.data;
+}
+
+export async function enhanceItem(itemId: string): Promise<ApiResponse<{ enhanceLevel: number; goldSpent: number; oreSpent: number }>> {
+  const res = await apiClient.post(`/game/inventory/${itemId}/enhance`);
   return res.data;
 }
 
@@ -112,7 +132,7 @@ export async function getMap(mapId: string): Promise<ApiResponse<MapData>> {
   return res.data;
 }
 
-export async function getWorldMaps(): Promise<ApiResponse<{ id: string; name: string; discovered: boolean }[]>> {
+export async function getWorldMaps(): Promise<ApiResponse<{ id: string; name: string; discovered: boolean; clueFound: boolean; clue?: string; clueSite?: { x: number; y: number } }[]>> {
   const res = await apiClient.get('/game/maps');
   return res.data;
 }

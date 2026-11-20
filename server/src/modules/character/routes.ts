@@ -19,6 +19,7 @@ import { getActiveCharacter } from './helpers';
 import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
 import {
   checkBreakthroughEligibility,
+  getBreakthroughRequirement,
   getNewlyUnlockedSkills,
 } from '../../engine/realm-engine';
 import {
@@ -48,6 +49,24 @@ function slotChange(handler: (request: FastifyRequest, reply: FastifyReply) => P
 
 export async function characterRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
   const { prisma } = options;
+
+  fastify.get('/character/breakthrough-info', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const user = (request as any).user;
+    const char = await getActiveCharacter(prisma, user.userId);
+    if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
+    const items = await prisma.inventoryItem.findMany({ where: { characterId: char.id },
+      select: { templateId: true, quantity: true } });
+    const requirement = getBreakthroughRequirement(char.realmIndex, char.realmTier);
+    const status = checkBreakthroughEligibility(char.realmIndex, char.realmTier, char.cultivationExp, items);
+    return reply.send({ success: true, data: {
+      ...status,
+      requiredItems: (requirement?.requiredItems ?? []).map((entry) => ({
+        itemId: entry.itemId, name: ITEM_TEMPLATES[entry.itemId]?.name ?? entry.itemId,
+        quantity: entry.quantity, owned: items.filter((item) => item.templateId === entry.itemId)
+          .reduce((sum, item) => sum + item.quantity, 0),
+      })),
+    } });
+  });
   const sessions = ArpgSessionManager.getInstance();
 
   // GET /api/game/character
@@ -74,7 +93,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         return reply.send({ success: true, data: null });
       }
 
-      const equippedItems = character.inventory.map((i) => ({ templateId: i.templateId }));
+      const equippedItems = character.inventory.map((i) => ({ templateId: i.templateId, enhanceLevel: i.enhanceLevel }));
       const effectiveStats = computeCharacterStats(
         character.cultivationPath as CultivationPath,
         character.realmIndex,
@@ -94,6 +113,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         stats: effectiveStats,
         currentMapId: character.currentMapId,
         gold: character.gold,
+        cultivationExp: Number(character.cultivationExp),
       };
 
       return reply.send({ success: true, data: summary });
@@ -228,6 +248,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         stats: initialStats,
         currentMapId: newChar.currentMapId,
         gold: newChar.gold,
+        cultivationExp: Number(newChar.cultivationExp),
       };
 
       return reply.send({ success: true, data: summary });

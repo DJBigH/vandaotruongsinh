@@ -64,6 +64,7 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
     chapter: 1,
     objectives: [
       { id: 'obj_talk_elder', description: 'Đàm thoại với Trưởng Lão Thanh Khê', type: 'TALK', targetId: 'npc_elder', required: 1 },
+      { id: 'obj_shrine_village', description: 'Xem sổ ký ức tại Linh Miếu giữa làng Thanh Khê', type: 'EXPLORE', targetId: 'shrine_01', required: 1 },
       { id: 'obj_kill_wolves', description: 'Tiêu diệt 3 con Sói Xám bìa rừng', type: 'KILL', targetId: 'mon_001', required: 3 },
     ],
     rewards: { exp: 50, gold: 20, cultivationExp: 60, items: [{ itemTemplateId: 'item_009', quantity: 3 }] },
@@ -90,6 +91,7 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
     prerequisiteQuestId: 'quest_main_02',
     objectives: [
       { id: 'obj_kill_wolf_king', description: 'Hạ gục Xích Nha Lang Vương', type: 'KILL', targetId: 'boss_001', required: 1 },
+      { id: 'obj_shrine_forest', description: 'Tìm dấu tích Thiên Thư tại Linh Miếu sâu trong rừng', type: 'EXPLORE', targetId: 'shrine_boss', required: 1 },
       { id: 'obj_talk_elder_end', description: 'Giao mảnh ngọc cho Trưởng Lão thẩm định', type: 'TALK', targetId: 'npc_elder', required: 1 },
     ],
     rewards: { exp: 200, gold: 100, cultivationExp: 250, items: [{ itemTemplateId: 'item_006', quantity: 1 }, { itemTemplateId: 'item_015', quantity: 1 }] },
@@ -143,6 +145,7 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
     prerequisiteQuestId: 'quest_main_03',
     objectives: [
       { id: 'obj_talk_mentor', description: 'Bái kiến Đạo Sĩ Tiêu Dao', type: 'TALK', targetId: 'npc_mentor', required: 1 },
+      { id: 'obj_shrine_sword', description: 'Đọc bia thề tại linh miếu Thanh Vân', type: 'EXPLORE', targetId: 'sword_shrine', required: 1 },
       { id: 'obj_kill_puppets', description: 'Đánh bại 3 Kiếm Khí Khôi Lỗi trong thí luyện', type: 'KILL', targetId: 'mon_006', required: 3 },
     ],
     rewards: { exp: 280, gold: 140, cultivationExp: 380, items: [] },
@@ -226,6 +229,7 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
     prerequisiteQuestId: 'quest_main_06',
     objectives: [
       { id: 'obj_talk_dan_ton', description: 'Hội ngộ Đan Tôn Liễu Nhược Vân', type: 'TALK', targetId: 'npc_dan_ton', required: 1 },
+      { id: 'obj_shrine_cauldron', description: 'Tìm cặn cấm dược tại Đan Lô', type: 'EXPLORE', targetId: 'dan_cauldron', required: 1 },
       { id: 'obj_kill_fire_spirits', description: 'Tiêu diệt 4 Đan Lô Hỏa Linh loạn lạc', type: 'KILL', targetId: 'mon_011', required: 4 },
     ],
     rewards: { exp: 550, gold: 280, cultivationExp: 750, items: [{ itemTemplateId: 'item_052', quantity: 3 }] },
@@ -304,6 +308,7 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
     prerequisiteQuestId: 'quest_main_09',
     objectives: [
       { id: 'obj_talk_sword_spirit', description: 'Gặp gỡ Kiếm Hồn Viễn Cổ', type: 'TALK', targetId: 'npc_sword_spirit', required: 1 },
+      { id: 'obj_shrine_tomb', description: 'Đối chiếu tên khắc trên Cổ Mộ', type: 'EXPLORE', targetId: 'ancient_tomb', required: 1 },
       { id: 'obj_kill_broken_swords', description: 'Trấn áp 4 Đoạn Kiếm Tàn Hồn', type: 'KILL', targetId: 'mon_016', required: 4 },
     ],
     rewards: { exp: 1100, gold: 550, cultivationExp: 1500, items: [] },
@@ -387,6 +392,7 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
     prerequisiteQuestId: 'quest_main_12',
     objectives: [
       { id: 'obj_talk_rebel', description: 'Đối thoại với U Minh Giáo Chủ', type: 'TALK', targetId: 'npc_rebel_cultivator', required: 1 },
+      { id: 'obj_shrine_well', description: 'Đọc chân danh tại Hoàng Tuyền Tỉnh', type: 'EXPLORE', targetId: 'yellow_spring_well', required: 1 },
       { id: 'obj_kill_ghost_soldiers', description: 'Đánh lui 5 U Hồn Quỷ Tốt', type: 'KILL', targetId: 'mon_021', required: 5 },
     ],
     rewards: { exp: 1800, gold: 900, cultivationExp: 2450, items: [] },
@@ -470,6 +476,7 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
     prerequisiteQuestId: 'quest_main_15',
     objectives: [
       { id: 'obj_talk_inner_voice', description: 'Lắng nghe Tiếng Vọng Ký Ức', type: 'TALK', targetId: 'npc_inner_voice', required: 1 },
+      { id: 'obj_shrine_mirror', description: 'Soi chân danh vào Kính Tâm', type: 'EXPLORE', targetId: 'heart_mirror', required: 1 },
       { id: 'obj_kill_shadows', description: 'Đánh tan 5 Tâm Ma Huyễn Ảnh', type: 'KILL', targetId: 'mon_026', required: 5 },
     ],
     rewards: { exp: 2800, gold: 1400, cultivationExp: 3800, items: [{ itemTemplateId: 'item_038', quantity: 1 }] },
@@ -548,6 +555,7 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
     prerequisiteQuestId: 'quest_main_18',
     objectives: [
       { id: 'obj_talk_mountain_god', description: 'Bái kiến Sơn Thần Thiên Sơn', type: 'TALK', targetId: 'npc_mountain_god', required: 1 },
+      { id: 'obj_shrine_dragon', description: 'Khảo sát mạch khí tại Long Mạch Thần Điểm', type: 'EXPLORE', targetId: 'dragon_vein_node', required: 1 },
       { id: 'obj_kill_snow_birds', description: 'Hạ 5 Tuyết Sơn Băng Dực Điểu', type: 'KILL', targetId: 'mon_031', required: 5 },
     ],
     rewards: { exp: 4000, gold: 2000, cultivationExp: 5500, items: [{ itemTemplateId: 'item_030', quantity: 1 }] },
@@ -631,6 +639,7 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
     prerequisiteQuestId: 'quest_main_21',
     objectives: [
       { id: 'obj_kill_patrol_guards', description: 'Đánh lui 6 Thiên Khế Tuần Tra Vệ', type: 'KILL', targetId: 'mon_036', required: 6 },
+      { id: 'obj_shrine_monolith', description: 'Đọc ba con đường trên Cổ Bia Thiên Khế', type: 'EXPLORE', targetId: 'covenant_monolith', required: 1 },
       { id: 'obj_reach_dajie', description: 'Đối chất với thần tượng Chấp Pháp Giả', type: 'TALK', targetId: 'npc_covenant_arbiter', required: 1 },
     ],
     rewards: { exp: 7500, gold: 3800, cultivationExp: 10500, items: [{ itemTemplateId: 'item_073', quantity: 1 }] },

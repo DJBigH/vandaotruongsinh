@@ -359,6 +359,7 @@ export interface CharacterSummary {
   stats: CharacterStats;
   currentMapId: string;
   gold: number;
+  cultivationExp: number;
   sectId?: string | null;
   sectName?: string | null;
   sectContribution?: number;
@@ -375,6 +376,7 @@ export interface InventoryItem {
   quantity: number;
   isEquipped: boolean;
   isLocked: boolean;
+  enhanceLevel: number;
   stats?: Partial<CharacterStats>;
   effects?: string;
   slot?: string;

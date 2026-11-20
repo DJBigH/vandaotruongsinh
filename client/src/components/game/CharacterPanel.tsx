@@ -2,7 +2,7 @@
 // VẠN ĐẠO TRƯỜNG SINH - Character & Cultivation Panel
 // ============================================================
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import * as gameApi from '../../api/game';
 import { CultivationPath, CULTIVATION_PATH_NAMES } from '@shared/index';
@@ -10,6 +10,15 @@ import { CultivationPath, CULTIVATION_PATH_NAMES } from '@shared/index';
 export default function CharacterPanel() {
   const { character, loadCharacter, setActivePanel, addNotification } = useGameStore();
   const [breakthroughLoading, setBreakthroughLoading] = useState(false);
+  const [breakthroughInfo, setBreakthroughInfo] = useState<gameApi.BreakthroughInfo | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    void gameApi.getBreakthroughInfo().then((res) => {
+      if (mounted && res.success) setBreakthroughInfo(res.data ?? null);
+    }).catch(() => { if (mounted) setBreakthroughInfo(null); });
+    return () => { mounted = false; };
+  }, [character?.id, character?.realmIndex, character?.realmTier, character?.cultivationExp]);
 
   if (!character) return null;
 
@@ -20,6 +29,8 @@ export default function CharacterPanel() {
       if (res.success && res.data) {
         addNotification(res.data.message || 'Đột phá thành công!', 'success');
         await loadCharacter();
+        const next = await gameApi.getBreakthroughInfo();
+        if (next.success) setBreakthroughInfo(next.data ?? null);
       } else {
         addNotification(res.error || 'Chưa đủ điều kiện đột phá', 'warning');
       }
@@ -39,6 +50,9 @@ export default function CharacterPanel() {
       transform: 'translate(-50%, -50%)',
       width: '740px',
       maxWidth: '92vw',
+      maxHeight: '90vh',
+      overflowY: 'auto',
+      boxSizing: 'border-box',
       background: 'rgba(15, 23, 42, 0.96)',
       border: '2px solid #c5a059',
       borderRadius: '12px',
@@ -70,7 +84,7 @@ export default function CharacterPanel() {
         </button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '20px' }}>
         {/* Left: Stats Column */}
         <div style={{ background: '#0f172a', padding: '16px', borderRadius: '8px', border: '1px solid #334155' }}>
           <h3 style={{ margin: '0 0 12px 0', color: '#c5a059', fontSize: '1rem' }}>Chỉ Số Bổn Nguyên</h3>
@@ -119,7 +133,29 @@ export default function CharacterPanel() {
                 <span style={{ color: '#ffd700' }}>Cảnh Giới Hiện Tại:</span>
                 <strong>{character.realmName}</strong>
               </div>
+              {breakthroughInfo && (
+                <>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: '0.82rem', marginTop: 12 }}>
+                    <span>Tu vi tích lũy</span>
+                    <strong>{breakthroughInfo.currentExp.toLocaleString('vi-VN')} / {breakthroughInfo.requiredExp.toLocaleString('vi-VN')}</strong>
+                  </div>
+                  <div role="progressbar" aria-label="Tiến độ tu vi" aria-valuenow={Math.min(breakthroughInfo.currentExp, breakthroughInfo.requiredExp)}
+                    aria-valuemin={0} aria-valuemax={Math.max(1, breakthroughInfo.requiredExp)}
+                    style={{ height: 10, background: '#334155', borderRadius: 999, overflow: 'hidden', marginTop: 6 }}>
+                    <div style={{ height: '100%', width: `${breakthroughInfo.requiredExp ? Math.min(100, breakthroughInfo.currentExp / breakthroughInfo.requiredExp * 100) : 100}%`, background: '#c5a059' }} />
+                  </div>
+                  <p style={{ margin: '10px 0 0', color: '#c5a059', fontSize: '0.82rem' }}>Mốc tiếp: {breakthroughInfo.nextRealmName}</p>
+                  {breakthroughInfo.requiredItems.map((item) => (
+                    <div key={item.itemId} style={{ fontSize: '0.8rem', color: item.owned >= item.quantity ? '#81c784' : '#f1b96b', marginTop: 4 }}>
+                      {item.name}: {item.owned}/{item.quantity}
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
+            <p style={{ fontSize: '0.82rem', color: '#a9bac9', lineHeight: 1.5 }}>
+              Tăng tu vi bằng nhiệm vụ chính, manh mối ở linh miếu, chiến đấu và đan dược. Khoáng thu được có thể cường hóa trang bị trong Túi.
+            </p>
           </div>
 
           <button
