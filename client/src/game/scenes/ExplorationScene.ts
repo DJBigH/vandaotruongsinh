@@ -16,10 +16,10 @@ import { WorldRenderer } from '../exploration/worldRenderer';
 import { CombatFeedback } from '../exploration/combatFeedback';
 import { usePresentationSettings } from '../exploration/settings';
 import type { HeroPose } from '../assets/AssetManifest';
+import { heroVariantKey } from '../assets/hero-variants';
 import { MapLoad } from '../exploration/mapLoad';
 import { cameraFollowLerp, predictPosition } from '../exploration/prediction';
 import {
-  CultivationPath,
   type MapData,
   type Position,
   type MapNPC,
@@ -33,11 +33,13 @@ import {
 
 export default class ExplorationScene extends Phaser.Scene {
   private player: Phaser.GameObjects.Sprite | null = null;
+  private mountSprite: Phaser.GameObjects.Image | null = null;
   private readonly controls = new GameControls();
   private actorAction = new ActionAnimationLock();
   private readonly actionConfirmation = new ActionConfirmation();
   private pointerAttack: Aim | null = null;
   private currentFacing: FacingDirection = 'down';
+  private appearanceSignature = '';
 
   private worldRenderer: WorldRenderer | null = null;
   private feedback!: CombatFeedback;
@@ -375,6 +377,7 @@ export default class ExplorationScene extends Phaser.Scene {
     }
     this.entitySprites.clear();
     this.player = null;
+    this.mountSprite = null;
     this.mapData = null;
     useGameStore.setState({ currentMap: null });
   }
@@ -399,6 +402,7 @@ export default class ExplorationScene extends Phaser.Scene {
     this.currentMapId = null;
     this.mapData = null;
     this.player = null;
+    this.mountSprite = null;
     this.latestServerPlayer = null;
     this.latestEntities = [];
     this.latestProjectiles = [];
@@ -542,9 +546,9 @@ export default class ExplorationScene extends Phaser.Scene {
     }
 
     // Use the first authoritative world coordinates, including a saved mid-map position.
-    const path = initialPlayer.cultivationPath ?? useGameStore.getState().character?.cultivationPath;
-    const idleSheet = path === CultivationPath.SPELL ? 'player_magic_idle' : path === CultivationPath.BODY ? 'player_body_idle' : 'player_idle';
+    const idleSheet = `${this.heroBaseKey()}_idle`;
     this.player = this.add.sprite(initialPlayer.x, initialPlayer.y, idleSheet).setOrigin(0.5, 0.875);
+    this.updatePlayerAppearance();
     const reduced = usePresentationSettings.getState().reducedEffects;
     this.worldRenderer.setReducedMotion(reduced);
     if (reduced) for (const tween of this.ambientTweens) tween.pause();
@@ -577,6 +581,7 @@ export default class ExplorationScene extends Phaser.Scene {
     }
 
     if (player && this.mapData) {
+      this.updatePlayerAppearance();
       const magnitude = Math.hypot(move.x, move.y);
       const speed = (this.latestServerPlayer?.stats?.spd ?? 10) * 12;
       const velocity = magnitude ? { x: move.x * speed / magnitude, y: move.y * speed / magnitude } : move;
@@ -585,6 +590,7 @@ export default class ExplorationScene extends Phaser.Scene {
         : null;
       const position = predictPosition(this.mapData, player, velocity, sample, now, delta);
       player.setPosition(position.x, position.y).setDepth(position.y);
+      this.updateMountAppearance(now);
       this.worldRenderer?.updateOcclusion(player);
       this.cameras.main.setLerp(cameraFollowLerp(this.game.loop.rawDelta));
       if (magnitude && !this.actorAction.active) {
@@ -615,7 +621,7 @@ export default class ExplorationScene extends Phaser.Scene {
 
   private playLocomotion(player: Phaser.GameObjects.Sprite, move: Position) {
     const pose = this.latestServerPlayer?.state === 'DEAD' ? 'death' : (move.x || move.y) ? 'walk' : 'idle';
-    const key = heroAnimation(this.playerPath(), pose, this.currentFacing);
+    const key = heroAnimation(this.playerPath(), pose, this.currentFacing, this.heroBaseKey());
     if (this.anims.exists(key) && player.anims.currentAnim?.key !== key) player.play(key);
   }
 
@@ -623,9 +629,47 @@ export default class ExplorationScene extends Phaser.Scene {
     return this.latestServerPlayer?.cultivationPath ?? useGameStore.getState().character?.cultivationPath;
   }
 
+  private heroBaseKey() {
+    const character = useGameStore.getState().character;
+    if (!character) return 'hero_sword_male_immortal_0';
+    return heroVariantKey(character.cultivationPath, character.gender, character.alignment, character.realmIndex);
+  }
+
+  private updatePlayerAppearance() {
+    const character = useGameStore.getState().character;
+    if (!character || !this.player) return;
+    const key = this.heroBaseKey();
+    const signature = `${character.id}:${key}:${character.realmTier}`;
+    if (signature === this.appearanceSignature) return;
+    if (this.player.texture.key !== `${key}_idle` && this.textures.exists(`${key}_idle`)) {
+      this.player.anims.stop();
+      this.player.setTexture(`${key}_idle`);
+    }
+    const celestial = [0xffffff, 0xe8f1de, 0xf5e4bc, 0xffd595];
+    const demonic = [0xffffff, 0xe6d1cf, 0xdca69b, 0xd68170];
+    this.player.setTint((character.alignment === 'DEMONIC' ? demonic : celestial)[character.realmTier] ?? 0xffffff);
+    this.appearanceSignature = signature;
+  }
+
+  private updateMountAppearance(now: number) {
+    const mountId = useGameStore.getState().character?.activeMount;
+    if (!mountId || !this.player || !this.textures.exists(mountId)) {
+      this.mountSprite?.destroy();
+      this.mountSprite = null;
+      return;
+    }
+    if (!this.mountSprite || this.mountSprite.texture.key !== mountId) {
+      this.mountSprite?.destroy();
+      this.mountSprite = this.add.image(this.player.x, this.player.y, mountId);
+      this.mountSprite.setScale(92 / this.mountSprite.width);
+    }
+    this.mountSprite.setPosition(this.player.x, this.player.y + 13 + Math.sin(now / 180) * 1.5)
+      .setDepth(this.player.y - 1).setFlipX(this.currentFacing === 'left');
+  }
+
   private playPose(pose: HeroPose) {
     if (!this.player) return;
-    const key = heroAnimation(this.playerPath(), pose, this.currentFacing);
+    const key = heroAnimation(this.playerPath(), pose, this.currentFacing, this.heroBaseKey());
     if (!this.anims.exists(key)) return;
     AnimationManager.playAction(this, this.player, this.actorAction, key, this.anims.get(key).duration + 100);
   }

@@ -11,6 +11,7 @@ export default function CharacterPanel() {
   const { character, loadCharacter, setActivePanel, addNotification } = useGameStore();
   const [breakthroughLoading, setBreakthroughLoading] = useState(false);
   const [breakthroughInfo, setBreakthroughInfo] = useState<gameApi.BreakthroughInfo | null>(null);
+  const [breakthroughScene, setBreakthroughScene] = useState<{ success: boolean; message: string } | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -27,7 +28,8 @@ export default function CharacterPanel() {
     try {
       const res = await gameApi.attemptBreakthrough(character);
       if (res.success && res.data) {
-        addNotification(res.data.message || 'Đột phá thành công!', 'success');
+        setBreakthroughScene({ success: res.data.success, message: res.data.message });
+        addNotification(res.data.message, res.data.success ? 'success' : 'warning');
         await loadCharacter();
         const next = await gameApi.getBreakthroughInfo();
         if (next.success) setBreakthroughInfo(next.data ?? null);
@@ -42,7 +44,7 @@ export default function CharacterPanel() {
     }
   };
 
-  return (
+  return <>
     <div style={{
       position: 'absolute',
       top: '50%',
@@ -135,6 +137,13 @@ export default function CharacterPanel() {
               </div>
               {breakthroughInfo && (
                 <>
+                  <div className="realm-stages" aria-label="Các tầng của cảnh giới hiện tại">
+                    {breakthroughInfo.stages.map((stage) => <span key={stage.name} className={stage.reached ? 'reached' : ''}>{stage.name}</span>)}
+                  </div>
+                  <p style={{ color: '#d8c18c', fontSize: '0.82rem', margin: '8px 0 0' }}>
+                    Tỉ lệ thành công: {Math.round(breakthroughInfo.chance * 100)}%. Thất bại hao 15% tu vi cần cho tầng này.
+                    {breakthroughInfo.cooldownSeconds > 0 ? ` Tâm mạch hồi phục sau ${breakthroughInfo.cooldownSeconds} giây.` : ''}
+                  </p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: '0.82rem', marginTop: 12 }}>
                     <span>Tu vi tích lũy</span>
                     <strong>{breakthroughInfo.currentExp.toLocaleString('vi-VN')} / {breakthroughInfo.requiredExp.toLocaleString('vi-VN')}</strong>
@@ -160,7 +169,7 @@ export default function CharacterPanel() {
 
           <button
             onClick={handleBreakthrough}
-            disabled={breakthroughLoading}
+            disabled={breakthroughLoading || !breakthroughInfo?.canBreakthrough || breakthroughInfo.cooldownSeconds > 0}
             style={{
               width: '100%',
               padding: '12px',
@@ -179,5 +188,12 @@ export default function CharacterPanel() {
         </div>
       </div>
     </div>
-  );
+    {breakthroughScene && <div className={`breakthrough-overlay ${breakthroughScene.success ? 'success' : 'failed'}`}
+      role="dialog" aria-modal="true" aria-label="Kết quả đột phá">
+      <div className="breakthrough-orbit" aria-hidden="true"><span>道</span></div>
+      <h2>{breakthroughScene.success ? 'Đột phá thành công' : 'Tâm mạch dao động'}</h2>
+      <p>{breakthroughScene.message}</p>
+      <button type="button" onClick={() => setBreakthroughScene(null)}>Tiếp tục hành trình</button>
+    </div>}
+  </>;
 }

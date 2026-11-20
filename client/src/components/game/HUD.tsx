@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { AccountRole } from '@shared/index';
 import type { Cooldowns } from '../../game/exploration/actions';
 import { eventBridge } from '../../game/EventBridge';
+import { heroVariantKey } from '../../game/assets/hero-variants';
 type Vitals = { hp: number; maxHp: number; mp: number; maxMp: number };
 
 const emptyCooldowns: Cooldowns = { dodgeRemainingSec: 0, attackRemainingSec: 0, skillsRemainingSec: [] };
@@ -72,9 +73,11 @@ export default function HUD() {
 
   const hpRatio = maxHp > 0 ? (curHp / maxHp) * 100 : 0;
   const mpRatio = maxMp > 0 ? (curMp / maxMp) * 100 : 0;
+  const heroPreview = character ? `/assets/v104/${heroVariantKey(character.cultivationPath,
+    character.gender ?? 'MALE', character.alignment ?? 'IMMORTAL', character.realmIndex)}_preview.png` : null;
 
   return (
-    <div style={{ pointerEvents: 'none', position: 'absolute', inset: 0, overflow: 'hidden' }}>
+    <div className="game-hud" style={{ pointerEvents: 'none', position: 'absolute', inset: 0, overflow: 'hidden' }}>
       {/* Top Left: Character Profile & Vitals */}
       <div style={{
         pointerEvents: 'auto',
@@ -82,7 +85,7 @@ export default function HUD() {
         top: 16,
         left: 16,
         background: 'rgba(13, 19, 29, 0.85)',
-        border: '1px solid #c5a059',
+        border: '1px solid #aa9163',
         borderRadius: '8px',
         padding: '12px 16px',
         minWidth: '240px',
@@ -90,13 +93,13 @@ export default function HUD() {
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
           <img
-            src={character?.cultivationPath === 'SPELL' ? '/assets/vnext/icon_item_staff.png' : character?.cultivationPath === 'BODY' ? '/assets/vnext/icon_item_fist.png' : '/assets/vnext/icon_item_sword.png'}
-            alt="Đạo Thân"
-            style={{ width: '36px', height: '36px', imageRendering: 'pixelated', background: '#1e293b', border: '1px solid #ffd700', borderRadius: '6px', padding: '2px', flexShrink: 0 }}
+            src={heroPreview ?? '/assets/vnext/icon_item_sword.png'}
+            alt={`Chân dung ${character?.name ?? 'đạo thân'}`}
+            style={{ width: '46px', height: '46px', objectFit: 'contain', imageRendering: 'pixelated', background: '#24372c', border: '1px solid #aa9163', borderRadius: '3px', padding: '2px', flexShrink: 0 }}
           />
           <div style={{ flex: 1 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontWeight: 'bold', color: '#ffd700', fontSize: '1rem' }}>
+              <span style={{ fontWeight: 'bold', color: '#dfc38a', fontSize: '1rem' }}>
                 {character?.name || 'Tu Sĩ'}
               </span>
               <span style={{ fontSize: '0.75rem', color: '#81c784', background: 'rgba(76,175,80,0.15)', padding: '1px 6px', borderRadius: '4px', border: '1px solid rgba(76,175,80,0.3)' }}>
@@ -113,7 +116,7 @@ export default function HUD() {
             <span>{Math.round(curHp)} / {maxHp}</span>
           </div>
           <div style={{ width: '100%', height: '8px', background: '#37474f', borderRadius: '4px', overflow: 'hidden' }}>
-            <div style={{ width: `${Math.max(0, Math.min(100, hpRatio))}%`, height: '100%', background: '#ef5350', transition: 'width 0.3s' }} />
+            <div style={{ width: `${Math.max(0, Math.min(100, hpRatio))}%`, height: '100%', background: '#b76b61', transition: 'width 0.3s' }} />
           </div>
         </div>
 
@@ -124,7 +127,7 @@ export default function HUD() {
             <span>{Math.round(curMp)} / {maxMp}</span>
           </div>
           <div style={{ width: '100%', height: '6px', background: '#37474f', borderRadius: '4px', overflow: 'hidden' }}>
-            <div style={{ width: `${Math.max(0, Math.min(100, mpRatio))}%`, height: '100%', background: '#29b6f6', transition: 'width 0.3s' }} />
+            <div style={{ width: `${Math.max(0, Math.min(100, mpRatio))}%`, height: '100%', background: '#6e9cb0', transition: 'width 0.3s' }} />
           </div>
         </div>
       </div>
@@ -141,13 +144,13 @@ export default function HUD() {
       }}>
         <div style={{
           background: 'rgba(13, 19, 29, 0.85)',
-          border: '1px solid #c5a059',
+          border: '1px solid #aa9163',
           borderRadius: '8px',
           padding: '8px 14px',
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          color: '#ffd700',
+          color: '#dfc38a',
           fontWeight: 'bold',
           fontSize: '0.95rem',
         }}>
@@ -161,8 +164,8 @@ export default function HUD() {
           onClick={() => setCharacterSlotsOpen(true)}
           title="Quản lý và chuyển đổi 3 Đạo Thân (Nhân vật)"
           style={{
-            background: 'linear-gradient(135deg, #1e3a8a, #2563eb)',
-            border: '1px solid #60a5fa',
+            background: '#35544a',
+            border: '1px solid #90a987',
             borderRadius: '8px',
             padding: '8px 12px',
             display: 'flex',
@@ -172,7 +175,7 @@ export default function HUD() {
             fontWeight: 'bold',
             fontSize: '0.85rem',
             cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(37, 99, 235, 0.4)',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.28)',
             transition: 'all 0.15s',
           }}
         >
@@ -213,7 +216,7 @@ export default function HUD() {
           maxWidth: '260px',
           boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
         }}>
-          <div style={{ fontSize: '0.8rem', color: '#c5a059', fontWeight: 'bold', marginBottom: '4px' }}>
+          <div style={{ fontSize: '0.8rem', color: '#aa9163', fontWeight: 'bold', marginBottom: '4px' }}>
             📜 TIẾN ĐỘ NHIỆM VỤ
           </div>
           <div style={{ fontSize: '0.9rem', color: '#fff', fontWeight: 600, marginBottom: '6px' }}>
@@ -243,8 +246,8 @@ export default function HUD() {
             key={n.id}
             style={{
               background: 'rgba(0, 0, 0, 0.85)',
-              border: '1px solid #ffd700',
-              color: '#ffd700',
+              border: '1px solid #dfc38a',
+              color: '#dfc38a',
               padding: '8px 18px',
               borderRadius: '20px',
               fontSize: '0.9rem',
@@ -268,7 +271,7 @@ export default function HUD() {
         gap: '8px',
         alignItems: 'center',
         background: 'rgba(10, 15, 24, 0.90)',
-        border: '1px solid #c5a059',
+        border: '1px solid #aa9163',
         borderRadius: '12px',
         padding: '6px 14px',
         boxShadow: '0 4px 20px rgba(0,0,0,0.7)',
@@ -281,8 +284,8 @@ export default function HUD() {
             position: 'relative',
             width: '46px',
             height: '46px',
-            background: '#1e293b',
-            border: '1px solid #ffd700',
+            background: '#26362f',
+            border: '1px solid #dfc38a',
             borderRadius: '8px',
             display: 'flex',
             flexDirection: 'column',
@@ -297,7 +300,7 @@ export default function HUD() {
             alt="Đánh thường"
             style={{ width: '32px', height: '32px', imageRendering: 'pixelated' }}
           />
-          <span style={{ position: 'absolute', bottom: 1, fontSize: '0.6rem', color: '#ffd700', fontWeight: 'bold', textShadow: '0 1px 2px #000' }}>
+          <span style={{ position: 'absolute', bottom: 1, fontSize: '0.6rem', color: '#dfc38a', fontWeight: 'bold', textShadow: '0 1px 2px #000' }}>
             L-Click
           </span>
         </div>
@@ -309,8 +312,8 @@ export default function HUD() {
             position: 'relative',
             width: '46px',
             height: '46px',
-            background: cooldowns.dodgeRemainingSec > 0 ? '#334155' : '#0f766e',
-            border: '1px solid #14b8a6',
+            background: cooldowns.dodgeRemainingSec > 0 ? '#4f5d52' : '#345b4d',
+            border: '1px solid #8cae93',
             borderRadius: '8px',
             display: 'flex',
             flexDirection: 'column',
@@ -336,7 +339,7 @@ export default function HUD() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: '#ffd700',
+              color: '#dfc38a',
               fontWeight: 'bold',
               fontSize: '0.85rem',
             }}>
@@ -387,8 +390,8 @@ export default function HUD() {
                 position: 'relative',
                 width: '46px',
                 height: '46px',
-                background: cd > 0 ? '#334155' : '#0f172a',
-                border: learned && cd === 0 ? '1px solid #38bdf8' : '1px solid #475569',
+                background: cd > 0 ? '#4f5d52' : '#182620',
+                border: learned && cd === 0 ? '1px solid #b7a474' : '1px solid #475569',
                 borderRadius: '8px',
                 display: 'flex',
                 flexDirection: 'column',
@@ -411,7 +414,7 @@ export default function HUD() {
                 position: 'absolute',
                 bottom: 1,
                 fontSize: '0.6rem',
-                color: learned ? '#7dd3fc' : '#94a3b8',
+                color: learned ? '#d0bc8c' : '#94a3b8',
                 fontWeight: 'bold',
                 textShadow: '0 1px 2px #000',
               }}>
@@ -426,7 +429,7 @@ export default function HUD() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#ffd700',
+                  color: '#dfc38a',
                   fontWeight: 'bold',
                   fontSize: '0.85rem',
                 }}>
@@ -457,9 +460,9 @@ export default function HUD() {
           aria-controls="game-system-menu"
           style={{
             background: 'rgba(13, 19, 29, 0.92)',
-            border: '1px solid #c5a059',
+            border: '1px solid #aa9163',
             borderRadius: '20px',
-            color: '#ffd700',
+            color: '#dfc38a',
             padding: '4px 12px',
             fontSize: '0.75rem',
             fontWeight: 'bold',
@@ -478,7 +481,7 @@ export default function HUD() {
           <div id="game-system-menu" style={{
             background: 'rgba(13, 19, 29, 0.94)',
             border: '1px solid #37474f',
-            borderRadius: '12px',
+            borderRadius: '5px',
             padding: '8px 10px',
             display: 'grid',
             gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
@@ -502,6 +505,8 @@ export default function HUD() {
               { key: 'story', label: '📖 Sử Ký' },
               { key: 'tower', label: '🗼 Tháp' },
               { key: 'map', label: '🗺️ Bản Đồ' },
+              { key: 'events', label: '☼ Sự Kiện' },
+              { key: 'mount', label: '♞ Thú Cưỡi' },
               { key: 'settings', label: '⚙️ Cài Đặt' },
               { key: 'guide', label: '❔ Hướng Dẫn' },
             ].map((btn) => (
@@ -510,11 +515,11 @@ export default function HUD() {
                 key={btn.key}
                 onClick={() => setActivePanel(activePanel === btn.key ? null : (btn.key as any))}
                 style={{
-                  background: activePanel === btn.key ? '#c5a059' : '#1e293b',
+                  background: activePanel === btn.key ? '#aa9163' : '#26362f',
                   color: activePanel === btn.key ? '#000' : '#cfd8dc',
-                  border: '1px solid #334155',
+                  border: '1px solid #4f5d52',
                   padding: '6px 4px',
-                  borderRadius: '8px',
+                  borderRadius: '3px',
                   cursor: 'pointer',
                   fontWeight: 600,
                   fontSize: '0.78rem',
@@ -533,7 +538,7 @@ export default function HUD() {
         <div role="status" style={{
           position: 'absolute', bottom: 88, left: '50%', transform: 'translateX(-50%)',
           maxWidth: 'calc(100vw - 32px)', padding: '8px 16px', borderRadius: 8,
-          color: '#ffd700', background: 'rgba(15, 23, 42, 0.9)', textAlign: 'center', fontSize: '0.9rem',
+          color: '#dfc38a', background: 'rgba(15, 23, 42, 0.9)', textAlign: 'center', fontSize: '0.9rem',
         }}>
           {prompt}
         </div>
@@ -542,7 +547,7 @@ export default function HUD() {
       {debug && (
         <div style={{
           position: 'absolute', top: 136, left: 16, padding: '4px 8px', borderRadius: 4,
-          color: '#38bdf8', background: 'rgba(15, 23, 42, 0.75)', font: '12px monospace',
+          color: '#b7a474', background: 'rgba(15, 23, 42, 0.75)', font: '12px monospace',
         }}>
           {debug}
         </div>

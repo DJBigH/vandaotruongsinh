@@ -26,6 +26,16 @@ enum CultPath {
   BODY
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum DaoAlignment {
+  IMMORTAL
+  DEMONIC
+}
+
 enum QStatus {
   AVAILABLE
   ACTIVE
@@ -40,6 +50,8 @@ model Account {
   username     String      @unique @db.VarChar(50)
   email        String      @unique @db.VarChar(255)
   passwordHash String      @db.VarChar(255)
+  mustChangePassword Boolean @default(false)
+  tokenVersion Int @default(0)
   role         Role        @default(PLAYER)
   isBanned     Boolean     @default(false)
   lastLoginAt  DateTime?
@@ -58,6 +70,8 @@ model Character {
   accountId          String    @db.Uuid
   name               String    @unique @db.VarChar(30)
   cultivationPath    CultPath
+  gender             Gender    @default(MALE)
+  alignment          DaoAlignment @default(IMMORTAL)
   realmIndex         Int       @default(0)
   realmTier          Int       @default(0)
   cultivationExp     BigInt    @default(0)
@@ -69,6 +83,9 @@ model Character {
   positionY          Float     @default(0)
   gold               Int       @default(0)
   appearance         Int       @default(0)
+  activeMount        String?   @db.VarChar(40)
+  godMode            Boolean   @default(false)
+  lastBreakthroughAt DateTime?
   slot               Int       @default(0) // 0, 1, 2 (3 ô nhân vật độc lập)
   isActive           Boolean   @default(true)
   
@@ -91,6 +108,7 @@ model Character {
   caveAbode          CaveAbode?
   pets               CharacterPet[]
   disciple           CharacterDisciple?
+  breakthroughAttempts BreakthroughAttempt[]
 
   @@index([accountId])
   @@index([name])
@@ -105,6 +123,7 @@ model InventoryItem {
   isEquipped  Boolean  @default(false)
   isLocked    Boolean  @default(false)
   enhanceLevel Int     @default(0)
+  enchantType String?  @db.VarChar(20)
   slotType    String?  @db.VarChar(50)
   createdAt   DateTime @default(now())
 
@@ -113,6 +132,23 @@ model InventoryItem {
   @@index([characterId])
   @@index([characterId, templateId])
   @@map("inventory_items")
+}
+
+model BreakthroughAttempt {
+  id          String   @id @default(uuid()) @db.Uuid
+  characterId String   @db.Uuid
+  requestId   String   @db.Uuid
+  success     Boolean
+  realmIndex  Int
+  realmTier   Int
+  spentExp    Int
+  createdAt   DateTime @default(now())
+
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, requestId])
+  @@index([characterId, createdAt])
+  @@map("breakthrough_attempts")
 }
 
 model CharacterSkill {

@@ -12,6 +12,8 @@ import fastifyWebsocket from '@fastify/websocket';
 import { PrismaClient } from '@prisma/client';
 
 import { authRoutes } from './modules/auth/routes';
+import { eventRoutes } from './modules/events/routes';
+import { mountRoutes } from './modules/mount/routes';
 import { characterRoutes } from './modules/character/routes';
 import { inventoryRoutes } from './modules/inventory/routes';
 import { combatRoutes } from './modules/combat/routes';
@@ -40,11 +42,17 @@ async function buildServer() {
   // CORS
   await fastify.register(cors, {
     origin: (origin, cb) => {
-      // Allow localhost dev origins
-      if (!origin || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      if (!origin) {
         cb(null, true);
         return;
       }
+      try {
+        const parsed = new URL(origin);
+        const local = ['localhost', '127.0.0.1'].includes(parsed.hostname) &&
+          ['http:', 'https:'].includes(parsed.protocol);
+        const configured = origin === config.cors.origin;
+        if (local || configured) { cb(null, true); return; }
+      } catch { /* rejected below */ }
       cb(new Error('Not allowed by CORS'), false);
     },
     credentials: true,
@@ -86,6 +94,8 @@ async function buildServer() {
   await fastify.register(
     async (api) => {
       await api.register(authRoutes, { prefix: '/auth', prisma });
+      await api.register(eventRoutes, { prefix: '/game', prisma });
+      await api.register(mountRoutes, { prefix: '/game', prisma });
       await api.register(characterRoutes, { prefix: '/game', prisma });
       await api.register(inventoryRoutes, { prefix: '/game', prisma });
       await api.register(combatRoutes, { prefix: '/game', prisma });

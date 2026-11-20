@@ -96,14 +96,14 @@ export async function arpgWebSocketRoutes(fastify: FastifyInstance, options: { p
     let messageCount = 0;
     let rateLimitWindowStart = Date.now();
 
-    async function bindActiveSlot(accountId: string, requestedId?: string) {
+    async function bindActiveSlot(accountId: string, tokenVersion: number, requestedId?: string) {
       // Kiểm tra xem tài khoản có bị phong ấn (Banned) không
       const account = await prisma.account.findUnique({
         where: { id: accountId },
-        select: { id: true, isBanned: true },
+        select: { id: true, isBanned: true, tokenVersion: true, mustChangePassword: true },
       });
 
-      if (!account || account.isBanned) {
+      if (!account || account.isBanned || account.mustChangePassword || account.tokenVersion !== tokenVersion) {
         socket.send(JSON.stringify({ type: 'ERROR', error: 'Tài khoản đã bị phong ấn vĩnh viễn do vi phạm quy tắc!' }));
         socket.close();
         return;
@@ -194,12 +194,14 @@ export async function arpgWebSocketRoutes(fastify: FastifyInstance, options: { p
           if (authPending || activeCharacterId) return;
           authPending = true;
           let userId: string | null = null;
+          let tokenVersion = 0;
 
           // Authenticate via token payload or cookie
           if (msg.token) {
             try {
-              const decoded = fastify.jwt.verify<{ userId: string }>(msg.token);
+              const decoded = fastify.jwt.verify<{ userId: string; tokenVersion?: number }>(msg.token);
               userId = decoded.userId;
+              tokenVersion = decoded.tokenVersion ?? 0;
             } catch (e) {
               // Token invalid
             }
@@ -210,8 +212,9 @@ export async function arpgWebSocketRoutes(fastify: FastifyInstance, options: { p
             const cookieToken = req.cookies?.token;
             if (cookieToken) {
               try {
-                const decoded = fastify.jwt.verify<{ userId: string }>(cookieToken);
+                const decoded = fastify.jwt.verify<{ userId: string; tokenVersion?: number }>(cookieToken);
                 userId = decoded.userId;
+                tokenVersion = decoded.tokenVersion ?? 0;
               } catch (e) {}
             }
           }
@@ -223,7 +226,7 @@ export async function arpgWebSocketRoutes(fastify: FastifyInstance, options: { p
           }
 
           const accountId = userId;
-          await withAccountSlot(accountId, () => bindActiveSlot(accountId, msg.characterId));
+          await withAccountSlot(accountId, () => bindActiveSlot(accountId, tokenVersion, msg.characterId));
           return;
         }
 

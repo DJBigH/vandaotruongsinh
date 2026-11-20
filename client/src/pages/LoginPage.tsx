@@ -10,16 +10,11 @@ export default function LoginPage() {
 
   useEffect(() => {
     checkAuth();
-    if (window.location.search.includes('autologin=admin')) {
-      login('admin', 'admin@1234').then((ok) => {
-        if (ok) navigate('/game');
-      });
-    }
-  }, [checkAuth, login, navigate]);
+  }, [checkAuth]);
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/game');
+      navigate(useAuthStore.getState().user?.mustChangePassword ? '/change-password' : '/game');
     }
   }, [isAuthenticated, navigate]);
 
@@ -28,7 +23,7 @@ export default function LoginPage() {
     clearError();
     const success = await login(username, password);
     if (success) {
-      navigate('/game');
+      navigate(useAuthStore.getState().user?.mustChangePassword ? '/change-password' : '/game');
     }
   };
 

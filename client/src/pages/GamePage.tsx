@@ -26,6 +26,8 @@ import OfflineModal from '../components/game/OfflineModal';
 import StoryJournalPanel from '../components/game/StoryJournalPanel';
 import TowerPanel from '../components/game/TowerPanel';
 import GuidePanel from '../components/game/GuidePanel';
+import EventsPanel from '../components/game/EventsPanel';
+import MountPanel from '../components/game/MountPanel';
 
 export default function GamePage() {
   const navigate = useNavigate();
@@ -187,6 +189,8 @@ export default function GamePage() {
           {activePanel === 'map' && <MapPanel />}
           {activePanel === 'settings' && <SettingsPanel />}
           {activePanel === 'guide' && character && <GuidePanel characterId={character.id} />}
+          {activePanel === 'events' && <EventsPanel />}
+          {activePanel === 'mount' && <MountPanel />}
         </>
       )}
     </div>

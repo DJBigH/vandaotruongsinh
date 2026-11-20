@@ -19,8 +19,8 @@ const STEPS = [
   },
   {
     title: 'Mạnh lên theo cách của bạn',
-    body: 'Nhận trang bị qua nhiệm vụ, trận đánh và chế tạo. Trong Túi, dùng Thiết Khoáng cùng linh thạch để cường hóa tối đa +5. Tích tu vi từ chiến đấu, manh mối và đan dược; xem Tu Vi để biết mốc đột phá và vật phẩm còn thiếu.',
-    action: 'Đệ tử Liễu Muội có thể đi theo hỗ trợ chiến đấu khi bạn chiêu mộ.',
+    body: 'Nhận trang bị qua nhiệm vụ, trận đánh và chế tạo. Trong Túi, dùng Thiết Khoáng để cường hóa +5 hoặc khắc một phù văn. Xem Tu Vi để biết mốc đột phá và xác suất thành công. Sự Kiện mở theo giờ Việt Nam, có Lang Vương ở Rừng Thanh Khê.',
+    action: 'Chiêu mộ đệ tử đi theo, mở thú cưỡi sau cảnh giới đầu và khám phá từng linh miếu để mở tiếp chính tuyến.',
   },
 ];
 
@@ -43,8 +43,8 @@ export default function GuidePanel({ characterId }: { characterId: string }) {
       display: 'grid', placeItems: 'center', padding: 16, boxSizing: 'border-box',
     }}>
       <div style={{ width: 'min(100%, 580px)', maxHeight: '90vh', overflowY: 'auto', boxSizing: 'border-box',
-        padding: '28px clamp(18px, 4vw, 32px)', background: '#101d29', border: '2px solid #c5a059',
-        borderRadius: 12, boxShadow: '0 16px 50px #000b', color: '#e2e8f0' }}>
+        padding: '28px clamp(18px, 4vw, 32px)', background: '#1c2b25', border: '2px solid #a89162',
+        borderRadius: 5, boxShadow: '0 16px 50px #000b', color: '#e7e3d1' }}>
         <div style={{ fontSize: '0.8rem', color: '#d3b46e', fontWeight: 700 }}>HÀNH TRÌNH TU ĐẠO · {index + 1}/{STEPS.length}</div>
         <h2 id="guide-title" style={{ color: '#ffe4a0', fontSize: '1.45rem', margin: '8px 0 15px' }}>{step.title}</h2>
         <p style={{ lineHeight: 1.65, fontSize: '1rem' }}>{step.body}</p>

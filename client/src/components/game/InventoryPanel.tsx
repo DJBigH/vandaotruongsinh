@@ -43,11 +43,19 @@ function getItemIcon(item: InventoryItem): string {
   return '/assets/vnext/icon_item_spirit_stone.png';
 }
 
+function getEquipmentArt(item: InventoryItem): string | null {
+  if (item.type === 'ARMOR' || item.type === 'SHOES') return '/assets/v104/equipment_armor.png';
+  if (item.type === 'WEAPON') return item.name.toLowerCase().includes('trượng') || item.name.toLowerCase().includes('pháp')
+    ? '/assets/v104/equipment_staff.png' : '/assets/v104/equipment_sword.png';
+  return null;
+}
+
 export default function InventoryPanel() {
   const { inventory, character, loadInventory, loadCharacter, setActivePanel, addNotification } = useGameStore();
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const [filterType, setFilterType] = useState<string>('ALL');
   const [enhancing, setEnhancing] = useState(false);
+  const [enchanting, setEnchanting] = useState(false);
   const oreCount = inventory.filter((item) => item.templateId === 'item_013').reduce((total, item) => total + item.quantity, 0);
   const nextLevel = selectedItem && selectedItem.enhanceLevel < 5 ? selectedItem.enhanceLevel + 1 : null;
   const enhanceGold = nextLevel ? 40 * nextLevel * nextLevel : 0;
@@ -70,6 +78,20 @@ export default function InventoryPanel() {
     } finally {
       setEnhancing(false);
     }
+  };
+
+  const handleEnchant = async (item: InventoryItem, type: 'FURY' | 'WARD' | 'SWIFT') => {
+    if (enchanting) return;
+    setEnchanting(true);
+    try {
+      const res = await gameApi.enchantItem(item.id, type);
+      if (res.success) {
+        addNotification(`${item.name} đã khắc phù văn`, 'success');
+        await Promise.all([loadInventory(), loadCharacter()]);
+      }
+    } catch (err: any) {
+      addNotification(err.response?.data?.error || 'Không thể khắc phù văn', 'error');
+    } finally { setEnchanting(false); }
   };
 
   const filteredItems = inventory.filter((item) => {
@@ -291,6 +313,9 @@ export default function InventoryPanel() {
         }}>
           {selectedItem ? (
             <div>
+              {getEquipmentArt(selectedItem) && <img src={getEquipmentArt(selectedItem)!} alt={`Tranh trang bị ${selectedItem.name}`}
+                style={{ display: 'block', width: '100%', maxHeight: 150, objectFit: 'contain', marginBottom: 12,
+                  background: '#182321', border: '1px solid #746346', borderRadius: 4 }} />}
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
                 <img
                   src={getItemIcon(selectedItem)}
@@ -360,6 +385,20 @@ export default function InventoryPanel() {
                   ) : <div>Đã đạt cảnh giới tối đa của trang bị.</div>}
                 </div>
               )}
+
+              {selectedItem.slot && <div style={{ background: '#1c2926', border: '1px solid #75664a', borderRadius: 5,
+                padding: 10, marginTop: 10, fontSize: '0.82rem' }}>
+                <strong style={{ color: '#dcc493' }}>Phù văn trang bị</strong>
+                {selectedItem.enchantType ? <p style={{ margin: '7px 0 0' }}>Đã khắc: {{ FURY: 'Liệt Hỏa · Công kích +8', WARD: 'Huyền Giáp · Phòng ngự +6', SWIFT: 'Tật Phong · Tốc độ +2' }[selectedItem.enchantType]}</p>
+                  : <><p style={{ margin: '7px 0' }}>Mỗi trang bị chỉ khắc một lần. Cần 300 linh thạch và 3 Thiết Khoáng.</p>
+                    <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                      {([['FURY', 'Liệt Hỏa +8 Công'], ['WARD', 'Huyền Giáp +6 Thủ'], ['SWIFT', 'Tật Phong +2 Tốc']] as const).map(([type, label]) =>
+                        <button key={type} type="button" onClick={() => handleEnchant(selectedItem, type)}
+                          disabled={enchanting || (character?.gold ?? 0) < 300 || oreCount < 3}
+                          style={{ padding: '5px 7px', background: '#806442', border: 0, color: '#fff1d6', borderRadius: 3,
+                            cursor: 'pointer', opacity: (character?.gold ?? 0) < 300 || oreCount < 3 ? 0.5 : 1 }}>{label}</button>)}
+                    </div></>}
+              </div>}
 
               {/* Action Buttons */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '16px' }}>

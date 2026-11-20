@@ -10,11 +10,12 @@ import AdminDashboard from '../components/admin/AdminDashboard';
 import PlayerManager from '../components/admin/PlayerManager';
 import ContentEditor from '../components/admin/ContentEditor';
 import AuditLog from '../components/admin/AuditLog';
+import GmTools from '../components/admin/GmTools';
 
 export default function AdminPage() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'players' | 'content' | 'audit'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'players' | 'content' | 'audit' | 'gm'>('dashboard');
 
   return (
     <div style={{
@@ -50,6 +51,7 @@ export default function AdminPage() {
             { key: 'players', label: '👥 Người Chơi' },
             { key: 'content', label: '📦 Quản Trị Nội Dung' },
             { key: 'audit', label: '🛡️ Nhật Ký Thao Tác' },
+            ...(user?.role === 'OWNER' ? [{ key: 'gm', label: '⚙️ Công Cụ GM' }] : []),
           ].map((tab) => (
             <button
               key={tab.key}
@@ -96,6 +98,7 @@ export default function AdminPage() {
         {activeTab === 'players' && <PlayerManager />}
         {activeTab === 'content' && <ContentEditor />}
         {activeTab === 'audit' && <AuditLog />}
+        {activeTab === 'gm' && user?.role === 'OWNER' && <GmTools />}
       </div>
     </div>
   );

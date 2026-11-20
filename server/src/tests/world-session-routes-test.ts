@@ -15,6 +15,7 @@ import { QUEST_TEMPLATES } from '../data/quests';
 import { getSkillRealtimeData, SKILL_TEMPLATES } from '../data/skills';
 import { initQuestObjectives } from '../modules/quest/quest-engine';
 import { computeCharacterStats } from '../modules/character/stats';
+import { breakthroughRng } from '../engine/breakthrough-chance';
 
 let app: Awaited<ReturnType<typeof buildServer>>;
 const manager = ArpgSessionManager.getInstance();
@@ -688,6 +689,7 @@ for (const equip of [true, false]) {
 }
 
 test('breakthrough checks and updates the active second slot', async (t) => {
+  t.mock.method(breakthroughRng, 'roll', () => 0);
   const game = await setup(t);
   await prisma.character.update({
     where: { id: game.character.id }, data: { isActive: false },
@@ -712,6 +714,7 @@ for (const [path, skillId] of [
   [CultivationPath.BODY, 'skill_body_03'],
 ] as const) {
   test(`${path} learns its third skill at Luyện Khí Đại Viên Mãn`, async (t) => {
+    t.mock.method(breakthroughRng, 'roll', () => 0);
     const game = await setup(t);
     await prisma.character.update({
       where: { id: game.character.id },
@@ -838,6 +841,7 @@ test('offline shrine uses locked saved stats and preserves unrelated fields', as
 });
 
 test('breakthrough retry targets its original character and starting stage', async (t) => {
+  t.mock.method(breakthroughRng, 'roll', () => 0);
   const game = await setup(t);
   await prisma.character.update({ where: { id: game.character.id }, data: { cultivationExp: 950 } });
   const target = { characterId: game.character.id, realmIndex: 0, realmTier: 0 };
@@ -846,6 +850,8 @@ test('breakthrough retry targets its original character and starting stage', asy
   assert.equal((await advance(target)).statusCode, 200);
   const retried = await game.read();
   assert.deepEqual([retried.realmTier, retried.cultivationExp], [1, 850n]);
+  assert.equal((await advance({ ...target, realmTier: 1 })).statusCode, 429);
+  await prisma.character.update({ where: { id: game.character.id }, data: { lastBreakthroughAt: new Date(0) } });
   assert.equal((await advance({ ...target, realmTier: 1 })).statusCode, 200);
   assert.equal((await game.read()).cultivationExp, 550n);
   assert.equal((await advance(target)).statusCode, 409);

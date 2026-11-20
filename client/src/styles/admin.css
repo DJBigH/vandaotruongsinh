@@ -9,6 +9,16 @@
   overflow: hidden;
 }
 
+.gm-panel { max-width: 720px; color: #dedcc9; }
+.gm-panel h2 { font: 600 2rem var(--font-serif); color: #ebd59e; margin: 8px 0 16px; }
+.gm-kicker { color: #b69a67; letter-spacing: .13em; font-size: .75rem; }
+.gm-card { background: #1c2924; border: 1px solid #78684d; padding: 22px; margin-top: 22px; display: grid; gap: 16px; }
+.gm-card h3 { color: #ebd59e; }
+.gm-card button { color: #f4e6c5; background: #3a4635; border: 1px solid #a18a60; padding: 10px 14px; cursor: pointer; }
+.gm-card button:disabled { opacity: .5; cursor: wait; }
+.gm-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.gm-error { color: #e8ad9a; margin-top: 12px; }
+
 .admin-sidebar {
   width: 240px;
   background: var(--bg-secondary);

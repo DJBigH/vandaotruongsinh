@@ -10,6 +10,9 @@ export enum CultivationPath {
   BODY = 'BODY',       // Thể Tu
 }
 
+export enum CharacterGender { MALE = 'MALE', FEMALE = 'FEMALE' }
+export enum DaoAlignment { IMMORTAL = 'IMMORTAL', DEMONIC = 'DEMONIC' }
+
 export enum RealmIndex {
   LUYEN_KHI = 0,    // Luyện Khí
   TRUC_CO = 1,      // Trúc Cơ
@@ -144,6 +147,8 @@ export interface RegisterRequest {
 export interface CreateCharacterRequest {
   name: string;
   cultivationPath: CultivationPath;
+  gender: CharacterGender;
+  alignment: DaoAlignment;
   appearance: number; // 0-5 preset appearances
 }
 
@@ -352,6 +357,9 @@ export interface CharacterSummary {
   id: string;
   name: string;
   cultivationPath: CultivationPath;
+  gender: CharacterGender;
+  alignment: DaoAlignment;
+  activeMount?: string | null;
   realmIndex: number;
   realmTier: number;
   realmName: string;
@@ -377,6 +385,7 @@ export interface InventoryItem {
   isEquipped: boolean;
   isLocked: boolean;
   enhanceLevel: number;
+  enchantType?: 'FURY' | 'WARD' | 'SWIFT' | null;
   stats?: Partial<CharacterStats>;
   effects?: string;
   slot?: string;

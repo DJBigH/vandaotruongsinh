@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { PrismaClient } from '@prisma/client';
 import { AccountRole } from '@shared';
 import { authenticate } from '../../middleware/auth';
+import { loginThrottle } from './login-throttle';
 
 const registerSchema = z.object({
   username: z.string().min(3, 'Tên đăng nhập tối thiểu 3 ký tự').max(30),
@@ -18,6 +19,11 @@ const registerSchema = z.object({
 const loginSchema = z.object({
   username: z.string().min(1, 'Vui lòng nhập tên đăng nhập'),
   password: z.string().min(1, 'Vui lòng nhập mật khẩu'),
+});
+
+const passwordChangeSchema = z.object({
+  currentPassword: z.string().min(1),
+  newPassword: z.string().min(12).max(128),
 });
 
 export async function authRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
@@ -62,7 +68,7 @@ export async function authRoutes(fastify: FastifyInstance, options: { prisma: Pr
       });
 
       const token = fastify.jwt.sign(
-        { userId: account.id, username: account.username, role: account.role as AccountRole },
+        { userId: account.id, username: account.username, role: account.role as AccountRole, tokenVersion: account.tokenVersion },
         { expiresIn: '7d' },
       );
 
@@ -81,6 +87,7 @@ export async function authRoutes(fastify: FastifyInstance, options: { prisma: Pr
           username: account.username,
           email: account.email,
           role: account.role,
+          mustChangePassword: account.mustChangePassword,
         },
       });
     } catch (err: any) {
@@ -101,22 +108,29 @@ export async function authRoutes(fastify: FastifyInstance, options: { prisma: Pr
       }
 
       const { username, password } = parsed.data;
+      const retryAfter = loginThrottle.retryAfterSeconds(request.ip, username);
+      if (retryAfter > 0) return reply.status(429).header('Retry-After', retryAfter).send({
+        success: false, error: `Đăng nhập tạm khóa sau nhiều lần sai. Thử lại sau ${retryAfter} giây.`,
+      });
 
       const account = await prisma.account.findUnique({
         where: { username },
       });
 
       if (!account) {
+        loginThrottle.recordFailure(request.ip, username);
         return reply.status(401).send({ success: false, error: 'Tài khoản hoặc mật khẩu không chính xác' });
-      }
-
-      if (account.isBanned) {
-        return reply.status(403).send({ success: false, error: 'Tài khoản này đã bị khóa bởi Quản trị viên!' });
       }
 
       const validPassword = await bcrypt.compare(password, account.passwordHash);
       if (!validPassword) {
+        loginThrottle.recordFailure(request.ip, username);
         return reply.status(401).send({ success: false, error: 'Tài khoản hoặc mật khẩu không chính xác' });
+      }
+
+      loginThrottle.recordSuccess(request.ip, username);
+      if (account.isBanned) {
+        return reply.status(403).send({ success: false, error: 'Tài khoản này đã bị khóa bởi Quản trị viên!' });
       }
 
       await prisma.account.update({
@@ -125,7 +139,7 @@ export async function authRoutes(fastify: FastifyInstance, options: { prisma: Pr
       });
 
       const token = fastify.jwt.sign(
-        { userId: account.id, username: account.username, role: account.role as AccountRole },
+        { userId: account.id, username: account.username, role: account.role as AccountRole, tokenVersion: account.tokenVersion },
         { expiresIn: '7d' },
       );
 
@@ -144,6 +158,7 @@ export async function authRoutes(fastify: FastifyInstance, options: { prisma: Pr
           username: account.username,
           email: account.email,
           role: account.role,
+          mustChangePassword: account.mustChangePassword,
         },
       });
     } catch (err: any) {
@@ -158,12 +173,34 @@ export async function authRoutes(fastify: FastifyInstance, options: { prisma: Pr
     return reply.send({ success: true, message: 'Đã đăng xuất thành công' });
   });
 
+  fastify.post('/change-password', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const parsed = passwordChangeSchema.safeParse(request.body);
+    if (!parsed.success) return reply.status(400).send({ success: false, error: 'Mật khẩu mới cần 12–128 ký tự' });
+    const user = (request as any).user;
+    const account = await prisma.account.findUnique({ where: { id: user.userId } });
+    if (!account || !await bcrypt.compare(parsed.data.currentPassword, account.passwordHash)) {
+      return reply.status(401).send({ success: false, error: 'Mật khẩu hiện tại không chính xác' });
+    }
+    if (parsed.data.newPassword === parsed.data.currentPassword || parsed.data.newPassword === 'admin@1234') {
+      return reply.status(400).send({ success: false, error: 'Hãy dùng mật khẩu mới khác mật khẩu ban đầu' });
+    }
+    const changed = await prisma.account.update({ where: { id: account.id }, data: {
+      passwordHash: await bcrypt.hash(parsed.data.newPassword, 12), mustChangePassword: false,
+      tokenVersion: { increment: 1 },
+    } });
+    const token = fastify.jwt.sign({ userId: changed.id, username: changed.username,
+      role: changed.role as AccountRole, tokenVersion: changed.tokenVersion }, { expiresIn: '7d' });
+    reply.setCookie('token', token, { path: '/', httpOnly: true, secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax', maxAge: 7 * 24 * 60 * 60 });
+    return reply.send({ success: true, message: 'Đã đổi mật khẩu và làm mới phiên đăng nhập' });
+  });
+
   // GET /api/auth/me
   fastify.get('/me', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
     const user = request.user!;
     const account = await prisma.account.findUnique({
       where: { id: user.userId },
-      select: { id: true, username: true, email: true, role: true, isBanned: true },
+      select: { id: true, username: true, email: true, role: true, isBanned: true, mustChangePassword: true },
     });
 
     if (!account || account.isBanned) {

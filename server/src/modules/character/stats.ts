@@ -10,11 +10,12 @@ import {
   TIER_STAT_BONUS,
 } from '@shared';
 import { ITEM_TEMPLATES } from '../../data/game-content';
-import { enhancedStat } from '../inventory/enhancement';
+import { enhancedStat, enchantBonus } from '../inventory/enhancement';
 
 export interface EquippedItemSummary {
   templateId: string;
   enhanceLevel?: number;
+  enchantType?: string | null;
 }
 
 /**
@@ -65,6 +66,8 @@ export function computeCharacterStats(
     if (template.stats.critRate) calculated.critRate += enhancedStat(template.stats.critRate, item.enhanceLevel ?? 0);
     if (template.stats.critDmg) calculated.critDmg += enhancedStat(template.stats.critDmg, item.enhanceLevel ?? 0);
     if (template.stats.resist) calculated.resist += enhancedStat(template.stats.resist, item.enhanceLevel ?? 0);
+    const enchant = enchantBonus(item.enchantType);
+    if (enchant) calculated[enchant.stat] += enchant.bonus;
   }
 
   if (sectId === 'sect_thanh_van') {

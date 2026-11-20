@@ -230,7 +230,7 @@ export async function sectRoutes(fastify: FastifyInstance, options: { prisma: Pr
         // Add to inventory
         if (template.maxStack > 1) {
           const existing = await tx.inventoryItem.findFirst({
-            where: { characterId: char.id, templateId: itemId, enhanceLevel: 0 },
+            where: { characterId: char.id, templateId: itemId, enhanceLevel: 0, enchantType: null },
           });
           if (existing) {
             await tx.inventoryItem.update({

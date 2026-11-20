@@ -1,0 +1,5378 @@
+[
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_0_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_0_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_0_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_0_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_0_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_0_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_0_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_0_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_1_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_1_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_1_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_1_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_1_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_1_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_1_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_1_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_2_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_2_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_2_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_2_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_2_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_2_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_2_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_2_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_3_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_3_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_3_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_3_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_3_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_3_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_3_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_immortal_3_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_0_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_0_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_0_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_0_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_0_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_0_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_0_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_0_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_1_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_1_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_1_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_1_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_1_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_1_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_1_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_1_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_2_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_2_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_2_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_2_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_2_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_2_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_2_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_2_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_3_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_3_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_3_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_3_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_3_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_3_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_3_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_male_demonic_3_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_0_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_0_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_0_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_0_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_0_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_0_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_0_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_0_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_1_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_1_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_1_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_1_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_1_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_1_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_1_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_1_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_2_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_2_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_2_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_2_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_2_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_2_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_2_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_2_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_3_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_3_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_3_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_3_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_3_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_3_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_3_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_immortal_3_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_0_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_0_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_0_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_0_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_0_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_0_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_0_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_0_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_1_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_1_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_1_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_1_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_1_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_1_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_1_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_1_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_2_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_2_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_2_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_2_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_2_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_2_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_2_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_2_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_3_idle.png",
+    "source": "client/public/assets/vnext/player_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_3_walk.png",
+    "source": "client/public/assets/vnext/player_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_3_slash.png",
+    "source": "client/public/assets/vnext/player_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_3_cast.png",
+    "source": "client/public/assets/vnext/player_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_3_dodge.png",
+    "source": "client/public/assets/vnext/player_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_3_hurt.png",
+    "source": "client/public/assets/vnext/player_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_3_death.png",
+    "source": "client/public/assets/vnext/player_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_sword_female_demonic_3_respawn.png",
+    "source": "client/public/assets/vnext/player_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_0_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_0_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_0_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_0_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_0_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_0_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_0_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_0_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_1_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_1_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_1_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_1_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_1_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_1_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_1_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_1_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_2_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_2_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_2_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_2_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_2_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_2_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_2_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_2_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_3_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_3_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_3_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_3_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_3_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_3_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_3_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_immortal_3_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_0_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_0_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_0_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_0_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_0_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_0_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_0_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_0_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_1_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_1_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_1_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_1_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_1_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_1_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_1_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_1_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_2_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_2_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_2_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_2_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_2_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_2_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_2_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_2_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_3_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_3_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_3_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_3_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_3_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_3_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_3_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_male_demonic_3_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_0_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_0_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_0_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_0_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_0_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_0_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_0_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_0_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_1_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_1_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_1_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_1_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_1_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_1_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_1_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_1_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_2_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_2_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_2_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_2_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_2_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_2_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_2_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_2_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_3_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_3_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_3_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_3_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_3_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_3_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_3_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_immortal_3_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_0_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_0_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_0_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_0_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_0_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_0_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_0_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_0_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_1_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_1_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_1_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_1_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_1_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_1_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_1_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_1_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_2_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_2_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_2_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_2_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_2_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_2_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_2_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_2_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_3_idle.png",
+    "source": "client/public/assets/vnext/player_magic_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_3_walk.png",
+    "source": "client/public/assets/vnext/player_magic_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_3_slash.png",
+    "source": "client/public/assets/vnext/player_magic_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_3_cast.png",
+    "source": "client/public/assets/vnext/player_magic_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_3_dodge.png",
+    "source": "client/public/assets/vnext/player_magic_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_3_hurt.png",
+    "source": "client/public/assets/vnext/player_magic_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_3_death.png",
+    "source": "client/public/assets/vnext/player_magic_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_spell_female_demonic_3_respawn.png",
+    "source": "client/public/assets/vnext/player_magic_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_0_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_0_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_0_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_0_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_0_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_0_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_0_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_0_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_1_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_1_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_1_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_1_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_1_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_1_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_1_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_1_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_2_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_2_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_2_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_2_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_2_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_2_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_2_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_2_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_3_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_3_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_3_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_3_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_3_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_3_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_3_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_immortal_3_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_0_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_0_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_0_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_0_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_0_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_0_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_0_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_0_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_1_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_1_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_1_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_1_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_1_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_1_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_1_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_1_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_2_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_2_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_2_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_2_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_2_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_2_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_2_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_2_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_3_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_3_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_3_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_3_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_3_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_3_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_3_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_male_demonic_3_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_0_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_0_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_0_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_0_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_0_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_0_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_0_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_0_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_1_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_1_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_1_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_1_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_1_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_1_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_1_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_1_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_2_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_2_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_2_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_2_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_2_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_2_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_2_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_2_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_3_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_3_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_3_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_3_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_3_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_3_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_3_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_immortal_3_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_0_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_0_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_0_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_0_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_0_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_0_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_0_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_0_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_1_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_1_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_1_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_1_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_1_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_1_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_1_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_1_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_2_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_2_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_2_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_2_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_2_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_2_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_2_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_2_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_3_idle.png",
+    "source": "client/public/assets/vnext/player_body_idle.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_3_walk.png",
+    "source": "client/public/assets/vnext/player_body_walk.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 4,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_3_slash.png",
+    "source": "client/public/assets/vnext/player_body_slash.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_3_cast.png",
+    "source": "client/public/assets/vnext/player_body_cast.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_3_dodge.png",
+    "source": "client/public/assets/vnext/player_body_dodge.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_3_hurt.png",
+    "source": "client/public/assets/vnext/player_body_hurt.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 2,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_3_death.png",
+    "source": "client/public/assets/vnext/player_body_death.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  },
+  {
+    "file": "client/public/assets/v104/hero_body_female_demonic_3_respawn.png",
+    "source": "client/public/assets/vnext/player_body_respawn.png",
+    "frameSize": [
+      64,
+      64
+    ],
+    "directionCount": 4,
+    "columns": 3,
+    "footAnchor": [
+      32,
+      56
+    ]
+  }
+]

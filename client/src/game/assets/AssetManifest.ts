@@ -15,7 +15,7 @@ interface Asset {
   key: string;
   file: string;
   type: 'image' | 'spritesheet' | 'audio';
-  provenance: 'original-M1' | 'legacy';
+  provenance: 'original-M1' | 'legacy' | 'v104-derived';
 }
 export interface SpritesheetAsset extends Asset {
   type: 'spritesheet';
@@ -107,6 +107,24 @@ const itemIconKeys = [
 for (const key of itemIconKeys) {
   assets.push({ key, file: `assets/vnext/${key}.png`, type: 'image', provenance: 'original-M1' });
 }
+
+const heroPoseMetadata: Record<string, { columns: number; duration: number; repeat: number }> = {
+  idle: { columns: 2, duration: 1000, repeat: -1 }, walk: { columns: 4, duration: 500, repeat: -1 },
+  slash: { columns: 3, duration: 429, repeat: 0 }, cast: { columns: 3, duration: 583, repeat: 0 },
+  dodge: { columns: 3, duration: 313, repeat: 0 }, hurt: { columns: 2, duration: 500, repeat: 0 },
+  death: { columns: 3, duration: 1000, repeat: 0 }, respawn: { columns: 3, duration: 500, repeat: 0 },
+};
+for (const key of ['mount_crane', 'mount_shadow_wolf']) {
+  assets.push({ key, file: `assets/v104/${key}.png`, type: 'image', provenance: 'v104-derived' });
+}
+for (const path of ['sword', 'spell', 'body']) for (const gender of ['male', 'female'])
+  for (const alignment of ['immortal', 'demonic']) for (let rank = 0; rank <= 3; rank++)
+    for (const [pose, meta] of Object.entries(heroPoseMetadata)) {
+      const key = `hero_${path}_${gender}_${alignment}_${rank}_${pose}`;
+      const prefix = pose === 'slash' ? key.replace(/_slash$/, '_attack') : key;
+      assets.push({ key, file: `assets/v104/${key}.png`, type: 'spritesheet', frameWidth: 64, frameHeight: 64,
+        provenance: 'v104-derived', animations: directional(prefix, meta.columns, meta.duration, meta.repeat) });
+    }
 
 for (const key of ['tile_grass', 'tile_grass_flower', 'tile_path', 'tile_water', 'tile_dirt',
   'prop_crystal_cluster', 'prop_portal', 'prop_bagua_array', 'vfx_sword_slash', 'vfx_sword_beam', 'vfx_shield',

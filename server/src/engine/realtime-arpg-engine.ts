@@ -29,11 +29,14 @@ import { prisma } from '../index';
 import { updateQuestProgressBatch } from '../modules/quest/quest-engine';
 import { DISCIPLE_NAME, DISCIPLE_TEMPLATE_ID, discipleAttack } from '../modules/disciple/disciple';
 import { TOWER_FLOORS } from '../data/tower';
+import { activeWorldEvent, eventClaimKey, eventKillReward } from '../modules/events/schedule';
 
 interface SessionCharacter {
   id: string;
   name: string;
   cultivationPath: string;
+  activeMount?: string | null;
+  godMode?: boolean;
   realmIndex: number;
   realmTier: number;
   sectId?: string | null;
@@ -88,6 +91,7 @@ function getCombatConfiguration(character: SessionCharacter) {
     character.inventory?.filter((item) => item.isEquipped) ?? [],
     character.sectId,
   );
+  if (character.activeMount) stats.spd += 2;
   const skills = character.skills?.filter((skill) => skill.isEquipped).map((skill) => skill.skillId) ?? [];
   if (skills.length === 0) {
     if (path === CultivationPath.SWORD) skills.push('skill_sword_01');
@@ -216,6 +220,7 @@ export class ArpgGameSession {
   public isTerminated: boolean = false;
   private nextEntityId: number = 1000;
   private activeTowerFloor = 1;
+  private godMode = false;
 
   // Simultaneous death tracking and reward queuing per tick
   public pendingKillsInTick: ArpgMonsterEntity[] = [];
@@ -232,6 +237,7 @@ export class ArpgGameSession {
   constructor(character: SessionCharacter | null, mapId = character?.currentMapId ?? 'map_thanh_khe_rung') {
     if (!character) throw new Error('A character is required to open an ARPG session');
     this.characterId = character.id;
+    this.godMode = Boolean(character.godMode);
     this.activeTowerFloor = Number(character.storyFlags?.find((flag) => flag.flagKey === 'TOWER_ACTIVE_FLOOR')?.flagValue) || 1;
     const map = getMapTemplate(mapId);
     this.mapId = map.id;
@@ -321,6 +327,7 @@ export class ArpgGameSession {
     this.player.cultivationPath = path;
     this.player.realmIndex = character.realmIndex;
     this.player.realmTier = character.realmTier;
+    this.godMode = Boolean(character.godMode);
     this.player.equippedSkillIds = skills;
     this.refreshDisciple(character.disciple);
     const selectedFloor = Number(character.storyFlags?.find((flag) => flag.flagKey === 'TOWER_ACTIVE_FLOOR')?.flagValue);
@@ -721,6 +728,7 @@ export class ArpgGameSession {
   }
 
   private applyDamageToPlayer(rawAtk: number, sourceName: string) {
+    if (this.godMode) return;
     if (this.player.isInvulnerable || this.player.state === 'DEAD') return;
 
     const damage = Math.max(1, Math.round(rawAtk - this.player.stats.def * 0.4));
@@ -741,6 +749,7 @@ export class ArpgGameSession {
   private async commitMonsterDeathRewards(monster: ArpgMonsterEntity) {
     const exp = monster.template.expReward;
     const gold = monster.template.goldReward;
+    let timedGold = 0;
     const itemsGained: { itemId: string; name: string; quantity: number }[] = [];
 
     // Drop generation
@@ -764,10 +773,24 @@ export class ArpgGameSession {
           },
         });
 
+        const event = activeWorldEvent();
+        const timedReward = event ? eventKillReward(event, this.mapId, monster.templateId) : null;
+        if (event && timedReward) {
+          const claim = await tx.rewardClaim.createMany({ data: [{ characterId: this.characterId,
+            eventKey: eventClaimKey(event) }], skipDuplicates: true });
+          if (claim.count) {
+            await tx.character.update({ where: { id: this.characterId }, data: {
+              gold: { increment: timedReward.gold },
+              cultivationExp: { increment: BigInt(timedReward.cultivationExp) },
+            } });
+            timedGold = timedReward.gold;
+          }
+        }
+
         // Add items
         for (const it of itemsGained) {
           const existing = await tx.inventoryItem.findFirst({
-            where: { characterId: this.characterId, templateId: it.itemId, isEquipped: false, enhanceLevel: 0 },
+            where: { characterId: this.characterId, templateId: it.itemId, isEquipped: false, enhanceLevel: 0, enchantType: null },
           });
           if (existing) {
             await tx.inventoryItem.update({
@@ -810,7 +833,7 @@ export class ArpgGameSession {
         serverTime: Date.now(),
         rewards: {
           exp,
-          spiritStones: gold,
+          spiritStones: gold + timedGold,
           items: itemsGained,
         },
       });

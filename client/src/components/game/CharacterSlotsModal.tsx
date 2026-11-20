@@ -4,7 +4,8 @@
 
 import React, { useState, useEffect } from 'react';
 import * as gameApi from '../../api/game';
-import { CultivationPath, CULTIVATION_PATH_NAMES, REALM_NAMES, REALM_TIERS } from '@shared/index';
+import { CharacterGender, CultivationPath, DaoAlignment, CULTIVATION_PATH_NAMES, REALM_NAMES, REALM_TIERS } from '@shared/index';
+import CharacterIdentityPicker from './CharacterIdentityPicker';
 
 interface SlotData {
   slot: number;
@@ -31,6 +32,8 @@ export default function CharacterSlotsModal({ onClose }: Props) {
   // New character form
   const [newName, setNewName] = useState('');
   const [newPath, setNewPath] = useState<CultivationPath>(CultivationPath.SWORD);
+  const [newGender, setNewGender] = useState(CharacterGender.MALE);
+  const [newAlignment, setNewAlignment] = useState(DaoAlignment.IMMORTAL);
   const [errorMsg, setErrorMsg] = useState('');
 
   const loadSlots = async () => {
@@ -70,6 +73,8 @@ export default function CharacterSlotsModal({ onClose }: Props) {
       const res = await gameApi.createCharacter({
         name: newName,
         cultivationPath: newPath,
+        gender: newGender,
+        alignment: newAlignment,
         appearance: 0,
       });
       if (res.success) {
@@ -105,14 +110,15 @@ export default function CharacterSlotsModal({ onClose }: Props) {
       alignItems: 'center',
       justifyContent: 'center',
       zIndex: 1000,
-      backdropFilter: 'blur(4px)',
     }}>
       <div style={{
-        background: '#0d131d',
-        border: '2px solid #c5a059',
-        borderRadius: '12px',
+        background: '#1a2823',
+        border: '1px solid #ad915d',
+        borderRadius: '4px',
         width: '680px',
         maxWidth: '92vw',
+        maxHeight: '90dvh',
+        overflowY: 'auto',
         padding: '24px',
         color: '#e0e0e0',
         boxShadow: '0 8px 32px rgba(0,0,0,0.8)',
@@ -299,27 +305,8 @@ export default function CharacterSlotsModal({ onClose }: Props) {
                 />
               </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '0.85rem', color: '#b0bec5', marginBottom: '4px' }}>
-                  Hướng Tu Luyện Bổn Mệnh:
-                </label>
-                <select
-                  value={newPath}
-                  onChange={(e) => setNewPath(e.target.value as CultivationPath)}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    borderRadius: '4px',
-                    background: '#1e293b',
-                    border: '1px solid #475569',
-                    color: '#fff',
-                  }}
-                >
-                  <option value={CultivationPath.SWORD}>⚔️ Kiếm Tu (Tích kiếm ý, dồn sát thương, bộc phá)</option>
-                  <option value={CultivationPath.SPELL}>✨ Pháp Tu (Pháp thuật từ xa, khống chế, diện rộng)</option>
-                  <option value={CultivationPath.BODY}>🛡️ Thể Tu (Khí huyết cuồn cuộn, chống chịu, phản kích)</option>
-                </select>
-              </div>
+              <CharacterIdentityPicker path={newPath} gender={newGender} alignment={newAlignment}
+                onPath={setNewPath} onGender={setNewGender} onAlignment={setNewAlignment} />
 
               <div style={{ display: 'flex', gap: '10px', marginTop: '6px' }}>
                 <button

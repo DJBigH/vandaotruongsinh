@@ -16,6 +16,7 @@ export class AnimationManager {
    */
   public static registerAll(scene: Phaser.Scene) {
     for (const sheet of getAllSpritesheets()) {
+      if (!scene.textures.exists(sheet.key)) continue;
       for (const { key, frameStart, frameEnd, duration, repeat } of sheet.animations) {
         if (scene.anims.exists(key)) continue;
         const frames = scene.anims.generateFrameNumbers(sheet.key, { start: frameStart, end: frameEnd });

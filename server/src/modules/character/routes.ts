@@ -4,9 +4,12 @@
 
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { z } from 'zod';
+import { randomUUID } from 'node:crypto';
 import { PrismaClient } from '@prisma/client';
 import {
   CultivationPath,
+  CharacterGender,
+  DaoAlignment,
   CharacterSummary,
   MAX_REALM_TIER,
   REALM_NAMES,
@@ -29,10 +32,13 @@ import {
   ITEM_TEMPLATES,
 } from '../../data/game-content';
 import { initQuestObjectives } from '../quest/quest-engine';
+import { breakthroughChance, breakthroughOutcome, breakthroughRng } from '../../engine/breakthrough-chance';
 
 const createCharacterSchema = z.object({
   name: z.string().min(2, 'Tên nhân vật tối thiểu 2 ký tự').max(20, 'Tên nhân vật tối đa 20 ký tự'),
   cultivationPath: z.nativeEnum(CultivationPath),
+  gender: z.nativeEnum(CharacterGender).default(CharacterGender.MALE),
+  alignment: z.nativeEnum(DaoAlignment).default(DaoAlignment.IMMORTAL),
   appearance: z.number().int().min(0).max(5).default(0),
 });
 
@@ -40,6 +46,7 @@ const breakthroughSchema = z.object({
   characterId: z.string().uuid(),
   realmIndex: z.number().int().min(0).refine(index => Object.hasOwn(REALM_NAMES, index)),
   realmTier: z.number().int().min(0).max(MAX_REALM_TIER),
+  requestId: z.string().uuid().optional(),
 });
 
 function slotChange(handler: (request: FastifyRequest, reply: FastifyReply) => Promise<unknown>) {
@@ -60,6 +67,9 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
     const status = checkBreakthroughEligibility(char.realmIndex, char.realmTier, char.cultivationExp, items);
     return reply.send({ success: true, data: {
       ...status,
+      chance: breakthroughChance(char.realmIndex, char.realmTier),
+      cooldownSeconds: Math.max(0, Math.ceil((15_000 - (Date.now() - (char.lastBreakthroughAt?.getTime() ?? 0))) / 1000)),
+      stages: REALM_TIERS.map((tier, index) => ({ name: tier, reached: index <= char.realmTier })),
       requiredItems: (requirement?.requiredItems ?? []).map((entry) => ({
         itemId: entry.itemId, name: ITEM_TEMPLATES[entry.itemId]?.name ?? entry.itemId,
         quantity: entry.quantity, owned: items.filter((item) => item.templateId === entry.itemId)
@@ -101,11 +111,15 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         equippedItems,
         character.sectId,
       );
+      if (character.activeMount) effectiveStats.spd += 2;
 
       const summary: CharacterSummary = {
         id: character.id,
         name: character.name,
         cultivationPath: character.cultivationPath as CultivationPath,
+        gender: character.gender as CharacterGender,
+        alignment: character.alignment as DaoAlignment,
+        activeMount: character.activeMount,
         realmIndex: character.realmIndex,
         realmTier: character.realmTier,
         realmName: `${REALM_NAMES[character.realmIndex]} - ${REALM_TIERS[character.realmTier]}`,
@@ -135,7 +149,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         });
       }
 
-      const { name, cultivationPath, appearance } = parsed.data;
+      const { name, cultivationPath, appearance, gender, alignment } = parsed.data;
 
       const existingCount = await prisma.character.count({
         where: { accountId: user.userId },
@@ -180,6 +194,8 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
             isActive: true,
             name,
             cultivationPath,
+            gender,
+            alignment,
             realmIndex: 0,
             realmTier: 0,
             cultivationExp: BigInt(0),
@@ -241,6 +257,9 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         id: newChar.id,
         name: newChar.name,
         cultivationPath: newChar.cultivationPath as CultivationPath,
+        gender: newChar.gender as CharacterGender,
+        alignment: newChar.alignment as DaoAlignment,
+        activeMount: newChar.activeMount,
         realmIndex: newChar.realmIndex,
         realmTier: newChar.realmTier,
         realmName: `${REALM_NAMES[newChar.realmIndex]} - ${REALM_TIERS[newChar.realmTier]}`,
@@ -265,6 +284,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
       const target = breakthroughSchema.safeParse(request.body);
       if (!target.success) return reply.status(400).send({ success: false, error: 'Thiếu nhân vật hoặc cảnh giới khởi đầu hợp lệ' });
       const { characterId, realmIndex, realmTier } = target.data;
+      const requestId = target.data.requestId ?? randomUUID();
       const activeCharacter = await getActiveCharacter(prisma, user.userId);
 
       if (!activeCharacter) {
@@ -280,6 +300,12 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
           return { success: false as const, status: 409, error: 'Ô nhân vật đang hoạt động đã thay đổi' };
         }
 
+        const prior = await tx.breakthroughAttempt.findUnique({
+          where: { characterId_requestId: { characterId: character.id, requestId } },
+        });
+        if (prior) return { success: true as const, advanced: prior.success,
+          nextRealm: prior.realmIndex, nextTier: prior.realmTier, spentExp: prior.spentExp, replayed: true };
+
         let nextRealm = realmIndex;
         let nextTier = realmTier + 1;
         if (nextTier > MAX_REALM_TIER) {
@@ -288,7 +314,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         }
 
         if (character.realmIndex === nextRealm && character.realmTier === nextTier) {
-          return { success: true as const, nextRealm, nextTier, refreshCombat: false };
+          return { success: true as const, advanced: true, nextRealm, nextTier, spentExp: 0, refreshCombat: false };
         }
         if (character.realmIndex !== realmIndex || character.realmTier !== realmTier) {
           return { success: false as const, status: 409, error: 'Cảnh giới đã thay đổi. Hãy tải lại thông tin nhân vật.' };
@@ -299,6 +325,25 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         );
         if (!check.canBreakthrough) {
           return { success: false as const, status: 400, error: check.message, data: check };
+        }
+
+        const waitMs = 15_000 - (Date.now() - (character.lastBreakthroughAt?.getTime() ?? 0));
+        if (waitMs > 0) return { success: false as const, status: 429,
+          error: `Tâm mạch cần ổn định thêm ${Math.ceil(waitMs / 1000)} giây.` };
+
+        const outcome = breakthroughOutcome(character.realmIndex, character.realmTier,
+          breakthroughRng.roll(), check.requiredExp);
+        const newCultExp = character.cultivationExp - BigInt(outcome.lostExp);
+        if (!outcome.success) {
+          await tx.character.update({ where: { id: character.id }, data: {
+            cultivationExp: newCultExp, lastBreakthroughAt: new Date(),
+          } });
+          await tx.breakthroughAttempt.create({ data: {
+            characterId: character.id, requestId, success: false,
+            realmIndex: character.realmIndex, realmTier: character.realmTier, spentExp: outcome.lostExp,
+          } });
+          return { success: true as const, advanced: false, nextRealm: character.realmIndex,
+            nextTier: character.realmTier, spentExp: outcome.lostExp };
         }
 
         const currentPath = character.cultivationPath as CultivationPath;
@@ -321,7 +366,6 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
           });
         }
 
-        const newCultExp = character.cultivationExp - BigInt(check.requiredExp);
         const equippedItems = character.inventory.filter((item) => item.isEquipped);
         const newStats = computeCharacterStats(currentPath, nextRealm, nextTier, equippedItems, character.sectId);
 
@@ -331,10 +375,15 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
             realmIndex: nextRealm,
             realmTier: nextTier,
             cultivationExp: newCultExp < BigInt(0) ? BigInt(0) : newCultExp,
+            lastBreakthroughAt: new Date(),
             stats: { ...newStats },
           },
         });
-        return { success: true as const, nextRealm, nextTier };
+        await tx.breakthroughAttempt.create({ data: {
+          characterId: character.id, requestId, success: true,
+          realmIndex: nextRealm, realmTier: nextTier, spentExp: outcome.lostExp,
+        } });
+        return { success: true as const, advanced: true, nextRealm, nextTier, spentExp: outcome.lostExp };
       });
       if (!result.success) {
         return reply.status(result.status).send({ success: false, error: result.error, data: result.data });
@@ -344,9 +393,13 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
       return reply.send({
         success: true,
         data: {
-          success: true,
+          success: result.advanced,
           newRealm: newRealmName,
-          message: `Chúc mừng đạo hữu! Đã đột phá thành công cảnh giới [${newRealmName}]! Thần thức mở rộng, linh lực tăng vọt!`,
+          chance: breakthroughChance(realmIndex, realmTier),
+          expSpent: result.spentExp,
+          message: result.advanced
+            ? `Chúc mừng đạo hữu! Đã đột phá thành công cảnh giới [${newRealmName}]! Thần thức mở rộng, linh lực tăng vọt!`
+            : `Đột phá thất bại. Tâm mạch đã ổn định, hao ${result.spentExp} tu vi; có thể thử lại sau 15 giây.`,
         },
       });
     } catch (err: any) {

@@ -8,6 +8,8 @@ import { AccountRole, REALM_NAMES } from '@shared';
 import { requireRole } from '../../middleware/auth';
 import { logAdminAction } from './audit';
 import { disconnectAccountSockets } from '../arpg/ws-handler';
+import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
+import { z } from 'zod';
 import {
   ITEM_TEMPLATES,
   MONSTER_TEMPLATES,
@@ -17,6 +19,53 @@ import {
 
 export async function adminRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
   const { prisma } = options;
+
+  const cheatSchema = z.object({
+    godMode: z.boolean().optional(),
+    gold: z.number().int().min(0).max(1000000).optional(),
+    cultivationExp: z.number().int().min(0).max(1000000).optional(),
+  }).refine((value) => Object.keys(value).length > 0);
+
+  fastify.get('/cheats', { preHandler: requireRole(AccountRole.OWNER) }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const user = (request as any).user;
+    const character = await prisma.character.findFirst({ where: { accountId: user.userId, isActive: true },
+      select: { id: true, name: true, godMode: true, gold: true, cultivationExp: true } });
+    if (!character) return reply.status(404).send({ success: false, error: 'Hãy tạo nhân vật trước' });
+    return reply.send({ success: true, data: { ...character, cultivationExp: character.cultivationExp.toString() } });
+  });
+
+  fastify.post('/cheats', { preHandler: requireRole(AccountRole.OWNER) }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const parsed = cheatSchema.safeParse(request.body);
+    if (!parsed.success) return reply.status(400).send({ success: false, error: 'Lệnh GM không hợp lệ' });
+    const user = (request as any).user;
+    const character = await prisma.character.findFirst({ where: { accountId: user.userId, isActive: true }, select: { id: true } });
+    if (!character) return reply.status(404).send({ success: false, error: 'Hãy tạo nhân vật trước' });
+    try {
+      const result = await ArpgSessionManager.getInstance().updateCharacterCombat(character.id, async (tx, current) => {
+        if (current.accountId !== user.userId || !current.isActive) return { success: false as const, status: 403, error: 'Nhân vật GM không còn hoạt động' };
+        const data = parsed.data;
+        const next = await tx.character.update({ where: { id: current.id }, data: {
+          ...(data.godMode !== undefined ? { godMode: data.godMode } : {}),
+          ...(data.gold ? { gold: { increment: data.gold } } : {}),
+          ...(data.cultivationExp ? { cultivationExp: { increment: BigInt(data.cultivationExp) } } : {}),
+        } });
+        await tx.auditLog.create({ data: {
+          adminId: user.userId, adminUsername: user.username,
+          action: 'OWNER_CHEAT', targetType: 'CHARACTER', targetId: current.id,
+          beforeData: { godMode: current.godMode, gold: current.gold, cultivationExp: current.cultivationExp.toString() },
+          afterData: { godMode: next.godMode, gold: next.gold, cultivationExp: next.cultivationExp.toString() },
+          reason: 'Chủ game dùng công cụ GM cho nhân vật của mình',
+        } });
+        return { success: true as const, data: { godMode: next.godMode, gold: next.gold,
+          cultivationExp: next.cultivationExp.toString() } };
+      });
+      if (!result.success) return reply.status(result.status).send(result);
+      return reply.send(result);
+    } catch (error) {
+      request.log.error(error);
+      return reply.status(500).send({ success: false, error: 'Không thể áp dụng lệnh GM' });
+    }
+  });
 
   // GET /api/admin/dashboard
   fastify.get('/dashboard', { preHandler: requireRole(AccountRole.CONTENT_EDITOR) }, async (_request: FastifyRequest, reply: FastifyReply) => {

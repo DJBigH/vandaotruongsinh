@@ -1,8 +1,8 @@
 import type { CultivationPath, EntitySnapshot } from '@shared/index';
 import type { FacingDirection, HeroPose } from '../assets/AssetManifest';
 
-export function heroAnimation(path: CultivationPath | undefined, pose: HeroPose, direction: FacingDirection) {
-  const prefix = path === 'SPELL' ? 'player_magic' : path === 'BODY' ? 'player_body' : 'player';
+export function heroAnimation(path: CultivationPath | undefined, pose: HeroPose, direction: FacingDirection, variantKey?: string) {
+  const prefix = variantKey ?? (path === 'SPELL' ? 'player_magic' : path === 'BODY' ? 'player_body' : 'player');
   return `${prefix}_${pose}_${direction}`;
 }
 

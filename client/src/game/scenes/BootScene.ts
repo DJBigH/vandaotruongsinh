@@ -6,6 +6,7 @@ import Phaser from 'phaser';
 import { ASSET_MANIFEST } from '../assets/AssetManifest';
 import { useGameStore } from '../../stores/gameStore';
 import { AnimationManager } from '../animations/AnimationManager';
+import { heroVariantKey } from '../assets/hero-variants';
 
 export default class BootScene extends Phaser.Scene {
   constructor() {
@@ -13,7 +14,11 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
+    const character = useGameStore.getState().character;
+    const identity = character ? heroVariantKey(character.cultivationPath, character.gender,
+      character.alignment, 0).replace(/_0$/, '_') : 'hero_sword_male_immortal_';
     for (const asset of ASSET_MANIFEST.assets) {
+      if (asset.key.startsWith('hero_') && !asset.key.startsWith(identity)) continue;
       if (asset.type === 'spritesheet') {
         this.load.spritesheet(asset.key, asset.file, { frameWidth: asset.frameWidth, frameHeight: asset.frameHeight });
       } else if (asset.type === 'audio') {
@@ -55,58 +60,4 @@ export default class BootScene extends Phaser.Scene {
     this.textures.addCanvas(key, canvas);
   }
 
-  private createPlayerTexture(key: string, auraColor: string) {
-    if (this.textures.exists(key)) return;
-    const canvas = document.createElement('canvas');
-    canvas.width = 32;
-    canvas.height = 32;
-    const ctx = canvas.getContext('2d')!;
-    ctx.fillStyle = '#263238';
-    ctx.fillRect(10, 12, 12, 16);
-    ctx.fillStyle = auraColor;
-    ctx.fillRect(10, 18, 12, 3);
-    ctx.fillStyle = '#ffcc80';
-    ctx.fillRect(11, 4, 10, 8);
-    this.textures.addCanvas(key, canvas);
-  }
-
-  private createNPCTexture(key: string, bodyColor: string, accentColor: string) {
-    if (this.textures.exists(key)) return;
-    const canvas = document.createElement('canvas');
-    canvas.width = 32;
-    canvas.height = 32;
-    const ctx = canvas.getContext('2d')!;
-    ctx.fillStyle = bodyColor;
-    ctx.fillRect(8, 10, 16, 18);
-    ctx.fillStyle = accentColor;
-    ctx.fillRect(6, 8, 20, 3);
-    this.textures.addCanvas(key, canvas);
-  }
-
-  private createMonsterTexture(key: string, bodyColor: string, eyeColor: string) {
-    if (this.textures.exists(key)) return;
-    const canvas = document.createElement('canvas');
-    canvas.width = 32;
-    canvas.height = 32;
-    const ctx = canvas.getContext('2d')!;
-    ctx.fillStyle = bodyColor;
-    ctx.fillRect(6, 10, 20, 16);
-    ctx.fillStyle = eyeColor;
-    ctx.fillRect(10, 12, 3, 3);
-    ctx.fillRect(19, 12, 3, 3);
-    this.textures.addCanvas(key, canvas);
-  }
-
-  private createBossTexture(key: string, bodyColor: string, auraColor: string) {
-    if (this.textures.exists(key)) return;
-    const canvas = document.createElement('canvas');
-    canvas.width = 48;
-    canvas.height = 48;
-    const ctx = canvas.getContext('2d')!;
-    ctx.fillStyle = auraColor;
-    ctx.fillRect(4, 4, 40, 40);
-    ctx.fillStyle = bodyColor;
-    ctx.fillRect(8, 8, 32, 32);
-    this.textures.addCanvas(key, canvas);
-  }
 }

@@ -14,7 +14,8 @@ import { ITEM_TEMPLATES } from '../../data/game-content';
 import { computeCharacterStats } from '../character/stats';
 import { getActiveCharacter } from '../character/helpers';
 import { ArpgSessionManager, RestorationConflict } from '../../engine/realtime-arpg-engine';
-import { enhancementCost, enhancedStat, ENHANCEMENT_ORE_ID } from './enhancement';
+import { enhancementCost, enhancedStat, ENHANCEMENT_ORE_ID, ENCHANTMENTS, ENCHANT_GOLD, ENCHANT_ORE, enchantBonus } from './enhancement';
+import { z } from 'zod';
 
 type ConsumableSelection = { inventoryItemId: string } | { templateId: string };
 
@@ -118,8 +119,9 @@ export async function inventoryRoutes(fastify: FastifyInstance, options: { prism
           isEquipped: item.isEquipped,
           isLocked: item.isLocked,
           enhanceLevel: item.enhanceLevel,
+          enchantType: item.enchantType as InventoryItemDto['enchantType'],
           stats: tmpl?.stats ? Object.fromEntries(Object.entries(tmpl.stats).map(([stat, value]) =>
-            [stat, enhancedStat(value, item.enhanceLevel)])) as Partial<CharacterStats> : undefined,
+            [stat, enhancedStat(value, item.enhanceLevel) + (enchantBonus(item.enchantType)?.stat === stat ? enchantBonus(item.enchantType)!.bonus : 0)])) as Partial<CharacterStats> : undefined,
           effects: tmpl?.effects,
           slot: item.slotType || tmpl?.slot,
         };
@@ -236,6 +238,56 @@ export async function inventoryRoutes(fastify: FastifyInstance, options: { prism
     } catch (err: any) {
       request.log.error(err);
       return reply.status(500).send({ success: false, error: 'Lỗi khi cường hóa trang bị' });
+    }
+  });
+
+  fastify.post('/inventory/:id/enchant', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const parsed = z.object({ type: z.enum(['FURY', 'WARD', 'SWIFT']) }).safeParse(request.body);
+    if (!parsed.success) return reply.status(400).send({ success: false, error: 'Loại phù văn không hợp lệ' });
+    const user = (request as any).user;
+    const char = await getCharacter(user.userId);
+    if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
+    const { id } = request.params as { id: string };
+    try {
+      const result = await sessions.updateCharacterCombat(char.id, async (tx, character) => {
+        if (!character.isActive && await tx.character.count({ where: { accountId: character.accountId, isActive: true } })) {
+          return { success: false as const, status: 409, error: 'Ô nhân vật đang hoạt động đã thay đổi' };
+        }
+        const item = character.inventory.find((entry) => entry.id === id && entry.quantity > 0);
+        if (!item) return { success: false as const, status: 404, error: 'Không tìm thấy trang bị' };
+        const template = ITEM_TEMPLATES[item.templateId];
+        if (!template?.slot) return { success: false as const, status: 400, error: 'Chỉ trang bị mới nhận được phù văn' };
+        if (item.enchantType) return { success: false as const, status: 400, error: 'Trang bị này đã có phù văn' };
+        if (character.gold < ENCHANT_GOLD) return { success: false as const, status: 400, error: `Cần ${ENCHANT_GOLD} linh thạch` };
+        const oreStacks = character.inventory.filter((entry) => entry.templateId === ENHANCEMENT_ORE_ID && entry.quantity > 0);
+        if (oreStacks.reduce((sum, stack) => sum + stack.quantity, 0) < ENCHANT_ORE) {
+          return { success: false as const, status: 400, error: `Cần ${ENCHANT_ORE} Thiết Khoáng` };
+        }
+        let remaining = ENCHANT_ORE;
+        for (const stack of oreStacks) {
+          const taken = Math.min(remaining, stack.quantity);
+          await tx.inventoryItem.update({ where: { id: stack.id }, data: { quantity: { decrement: taken } } });
+          await tx.inventoryItem.deleteMany({ where: { id: stack.id, quantity: 0 } });
+          remaining -= taken;
+          if (!remaining) break;
+        }
+        if (item.quantity > 1) await tx.inventoryItem.create({ data: {
+          characterId: char.id, templateId: item.templateId, quantity: item.quantity - 1,
+          isEquipped: false, isLocked: item.isLocked, slotType: item.slotType, enhanceLevel: item.enhanceLevel,
+        } });
+        await tx.inventoryItem.update({ where: { id }, data: { quantity: 1, enchantType: parsed.data.type } });
+        await tx.character.update({ where: { id: char.id }, data: { gold: { decrement: ENCHANT_GOLD } } });
+        const equipped = await tx.inventoryItem.findMany({ where: { characterId: char.id, isEquipped: true } });
+        const stats = computeCharacterStats(character.cultivationPath as CultivationPath,
+          character.realmIndex, character.realmTier, equipped, character.sectId);
+        await tx.character.update({ where: { id: char.id }, data: { stats: { ...stats } } });
+        return { success: true as const, data: { enchantType: parsed.data.type }, message: `${template.name} khắc ${ENCHANTMENTS[parsed.data.type].name}` };
+      });
+      if (!result.success) return reply.status(result.status).send({ success: false, error: result.error });
+      return reply.send(result);
+    } catch (error) {
+      request.log.error(error);
+      return reply.status(500).send({ success: false, error: 'Không thể khắc phù văn' });
     }
   });
 

@@ -1,5 +1,19 @@
 export const MAX_ENHANCEMENT = 5;
 export const ENHANCEMENT_ORE_ID = 'item_013';
+export const ENCHANTMENTS = {
+  FURY: { name: 'Liệt Hỏa', stat: 'atk', bonus: 8 },
+  WARD: { name: 'Huyền Giáp', stat: 'def', bonus: 6 },
+  SWIFT: { name: 'Tật Phong', stat: 'spd', bonus: 2 },
+} as const;
+export type EnchantType = keyof typeof ENCHANTMENTS;
+export const ENCHANT_GOLD = 300;
+export const ENCHANT_ORE = 3;
+
+export function enchantBonus(type: string | null | undefined): { stat: 'atk' | 'def' | 'spd'; bonus: number } | null {
+  if (!type || !(type in ENCHANTMENTS)) return null;
+  const enchant = ENCHANTMENTS[type as EnchantType];
+  return { stat: enchant.stat, bonus: enchant.bonus };
+}
 
 export function enhancementCost(currentLevel: number): { nextLevel: number; gold: number; ore: number } | null {
   if (!Number.isInteger(currentLevel) || currentLevel < 0 || currentLevel >= MAX_ENHANCEMENT) return null;

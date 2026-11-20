@@ -1,6 +1,14 @@
 import apiClient from './client';
 import type { ApiResponse, AdminDashboard, AuditLogEntry, PaginatedResponse } from '@shared/index';
 
+export interface GmState { id: string; name: string; godMode: boolean; gold: number; cultivationExp: string }
+export async function getGmState(): Promise<ApiResponse<GmState>> {
+  const res = await apiClient.get('/admin/cheats'); return res.data;
+}
+export async function applyGmCheat(command: { godMode?: boolean; gold?: number; cultivationExp?: number }): Promise<ApiResponse<GmState>> {
+  const res = await apiClient.post('/admin/cheats', command); return res.data;
+}
+
 // === Dashboard ===
 export async function getDashboard(): Promise<ApiResponse<AdminDashboard>> {
   const res = await apiClient.get('/admin/dashboard');

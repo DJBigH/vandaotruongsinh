@@ -1,87 +1,37 @@
+// Explicit local bootstrap. Preserves existing credentials and characters; marks a known default password for replacement.
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+import path from 'node:path';
+import { readBackendEnvironment } from '../../../desktop-launcher/src/shared/backend-environment';
 
-const prisma = new PrismaClient();
-
-async function main() {
-  console.log('=== CHUYỂN TÀI KHOẢN THÀNH admin / admin@1234 ===');
-
-  const targetUsername = 'admin';
-  const targetPassword = 'admin@1234';
-  const targetEmail = 'admin@vandao.vn';
-
-  const passwordHash = await bcrypt.hash(targetPassword, 10);
-
-  // 1. Remove the empty temporary admin account if created
-  const emptyAdmin = await prisma.account.findUnique({
-    where: { username: targetUsername },
-    include: { characters: true }
-  });
-
-  if (emptyAdmin && emptyAdmin.characters.length === 0) {
-    console.log(`Đang dọn dẹp tài khoản rỗng '${targetUsername}' (ID: ${emptyAdmin.id})...`);
-    await prisma.account.delete({ where: { id: emptyAdmin.id } });
-    console.log('Đã xóa tài khoản rỗng.');
-  }
-
-  // 2. Find the main existing account with characters (e.g. daochu)
-  let mainAccount = await prisma.account.findFirst({
-    where: {
-      OR: [
-        { username: 'daochu' },
-        { username: 'admin' },
-        { characters: { some: {} } }
-      ]
-    },
-    include: { characters: true }
-  });
-
-  if (mainAccount) {
-    console.log(`Đang chuyển tài khoản '${mainAccount.username}' (ID: ${mainAccount.id}) sang username: '${targetUsername}', email: '${targetEmail}'...`);
-    mainAccount = await prisma.account.update({
-      where: { id: mainAccount.id },
-      data: {
-        username: targetUsername,
-        email: targetEmail,
-        passwordHash,
-        role: 'OWNER',
-        isBanned: false,
-      },
-      include: { characters: true }
-    });
-    console.log(`✅ Chuyển tài khoản thành công! Username: '${mainAccount.username}', Role: '${mainAccount.role}'`);
-  } else {
-    // If no accounts existed at all, create new
-    mainAccount = await prisma.account.create({
-      data: {
-        username: targetUsername,
-        email: targetEmail,
-        passwordHash,
-        role: 'OWNER',
-      },
-      include: { characters: true }
-    });
-    console.log(`✅ Tạo mới tài khoản '${targetUsername}' thành công!`);
-  }
-
-  // 3. Verify bcrypt password
-  const isMatch = await bcrypt.compare(targetPassword, mainAccount.passwordHash);
-  console.log(`Kiểm tra xác thực mật khẩu ('${targetPassword}'): ${isMatch ? '✅ HỢP LỆ (MATCH)' : '❌ KHÔNG KHỚP'}`);
-
-  console.log('\n--- THÔNG TIN TÀI KHOẢN SAU KHI CẬP NHẬT ---');
-  console.log(`- Tên đăng nhập: ${mainAccount.username}`);
-  console.log(`- Mật khẩu: ${targetPassword}`);
-  console.log(`- Quyền hạn (Role): ${mainAccount.role} (Cao nhất / Toàn quyền Quản trị)`);
-  console.log(`- Email: ${mainAccount.email}`);
-  console.log(`- Số lượng nhân vật: ${mainAccount.characters.length}`);
-  mainAccount.characters.forEach((char, idx) => {
-    console.log(`  + Nhân vật ${idx + 1}: ${char.name} (Cảnh giới: ${char.realmIndex}, Tầng: ${char.realmTier})`);
-  });
-
-  await prisma.$disconnect();
+const environment = readBackendEnvironment(path.resolve(process.cwd(), '..'), dotenv.parse);
+if ('error' in environment) throw new Error(environment.error);
+const url = new URL(environment.env.DATABASE_URL);
+if (environment.env.NODE_ENV === 'production' || !['127.0.0.1', 'localhost', '::1'].includes(url.hostname)) {
+  throw new Error('Chỉ tạo tài khoản admin mặc định trên cơ sở dữ liệu phát triển cục bộ');
 }
 
-main().catch((err) => {
-  console.error('Lỗi:', err);
-  process.exit(1);
-});
+const prisma = new PrismaClient({ datasources: { db: { url: environment.env.DATABASE_URL } } });
+try {
+  const existing = await prisma.account.findUnique({ where: { username: 'admin' } });
+  if (existing) {
+    if (existing.role !== 'OWNER') throw new Error('Tên admin đã có tài khoản khác; không tự nâng quyền');
+    if (await bcrypt.compare('admin@1234', existing.passwordHash)) {
+      if (!existing.mustChangePassword) await prisma.account.update({ where: { id: existing.id }, data: {
+        mustChangePassword: true, tokenVersion: { increment: 1 },
+      } });
+      console.log('Admin cục bộ đang dùng mật khẩu ban đầu; bắt buộc đổi mật khẩu ở lần đăng nhập tiếp theo. Nhân vật được giữ nguyên.');
+    } else {
+      console.log('Tài khoản admin đã có mật khẩu riêng; giữ nguyên quyền và nhân vật.');
+    }
+  } else {
+    await prisma.account.create({ data: {
+      username: 'admin', email: 'admin@vandao.local',
+      passwordHash: await bcrypt.hash('admin@1234', 12), role: 'OWNER', mustChangePassword: true,
+    } });
+    console.log('Đã tạo admin cục bộ với mật khẩu ban đầu admin@1234. Lần đăng nhập đầu phải đổi mật khẩu.');
+  }
+} finally {
+  await prisma.$disconnect();
+}

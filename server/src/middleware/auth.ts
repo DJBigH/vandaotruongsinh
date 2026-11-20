@@ -10,6 +10,7 @@ export interface JwtPayload {
   userId: string;
   username: string;
   role: AccountRole;
+  tokenVersion?: number;
 }
 
 declare module '@fastify/jwt' {
@@ -46,7 +47,7 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
     // Kiểm tra trực tiếp trạng thái tài khoản trong Database
     const account = await prisma.account.findUnique({
       where: { id: decoded.userId },
-      select: { id: true, isBanned: true, role: true },
+      select: { id: true, isBanned: true, role: true, mustChangePassword: true, tokenVersion: true },
     });
 
     if (!account) {
@@ -55,6 +56,14 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
 
     if (account.isBanned) {
       return reply.status(403).send({ success: false, error: 'Tài khoản này đã bị phong ấn (khóa) do vi phạm quy tắc!' });
+    }
+
+    if ((decoded.tokenVersion ?? 0) !== account.tokenVersion) {
+      return reply.status(401).send({ success: false, error: 'Phiên đã hết hạn sau khi đổi mật khẩu' });
+    }
+    if (account.mustChangePassword && !request.url.startsWith('/api/auth/change-password') &&
+      !request.url.startsWith('/api/auth/me')) {
+      return reply.status(403).send({ success: false, code: 'PASSWORD_CHANGE_REQUIRED', error: 'Cần đổi mật khẩu ban đầu trước khi tiếp tục' });
     }
 
     // Cập nhật vai trò thời gian thực theo database

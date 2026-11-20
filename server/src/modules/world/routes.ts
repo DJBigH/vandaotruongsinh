@@ -24,7 +24,7 @@ function worldDistance(map: MapData, position: Position, target: Position): numb
 }
 
 async function grantCollectedItem(tx: Prisma.TransactionClient, characterId: string, templateId: string) {
-  const stack = await tx.inventoryItem.findFirst({ where: { characterId, templateId, isEquipped: false, enhanceLevel: 0 } });
+  const stack = await tx.inventoryItem.findFirst({ where: { characterId, templateId, isEquipped: false, enhanceLevel: 0, enchantType: null } });
   if (stack) {
     await tx.inventoryItem.update({ where: { id: stack.id }, data: { quantity: { increment: 1 } } });
   } else {

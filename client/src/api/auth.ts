@@ -7,6 +7,12 @@ export interface UserInfo {
   email: string;
   role: string;
   hasCharacter: boolean;
+  mustChangePassword?: boolean;
+}
+
+export async function changePassword(currentPassword: string, newPassword: string): Promise<ApiResponse> {
+  const res = await apiClient.post('/auth/change-password', { currentPassword, newPassword });
+  return res.data;
 }
 
 export async function login(data: LoginRequest): Promise<ApiResponse<UserInfo>> {

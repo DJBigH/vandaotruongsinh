@@ -18,14 +18,41 @@ export async function getCharacter(): Promise<ApiResponse<CharacterSummary>> {
   return res.data;
 }
 
+export interface TimedEvent {
+  id: 'noon-meditation' | 'world-boss' | 'night-hunt';
+  title: string;
+  startAt: string;
+  endAt: string;
+  claimed?: boolean;
+}
+
+export async function getEvents(): Promise<ApiResponse<{ serverTime: string; timeZone: string; active: TimedEvent | null; upcoming: TimedEvent[] }>> {
+  const res = await apiClient.get('/game/events');
+  return res.data;
+}
+
+export async function claimMeditation(): Promise<ApiResponse<{ cultivationExp: number }>> {
+  const res = await apiClient.post('/game/events/meditate');
+  return res.data;
+}
+
+export interface MountInfo { id: 'mount_crane' | 'mount_shadow_wolf'; name: string; description: string; speedBonus: number }
+export async function getMounts(): Promise<ApiResponse<{ mount: MountInfo; unlocked: boolean; activeMount: string | null }>> {
+  const res = await apiClient.get('/game/mounts'); return res.data;
+}
+export async function equipMount(mountId: string | null): Promise<ApiResponse<{ activeMount: string | null }>> {
+  const res = await apiClient.post('/game/mounts/equip', { mountId }); return res.data;
+}
+
 export async function createCharacter(data: CreateCharacterRequest): Promise<ApiResponse<CharacterSummary>> {
   const res = await apiClient.post('/game/character', data);
   return res.data;
 }
 
-export async function attemptBreakthrough(character: Pick<CharacterSummary, 'id' | 'realmIndex' | 'realmTier'>): Promise<ApiResponse<{ success: boolean; newRealm?: string; message: string }>> {
+export async function attemptBreakthrough(character: Pick<CharacterSummary, 'id' | 'realmIndex' | 'realmTier'>): Promise<ApiResponse<{ success: boolean; newRealm?: string; message: string; chance: number; expSpent: number }>> {
   const res = await apiClient.post('/game/character/breakthrough', {
     characterId: character.id, realmIndex: character.realmIndex, realmTier: character.realmTier,
+    requestId: crypto.randomUUID(),
   });
   return res.data;
 }
@@ -37,6 +64,9 @@ export interface BreakthroughInfo {
   requiredExp: number;
   currentExp: number;
   message: string;
+  chance: number;
+  cooldownSeconds: number;
+  stages: { name: string; reached: boolean }[];
   requiredItems: { itemId: string; name: string; quantity: number; owned: number }[];
 }
 
@@ -63,6 +93,11 @@ export async function unequipItem(itemId: string): Promise<ApiResponse<Character
 
 export async function enhanceItem(itemId: string): Promise<ApiResponse<{ enhanceLevel: number; goldSpent: number; oreSpent: number }>> {
   const res = await apiClient.post(`/game/inventory/${itemId}/enhance`);
+  return res.data;
+}
+
+export async function enchantItem(itemId: string, type: 'FURY' | 'WARD' | 'SWIFT'): Promise<ApiResponse<{ enchantType: string }>> {
+  const res = await apiClient.post(`/game/inventory/${itemId}/enchant`, { type });
   return res.data;
 }
 
