@@ -41,8 +41,8 @@ const assets: RuntimeAsset[] = original.assets.map((asset): RuntimeAsset => {
   const columns = asset.framesPerDirection!;
   let animations: AnimationDef[];
   if (asset.directionCount === 4) {
-    const prefix = asset.key === 'player_slash' ? 'player_attack' : asset.key;
-    const repeat = ['player_idle', 'player_walk'].includes(prefix) ? -1 : 0;
+    const prefix = asset.key.endsWith('_slash') ? asset.key.replace(/_slash$/, '_attack') : asset.key;
+    const repeat = prefix.endsWith('_idle') || prefix.endsWith('_walk') ? -1 : 0;
     animations = directional(prefix, columns, asset.durationMs!, repeat);
   } else if (asset.key.startsWith('npc_')) {
     animations = [{ key: asset.key + '_idle', frameStart: 0, frameEnd: columns - 1, duration: asset.durationMs!, repeat: -1 }];
@@ -52,34 +52,6 @@ const assets: RuntimeAsset[] = original.assets.map((asset): RuntimeAsset => {
   }
   return { ...base, type: 'spritesheet', frameWidth: asset.frameSize![0], frameHeight: asset.frameSize![1], animations };
 });
-
-const heroPoseConfigs: { key: string; animPrefix: string; cols: number; duration: number; repeat: number }[] = [
-  { key: 'idle', animPrefix: 'idle', cols: 2, duration: 1000, repeat: -1 },
-  { key: 'walk', animPrefix: 'walk', cols: 4, duration: 500, repeat: -1 },
-  { key: 'slash', animPrefix: 'attack', cols: 3, duration: 428, repeat: 0 },
-  { key: 'cast', animPrefix: 'cast', cols: 3, duration: 583, repeat: 0 },
-  { key: 'dodge', animPrefix: 'dodge', cols: 3, duration: 312, repeat: 0 },
-  { key: 'hurt', animPrefix: 'hurt', cols: 2, duration: 500, repeat: 0 },
-  { key: 'death', animPrefix: 'death', cols: 3, duration: 1000, repeat: 0 },
-];
-
-for (const role of ['magic', 'body'] as const) {
-  // 1. Fallback / base sheet player_${role}_idle containing full state coverage
-  const idleKey = `player_${role}_idle`;
-  const fallbackAnims = ['idle', 'walk', 'attack', 'cast', 'dodge', 'hurt', 'death', 'respawn'].flatMap(pose =>
-    directional(`player_${role}_${pose}`, 2, 500, ['idle', 'walk'].includes(pose) ? -1 : 0)
-  );
-  assets.push({ key: idleKey, file: `assets/vnext/${idleKey}.png`, type: 'spritesheet', frameWidth: 64, frameHeight: 64, animations: fallbackAnims, provenance: 'original-M1' });
-
-  // 2. Dedicated action spritesheets
-  for (const cfg of heroPoseConfigs) {
-    if (cfg.key === 'idle') continue;
-    const key = `player_${role}_${cfg.key}`;
-    const file = `assets/vnext/${key}.png`;
-    const animations = directional(`player_${role}_${cfg.animPrefix}`, cfg.cols, cfg.duration, cfg.repeat);
-    assets.push({ key, file, type: 'spritesheet', frameWidth: 64, frameHeight: 64, animations, provenance: 'original-M1' });
-  }
-}
 
 // Quái vật mở rộng (Cổ Thụ Yêu & Khôi Lỗi Giáp Sĩ)
 assets.push({

@@ -2214,6 +2214,5530 @@
       "sha256": "f66a27289a0e9f718a034300e0e40255c365e1f9ef499147fbe6b30facc9a997"
     },
     {
+      "key": "player_magic_idle",
+      "file": "assets/vnext/player_magic_idle.png",
+      "size": [
+        128,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 2,
+      "directionCount": 4,
+      "uniqueSourcePoses": 4,
+      "durationMs": 1000,
+      "exportScale": 0.10344827586206896,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "phap-tu-reference-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            758,
+            711,
+            1068,
+            1153
+          ],
+          "sourceFootAnchor": [
+            151.0,
+            441
+          ],
+          "offset": [
+            16,
+            10
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "phap-tu-reference-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            758,
+            711,
+            1068,
+            1153
+          ],
+          "sourceFootAnchor": [
+            151.0,
+            441
+          ],
+          "offset": [
+            16,
+            10
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "phap-tu-reference-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            198,
+            691,
+            481,
+            1155
+          ],
+          "sourceFootAnchor": [
+            113.5,
+            463
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "phap-tu-reference-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            198,
+            691,
+            481,
+            1155
+          ],
+          "sourceFootAnchor": [
+            113.5,
+            463
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "phap-tu-reference-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            155,
+            72,
+            462,
+            533
+          ],
+          "sourceFootAnchor": [
+            166.5,
+            460
+          ],
+          "offset": [
+            15,
+            8
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "phap-tu-reference-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            155,
+            72,
+            462,
+            533
+          ],
+          "sourceFootAnchor": [
+            166.5,
+            460
+          ],
+          "offset": [
+            15,
+            8
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "phap-tu-reference-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            768,
+            85,
+            1057,
+            541
+          ],
+          "sourceFootAnchor": [
+            171.5,
+            455
+          ],
+          "offset": [
+            14,
+            9
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "phap-tu-reference-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            768,
+            85,
+            1057,
+            541
+          ],
+          "sourceFootAnchor": [
+            171.5,
+            455
+          ],
+          "offset": [
+            14,
+            9
+          ]
+        }
+      ],
+      "sha256": "7ce289917e9b5fa101f37761fe3db67ed0ff45a9d9861a829089d7490466035b"
+    },
+    {
+      "key": "player_magic_walk",
+      "file": "assets/vnext/player_magic_walk.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 4,
+      "directionCount": 4,
+      "uniqueSourcePoses": 16,
+      "durationMs": 500,
+      "exportScale": 0.16494845360824742,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            90,
+            25,
+            257,
+            309
+          ],
+          "sourceFootAnchor": [
+            84.5,
+            284
+          ],
+          "offset": [
+            18,
+            9
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            362,
+            26,
+            535,
+            302
+          ],
+          "sourceFootAnchor": [
+            83.5,
+            274
+          ],
+          "offset": [
+            18,
+            11
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            642,
+            26,
+            814,
+            308
+          ],
+          "sourceFootAnchor": [
+            80.5,
+            282
+          ],
+          "offset": [
+            19,
+            9
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            0,
+            3
+          ],
+          "sourceBox": [
+            921,
+            27,
+            1094,
+            304
+          ],
+          "sourceFootAnchor": [
+            91.5,
+            275
+          ],
+          "offset": [
+            17,
+            11
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            77,
+            349,
+            275,
+            622
+          ],
+          "sourceFootAnchor": [
+            108.5,
+            271
+          ],
+          "offset": [
+            14,
+            11
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            359,
+            349,
+            537,
+            625
+          ],
+          "sourceFootAnchor": [
+            100.0,
+            275
+          ],
+          "offset": [
+            16,
+            11
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            628,
+            349,
+            820,
+            625
+          ],
+          "sourceFootAnchor": [
+            111.5,
+            275
+          ],
+          "offset": [
+            14,
+            11
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            1,
+            3
+          ],
+          "sourceBox": [
+            905,
+            349,
+            1099,
+            624
+          ],
+          "sourceFootAnchor": [
+            116.0,
+            274
+          ],
+          "offset": [
+            13,
+            11
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            88,
+            660,
+            267,
+            950
+          ],
+          "sourceFootAnchor": [
+            84.5,
+            289
+          ],
+          "offset": [
+            18,
+            8
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            365,
+            659,
+            542,
+            949
+          ],
+          "sourceFootAnchor": [
+            84.5,
+            289
+          ],
+          "offset": [
+            18,
+            8
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            637,
+            661,
+            818,
+            952
+          ],
+          "sourceFootAnchor": [
+            97.5,
+            290
+          ],
+          "offset": [
+            16,
+            8
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            2,
+            3
+          ],
+          "sourceBox": [
+            920,
+            662,
+            1097,
+            937
+          ],
+          "sourceFootAnchor": [
+            91.5,
+            275
+          ],
+          "offset": [
+            17,
+            11
+          ]
+        },
+        {
+          "frame": 12,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            80,
+            992,
+            257,
+            1281
+          ],
+          "sourceFootAnchor": [
+            86.5,
+            288
+          ],
+          "offset": [
+            18,
+            8
+          ]
+        },
+        {
+          "frame": 13,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            353,
+            992,
+            544,
+            1270
+          ],
+          "sourceFootAnchor": [
+            79.0,
+            277
+          ],
+          "offset": [
+            19,
+            10
+          ]
+        },
+        {
+          "frame": 14,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            636,
+            993,
+            829,
+            1280
+          ],
+          "sourceFootAnchor": [
+            83.5,
+            287
+          ],
+          "offset": [
+            18,
+            9
+          ]
+        },
+        {
+          "frame": 15,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            3,
+            3
+          ],
+          "sourceBox": [
+            922,
+            994,
+            1106,
+            1270
+          ],
+          "sourceFootAnchor": [
+            70.5,
+            276
+          ],
+          "offset": [
+            20,
+            10
+          ]
+        }
+      ],
+      "sha256": "1d3676dfdf6479b72f5c966f392d1b87e2f9bc135f551d35880eaa54db723e05"
+    },
+    {
+      "key": "player_magic_slash",
+      "file": "assets/vnext/player_magic_slash.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 428.57142857142856,
+      "exportScale": 0.13272311212814644,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "phap-tu-slash-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            103,
+            5,
+            284,
+            343
+          ],
+          "sourceFootAnchor": [
+            83.0,
+            338
+          ],
+          "offset": [
+            21,
+            11
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "phap-tu-slash-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            389,
+            17,
+            635,
+            342
+          ],
+          "sourceFootAnchor": [
+            131.5,
+            325
+          ],
+          "offset": [
+            15,
+            13
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "phap-tu-slash-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            716,
+            71,
+            1029,
+            342
+          ],
+          "sourceFootAnchor": [
+            166.5,
+            271
+          ],
+          "offset": [
+            10,
+            20
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "phap-tu-slash-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            85,
+            373,
+            273,
+            682
+          ],
+          "sourceFootAnchor": [
+            92.5,
+            309
+          ],
+          "offset": [
+            20,
+            15
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "phap-tu-slash-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            321,
+            390,
+            661,
+            682
+          ],
+          "sourceFootAnchor": [
+            218.5,
+            292
+          ],
+          "offset": [
+            3,
+            17
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "phap-tu-slash-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            719,
+            415,
+            1040,
+            678
+          ],
+          "sourceFootAnchor": [
+            171.0,
+            263
+          ],
+          "offset": [
+            9,
+            21
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "phap-tu-slash-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            82,
+            711,
+            272,
+            1037
+          ],
+          "sourceFootAnchor": [
+            94.0,
+            326
+          ],
+          "offset": [
+            20,
+            13
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "phap-tu-slash-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            335,
+            736,
+            643,
+            1038
+          ],
+          "sourceFootAnchor": [
+            191.0,
+            302
+          ],
+          "offset": [
+            7,
+            16
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "phap-tu-slash-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            779,
+            752,
+            1038,
+            1038
+          ],
+          "sourceFootAnchor": [
+            116.5,
+            286
+          ],
+          "offset": [
+            17,
+            18
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "phap-tu-slash-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            74,
+            1086,
+            263,
+            1405
+          ],
+          "sourceFootAnchor": [
+            97.0,
+            319
+          ],
+          "offset": [
+            19,
+            14
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "phap-tu-slash-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            359,
+            1104,
+            673,
+            1403
+          ],
+          "sourceFootAnchor": [
+            120.5,
+            298
+          ],
+          "offset": [
+            16,
+            16
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "phap-tu-slash-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            711,
+            1126,
+            1049,
+            1402
+          ],
+          "sourceFootAnchor": [
+            158.5,
+            276
+          ],
+          "offset": [
+            11,
+            19
+          ]
+        }
+      ],
+      "sha256": "5133ee1f943d41020d11cd7934ed7945a5f2ee2a15c6707207c7947fbaaab68f"
+    },
+    {
+      "key": "player_magic_cast",
+      "file": "assets/vnext/player_magic_cast.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 583.3333333333334,
+      "exportScale": 0.14463840399002495,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "phap-tu-cast-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            79,
+            113,
+            341,
+            351
+          ],
+          "sourceFootAnchor": [
+            122.0,
+            238
+          ],
+          "offset": [
+            14,
+            22
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "phap-tu-cast-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            416,
+            46,
+            695,
+            349
+          ],
+          "sourceFootAnchor": [
+            117.5,
+            303
+          ],
+          "offset": [
+            15,
+            12
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "phap-tu-cast-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            783,
+            80,
+            980,
+            346
+          ],
+          "sourceFootAnchor": [
+            106.0,
+            266
+          ],
+          "offset": [
+            17,
+            18
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "phap-tu-cast-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            66,
+            452,
+            316,
+            693
+          ],
+          "sourceFootAnchor": [
+            115.0,
+            235
+          ],
+          "offset": [
+            15,
+            22
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "phap-tu-cast-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            365,
+            426,
+            715,
+            684
+          ],
+          "sourceFootAnchor": [
+            149.5,
+            258
+          ],
+          "offset": [
+            10,
+            19
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "phap-tu-cast-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            798,
+            402,
+            986,
+            684
+          ],
+          "sourceFootAnchor": [
+            90.0,
+            282
+          ],
+          "offset": [
+            19,
+            15
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "phap-tu-cast-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            79,
+            788,
+            287,
+            1046
+          ],
+          "sourceFootAnchor": [
+            101.5,
+            246
+          ],
+          "offset": [
+            17,
+            20
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "phap-tu-cast-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            373,
+            748,
+            709,
+            1028
+          ],
+          "sourceFootAnchor": [
+            167.5,
+            280
+          ],
+          "offset": [
+            8,
+            16
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "phap-tu-cast-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            812,
+            738,
+            1013,
+            1029
+          ],
+          "sourceFootAnchor": [
+            99.5,
+            290
+          ],
+          "offset": [
+            18,
+            14
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "phap-tu-cast-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            76,
+            1145,
+            334,
+            1389
+          ],
+          "sourceFootAnchor": [
+            121.5,
+            240
+          ],
+          "offset": [
+            14,
+            21
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "phap-tu-cast-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            368,
+            1112,
+            722,
+            1383
+          ],
+          "sourceFootAnchor": [
+            154.5,
+            269
+          ],
+          "offset": [
+            10,
+            17
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "phap-tu-cast-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            812,
+            1093,
+            1013,
+            1383
+          ],
+          "sourceFootAnchor": [
+            105.5,
+            288
+          ],
+          "offset": [
+            17,
+            14
+          ]
+        }
+      ],
+      "sha256": "0383d5bbb1beb28c02a9f3b2f4ca9ee9079f056f9b450b28b2e2aa04d393145b"
+    },
+    {
+      "key": "player_magic_dodge",
+      "file": "assets/vnext/player_magic_dodge.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 312.5,
+      "exportScale": 0.16494845360824742,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            90,
+            25,
+            257,
+            309
+          ],
+          "sourceFootAnchor": [
+            84.5,
+            284
+          ],
+          "offset": [
+            18,
+            9
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            28,
+            19,
+            282,
+            288
+          ],
+          "sourceFootAnchor": [
+            121.5,
+            266
+          ],
+          "offset": [
+            12,
+            12
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            642,
+            26,
+            814,
+            308
+          ],
+          "sourceFootAnchor": [
+            80.5,
+            282
+          ],
+          "offset": [
+            19,
+            9
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            77,
+            349,
+            275,
+            622
+          ],
+          "sourceFootAnchor": [
+            108.5,
+            271
+          ],
+          "offset": [
+            14,
+            11
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            52,
+            338,
+            305,
+            572
+          ],
+          "sourceFootAnchor": [
+            138.5,
+            231
+          ],
+          "offset": [
+            9,
+            18
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            628,
+            349,
+            820,
+            625
+          ],
+          "sourceFootAnchor": [
+            111.5,
+            275
+          ],
+          "offset": [
+            14,
+            11
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            88,
+            660,
+            267,
+            950
+          ],
+          "sourceFootAnchor": [
+            84.5,
+            289
+          ],
+          "offset": [
+            18,
+            8
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            50,
+            619,
+            325,
+            867
+          ],
+          "sourceFootAnchor": [
+            123.0,
+            244
+          ],
+          "offset": [
+            12,
+            16
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            637,
+            661,
+            818,
+            952
+          ],
+          "sourceFootAnchor": [
+            97.5,
+            290
+          ],
+          "offset": [
+            16,
+            8
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            80,
+            992,
+            257,
+            1281
+          ],
+          "sourceFootAnchor": [
+            86.5,
+            288
+          ],
+          "offset": [
+            18,
+            8
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            15,
+            915,
+            290,
+            1171
+          ],
+          "sourceFootAnchor": [
+            116.0,
+            253
+          ],
+          "offset": [
+            13,
+            14
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            636,
+            993,
+            829,
+            1280
+          ],
+          "sourceFootAnchor": [
+            83.5,
+            287
+          ],
+          "offset": [
+            18,
+            9
+          ]
+        }
+      ],
+      "sha256": "b577897f765a8f2538a151af047ee8bba3623abe30f27c3f89df7e5683d8234c"
+    },
+    {
+      "key": "player_magic_hurt",
+      "file": "assets/vnext/player_magic_hurt.png",
+      "size": [
+        128,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 2,
+      "directionCount": 4,
+      "uniqueSourcePoses": 8,
+      "durationMs": 500,
+      "exportScale": 0.1811320754716981,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            367,
+            18,
+            560,
+            283
+          ],
+          "sourceFootAnchor": [
+            81.0,
+            258
+          ],
+          "offset": [
+            17,
+            9
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            672,
+            52,
+            877,
+            266
+          ],
+          "sourceFootAnchor": [
+            112.5,
+            210
+          ],
+          "offset": [
+            12,
+            18
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            361,
+            335,
+            554,
+            578
+          ],
+          "sourceFootAnchor": [
+            105.0,
+            242
+          ],
+          "offset": [
+            13,
+            12
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            674,
+            363,
+            875,
+            566
+          ],
+          "sourceFootAnchor": [
+            102.0,
+            199
+          ],
+          "offset": [
+            14,
+            20
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            373,
+            619,
+            573,
+            867
+          ],
+          "sourceFootAnchor": [
+            111.5,
+            244
+          ],
+          "offset": [
+            12,
+            12
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            662,
+            661,
+            883,
+            868
+          ],
+          "sourceFootAnchor": [
+            110.5,
+            201
+          ],
+          "offset": [
+            12,
+            20
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            354,
+            911,
+            572,
+            1172
+          ],
+          "sourceFootAnchor": [
+            89.0,
+            259
+          ],
+          "offset": [
+            16,
+            9
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            634,
+            958,
+            874,
+            1165
+          ],
+          "sourceFootAnchor": [
+            116.0,
+            203
+          ],
+          "offset": [
+            11,
+            19
+          ]
+        }
+      ],
+      "sha256": "fee02b84cdfda643ca6bac862a515e429505ff248cf1d1350ec9439de7da5208"
+    },
+    {
+      "key": "player_magic_death",
+      "file": "assets/vnext/player_magic_death.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 1000,
+      "exportScale": 0.1297539149888143,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            367,
+            18,
+            560,
+            283
+          ],
+          "sourceFootAnchor": [
+            81.0,
+            258
+          ],
+          "offset": [
+            21,
+            23
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            672,
+            52,
+            877,
+            266
+          ],
+          "sourceFootAnchor": [
+            112.5,
+            210
+          ],
+          "offset": [
+            17,
+            29
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            0,
+            3
+          ],
+          "sourceBox": [
+            943,
+            145,
+            1267,
+            256
+          ],
+          "sourceFootAnchor": [
+            100.5,
+            107
+          ],
+          "offset": [
+            19,
+            42
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            361,
+            335,
+            554,
+            578
+          ],
+          "sourceFootAnchor": [
+            105.0,
+            242
+          ],
+          "offset": [
+            18,
+            25
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            674,
+            363,
+            875,
+            566
+          ],
+          "sourceFootAnchor": [
+            102.0,
+            199
+          ],
+          "offset": [
+            19,
+            30
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            1,
+            3
+          ],
+          "sourceBox": [
+            934,
+            463,
+            1262,
+            572
+          ],
+          "sourceFootAnchor": [
+            111.5,
+            94
+          ],
+          "offset": [
+            18,
+            44
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            373,
+            619,
+            573,
+            867
+          ],
+          "sourceFootAnchor": [
+            111.5,
+            244
+          ],
+          "offset": [
+            18,
+            24
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            662,
+            661,
+            883,
+            868
+          ],
+          "sourceFootAnchor": [
+            110.5,
+            201
+          ],
+          "offset": [
+            18,
+            30
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            2,
+            3
+          ],
+          "sourceBox": [
+            945,
+            748,
+            1259,
+            877
+          ],
+          "sourceFootAnchor": [
+            157.0,
+            129
+          ],
+          "offset": [
+            12,
+            39
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            354,
+            911,
+            572,
+            1172
+          ],
+          "sourceFootAnchor": [
+            89.0,
+            259
+          ],
+          "offset": [
+            20,
+            22
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            634,
+            958,
+            874,
+            1165
+          ],
+          "sourceFootAnchor": [
+            116.0,
+            203
+          ],
+          "offset": [
+            17,
+            30
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            3,
+            3
+          ],
+          "sourceBox": [
+            937,
+            1052,
+            1286,
+            1172
+          ],
+          "sourceFootAnchor": [
+            172.0,
+            108
+          ],
+          "offset": [
+            10,
+            42
+          ]
+        }
+      ],
+      "sha256": "cab3981ef2f16d7690b0c993b05c57eb3501122e749101f280e27dcec79c6c56"
+    },
+    {
+      "key": "player_magic_respawn",
+      "file": "assets/vnext/player_magic_respawn.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 500,
+      "exportScale": 0.1297539149888143,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            0,
+            3
+          ],
+          "sourceBox": [
+            943,
+            145,
+            1267,
+            256
+          ],
+          "sourceFootAnchor": [
+            100.5,
+            107
+          ],
+          "offset": [
+            19,
+            42
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            672,
+            52,
+            877,
+            266
+          ],
+          "sourceFootAnchor": [
+            112.5,
+            210
+          ],
+          "offset": [
+            17,
+            29
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            90,
+            25,
+            257,
+            309
+          ],
+          "sourceFootAnchor": [
+            84.5,
+            284
+          ],
+          "offset": [
+            21,
+            19
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            1,
+            3
+          ],
+          "sourceBox": [
+            934,
+            463,
+            1262,
+            572
+          ],
+          "sourceFootAnchor": [
+            111.5,
+            94
+          ],
+          "offset": [
+            18,
+            44
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            674,
+            363,
+            875,
+            566
+          ],
+          "sourceFootAnchor": [
+            102.0,
+            199
+          ],
+          "offset": [
+            19,
+            30
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            77,
+            349,
+            275,
+            622
+          ],
+          "sourceFootAnchor": [
+            108.5,
+            271
+          ],
+          "offset": [
+            18,
+            21
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            2,
+            3
+          ],
+          "sourceBox": [
+            945,
+            748,
+            1259,
+            877
+          ],
+          "sourceFootAnchor": [
+            157.0,
+            129
+          ],
+          "offset": [
+            12,
+            39
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            662,
+            661,
+            883,
+            868
+          ],
+          "sourceFootAnchor": [
+            110.5,
+            201
+          ],
+          "offset": [
+            18,
+            30
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            88,
+            660,
+            267,
+            950
+          ],
+          "sourceFootAnchor": [
+            84.5,
+            289
+          ],
+          "offset": [
+            21,
+            19
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            3,
+            3
+          ],
+          "sourceBox": [
+            937,
+            1052,
+            1286,
+            1172
+          ],
+          "sourceFootAnchor": [
+            172.0,
+            108
+          ],
+          "offset": [
+            10,
+            42
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "phap-tu-states-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            634,
+            958,
+            874,
+            1165
+          ],
+          "sourceFootAnchor": [
+            116.0,
+            203
+          ],
+          "offset": [
+            17,
+            30
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "phap-tu-walk-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            80,
+            992,
+            257,
+            1281
+          ],
+          "sourceFootAnchor": [
+            86.5,
+            288
+          ],
+          "offset": [
+            21,
+            19
+          ]
+        }
+      ],
+      "sha256": "5f8f2acd31e47cbf875ffa363a476349a91fb7fe8a046684653c322e58222ea4"
+    },
+    {
+      "key": "player_body_idle",
+      "file": "assets/vnext/player_body_idle.png",
+      "size": [
+        128,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 2,
+      "directionCount": 4,
+      "uniqueSourcePoses": 4,
+      "durationMs": 1000,
+      "exportScale": 0.09896907216494845,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "the-tu-reference-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            796,
+            702,
+            1038,
+            1162
+          ],
+          "sourceFootAnchor": [
+            124.5,
+            450
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "the-tu-reference-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            796,
+            702,
+            1038,
+            1162
+          ],
+          "sourceFootAnchor": [
+            124.5,
+            450
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "the-tu-reference-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            235,
+            691,
+            419,
+            1176
+          ],
+          "sourceFootAnchor": [
+            84.5,
+            454
+          ],
+          "offset": [
+            24,
+            11
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "the-tu-reference-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            235,
+            691,
+            419,
+            1176
+          ],
+          "sourceFootAnchor": [
+            84.5,
+            454
+          ],
+          "offset": [
+            24,
+            11
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "the-tu-reference-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            194,
+            68,
+            433,
+            545
+          ],
+          "sourceFootAnchor": [
+            122.5,
+            455
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "the-tu-reference-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            194,
+            68,
+            433,
+            545
+          ],
+          "sourceFootAnchor": [
+            122.5,
+            455
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "the-tu-reference-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            827,
+            87,
+            1023,
+            558
+          ],
+          "sourceFootAnchor": [
+            80.5,
+            423
+          ],
+          "offset": [
+            24,
+            14
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "the-tu-reference-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            827,
+            87,
+            1023,
+            558
+          ],
+          "sourceFootAnchor": [
+            80.5,
+            423
+          ],
+          "offset": [
+            24,
+            14
+          ]
+        }
+      ],
+      "sha256": "63f4e9641aa22c97b71e52fd1beb1331dcabed5f0aa7f2d30999bd29b4d38ef1"
+    },
+    {
+      "key": "player_body_walk",
+      "file": "assets/vnext/player_body_walk.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 4,
+      "directionCount": 4,
+      "uniqueSourcePoses": 16,
+      "durationMs": 500,
+      "exportScale": 0.17266187050359713,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            119,
+            29,
+            254,
+            299
+          ],
+          "sourceFootAnchor": [
+            67.5,
+            270
+          ],
+          "offset": [
+            20,
+            9
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            417,
+            29,
+            544,
+            299
+          ],
+          "sourceFootAnchor": [
+            63.5,
+            270
+          ],
+          "offset": [
+            21,
+            9
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            711,
+            30,
+            838,
+            297
+          ],
+          "sourceFootAnchor": [
+            63.5,
+            267
+          ],
+          "offset": [
+            21,
+            10
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            0,
+            3
+          ],
+          "sourceBox": [
+            1010,
+            30,
+            1133,
+            299
+          ],
+          "sourceFootAnchor": [
+            61.5,
+            269
+          ],
+          "offset": [
+            21,
+            10
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            110,
+            338,
+            264,
+            607
+          ],
+          "sourceFootAnchor": [
+            77.0,
+            269
+          ],
+          "offset": [
+            19,
+            10
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            422,
+            337,
+            556,
+            608
+          ],
+          "sourceFootAnchor": [
+            67.0,
+            271
+          ],
+          "offset": [
+            20,
+            9
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            704,
+            339,
+            845,
+            608
+          ],
+          "sourceFootAnchor": [
+            70.5,
+            269
+          ],
+          "offset": [
+            20,
+            10
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            1,
+            3
+          ],
+          "sourceBox": [
+            1010,
+            339,
+            1141,
+            605
+          ],
+          "sourceFootAnchor": [
+            65.5,
+            266
+          ],
+          "offset": [
+            21,
+            10
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            124,
+            642,
+            259,
+            920
+          ],
+          "sourceFootAnchor": [
+            67.5,
+            278
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            424,
+            641,
+            544,
+            919
+          ],
+          "sourceFootAnchor": [
+            60.0,
+            278
+          ],
+          "offset": [
+            22,
+            8
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            709,
+            642,
+            846,
+            920
+          ],
+          "sourceFootAnchor": [
+            68.5,
+            278
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            2,
+            3
+          ],
+          "sourceBox": [
+            1010,
+            642,
+            1137,
+            916
+          ],
+          "sourceFootAnchor": [
+            63.5,
+            274
+          ],
+          "offset": [
+            21,
+            9
+          ]
+        },
+        {
+          "frame": 12,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            115,
+            958,
+            268,
+            1225
+          ],
+          "sourceFootAnchor": [
+            76.5,
+            267
+          ],
+          "offset": [
+            19,
+            10
+          ]
+        },
+        {
+          "frame": 13,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            413,
+            957,
+            537,
+            1223
+          ],
+          "sourceFootAnchor": [
+            62.0,
+            266
+          ],
+          "offset": [
+            21,
+            10
+          ]
+        },
+        {
+          "frame": 14,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            709,
+            959,
+            849,
+            1225
+          ],
+          "sourceFootAnchor": [
+            70.0,
+            266
+          ],
+          "offset": [
+            20,
+            10
+          ]
+        },
+        {
+          "frame": 15,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            3,
+            3
+          ],
+          "sourceBox": [
+            1005,
+            959,
+            1134,
+            1225
+          ],
+          "sourceFootAnchor": [
+            64.5,
+            266
+          ],
+          "offset": [
+            21,
+            10
+          ]
+        }
+      ],
+      "sha256": "60361d25178454200d0ccf0a50ebefe6aebeb2eb7e08ed87a7a2783d70892434"
+    },
+    {
+      "key": "player_body_slash",
+      "file": "assets/vnext/player_body_slash.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 428.57142857142856,
+      "exportScale": 0.14457831325301204,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "the-tu-slash-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            121,
+            29,
+            289,
+            342
+          ],
+          "sourceFootAnchor": [
+            84.0,
+            313
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "the-tu-slash-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            464,
+            38,
+            632,
+            348
+          ],
+          "sourceFootAnchor": [
+            84.0,
+            310
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "the-tu-slash-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            784,
+            33,
+            968,
+            344
+          ],
+          "sourceFootAnchor": [
+            92.0,
+            311
+          ],
+          "offset": [
+            19,
+            11
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "the-tu-slash-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            104,
+            381,
+            276,
+            696
+          ],
+          "sourceFootAnchor": [
+            86.0,
+            315
+          ],
+          "offset": [
+            20,
+            10
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "the-tu-slash-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            416,
+            394,
+            672,
+            692
+          ],
+          "sourceFootAnchor": [
+            128.0,
+            298
+          ],
+          "offset": [
+            13,
+            13
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "the-tu-slash-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            789,
+            389,
+            961,
+            698
+          ],
+          "sourceFootAnchor": [
+            86.0,
+            309
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "the-tu-slash-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            115,
+            728,
+            279,
+            1058
+          ],
+          "sourceFootAnchor": [
+            82.0,
+            330
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "the-tu-slash-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            434,
+            731,
+            622,
+            1063
+          ],
+          "sourceFootAnchor": [
+            94.0,
+            332
+          ],
+          "offset": [
+            18,
+            8
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "the-tu-slash-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            801,
+            732,
+            967,
+            1061
+          ],
+          "sourceFootAnchor": [
+            83.0,
+            329
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "the-tu-slash-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            103,
+            1103,
+            277,
+            1420
+          ],
+          "sourceFootAnchor": [
+            87.0,
+            317
+          ],
+          "offset": [
+            19,
+            10
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "the-tu-slash-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            412,
+            1116,
+            674,
+            1420
+          ],
+          "sourceFootAnchor": [
+            131.0,
+            304
+          ],
+          "offset": [
+            13,
+            12
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "the-tu-slash-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            787,
+            1109,
+            956,
+            1420
+          ],
+          "sourceFootAnchor": [
+            84.5,
+            311
+          ],
+          "offset": [
+            20,
+            11
+          ]
+        }
+      ],
+      "sha256": "be6870172d2fe1a47d2b76a3d8e8da77c10a92f64f4961c8e5e467a944330e33"
+    },
+    {
+      "key": "player_body_cast",
+      "file": "assets/vnext/player_body_cast.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 583.3333333333334,
+      "exportScale": 0.14953271028037382,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "the-tu-cast-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            100,
+            41,
+            311,
+            349
+          ],
+          "sourceFootAnchor": [
+            105.5,
+            308
+          ],
+          "offset": [
+            16,
+            10
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "the-tu-cast-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            408,
+            41,
+            669,
+            348
+          ],
+          "sourceFootAnchor": [
+            130.5,
+            307
+          ],
+          "offset": [
+            12,
+            10
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "the-tu-cast-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            778,
+            34,
+            1007,
+            348
+          ],
+          "sourceFootAnchor": [
+            114.5,
+            314
+          ],
+          "offset": [
+            15,
+            9
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "the-tu-cast-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            102,
+            397,
+            327,
+            691
+          ],
+          "sourceFootAnchor": [
+            112.5,
+            294
+          ],
+          "offset": [
+            15,
+            12
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "the-tu-cast-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            369,
+            397,
+            693,
+            691
+          ],
+          "sourceFootAnchor": [
+            162.0,
+            294
+          ],
+          "offset": [
+            8,
+            12
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "the-tu-cast-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            790,
+            392,
+            1017,
+            690
+          ],
+          "sourceFootAnchor": [
+            113.5,
+            298
+          ],
+          "offset": [
+            15,
+            11
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "the-tu-cast-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            93,
+            739,
+            328,
+            1048
+          ],
+          "sourceFootAnchor": [
+            117.5,
+            309
+          ],
+          "offset": [
+            14,
+            10
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "the-tu-cast-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            407,
+            737,
+            673,
+            1048
+          ],
+          "sourceFootAnchor": [
+            133.0,
+            311
+          ],
+          "offset": [
+            12,
+            9
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "the-tu-cast-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            772,
+            727,
+            1033,
+            1048
+          ],
+          "sourceFootAnchor": [
+            130.5,
+            321
+          ],
+          "offset": [
+            12,
+            8
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "the-tu-cast-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            69,
+            1096,
+            299,
+            1405
+          ],
+          "sourceFootAnchor": [
+            115.0,
+            309
+          ],
+          "offset": [
+            15,
+            10
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "the-tu-cast-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            390,
+            1099,
+            678,
+            1405
+          ],
+          "sourceFootAnchor": [
+            144.0,
+            306
+          ],
+          "offset": [
+            10,
+            10
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "the-tu-cast-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            768,
+            1087,
+            1001,
+            1406
+          ],
+          "sourceFootAnchor": [
+            116.5,
+            319
+          ],
+          "offset": [
+            15,
+            8
+          ]
+        }
+      ],
+      "sha256": "464fd66597ca34114ec86dc002b74839497d466259f1b4869386b1362e6db94a"
+    },
+    {
+      "key": "player_body_dodge",
+      "file": "assets/vnext/player_body_dodge.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 312.5,
+      "exportScale": 0.17266187050359713,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            119,
+            29,
+            254,
+            299
+          ],
+          "sourceFootAnchor": [
+            67.5,
+            270
+          ],
+          "offset": [
+            20,
+            9
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            35,
+            35,
+            297,
+            298
+          ],
+          "sourceFootAnchor": [
+            131.0,
+            263
+          ],
+          "offset": [
+            9,
+            11
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            711,
+            30,
+            838,
+            297
+          ],
+          "sourceFootAnchor": [
+            63.5,
+            267
+          ],
+          "offset": [
+            21,
+            10
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            110,
+            338,
+            264,
+            607
+          ],
+          "sourceFootAnchor": [
+            77.0,
+            269
+          ],
+          "offset": [
+            19,
+            10
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            36,
+            338,
+            293,
+            603
+          ],
+          "sourceFootAnchor": [
+            128.5,
+            265
+          ],
+          "offset": [
+            10,
+            10
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            704,
+            339,
+            845,
+            608
+          ],
+          "sourceFootAnchor": [
+            70.5,
+            269
+          ],
+          "offset": [
+            20,
+            10
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            124,
+            642,
+            259,
+            920
+          ],
+          "sourceFootAnchor": [
+            67.5,
+            278
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            34,
+            646,
+            277,
+            907
+          ],
+          "sourceFootAnchor": [
+            121.5,
+            261
+          ],
+          "offset": [
+            11,
+            11
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            709,
+            642,
+            846,
+            920
+          ],
+          "sourceFootAnchor": [
+            68.5,
+            278
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            115,
+            958,
+            268,
+            1225
+          ],
+          "sourceFootAnchor": [
+            76.5,
+            267
+          ],
+          "offset": [
+            19,
+            10
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            29,
+            944,
+            274,
+            1218
+          ],
+          "sourceFootAnchor": [
+            122.5,
+            274
+          ],
+          "offset": [
+            11,
+            9
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            709,
+            959,
+            849,
+            1225
+          ],
+          "sourceFootAnchor": [
+            70.0,
+            266
+          ],
+          "offset": [
+            20,
+            10
+          ]
+        }
+      ],
+      "sha256": "8a5e179057257bd1ba04e0d4b7006e42a44f959c46c73d91ba0d5cab29af8b98"
+    },
+    {
+      "key": "player_body_hurt",
+      "file": "assets/vnext/player_body_hurt.png",
+      "size": [
+        128,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 2,
+      "directionCount": 4,
+      "uniqueSourcePoses": 8,
+      "durationMs": 500,
+      "exportScale": 0.16666666666666666,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            387,
+            22,
+            578,
+            300
+          ],
+          "sourceFootAnchor": [
+            95.5,
+            278
+          ],
+          "offset": [
+            16,
+            10
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            665,
+            87,
+            846,
+            306
+          ],
+          "sourceFootAnchor": [
+            90.5,
+            219
+          ],
+          "offset": [
+            17,
+            20
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            370,
+            328,
+            527,
+            609
+          ],
+          "sourceFootAnchor": [
+            78.5,
+            281
+          ],
+          "offset": [
+            19,
+            9
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            674,
+            383,
+            871,
+            607
+          ],
+          "sourceFootAnchor": [
+            98.5,
+            224
+          ],
+          "offset": [
+            16,
+            19
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            378,
+            630,
+            560,
+            902
+          ],
+          "sourceFootAnchor": [
+            91.0,
+            272
+          ],
+          "offset": [
+            17,
+            11
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            676,
+            675,
+            847,
+            901
+          ],
+          "sourceFootAnchor": [
+            85.5,
+            226
+          ],
+          "offset": [
+            18,
+            18
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            397,
+            930,
+            568,
+            1218
+          ],
+          "sourceFootAnchor": [
+            85.5,
+            288
+          ],
+          "offset": [
+            18,
+            8
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            654,
+            980,
+            847,
+            1208
+          ],
+          "sourceFootAnchor": [
+            96.5,
+            228
+          ],
+          "offset": [
+            16,
+            18
+          ]
+        }
+      ],
+      "sha256": "ed3076c726b77d0c6ff3372760ebb7491601a3cc7896e030b9ecbdc1c17b9b23"
+    },
+    {
+      "key": "player_body_death",
+      "file": "assets/vnext/player_body_death.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 1000,
+      "exportScale": 0.16666666666666666,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            387,
+            22,
+            578,
+            300
+          ],
+          "sourceFootAnchor": [
+            95.5,
+            278
+          ],
+          "offset": [
+            16,
+            10
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            665,
+            87,
+            846,
+            306
+          ],
+          "sourceFootAnchor": [
+            90.5,
+            219
+          ],
+          "offset": [
+            17,
+            20
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            0,
+            3
+          ],
+          "sourceBox": [
+            938,
+            173,
+            1243,
+            291
+          ],
+          "sourceFootAnchor": [
+            152.5,
+            118
+          ],
+          "offset": [
+            7,
+            36
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            370,
+            328,
+            527,
+            609
+          ],
+          "sourceFootAnchor": [
+            78.5,
+            281
+          ],
+          "offset": [
+            19,
+            9
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            674,
+            383,
+            871,
+            607
+          ],
+          "sourceFootAnchor": [
+            98.5,
+            224
+          ],
+          "offset": [
+            16,
+            19
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            1,
+            3
+          ],
+          "sourceBox": [
+            942,
+            476,
+            1240,
+            590
+          ],
+          "sourceFootAnchor": [
+            149.0,
+            114
+          ],
+          "offset": [
+            7,
+            37
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            378,
+            630,
+            560,
+            902
+          ],
+          "sourceFootAnchor": [
+            91.0,
+            272
+          ],
+          "offset": [
+            17,
+            11
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            676,
+            675,
+            847,
+            901
+          ],
+          "sourceFootAnchor": [
+            85.5,
+            226
+          ],
+          "offset": [
+            18,
+            18
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            2,
+            3
+          ],
+          "sourceBox": [
+            936,
+            779,
+            1248,
+            881
+          ],
+          "sourceFootAnchor": [
+            156.0,
+            102
+          ],
+          "offset": [
+            6,
+            39
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            397,
+            930,
+            568,
+            1218
+          ],
+          "sourceFootAnchor": [
+            85.5,
+            288
+          ],
+          "offset": [
+            18,
+            8
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            654,
+            980,
+            847,
+            1208
+          ],
+          "sourceFootAnchor": [
+            96.5,
+            228
+          ],
+          "offset": [
+            16,
+            18
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            3,
+            3
+          ],
+          "sourceBox": [
+            918,
+            1079,
+            1231,
+            1206
+          ],
+          "sourceFootAnchor": [
+            156.5,
+            127
+          ],
+          "offset": [
+            6,
+            35
+          ]
+        }
+      ],
+      "sha256": "bd8c7e83311abf6b4fe79bc0f3fe3d639f18f033846431d182f9fd7e85be503c"
+    },
+    {
+      "key": "player_body_respawn",
+      "file": "assets/vnext/player_body_respawn.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 500,
+      "exportScale": 0.17266187050359713,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            0,
+            3
+          ],
+          "sourceBox": [
+            938,
+            173,
+            1243,
+            291
+          ],
+          "sourceFootAnchor": [
+            152.5,
+            118
+          ],
+          "offset": [
+            6,
+            36
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            665,
+            87,
+            846,
+            306
+          ],
+          "sourceFootAnchor": [
+            90.5,
+            219
+          ],
+          "offset": [
+            16,
+            18
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            119,
+            29,
+            254,
+            299
+          ],
+          "sourceFootAnchor": [
+            67.5,
+            270
+          ],
+          "offset": [
+            20,
+            9
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            1,
+            3
+          ],
+          "sourceBox": [
+            942,
+            476,
+            1240,
+            590
+          ],
+          "sourceFootAnchor": [
+            149.0,
+            114
+          ],
+          "offset": [
+            6,
+            36
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            674,
+            383,
+            871,
+            607
+          ],
+          "sourceFootAnchor": [
+            98.5,
+            224
+          ],
+          "offset": [
+            15,
+            17
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            110,
+            338,
+            264,
+            607
+          ],
+          "sourceFootAnchor": [
+            77.0,
+            269
+          ],
+          "offset": [
+            19,
+            10
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            2,
+            3
+          ],
+          "sourceBox": [
+            936,
+            779,
+            1248,
+            881
+          ],
+          "sourceFootAnchor": [
+            156.0,
+            102
+          ],
+          "offset": [
+            5,
+            38
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            676,
+            675,
+            847,
+            901
+          ],
+          "sourceFootAnchor": [
+            85.5,
+            226
+          ],
+          "offset": [
+            17,
+            17
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            124,
+            642,
+            259,
+            920
+          ],
+          "sourceFootAnchor": [
+            67.5,
+            278
+          ],
+          "offset": [
+            20,
+            8
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            3,
+            3
+          ],
+          "sourceBox": [
+            918,
+            1079,
+            1231,
+            1206
+          ],
+          "sourceFootAnchor": [
+            156.5,
+            127
+          ],
+          "offset": [
+            5,
+            34
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "the-tu-states-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            654,
+            980,
+            847,
+            1208
+          ],
+          "sourceFootAnchor": [
+            96.5,
+            228
+          ],
+          "offset": [
+            15,
+            17
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "the-tu-walk-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            115,
+            958,
+            268,
+            1225
+          ],
+          "sourceFootAnchor": [
+            76.5,
+            267
+          ],
+          "offset": [
+            19,
+            10
+          ]
+        }
+      ],
+      "sha256": "b66d000e8f99006eafca6b7f2181f1cdeaf2305efe32d0cc7d4e4e653f51f0cb"
+    },
+    {
+      "key": "disciple_lieu_muoi_idle",
+      "file": "assets/vnext/disciple_lieu_muoi_idle.png",
+      "size": [
+        128,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 2,
+      "directionCount": 4,
+      "uniqueSourcePoses": 4,
+      "durationMs": 1000,
+      "exportScale": 0.18604651162790697,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            498,
+            10,
+            608,
+            268
+          ],
+          "sourceFootAnchor": [
+            55.0,
+            258
+          ],
+          "offset": [
+            22,
+            8
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            498,
+            10,
+            608,
+            268
+          ],
+          "sourceFootAnchor": [
+            55.0,
+            258
+          ],
+          "offset": [
+            22,
+            8
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            503,
+            283,
+            603,
+            534
+          ],
+          "sourceFootAnchor": [
+            50.0,
+            251
+          ],
+          "offset": [
+            23,
+            9
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            503,
+            283,
+            603,
+            534
+          ],
+          "sourceFootAnchor": [
+            50.0,
+            251
+          ],
+          "offset": [
+            23,
+            9
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            501,
+            550,
+            602,
+            804
+          ],
+          "sourceFootAnchor": [
+            50.5,
+            254
+          ],
+          "offset": [
+            23,
+            9
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            501,
+            550,
+            602,
+            804
+          ],
+          "sourceFootAnchor": [
+            50.5,
+            254
+          ],
+          "offset": [
+            23,
+            9
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            494,
+            818,
+            596,
+            1074
+          ],
+          "sourceFootAnchor": [
+            51.0,
+            256
+          ],
+          "offset": [
+            23,
+            8
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            494,
+            818,
+            596,
+            1074
+          ],
+          "sourceFootAnchor": [
+            51.0,
+            256
+          ],
+          "offset": [
+            23,
+            8
+          ]
+        }
+      ],
+      "sha256": "ec1188eb0935ebc2a6d142beb413eb24ad7dfe457a5e55e34a504d774f6be977"
+    },
+    {
+      "key": "disciple_lieu_muoi_walk",
+      "file": "assets/vnext/disciple_lieu_muoi_walk.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 4,
+      "directionCount": 4,
+      "uniqueSourcePoses": 16,
+      "durationMs": 500,
+      "exportScale": 0.18461538461538463,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            149,
+            10,
+            254,
+            269
+          ],
+          "sourceFootAnchor": [
+            52.5,
+            259
+          ],
+          "offset": [
+            22,
+            8
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            498,
+            10,
+            608,
+            268
+          ],
+          "sourceFootAnchor": [
+            55.0,
+            258
+          ],
+          "offset": [
+            22,
+            8
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            853,
+            10,
+            960,
+            269
+          ],
+          "sourceFootAnchor": [
+            53.5,
+            259
+          ],
+          "offset": [
+            22,
+            8
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            0,
+            3
+          ],
+          "sourceBox": [
+            1205,
+            9,
+            1310,
+            269
+          ],
+          "sourceFootAnchor": [
+            52.5,
+            260
+          ],
+          "offset": [
+            22,
+            8
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            132,
+            283,
+            260,
+            533
+          ],
+          "sourceFootAnchor": [
+            64.0,
+            250
+          ],
+          "offset": [
+            20,
+            10
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            503,
+            283,
+            603,
+            534
+          ],
+          "sourceFootAnchor": [
+            50.0,
+            251
+          ],
+          "offset": [
+            23,
+            10
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            842,
+            283,
+            969,
+            533
+          ],
+          "sourceFootAnchor": [
+            63.5,
+            250
+          ],
+          "offset": [
+            20,
+            10
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            1,
+            3
+          ],
+          "sourceBox": [
+            1208,
+            283,
+            1313,
+            534
+          ],
+          "sourceFootAnchor": [
+            52.5,
+            251
+          ],
+          "offset": [
+            22,
+            10
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            149,
+            550,
+            259,
+            804
+          ],
+          "sourceFootAnchor": [
+            55.0,
+            254
+          ],
+          "offset": [
+            22,
+            9
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            501,
+            550,
+            602,
+            804
+          ],
+          "sourceFootAnchor": [
+            50.5,
+            254
+          ],
+          "offset": [
+            23,
+            9
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            848,
+            550,
+            957,
+            804
+          ],
+          "sourceFootAnchor": [
+            54.5,
+            254
+          ],
+          "offset": [
+            22,
+            9
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            2,
+            3
+          ],
+          "sourceBox": [
+            1204,
+            550,
+            1306,
+            805
+          ],
+          "sourceFootAnchor": [
+            51.0,
+            255
+          ],
+          "offset": [
+            23,
+            9
+          ]
+        },
+        {
+          "frame": 12,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            132,
+            818,
+            266,
+            1071
+          ],
+          "sourceFootAnchor": [
+            67.0,
+            253
+          ],
+          "offset": [
+            20,
+            9
+          ]
+        },
+        {
+          "frame": 13,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            494,
+            818,
+            596,
+            1074
+          ],
+          "sourceFootAnchor": [
+            51.0,
+            256
+          ],
+          "offset": [
+            23,
+            9
+          ]
+        },
+        {
+          "frame": 14,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            840,
+            818,
+            969,
+            1071
+          ],
+          "sourceFootAnchor": [
+            64.5,
+            253
+          ],
+          "offset": [
+            20,
+            9
+          ]
+        },
+        {
+          "frame": 15,
+          "source": "lieu-muoi-walk-v102.png",
+          "cell": [
+            3,
+            3
+          ],
+          "sourceBox": [
+            1201,
+            818,
+            1304,
+            1074
+          ],
+          "sourceFootAnchor": [
+            51.5,
+            256
+          ],
+          "offset": [
+            22,
+            9
+          ]
+        }
+      ],
+      "sha256": "fbecc96ed23d4efd2a568b2957112be9f4a030eedca3275e455a366e272da38f"
+    },
+    {
+      "key": "disciple_lieu_muoi_attack",
+      "file": "assets/vnext/disciple_lieu_muoi_attack.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 428.57142857142856,
+      "exportScale": 0.18604651162790697,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "lieu-muoi-attack-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            265,
+            15,
+            395,
+            266
+          ],
+          "sourceFootAnchor": [
+            65.0,
+            251
+          ],
+          "offset": [
+            20,
+            9
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "lieu-muoi-attack-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            637,
+            14,
+            837,
+            266
+          ],
+          "sourceFootAnchor": [
+            100.0,
+            252
+          ],
+          "offset": [
+            13,
+            9
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "lieu-muoi-attack-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            1030,
+            14,
+            1184,
+            266
+          ],
+          "sourceFootAnchor": [
+            77.0,
+            252
+          ],
+          "offset": [
+            18,
+            9
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "lieu-muoi-attack-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            257,
+            282,
+            387,
+            529
+          ],
+          "sourceFootAnchor": [
+            65.0,
+            247
+          ],
+          "offset": [
+            20,
+            10
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "lieu-muoi-attack-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            541,
+            283,
+            801,
+            530
+          ],
+          "sourceFootAnchor": [
+            130.0,
+            247
+          ],
+          "offset": [
+            8,
+            10
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "lieu-muoi-attack-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            1042,
+            282,
+            1174,
+            531
+          ],
+          "sourceFootAnchor": [
+            66.0,
+            249
+          ],
+          "offset": [
+            20,
+            10
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "lieu-muoi-attack-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            267,
+            551,
+            386,
+            809
+          ],
+          "sourceFootAnchor": [
+            59.5,
+            258
+          ],
+          "offset": [
+            21,
+            8
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "lieu-muoi-attack-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            629,
+            551,
+            788,
+            809
+          ],
+          "sourceFootAnchor": [
+            79.5,
+            258
+          ],
+          "offset": [
+            17,
+            8
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "lieu-muoi-attack-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            1044,
+            550,
+            1162,
+            808
+          ],
+          "sourceFootAnchor": [
+            59.0,
+            258
+          ],
+          "offset": [
+            21,
+            8
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "lieu-muoi-attack-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            249,
+            817,
+            381,
+            1069
+          ],
+          "sourceFootAnchor": [
+            66.0,
+            252
+          ],
+          "offset": [
+            20,
+            9
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "lieu-muoi-attack-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            621,
+            819,
+            865,
+            1072
+          ],
+          "sourceFootAnchor": [
+            122.0,
+            253
+          ],
+          "offset": [
+            9,
+            9
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "lieu-muoi-attack-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            1033,
+            818,
+            1165,
+            1073
+          ],
+          "sourceFootAnchor": [
+            66.0,
+            255
+          ],
+          "offset": [
+            20,
+            9
+          ]
+        }
+      ],
+      "sha256": "98dd7600a9fa58764f37a92f99d79b090d222e6943b7c9a3e1767b5d2a2287ff"
+    },
+    {
+      "key": "disciple_lieu_muoi_cast",
+      "file": "assets/vnext/disciple_lieu_muoi_cast.png",
+      "size": [
+        192,
+        256
+      ],
+      "type": "spritesheet",
+      "frameSize": [
+        64,
+        64
+      ],
+      "framesPerDirection": 3,
+      "directionCount": 4,
+      "uniqueSourcePoses": 12,
+      "durationMs": 583.3333333333334,
+      "exportScale": 0.14035087719298245,
+      "frames": [
+        {
+          "frame": 0,
+          "source": "lieu-muoi-cast-v102.png",
+          "cell": [
+            0,
+            0
+          ],
+          "sourceBox": [
+            129,
+            25,
+            264,
+            347
+          ],
+          "sourceFootAnchor": [
+            67.5,
+            322
+          ],
+          "offset": [
+            23,
+            11
+          ]
+        },
+        {
+          "frame": 1,
+          "source": "lieu-muoi-cast-v102.png",
+          "cell": [
+            0,
+            1
+          ],
+          "sourceBox": [
+            440,
+            5,
+            631,
+            347
+          ],
+          "sourceFootAnchor": [
+            95.5,
+            342
+          ],
+          "offset": [
+            19,
+            8
+          ]
+        },
+        {
+          "frame": 2,
+          "source": "lieu-muoi-cast-v102.png",
+          "cell": [
+            0,
+            2
+          ],
+          "sourceBox": [
+            802,
+            25,
+            952,
+            347
+          ],
+          "sourceFootAnchor": [
+            75.0,
+            322
+          ],
+          "offset": [
+            21,
+            11
+          ]
+        },
+        {
+          "frame": 3,
+          "source": "lieu-muoi-cast-v102.png",
+          "cell": [
+            1,
+            0
+          ],
+          "sourceBox": [
+            123,
+            387,
+            272,
+            705
+          ],
+          "sourceFootAnchor": [
+            74.5,
+            318
+          ],
+          "offset": [
+            22,
+            11
+          ]
+        },
+        {
+          "frame": 4,
+          "source": "lieu-muoi-cast-v102.png",
+          "cell": [
+            1,
+            1
+          ],
+          "sourceBox": [
+            419,
+            387,
+            640,
+            706
+          ],
+          "sourceFootAnchor": [
+            110.5,
+            319
+          ],
+          "offset": [
+            16,
+            11
+          ]
+        },
+        {
+          "frame": 5,
+          "source": "lieu-muoi-cast-v102.png",
+          "cell": [
+            1,
+            2
+          ],
+          "sourceBox": [
+            812,
+            386,
+            957,
+            705
+          ],
+          "sourceFootAnchor": [
+            72.5,
+            319
+          ],
+          "offset": [
+            22,
+            11
+          ]
+        },
+        {
+          "frame": 6,
+          "source": "lieu-muoi-cast-v102.png",
+          "cell": [
+            2,
+            0
+          ],
+          "sourceBox": [
+            127,
+            739,
+            264,
+            1066
+          ],
+          "sourceFootAnchor": [
+            68.5,
+            327
+          ],
+          "offset": [
+            22,
+            10
+          ]
+        },
+        {
+          "frame": 7,
+          "source": "lieu-muoi-cast-v102.png",
+          "cell": [
+            2,
+            1
+          ],
+          "sourceBox": [
+            452,
+            738,
+            631,
+            1066
+          ],
+          "sourceFootAnchor": [
+            89.5,
+            328
+          ],
+          "offset": [
+            19,
+            10
+          ]
+        },
+        {
+          "frame": 8,
+          "source": "lieu-muoi-cast-v102.png",
+          "cell": [
+            2,
+            2
+          ],
+          "sourceBox": [
+            812,
+            740,
+            956,
+            1067
+          ],
+          "sourceFootAnchor": [
+            72.0,
+            327
+          ],
+          "offset": [
+            22,
+            10
+          ]
+        },
+        {
+          "frame": 9,
+          "source": "lieu-muoi-cast-v102.png",
+          "cell": [
+            3,
+            0
+          ],
+          "sourceBox": [
+            110,
+            1107,
+            260,
+            1429
+          ],
+          "sourceFootAnchor": [
+            75.0,
+            322
+          ],
+          "offset": [
+            21,
+            11
+          ]
+        },
+        {
+          "frame": 10,
+          "source": "lieu-muoi-cast-v102.png",
+          "cell": [
+            3,
+            1
+          ],
+          "sourceBox": [
+            433,
+            1106,
+            637,
+            1429
+          ],
+          "sourceFootAnchor": [
+            102.0,
+            323
+          ],
+          "offset": [
+            18,
+            11
+          ]
+        },
+        {
+          "frame": 11,
+          "source": "lieu-muoi-cast-v102.png",
+          "cell": [
+            3,
+            2
+          ],
+          "sourceBox": [
+            799,
+            1107,
+            942,
+            1431
+          ],
+          "sourceFootAnchor": [
+            71.5,
+            324
+          ],
+          "offset": [
+            22,
+            11
+          ]
+        }
+      ],
+      "sha256": "b4e7730b25e337bce02a1798535571315ac33807cd2a7d4a108ec97e6061aa66"
+    },
+    {
       "key": "building_hall",
       "file": "assets/vnext/building_hall.png",
       "type": "image",

@@ -8,9 +8,10 @@ import {
   QuestInfo,
   QuestStatus,
   QuestObjective,
+  CultivationPath,
 } from '@shared';
 import { authenticate } from '../../middleware/auth';
-import { QUEST_TEMPLATES, ITEM_TEMPLATES } from '../../data/game-content';
+import { QUEST_TEMPLATES, ITEM_TEMPLATES, getQuestRewards, reconcileQuestObjectives } from '../../data/game-content';
 import { initQuestObjectives, areObjectivesComplete, getQuestPrerequisites } from './quest-engine';
 import { getActiveCharacter } from '../character/helpers';
 
@@ -35,6 +36,7 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
 
       const boardQuests = Object.values(QUEST_TEMPLATES)
         .filter((q) => q.type === 'SIDE' || q.type === 'HIDDEN')
+        .filter((tmpl) => questMap.has(tmpl.id) || getQuestPrerequisites(tmpl).every((id) => questMap.get(id)?.status === 'TURNED_IN'))
         .map((tmpl) => {
           const cq = questMap.get(tmpl.id);
           const status = cq ? (cq.status as QuestStatus) : QuestStatus.AVAILABLE;
@@ -45,8 +47,8 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
             type: tmpl.type,
             chapter: tmpl.chapter,
             status,
-            objectives: cq ? (cq.progress as unknown as QuestObjective[]) : initQuestObjectives(tmpl),
-            rewards: tmpl.rewards,
+            objectives: cq ? (cq.status === 'ACTIVE' ? reconcileQuestObjectives(tmpl, cq.progress) : cq.progress as unknown as QuestObjective[]) : initQuestObjectives(tmpl),
+            rewards: getQuestRewards(tmpl, char.cultivationPath as CultivationPath),
           };
         });
 
@@ -86,7 +88,10 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
 
         if (cq) {
           status = cq.status as QuestStatus;
-          objectives = cq.progress as unknown as QuestObjective[];
+          objectives = status === QuestStatus.ACTIVE ? reconcileQuestObjectives(tmpl, cq.progress) : cq.progress as unknown as QuestObjective[];
+          if (status === QuestStatus.ACTIVE && JSON.stringify(objectives) !== JSON.stringify(cq.progress)) {
+            await prisma.characterQuest.update({ where: { id: cq.id }, data: { progress: objectives as any } });
+          }
         }
 
         // Check prerequisites
@@ -105,10 +110,10 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
             exp: tmpl.rewards.exp,
             gold: tmpl.rewards.gold,
             cultivationExp: tmpl.rewards.cultivationExp,
-            items: (tmpl.rewards.items || []).map((i: any) => ({
+            items: getQuestRewards(tmpl, char.cultivationPath as CultivationPath).items.map((i) => ({
               itemTemplateId: i.itemTemplateId,
               quantity: i.quantity,
-              name: ITEM_TEMPLATES[i.itemTemplateId]?.name || i.name || i.itemTemplateId,
+              name: ITEM_TEMPLATES[i.itemTemplateId]?.name || i.itemTemplateId,
             })),
           },
         });
@@ -208,6 +213,7 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
       }
 
       const claimKey = `quest_${questId}_reward`;
+      const rewards = getQuestRewards(tmpl, char.cultivationPath as CultivationPath);
 
       await prisma.$transaction(async (tx) => {
         await tx.rewardClaim.create({
@@ -220,9 +226,9 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
         await tx.character.update({
           where: { id: char.id },
           data: {
-            gold: { increment: tmpl.rewards.gold },
-            exp: { increment: BigInt(tmpl.rewards.exp) },
-            cultivationExp: { increment: BigInt(tmpl.rewards.cultivationExp) },
+            gold: { increment: rewards.gold },
+            exp: { increment: BigInt(rewards.exp) },
+            cultivationExp: { increment: BigInt(rewards.cultivationExp) },
           },
         });
 
@@ -234,7 +240,7 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
           },
         });
 
-        for (const item of tmpl.rewards.items || []) {
+        for (const item of rewards.items) {
           const itemTmpl = ITEM_TEMPLATES[item.itemTemplateId];
           await tx.inventoryItem.create({
             data: {
@@ -251,8 +257,8 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
       return reply.send({
         success: true,
         data: {
-          rewards: tmpl.rewards,
-          message: `Hoàn thành nhiệm vụ [${tmpl.name}]! Nhận ${tmpl.rewards.exp} kinh nghiệm, ${tmpl.rewards.gold} linh thạch, ${tmpl.rewards.cultivationExp} tu vi!`,
+          rewards,
+          message: `Hoàn thành nhiệm vụ [${tmpl.name}]! Nhận ${rewards.exp} kinh nghiệm, ${rewards.gold} linh thạch, ${rewards.cultivationExp} tu vi!`,
         },
       });
     } catch (err: any) {

@@ -155,7 +155,7 @@ export async function inventoryRoutes(fastify: FastifyInstance, options: { prism
 
       const equipped = await tx.inventoryItem.findMany({ where: { characterId, isEquipped: true } });
       const stats = computeCharacterStats(
-        character.cultivationPath as CultivationPath, character.realmIndex, character.realmTier, equipped,
+        character.cultivationPath as CultivationPath, character.realmIndex, character.realmTier, equipped, character.sectId,
       );
       await tx.character.update({ where: { id: characterId }, data: { stats: { ...stats } } });
       return { success: true as const, message: equip ? `Đã trang bị ${template?.name}` : 'Đã tháo trang bị' };

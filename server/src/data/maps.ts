@@ -217,6 +217,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
       { id: 'spawn_snake_2', monsterId: 'mon_003', position: { x: 42, y: 28 }, respawnTime: 20, level: 3 },
       { id: 'spawn_fox_1', monsterId: 'mon_004', position: { x: 44, y: 36 }, respawnTime: 25, level: 4 },
       { id: 'spawn_fox_2', monsterId: 'mon_004', position: { x: 50, y: 30 }, respawnTime: 25, level: 4 },
+      { id: 'spawn_ancient_treant', monsterId: 'boss_002', position: { x: 18, y: 32 }, respawnTime: 120, level: 6 },
       // Khu C: Vùng sâu – Boss Lang Vương
       { id: 'spawn_boss_wolf', monsterId: 'boss_001', position: { x: 50, y: 54 }, respawnTime: 60, level: 5 },
     ],
@@ -407,6 +408,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
       { id: 'spawn_puppet_2', monsterId: 'mon_006', position: { x: 8, y: 14 }, respawnTime: 20, level: 7 },
       { id: 'spawn_corpse_1', monsterId: 'mon_008', position: { x: 24, y: 10 }, respawnTime: 25, level: 8 },
       { id: 'spawn_boss_turtle', monsterId: 'boss_003', position: { x: 26, y: 18 }, respawnTime: 90, level: 10 },
+      { id: 'spawn_sword_maniac', monsterId: 'boss_004', position: { x: 7, y: 20 }, respawnTime: 120, level: 10 },
     ],
     portals: [
       { id: 'portal_back_village', label: 'Làng Thanh Khê', targetMapId: 'map_thanh_khe', position: { x: 12, y: 24 }, targetPosition: { x: 12, y: 2 } },
@@ -436,10 +438,12 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
       { id: 'spawn_dan_fire_1', monsterId: 'mon_011', position: { x: 10, y: 10 }, respawnTime: 20, level: 11 },
       { id: 'spawn_dan_bat_1', monsterId: 'mon_012', position: { x: 20, y: 8 }, respawnTime: 20, level: 12 },
       { id: 'spawn_dan_vine_1', monsterId: 'mon_013', position: { x: 12, y: 18 }, respawnTime: 25, level: 13 },
+      { id: 'spawn_dan_guard', monsterId: 'mon_014', position: { x: 19, y: 20 }, respawnTime: 25, level: 14 },
       { id: 'spawn_boss_alchemist', monsterId: 'boss_005', position: { x: 24, y: 16 }, respawnTime: 120, level: 15 },
+      { id: 'spawn_dan_hidden_boss', monsterId: 'boss_006', position: { x: 25, y: 5 }, respawnTime: 180, level: 16 },
     ],
     portals: [
-      { id: 'portal_back_sect', label: 'Thanh Vân Kiếm Tông', targetMapId: 'map_thanh_van', position: { x: 1, y: 12 }, targetPosition: { x: 29, y: 12 } },
+      { id: 'portal_back_sect', label: 'Thanh Vân Kiếm Tông', targetMapId: 'map_thanh_van', position: { x: 2, y: 12 }, targetPosition: { x: 29, y: 12 } },
       { id: 'portal_to_ancient_sword', label: 'Cổ Kiếm Di Tích', targetMapId: 'map_co_kiem_di_tich', position: { x: 28, y: 12 }, targetPosition: { x: 2, y: 12 } },
     ],
     interactables: [
@@ -465,10 +469,13 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     monsters: [
       { id: 'spawn_ancient_sword_1', monsterId: 'mon_016', position: { x: 8, y: 10 }, respawnTime: 25, level: 16 },
       { id: 'spawn_ancient_guard_1', monsterId: 'mon_017', position: { x: 18, y: 14 }, respawnTime: 25, level: 17 },
+      { id: 'spawn_ancient_ghost', monsterId: 'mon_019', position: { x: 11, y: 19 }, respawnTime: 25, level: 18 },
+      { id: 'spawn_ancient_construct', monsterId: 'mon_020', position: { x: 22, y: 19 }, respawnTime: 25, level: 19 },
       { id: 'spawn_ancient_boss', monsterId: 'boss_007', position: { x: 26, y: 12 }, respawnTime: 150, level: 20 },
+      { id: 'spawn_ancient_hidden_boss', monsterId: 'boss_012', position: { x: 27, y: 20 }, respawnTime: 240, level: 22 },
     ],
     portals: [
-      { id: 'portal_back_dan_ha', label: 'Đan Hà Cốc', targetMapId: 'map_dan_ha', position: { x: 1, y: 12 }, targetPosition: { x: 27, y: 12 } },
+      { id: 'portal_back_dan_ha', label: 'Đan Hà Cốc', targetMapId: 'map_dan_ha', position: { x: 2, y: 12 }, targetPosition: { x: 27, y: 12 } },
       { id: 'portal_to_nether', label: 'U Minh Vực', targetMapId: 'map_u_minh_vuc', position: { x: 30, y: 12 }, targetPosition: { x: 2, y: 12 } },
     ],
     interactables: [
@@ -494,10 +501,14 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     monsters: [
       { id: 'spawn_ghost_soldier_1', monsterId: 'mon_021', position: { x: 10, y: 10 }, respawnTime: 25, level: 21 },
       { id: 'spawn_yaksha_1', monsterId: 'mon_022', position: { x: 18, y: 16 }, respawnTime: 25, level: 22 },
+      { id: 'spawn_nether_wraith', monsterId: 'mon_023', position: { x: 8, y: 19 }, respawnTime: 25, level: 23 },
+      { id: 'spawn_nether_walker', monsterId: 'mon_024', position: { x: 18, y: 21 }, respawnTime: 25, level: 24 },
+      { id: 'spawn_nether_guard', monsterId: 'mon_025', position: { x: 24, y: 20 }, respawnTime: 25, level: 25 },
       { id: 'spawn_nether_boss', monsterId: 'boss_008', position: { x: 26, y: 12 }, respawnTime: 180, level: 25 },
+      { id: 'spawn_nether_hidden_boss', monsterId: 'boss_013', position: { x: 27, y: 5 }, respawnTime: 240, level: 27 },
     ],
     portals: [
-      { id: 'portal_back_ancient_sword', label: 'Cổ Kiếm Di Tích', targetMapId: 'map_co_kiem_di_tich', position: { x: 1, y: 12 }, targetPosition: { x: 29, y: 12 } },
+      { id: 'portal_back_ancient_sword', label: 'Cổ Kiếm Di Tích', targetMapId: 'map_co_kiem_di_tich', position: { x: 2, y: 12 }, targetPosition: { x: 29, y: 12 } },
       { id: 'portal_to_mirror', label: 'Kính Tâm Cảnh', targetMapId: 'map_kinh_tam_canh', position: { x: 30, y: 12 }, targetPosition: { x: 2, y: 12 } },
     ],
     interactables: [
@@ -523,10 +534,12 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     monsters: [
       { id: 'spawn_shadow_1', monsterId: 'mon_026', position: { x: 10, y: 10 }, respawnTime: 25, level: 26 },
       { id: 'spawn_mirror_beast_1', monsterId: 'mon_027', position: { x: 18, y: 14 }, respawnTime: 25, level: 27 },
+      { id: 'spawn_mirror_echo', monsterId: 'mon_028', position: { x: 10, y: 19 }, respawnTime: 25, level: 28 },
+      { id: 'spawn_mirror_sentinel', monsterId: 'mon_029', position: { x: 21, y: 19 }, respawnTime: 25, level: 29 },
       { id: 'spawn_mirror_boss', monsterId: 'boss_009', position: { x: 25, y: 12 }, respawnTime: 180, level: 30 },
     ],
     portals: [
-      { id: 'portal_back_nether', label: 'U Minh Vực', targetMapId: 'map_u_minh_vuc', position: { x: 1, y: 12 }, targetPosition: { x: 29, y: 12 } },
+      { id: 'portal_back_nether', label: 'U Minh Vực', targetMapId: 'map_u_minh_vuc', position: { x: 2, y: 12 }, targetPosition: { x: 29, y: 12 } },
       { id: 'portal_to_dragon_vein', label: 'Long Mạch Thiên Sơn', targetMapId: 'map_long_mach_thien_son', position: { x: 28, y: 12 }, targetPosition: { x: 2, y: 12 } },
     ],
     interactables: [
@@ -552,10 +565,12 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     monsters: [
       { id: 'spawn_snow_bird_1', monsterId: 'mon_031', position: { x: 10, y: 8 }, respawnTime: 30, level: 31 },
       { id: 'spawn_dragon_guard_1', monsterId: 'mon_032', position: { x: 18, y: 16 }, respawnTime: 30, level: 32 },
+      { id: 'spawn_dragon_warden', monsterId: 'mon_033', position: { x: 9, y: 19 }, respawnTime: 30, level: 33 },
       { id: 'spawn_dragon_boss', monsterId: 'boss_010', position: { x: 26, y: 12 }, respawnTime: 200, level: 35 },
+      { id: 'spawn_dragon_hidden_boss', monsterId: 'boss_014', position: { x: 26, y: 20 }, respawnTime: 260, level: 38 },
     ],
     portals: [
-      { id: 'portal_back_mirror', label: 'Kính Tâm Cảnh', targetMapId: 'map_kinh_tam_canh', position: { x: 1, y: 12 }, targetPosition: { x: 27, y: 12 } },
+      { id: 'portal_back_mirror', label: 'Kính Tâm Cảnh', targetMapId: 'map_kinh_tam_canh', position: { x: 2, y: 12 }, targetPosition: { x: 27, y: 12 } },
       { id: 'portal_to_covenant_altar', label: 'Thiên Khế Đài', targetMapId: 'map_thien_khe_dai', position: { x: 30, y: 12 }, targetPosition: { x: 2, y: 12 } },
     ],
     interactables: [
@@ -581,10 +596,12 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     monsters: [
       { id: 'spawn_covenant_guard_1', monsterId: 'mon_036', position: { x: 10, y: 10 }, respawnTime: 30, level: 36 },
       { id: 'spawn_golden_soldier_1', monsterId: 'mon_037', position: { x: 20, y: 18 }, respawnTime: 30, level: 37 },
+      { id: 'spawn_covenant_watcher', monsterId: 'mon_039', position: { x: 10, y: 21 }, respawnTime: 30, level: 39 },
+      { id: 'spawn_covenant_ward', monsterId: 'mon_040', position: { x: 24, y: 21 }, respawnTime: 30, level: 40 },
       { id: 'spawn_arbiter_boss', monsterId: 'boss_011', position: { x: 28, y: 14 }, respawnTime: 300, level: 40 },
     ],
     portals: [
-      { id: 'portal_back_dragon_vein', label: 'Long Mạch Thiên Sơn', targetMapId: 'map_long_mach_thien_son', position: { x: 1, y: 14 }, targetPosition: { x: 29, y: 12 } },
+      { id: 'portal_back_dragon_vein', label: 'Long Mạch Thiên Sơn', targetMapId: 'map_long_mach_thien_son', position: { x: 2, y: 14 }, targetPosition: { x: 29, y: 12 } },
       { id: 'portal_to_tower', label: 'Trấn Yêu Tháp', targetMapId: 'map_tran_yeu_thap', position: { x: 17, y: 26 }, targetPosition: { x: 15, y: 20 } },
     ],
     interactables: [
@@ -612,6 +629,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
       { id: 'spawn_endgame_boss_2', monsterId: 'boss_016', position: { x: 24, y: 8 }, respawnTime: 240, level: 50 },
       { id: 'spawn_endgame_boss_3', monsterId: 'boss_017', position: { x: 6, y: 16 }, respawnTime: 300, level: 55 },
       { id: 'spawn_endgame_boss_4', monsterId: 'boss_018', position: { x: 24, y: 16 }, respawnTime: 360, level: 60 },
+      { id: 'spawn_endgame_boss_5', monsterId: 'boss_019', position: { x: 15, y: 17 }, respawnTime: 420, level: 65 },
       { id: 'spawn_endgame_boss_peak', monsterId: 'boss_020', position: { x: 15, y: 11 }, respawnTime: 600, level: 70 },
     ],
     portals: [

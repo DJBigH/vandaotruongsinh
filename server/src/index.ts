@@ -22,6 +22,7 @@ import { adminRoutes } from './modules/admin/routes';
 import { sectRoutes } from './modules/sect/routes';
 import { caveRoutes } from './modules/cave/routes';
 import { petRoutes } from './modules/pet/routes';
+import { discipleRoutes } from './modules/disciple/routes';
 import { offlineRoutes } from './modules/offline/routes';
 import { storyRoutes } from './modules/story/routes';
 import { towerRoutes } from './modules/tower/routes';
@@ -94,6 +95,7 @@ async function buildServer() {
       await api.register(sectRoutes, { prefix: '/game', prisma });
       await api.register(caveRoutes, { prefix: '/game', prisma });
       await api.register(petRoutes, { prefix: '/game', prisma });
+      await api.register(discipleRoutes, { prefix: '/game', prisma });
       await api.register(offlineRoutes, { prefix: '/game', prisma });
       await api.register(storyRoutes, { prefix: '/game', prisma });
       await api.register(towerRoutes, { prefix: '/game', prisma });

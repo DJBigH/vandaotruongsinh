@@ -1,0 +1,144 @@
+{
+  "source": {
+    "commit": "0c25130af21b717785d68eb149b10f98bf4be32d",
+    "harnessSha256": "119bb45e6922416f51cca12187c56dd51e4b821d1353f00a2de4f91f92d8a180",
+    "gameSourceDirty": true,
+    "gameSourceDiffSha256": "b50ffc2f1e0a96342aa2fbc91a025d1a2bd6ead107d4d60c3fd430839c3d38d3"
+  },
+  "startedAt": "2026-11-20T08:33:14.792Z",
+  "durationMs": 66593,
+  "browser": "158.0.8127.36",
+  "checks": [
+    {
+      "name": "one live socket after character creation",
+      "passed": true,
+      "open": 1
+    },
+    {
+      "name": "server spawn applied",
+      "passed": true,
+      "x": 400,
+      "y": 300
+    },
+    {
+      "name": "opposed keys cancel",
+      "passed": true
+    },
+    {
+      "name": "panel blocks movement",
+      "passed": true
+    },
+    {
+      "name": "panel does not suspend session",
+      "passed": true,
+      "ticks": 126
+    },
+    {
+      "name": "panel blocks pointer attack, dodge and skill inputs",
+      "passed": true
+    },
+    {
+      "name": "new character has one available skill",
+      "passed": true,
+      "skillCount": 1
+    },
+    {
+      "name": "locked skill keys send no cast",
+      "passed": true
+    },
+    {
+      "name": "elder dialogue request succeeds",
+      "passed": true
+    },
+    {
+      "name": "nearby elder talk advances real quest",
+      "passed": true
+    },
+    {
+      "name": "hall wall blocks normal movement",
+      "passed": true,
+      "y": 300
+    },
+    {
+      "name": "hall wall blocks dodge",
+      "passed": true,
+      "y": 300
+    },
+    {
+      "name": "portal replaces map and entities",
+      "passed": true
+    },
+    {
+      "name": "reload retains forest and saved position",
+      "passed": true,
+      "saved": {
+        "x": 1019,
+        "y": 224
+      },
+      "loaded": {
+        "x": 1019,
+        "y": 224
+      }
+    },
+    {
+      "name": "one socket in the current document after reload",
+      "passed": true,
+      "open": 1
+    },
+    {
+      "name": "movement resumes after reconnect",
+      "passed": true
+    },
+    {
+      "name": "one canvas after reload and resize",
+      "passed": true
+    },
+    {
+      "name": "return to village clears forest entities",
+      "passed": true
+    },
+    {
+      "name": "no uncaught browser errors",
+      "passed": true,
+      "errors": []
+    }
+  ],
+  "failure": null,
+  "errors": [],
+  "sockets": 3,
+  "ticks": 1015,
+  "actions": {
+    "DODGE": 1
+  },
+  "confirmedActions": {
+    "DODGE": 1
+  },
+  "finalScene": {
+    "map": "map_thanh_khe",
+    "player": {
+      "x": 1024,
+      "y": 1280,
+      "visible": true,
+      "texture": "player_idle",
+      "animation": "player_idle_down",
+      "frame": 1
+    },
+    "camera": {
+      "x": 64,
+      "y": 580.6153846153845,
+      "zoom": 1.3,
+      "width": 1920,
+      "height": 1080
+    },
+    "render": {
+      "entities": 0,
+      "inView": 0
+    },
+    "canvas": {
+      "width": 1920,
+      "height": 1080
+    },
+    "inputBlocked": false,
+    "rendererType": 2
+  }
+}

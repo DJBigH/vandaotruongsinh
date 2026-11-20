@@ -682,9 +682,12 @@ export default class ExplorationScene extends Phaser.Scene {
         container = this.add.container(ent.x, ent.y);
         container.setDepth(ent.y);
 
-        // Monster sprite with Genuine 2D Assets
+        // Disciple position and actions come only from the server snapshot.
         const isBoss = ent.type === 'BOSS';
-        const look = creatureAppearance(ent);
+        const isDisciple = ent.type === 'DISCIPLE';
+        const look = isDisciple
+          ? { texture: 'disciple_lieu_muoi_idle', walk: '', scale: 1 }
+          : creatureAppearance(ent);
         const fallback = isBoss ? 'boss_lang_vuong' : 'monster_wolf';
         const texture = this.textures.exists(look.texture) ? look.texture : fallback;
         const sprite = this.add.sprite(0, 0, texture).setOrigin(0.5, 0.875).setScale(look.scale);
@@ -695,21 +698,23 @@ export default class ExplorationScene extends Phaser.Scene {
         container.setData('templateId', ent.templateId);
 
         // Name text
-        const barY = look.walk === 'wolf_walk' ? -39 : isBoss ? -70 : -54;
+        const barY = isDisciple ? -49 : look.walk === 'wolf_walk' ? -39 : isBoss ? -70 : -54;
         container.setData('barY', barY);
         const nameOffsetY = barY - 12;
         const nameText = this.add.text(0, nameOffsetY, ent.name, {
           fontSize: isBoss ? '12px' : '11px',
-          color: isBoss ? '#f87171' : '#ffffff',
+          color: isDisciple ? '#86efac' : isBoss ? '#f87171' : '#ffffff',
           backgroundColor: 'rgba(0,0,0,0.75)',
           padding: { x: 4, y: 2 },
         }).setOrigin(0.5);
         container.add(nameText);
 
         // Health bar graphics
-        const hpBar = this.add.graphics();
-        container.add(hpBar);
-        container.setData('hpBar', hpBar);
+        if (!isDisciple) {
+          const hpBar = this.add.graphics();
+          container.add(hpBar);
+          container.setData('hpBar', hpBar);
+        }
 
         this.entitySprites.set(ent.id, container);
       }
@@ -724,6 +729,19 @@ export default class ExplorationScene extends Phaser.Scene {
       // Update Sprite Animation & Flip Direction
       const sprite = container.getData('monsterSprite') as Phaser.GameObjects.Sprite;
       if (sprite) {
+        if (ent.type === 'DISCIPLE') {
+          const dx = Math.cos(ent.facingAngle);
+          const facing: FacingDirection = Math.abs(Math.sin(ent.facingAngle)) > Math.abs(dx)
+            ? (Math.sin(ent.facingAngle) > 0 ? 'down' : 'up')
+            : (dx > 0 ? 'right' : 'left');
+          const pose = ent.state === 'ATTACKING' ? 'attack' : ent.state === 'MOVING' ? 'walk' : 'idle';
+          const animation = `disciple_lieu_muoi_${pose}_${facing}`;
+          const casting = sprite.anims.isPlaying && sprite.anims.currentAnim?.key.startsWith('disciple_lieu_muoi_attack_');
+          if (this.anims.exists(animation)) {
+            if (pose === 'attack' || !casting) sprite.play(animation, true);
+          } else if (this.anims.exists('disciple_lieu_muoi_idle_down')) sprite.play('disciple_lieu_muoi_idle_down', true);
+          continue;
+        }
         const walk = container.getData('walk') as string;
         if (walk === 'ghost_float') {
           sprite.play(walk, true);
@@ -988,7 +1006,8 @@ export default class ExplorationScene extends Phaser.Scene {
     try {
       if (type === 'PORTAL') {
         // The server moves this same session. The next TICK announces the committed map and spawn.
-        await gameApi.teleport((target as MapPortal).targetMapId);
+        const portal = target as MapPortal;
+        await gameApi.teleport(portal.targetMapId, portal.id);
       } else {
         const res = await gameApi.interact(id);
         if (res.success && this.sceneListeners === lifetime) {

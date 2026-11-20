@@ -496,6 +496,7 @@ export default function HUD() {
               { key: 'sect', label: '⚔️ Tông' },
               { key: 'cave', label: '🏡 Động' },
               { key: 'pets', label: '🐉 Thú' },
+              { key: 'disciple', label: '👥 Đệ Tử' },
               { key: 'offline', label: '⏳ Bế Quan' },
               { key: 'story', label: '📖 Sử Ký' },
               { key: 'tower', label: '🗼 Tháp' },
@@ -503,6 +504,7 @@ export default function HUD() {
               { key: 'settings', label: '⚙️ Cài Đặt' },
             ].map((btn) => (
               <button
+                id={btn.key === 'disciple' ? 'disciple-menu-button' : undefined}
                 key={btn.key}
                 onClick={() => setActivePanel(activePanel === btn.key ? null : (btn.key as any))}
                 style={{

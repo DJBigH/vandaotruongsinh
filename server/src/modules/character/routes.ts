@@ -80,6 +80,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         character.realmIndex,
         character.realmTier,
         equippedItems,
+        character.sectId,
       );
 
       const summary: CharacterSummary = {
@@ -301,7 +302,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
 
         const newCultExp = character.cultivationExp - BigInt(check.requiredExp);
         const equippedItems = character.inventory.filter((item) => item.isEquipped);
-        const newStats = computeCharacterStats(currentPath, nextRealm, nextTier, equippedItems);
+        const newStats = computeCharacterStats(currentPath, nextRealm, nextTier, equippedItems, character.sectId);
 
         await tx.character.update({
           where: { id: character.id },

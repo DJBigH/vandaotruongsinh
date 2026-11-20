@@ -1,7 +1,7 @@
 # HƯỚNG DẪN SỬ DỤNG TRÌNH KHỞI CHẠY DESKTOP (VAN DAO LAUNCHER)
 
 **Dự án:** VẠN ĐẠO TRƯỜNG SINH (萬道長生)  
-**Phiên bản Launcher:** 1.0.0 (Windows 10/11 x64)  
+**Phiên bản Launcher:** 1.0.2 (Windows 10/11 x64)
 **Công nghệ:** Electron + React 18 + TypeScript + Vite  
 
 ---

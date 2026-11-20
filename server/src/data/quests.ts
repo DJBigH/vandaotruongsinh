@@ -3,7 +3,7 @@
 // 24 Chính Tuyến (8 Chương) | 24 Nhánh Phụ | 8 Ẩn Tuyến
 // ============================================================
 
-import { QuestType } from '@shared';
+import { CultivationPath, QuestType, type QuestObjective } from '@shared';
 
 export interface QuestObjectiveDef {
   id: string;
@@ -28,8 +28,28 @@ export interface QuestTemplate {
   chapter: number;
   objectives: QuestObjectiveDef[];
   rewards: QuestRewardDef;
+  pathRewardItems?: Partial<Record<CultivationPath, QuestRewardDef['items']>>;
   prerequisiteQuestId?: string;
   prerequisites?: string[];
+}
+
+export function getQuestRewards(template: QuestTemplate, path: CultivationPath): QuestRewardDef {
+  return {
+    ...template.rewards,
+    items: [...template.rewards.items, ...(template.pathRewardItems?.[path] ?? [])],
+  };
+}
+
+export function reconcileQuestObjectives(template: QuestTemplate, saved: unknown): QuestObjective[] {
+  const previous = Array.isArray(saved) ? saved as QuestObjective[] : [];
+  return template.objectives.map((definition) => {
+    const old = previous.find((objective) => objective.id === definition.id &&
+      objective.type === definition.type && objective.targetId === definition.targetId);
+    return {
+      ...definition,
+      current: old && Number.isFinite(old.current) ? Math.min(definition.required, Math.max(0, old.current)) : 0,
+    };
+  });
 }
 
 export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
@@ -117,7 +137,7 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
   quest_main_04: {
     id: 'quest_main_04',
     name: 'Bái Nhập Sơn Môn: Thanh Vân Thí Luyện',
-    description: 'Đến cổng Thanh Vân Kiếm Tông, vượt qua khảo nghiệm pháp trận hộ môn.',
+    description: 'Thanh Vân mở ba nhánh Kiếm, Pháp, Thể. Vượt qua khôi lỗi để chọn pháp khí hợp với đạo của mình.',
     type: QuestType.MAIN,
     chapter: 2,
     prerequisiteQuestId: 'quest_main_03',
@@ -125,32 +145,37 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
       { id: 'obj_talk_mentor', description: 'Bái kiến Đạo Sĩ Tiêu Dao', type: 'TALK', targetId: 'npc_mentor', required: 1 },
       { id: 'obj_kill_puppets', description: 'Đánh bại 3 Kiếm Khí Khôi Lỗi trong thí luyện', type: 'KILL', targetId: 'mon_006', required: 3 },
     ],
-    rewards: { exp: 280, gold: 140, cultivationExp: 380, items: [{ itemTemplateId: 'item_016', quantity: 1 }] },
+    rewards: { exp: 280, gold: 140, cultivationExp: 380, items: [] },
+    pathRewardItems: {
+      [CultivationPath.SWORD]: [{ itemTemplateId: 'item_016', quantity: 1 }],
+      [CultivationPath.SPELL]: [{ itemTemplateId: 'item_017', quantity: 1 }],
+      [CultivationPath.BODY]: [{ itemTemplateId: 'item_018', quantity: 1 }],
+    },
   },
   quest_main_05: {
     id: 'quest_main_05',
     name: 'Ký Ức Đánh Mất: Bí Ẩn Đệ Tử Mất Trí',
-    description: 'Điều tra hiện tượng kỳ lạ: nhiều đồng môn sau khi đột phá cảnh giới liền quên sạch ký ức kiếp phàm.',
+    description: 'Một trưởng lão quên tên người thân sau khi đột phá. Tìm lời chứng của chưởng môn để bảo lưu ký ức cho ông.',
     type: QuestType.MAIN,
     chapter: 2,
     prerequisiteQuestId: 'quest_main_04',
     objectives: [
-      { id: 'obj_kill_fiery_snakes', description: 'Trảm 4 Hỏa Viêm Mãng ngăn đường', type: 'KILL', targetId: 'mon_007', required: 4 },
-      { id: 'obj_reach_zhuji', description: 'Đạt cảnh giới Trúc Cơ Sơ Kỳ', type: 'REACH_REALM', required: 1 },
+      { id: 'obj_kill_fiery_snakes', description: 'Đánh lui 4 Hủ Thi quấy rối sơn môn', type: 'KILL', targetId: 'mon_008', required: 4 },
+      { id: 'obj_reach_zhuji', description: 'Hỏi chưởng môn về ký ức đã mất', type: 'TALK', targetId: 'npc_sect_master', required: 1 },
     ],
     rewards: { exp: 350, gold: 180, cultivationExp: 500, items: [{ itemTemplateId: 'item_049', quantity: 1 }] },
   },
   quest_main_06: {
     id: 'quest_main_06',
-    name: 'Hộ Trận Linh Thú: Khảo Nghiệm Cổ Quy',
-    description: 'Huyền Giáp Linh Quy nổi giận chắn ngang linh mạch tông môn. Hãy trấn an thần thú.',
+    name: 'Hộ Trận Linh Thú: Lời Thề Thanh Vân',
+    description: 'Huyền Giáp Linh Quy bị Thiên Khế kích động. Trấn an linh thú để lời thề giữ ký ức của trưởng lão được ghi vào Thiên Thư.',
     type: QuestType.MAIN,
     chapter: 2,
     prerequisiteQuestId: 'quest_main_05',
     objectives: [
       { id: 'obj_kill_turtle_boss', description: 'Khuất phục Huyền Giáp Linh Quy', type: 'KILL', targetId: 'boss_003', required: 1 },
     ],
-    rewards: { exp: 500, gold: 260, cultivationExp: 700, items: [{ itemTemplateId: 'item_017', quantity: 1 }, { itemTemplateId: 'item_026', quantity: 1 }] },
+    rewards: { exp: 500, gold: 260, cultivationExp: 700, items: [{ itemTemplateId: 'item_026', quantity: 1 }] },
   },
   quest_side_04: {
     id: 'quest_side_04',
@@ -207,8 +232,8 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
   },
   quest_main_08: {
     id: 'quest_main_08',
-    name: 'Bí Mật Cấm Đan: Huyết Luyện Thao Túng',
-    description: 'Phát hiện những viên đan dược do môn phái phân phát có chứa chất kích thích tước đoạt ký ức tu sĩ.',
+    name: 'Bí Mật Cấm Đan: Chứng Cứ Tẩy Trí',
+    description: 'Đan dược tẩy trí bị trộn vào thuốc phát cho đệ tử. Giữ mẫu dược và ghi lời khai trước khi lò bị thiêu hủy.',
     type: QuestType.MAIN,
     chapter: 3,
     prerequisiteQuestId: 'quest_main_07',
@@ -220,8 +245,8 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
   },
   quest_main_09: {
     id: 'quest_main_09',
-    name: 'Trừng Phạt Đan Gian: Trảm Xích Luyện',
-    description: 'Xích Luyện Đan Sư phản bội sư môn, toan dùng cả thung lũng làm lò luyện ma đan. Trảm sát trừ hại!',
+    name: 'Đan Khôi Vô Tâm: Phơi Bày Cấm Đan',
+    description: 'Xích Luyện dùng cấm đan nuôi lò thành khôi lỗi vô tâm. Đánh bại hắn và giao chứng cứ cho Liễu Nhược Vân công bố.',
     type: QuestType.MAIN,
     chapter: 3,
     prerequisiteQuestId: 'quest_main_08',
@@ -268,12 +293,12 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
   },
 
   // ====================================================
-  // CHƯƠNG 4: CỔ KIẾM DI TÍCH (Main: 10-12, Side: 10-12, Hidden: 04)
+  // CHƯƠNG 4: CỔ KIẾM DI TÍCH - LỜI CHỨNG TÀN HỒN
   // ====================================================
   quest_main_10: {
     id: 'quest_main_10',
-    name: 'Lối Vào Di Tích: Kiếm Trủng Trầm Luân',
-    description: 'Đặt chân vào Cổ Kiếm Di Tích, nơi táng hàng ngàn thanh kiếm của cuộc chiến cổ xưa.',
+    name: 'Di Tích Tàn Hồn: Lời Chứng Thứ Nhất',
+    description: 'Trong Kiếm Trũng cũ, linh hồn người bị thanh trừng còn bám vào vũ khí. Hỏi Kiếm Hồn về ngày Thiên Khế được lập.',
     type: QuestType.MAIN,
     chapter: 4,
     prerequisiteQuestId: 'quest_main_09',
@@ -281,25 +306,30 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
       { id: 'obj_talk_sword_spirit', description: 'Gặp gỡ Kiếm Hồn Viễn Cổ', type: 'TALK', targetId: 'npc_sword_spirit', required: 1 },
       { id: 'obj_kill_broken_swords', description: 'Trấn áp 4 Đoạn Kiếm Tàn Hồn', type: 'KILL', targetId: 'mon_016', required: 4 },
     ],
-    rewards: { exp: 1100, gold: 550, cultivationExp: 1500, items: [{ itemTemplateId: 'item_021', quantity: 1 }] },
+    rewards: { exp: 1100, gold: 550, cultivationExp: 1500, items: [] },
+    pathRewardItems: {
+      [CultivationPath.SWORD]: [{ itemTemplateId: 'item_021', quantity: 1 }],
+      [CultivationPath.SPELL]: [{ itemTemplateId: 'item_023', quantity: 1 }],
+      [CultivationPath.BODY]: [{ itemTemplateId: 'item_078', quantity: 1 }],
+    },
   },
   quest_main_11: {
     id: 'quest_main_11',
-    name: 'Sự Thật Lịch Sử Bị Xóa Bỏ',
-    description: 'Khám phá văn bia cổ: Cuộc chiến chính ma thực chất là một sự sắp đặt để duy trì Thiên Khế.',
+    name: 'Lời Chứng Bị Bôi Xóa',
+    description: 'Đối chiếu lời Kiếm Hồn với văn bia: Thiên Khế đã nuốt ký ức của cả người thắng lẫn người thua.',
     type: QuestType.MAIN,
     chapter: 4,
     prerequisiteQuestId: 'quest_main_10',
     objectives: [
       { id: 'obj_kill_ancient_guards', description: 'Hạ 4 Viễn Cổ Chiến Vệ bảo hộ bia', type: 'KILL', targetId: 'mon_017', required: 4 },
-      { id: 'obj_reach_jindan', description: 'Đột phá tiến nhập Kim Đan Cảnh', type: 'REACH_REALM', required: 2 },
+      { id: 'obj_reach_jindan', description: 'Đối chiếu lời chứng với Kiếm Hồn', type: 'TALK', targetId: 'npc_sword_spirit', required: 1 },
     ],
     rewards: { exp: 1400, gold: 700, cultivationExp: 1900, items: [{ itemTemplateId: 'item_064', quantity: 2 }] },
   },
   quest_main_12: {
     id: 'quest_main_12',
-    name: 'Kiếm Đạo Đỉnh Phong: Đấu Kiếm Tôn Giả',
-    description: 'Chấp nhận thử thách kiếm ý của Cổ Kiếm Tôn Giả để lĩnh ngộ bí thuật ghi trên mảnh Thiên Thư.',
+    name: 'Trấn Chủ Kiếm Trũng: Giải Phóng Tàn Hồn',
+    description: 'Cổ Kiếm Tôn Giả canh giữ mộ bia Thiên Khế. Đánh bại ông để các tàn hồn được kể lại sự thật.',
     type: QuestType.MAIN,
     chapter: 4,
     prerequisiteQuestId: 'quest_main_11',
@@ -346,12 +376,12 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
   },
 
   // ====================================================
-  // CHƯƠNG 5: U MINH VỰC (Main: 13-15, Side: 13-15, Hidden: 05)
+  // CHƯƠNG 5: U MINH VỰC - RÈN PHÁP BẢO BẢN MỆNH
   // ====================================================
   quest_main_13: {
     id: 'quest_main_13',
-    name: 'Vượt Qua Biên Giới: Bước Vào U Minh Vực',
-    description: 'Tiến sâu vào vùng đất của những kẻ bị chính đạo coi là tà ma ngoại đạo.',
+    name: 'U Minh Vực: Lửa Rèn Của Kẻ Bị Quên',
+    description: 'Những người từ chối giao ký ức ẩn ở U Minh. Họ giữ lò rèn pháp bảo cho cả ba hướng tu.',
     type: QuestType.MAIN,
     chapter: 5,
     prerequisiteQuestId: 'quest_main_12',
@@ -359,12 +389,12 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
       { id: 'obj_talk_rebel', description: 'Đối thoại với U Minh Giáo Chủ', type: 'TALK', targetId: 'npc_rebel_cultivator', required: 1 },
       { id: 'obj_kill_ghost_soldiers', description: 'Đánh lui 5 U Hồn Quỷ Tốt', type: 'KILL', targetId: 'mon_021', required: 5 },
     ],
-    rewards: { exp: 1800, gold: 900, cultivationExp: 2450, items: [{ itemTemplateId: 'item_022', quantity: 1 }] },
+    rewards: { exp: 1800, gold: 900, cultivationExp: 2450, items: [] },
   },
   quest_main_14: {
     id: 'quest_main_14',
-    name: 'Sự Thật Về Tà Tu: Kẻ Bị Khước Từ',
-    description: 'Phát hiện những kẻ gọi là tà tu thực chất là những người từ chối giao nộp ký ức cho Thiên Khế.',
+    name: 'Chọn Đạo Tâm: Vật Liệu Bản Mệnh',
+    description: 'Thu U Minh Ma Thạch để rèn pháp bảo. Người tu tự chọn vì sao mình mạnh lên: bảo vệ người còn sống hay chỉ vượt lên họ.',
     type: QuestType.MAIN,
     chapter: 5,
     prerequisiteQuestId: 'quest_main_13',
@@ -376,8 +406,8 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
   },
   quest_main_15: {
     id: 'quest_main_15',
-    name: 'Quyết Đấu Hoàng Tuyền: Đàm Phán Quỷ Đế',
-    description: 'Đánh bại U Minh Quỷ Đế để chứng minh thực lực và liên kết hai phái tìm đường phá vỡ giao ước.',
+    name: 'Lò Rèn Hoàng Tuyền: Thử Pháp Bảo',
+    description: 'U Minh Quỷ Đế thử pháp bảo bản mệnh bằng trận chiến. Sau đó ông giao mảnh ký ức đã giữ cho dân U Minh.',
     type: QuestType.MAIN,
     chapter: 5,
     prerequisiteQuestId: 'quest_main_14',
@@ -385,6 +415,11 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
       { id: 'obj_defeat_nether_emperor', description: 'Đánh bại U Minh Quỷ Đế', type: 'KILL', targetId: 'boss_008', required: 1 },
     ],
     rewards: { exp: 3000, gold: 1500, cultivationExp: 4100, items: [{ itemTemplateId: 'item_029', quantity: 1 }, { itemTemplateId: 'item_065', quantity: 1 }] },
+    pathRewardItems: {
+      [CultivationPath.SWORD]: [{ itemTemplateId: 'item_022', quantity: 1 }],
+      [CultivationPath.SPELL]: [{ itemTemplateId: 'item_023', quantity: 1 }],
+      [CultivationPath.BODY]: [{ itemTemplateId: 'item_078', quantity: 1 }],
+    },
   },
   quest_side_13: {
     id: 'quest_side_13',
@@ -424,12 +459,12 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
   },
 
   // ====================================================
-  // CHƯƠNG 6: KÍNH TÂM CẢNH (Main: 16-18, Side: 16-18, Hidden: 06)
+  // CHƯƠNG 6: KÍNH TÂM CẢNH - PHONG ẤN KÝ ỨC
   // ====================================================
   quest_main_16: {
     id: 'quest_main_16',
-    name: 'Soi Bóng Gương Thần: Đối Mặt Ký Ức',
-    description: 'Bước vào Kính Tâm Cảnh, nơi mọi ký ức đã mất hiện hình như những ảo ảnh sống động.',
+    name: 'Hàn Ngọc Kính Tâm: Ký Ức Còn Lại',
+    description: 'Hàn ngọc trong gương có thể giữ ký ức qua đột phá. Tiếng Vọng chỉ đường phân biệt hồi ức thật và ảo ảnh.',
     type: QuestType.MAIN,
     chapter: 6,
     prerequisiteQuestId: 'quest_main_15',
@@ -441,14 +476,14 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
   },
   quest_main_17: {
     id: 'quest_main_17',
-    name: 'Vượt Qua Tâm Kiếp: Đột Phá Hóa Thần',
-    description: 'Chấp nhận quá khứ đau thương, dùng ý chí sắt đá phá tan xiềng xích mộng tưởng.',
+    name: 'Tâm Kiếp Hàn Ngọc: Niêm Phong Chân Danh',
+    description: 'Ghi lại tên người từng cứu mình vào hàn ngọc trước khi Thiên Khế thử xóa ký ức ấy.',
     type: QuestType.MAIN,
     chapter: 6,
     prerequisiteQuestId: 'quest_main_16',
     objectives: [
-      { id: 'obj_kill_nightmares', description: 'Tiêu diệt 4 Mộng Yểm Cự Thú', type: 'KILL', targetId: 'mon_030', required: 4 },
-      { id: 'obj_reach_huashen', description: 'Đột phá tiến nhập Hóa Thần Cảnh', type: 'REACH_REALM', required: 4 },
+      { id: 'obj_kill_nightmares', description: 'Đánh tan 4 Kính Diện Ma Thú', type: 'KILL', targetId: 'mon_027', required: 4 },
+      { id: 'obj_reach_huashen', description: 'Nhắc lại chân danh trước Tiếng Vọng Ký Ức', type: 'TALK', targetId: 'npc_inner_voice', required: 1 },
     ],
     rewards: { exp: 3500, gold: 1750, cultivationExp: 4800, items: [{ itemTemplateId: 'item_068', quantity: 2 }] },
   },
@@ -462,7 +497,7 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
     objectives: [
       { id: 'obj_kill_heart_demon', description: 'Trảm sát Kính Tâm Ma Hoàng', type: 'KILL', targetId: 'boss_009', required: 1 },
     ],
-    rewards: { exp: 4500, gold: 2250, cultivationExp: 6200, items: [{ itemTemplateId: 'item_035', quantity: 1 }, { itemTemplateId: 'item_067', quantity: 1 }] },
+    rewards: { exp: 4500, gold: 2250, cultivationExp: 6200, items: [{ itemTemplateId: 'item_035', quantity: 1 }, { itemTemplateId: 'item_067', quantity: 1 }, { itemTemplateId: 'item_069', quantity: 1 }] },
   },
   quest_side_16: {
     id: 'quest_side_16',
@@ -494,20 +529,20 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
   quest_hidden_06: {
     id: 'quest_hidden_06',
     name: 'Thần Bí Tàn Quyển Sơn Hà',
-    description: 'Tìm kiếm mảnh vỡ Sơn Hà Xã Tắc Đồ chôn giấu sâu trong góc tối của Kính Tâm Cảnh.',
+    description: 'Tiếng Vọng Ký Ức biết nơi cất mảnh Sơn Hà Xã Tắc Đồ. Hỏi đường trước khi ảo ảnh nuốt mất dấu tích.',
     type: QuestType.SIDE,
     chapter: 6,
-    objectives: [{ id: 'obj_collect_map_fragment', description: 'Tìm Mảnh Sơn Hà Xã Tắc Đồ', type: 'COLLECT', targetId: 'item_039', required: 1 }],
+    objectives: [{ id: 'obj_collect_map_fragment', description: 'Hỏi Tiếng Vọng về mảnh Sơn Hà Xã Tắc Đồ', type: 'TALK', targetId: 'npc_inner_voice', required: 1 }],
     rewards: { exp: 3500, gold: 1750, cultivationExp: 4800, items: [{ itemTemplateId: 'item_039', quantity: 1 }] },
   },
 
   // ====================================================
-  // CHƯƠNG 7: LONG MẠCH THIÊN SƠN (Main: 19-21, Side: 19-21, Hidden: 07)
+  // CHƯƠNG 7: LONG MẠCH THIÊN SƠN - HAI HỒI PHÁ TRỤ THIÊN KHẾ
   // ====================================================
   quest_main_19: {
     id: 'quest_main_19',
-    name: 'Đăng Đỉnh Thiên Sơn: Tiếng Gầm Long Mạch',
-    description: 'Vượt qua bão tuyết ngàn trượng, tiến lên ngọn núi cao nhất thế giới tìm long mạch chân nguyên.',
+    name: 'Hồi Một: Dấu Tích Thu Hoạch Linh Hồn',
+    description: 'Sơn Thần chỉ ra trụ Thiên Khế nằm trên long mạch. Linh hồn bị hút lên đỉnh tuyết mỗi khi có người đột phá.',
     type: QuestType.MAIN,
     chapter: 7,
     prerequisiteQuestId: 'quest_main_18',
@@ -519,28 +554,33 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
   },
   quest_main_20: {
     id: 'quest_main_20',
-    name: 'Các Phe Tranh Đoạt: Huyết Chiến Băng Phong',
-    description: 'Chính đạo và ma đạo đều hội tụ đỉnh Thiên Sơn tranh đoạt quyền khống chế linh mạch.',
+    name: 'Hồi Hai: Phá Trụ Thiên Khế',
+    description: 'Chính đạo và U Minh hợp sức cắt đường thu hoạch linh hồn. Đánh bại vệ binh trụ rồi nhờ Sơn Thần niêm phong long mạch.',
     type: QuestType.MAIN,
     chapter: 7,
     prerequisiteQuestId: 'quest_main_19',
     objectives: [
-      { id: 'obj_kill_stone_golems', description: 'Trấn áp 5 Linh Mạch Thạch Nhân bảo vệ hạch tâm', type: 'KILL', targetId: 'mon_034', required: 5 },
-      { id: 'obj_reach_heti', description: 'Đạt cảnh giới Hợp Thể Cảnh', type: 'REACH_REALM', required: 6 },
+      { id: 'obj_kill_stone_golems', description: 'Đánh bại 5 Long Mạch Hộ Vệ canh trụ', type: 'KILL', targetId: 'mon_032', required: 5 },
+      { id: 'obj_reach_heti', description: 'Cùng Sơn Thần niêm phong trụ đã phá', type: 'TALK', targetId: 'npc_mountain_god', required: 1 },
     ],
     rewards: { exp: 5000, gold: 2500, cultivationExp: 6900, items: [{ itemTemplateId: 'item_072', quantity: 2 }] },
   },
   quest_main_21: {
     id: 'quest_main_21',
-    name: 'Long Mạch Thức Giấc: Khảo Nghiệm Chân Long',
-    description: 'Đánh bại Long Mạch Chân Long để giành lấy quyền thừa kế linh mạch của nhân gian.',
+    name: 'Giám Khế Chân Long: Bảo Toàn Nhân Thế',
+    description: 'Chân Long canh nguồn mạch còn lại. Vượt qua thử thách của nó để chứng minh có thể giữ đất trời mà không hiến ký ức.',
     type: QuestType.MAIN,
     chapter: 7,
     prerequisiteQuestId: 'quest_main_20',
     objectives: [
       { id: 'obj_defeat_true_dragon', description: 'Khuất phục Long Mạch Chân Long', type: 'KILL', targetId: 'boss_010', required: 1 },
     ],
-    rewards: { exp: 6800, gold: 3400, cultivationExp: 9300, items: [{ itemTemplateId: 'item_024', quantity: 1 }, { itemTemplateId: 'item_071', quantity: 1 }] },
+    rewards: { exp: 6800, gold: 3400, cultivationExp: 9300, items: [{ itemTemplateId: 'item_071', quantity: 1 }] },
+    pathRewardItems: {
+      [CultivationPath.SWORD]: [{ itemTemplateId: 'item_079', quantity: 1 }],
+      [CultivationPath.SPELL]: [{ itemTemplateId: 'item_080', quantity: 1 }],
+      [CultivationPath.BODY]: [{ itemTemplateId: 'item_024', quantity: 1 }],
+    },
   },
   quest_side_19: {
     id: 'quest_side_19',
@@ -580,46 +620,51 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
   },
 
   // ====================================================
-  // CHƯƠNG 8: THIÊN KHẾ ĐÀI & KẾT THÚC (Main: 22-24, Side: 22-24, Hidden: 08)
+  // CHƯƠNG 8: THIÊN KHẾ ĐÀI & BA CON ĐƯỜNG
   // ====================================================
   quest_main_22: {
     id: 'quest_main_22',
-    name: 'Bước Vào Thiên Khế Đài: Quyết Định Vận Mệnh',
-    description: 'Mang theo tất cả mảnh Thiên Thư bước lên Thiên Khế Đài đối mặt chân tướng tối cao.',
+    name: 'Đường Lên Thiên Khế Đài',
+    description: 'Giữ mảnh Thiên Thư và ký ức đã niêm phong, bước lên đài nơi giao ước đòi món nợ cuối.',
     type: QuestType.MAIN,
     chapter: 8,
     prerequisiteQuestId: 'quest_main_21',
     objectives: [
       { id: 'obj_kill_patrol_guards', description: 'Đánh lui 6 Thiên Khế Tuần Tra Vệ', type: 'KILL', targetId: 'mon_036', required: 6 },
-      { id: 'obj_reach_dajie', description: 'Đạt cảnh giới Độ Kiếp Cảnh', type: 'REACH_REALM', required: 8 },
+      { id: 'obj_reach_dajie', description: 'Đối chất với thần tượng Chấp Pháp Giả', type: 'TALK', targetId: 'npc_covenant_arbiter', required: 1 },
     ],
     rewards: { exp: 7500, gold: 3800, cultivationExp: 10500, items: [{ itemTemplateId: 'item_073', quantity: 1 }] },
   },
   quest_main_23: {
     id: 'quest_main_23',
-    name: 'Đại Chiến Thần Binh: Phá Vỡ Quy Tắc',
-    description: 'Đánh bại Kim Giáp Thần Binh và cỗ máy Trật Tự Khôi Lỗi để mở lối vào đài tế.',
+    name: 'Mở Lối Qua Kim Giáp Thần Binh',
+    description: 'Đánh lui quân giữ đài, rồi nghe lời giải thích cuối về cái giá ký ức, tự do và luân hồi.',
     type: QuestType.MAIN,
     chapter: 8,
     prerequisiteQuestId: 'quest_main_22',
     objectives: [
       { id: 'obj_kill_golden_soldiers', description: 'Hạ 5 Kim Giáp Thần Binh', type: 'KILL', targetId: 'mon_037', required: 5 },
-      { id: 'obj_kill_order_puppets', description: 'Hạ 4 Trật Tự Khôi Lỗi', type: 'KILL', targetId: 'mon_038', required: 4 },
+      { id: 'obj_kill_order_puppets', description: 'Nghe Chấp Pháp Giả nói về ba cái giá', type: 'TALK', targetId: 'npc_covenant_arbiter', required: 1 },
     ],
     rewards: { exp: 9000, gold: 4500, cultivationExp: 12500, items: [{ itemTemplateId: 'item_074', quantity: 3 }] },
   },
   quest_main_24: {
     id: 'quest_main_24',
-    name: 'Vạn Đạo Trường Sinh: Quyết Định Tương Lai',
-    description: 'Đánh bại Thiên Khế Chấp Pháp Giả và đưa ra quyết định: Duy Trì, Phá Bỏ hay Viết Lại Giao Ước!',
+    name: 'Thiên Khế Chấp Chưởng: Điểm Chọn Cuối',
+    description: 'Đánh bại người canh giữ và mở mốc thế giới trước quyết định. Ba kết cục được chọn trong Thiên Thư Sử Ký.',
     type: QuestType.MAIN,
     chapter: 8,
     prerequisiteQuestId: 'quest_main_23',
     objectives: [
       { id: 'obj_defeat_final_arbiter', description: 'Đánh bại Thiên Khế Chấp Pháp Giả', type: 'KILL', targetId: 'boss_011', required: 1 },
-      { id: 'obj_decide_covenant', description: 'Kích hoạt Thiên Khế Cổ Bia và lựa chọn kết cục', type: 'TALK', targetId: 'npc_covenant_arbiter', required: 1 },
+      { id: 'obj_decide_covenant', description: 'Ghi lời thề trước Cổ Bia Thiên Khế', type: 'TALK', targetId: 'npc_covenant_arbiter', required: 1 },
     ],
-    rewards: { exp: 15000, gold: 8000, cultivationExp: 21000, items: [{ itemTemplateId: 'item_025', quantity: 1 }, { itemTemplateId: 'item_041', quantity: 1 }] },
+    rewards: { exp: 15000, gold: 8000, cultivationExp: 21000, items: [{ itemTemplateId: 'item_041', quantity: 1 }] },
+    pathRewardItems: {
+      [CultivationPath.SWORD]: [{ itemTemplateId: 'item_025', quantity: 1 }],
+      [CultivationPath.SPELL]: [{ itemTemplateId: 'item_106', quantity: 1 }],
+      [CultivationPath.BODY]: [{ itemTemplateId: 'item_107', quantity: 1 }],
+    },
   },
   quest_side_22: {
     id: 'quest_side_22',
@@ -656,5 +701,31 @@ export const QUEST_TEMPLATES: Record<string, QuestTemplate> = {
     chapter: 8,
     objectives: [{ id: 'obj_defeat_supreme_tianzun', description: 'Đánh bại Vạn Đạo Thiên Tôn', type: 'KILL', targetId: 'boss_020', required: 1 }],
     rewards: { exp: 20000, gold: 10000, cultivationExp: 30000, items: [{ itemTemplateId: 'item_042', quantity: 1 }, { itemTemplateId: 'item_095', quantity: 1 }] },
+  },
+  quest_memory_evidence: {
+    id: 'quest_memory_evidence',
+    name: 'Hồi Tưởng: Chứng Tích Thiên Khế',
+    description: 'Trở lại Đan Hà và Cổ Kiếm Di Tích. Nhờ hai nhân chứng nối lời khai về cấm đan với văn bia để Thiên Thư đủ sức phá Thiên Khế.',
+    type: QuestType.SIDE,
+    chapter: 8,
+    prerequisiteQuestId: 'quest_main_23',
+    objectives: [
+      { id: 'obj_memory_dan_ton', description: 'Xin Đan Tôn đối chứng mẫu cấm đan', type: 'TALK', targetId: 'npc_dan_ton', required: 1 },
+      { id: 'obj_memory_sword_spirit', description: 'Xin Kiếm Hồn đối chứng văn bia', type: 'TALK', targetId: 'npc_sword_spirit', required: 1 },
+    ],
+    rewards: { exp: 1200, gold: 600, cultivationExp: 1600, items: [] },
+  },
+  quest_memory_rebirth: {
+    id: 'quest_memory_rebirth',
+    name: 'Hồi Tưởng: Hàn Ngọc Luân Hồi',
+    description: 'Trở lại Kính Tâm và Long Mạch. Ghép ký ức đã niêm phong với lời thề của Sơn Thần để tìm cách chữa lành nhân thế.',
+    type: QuestType.SIDE,
+    chapter: 8,
+    prerequisiteQuestId: 'quest_main_23',
+    objectives: [
+      { id: 'obj_memory_inner_voice', description: 'Nhờ Tiếng Vọng mở hàn ngọc ký ức', type: 'TALK', targetId: 'npc_inner_voice', required: 1 },
+      { id: 'obj_memory_mountain_god', description: 'Nhờ Sơn Thần xác nhận đường hồi sinh linh mạch', type: 'TALK', targetId: 'npc_mountain_god', required: 1 },
+    ],
+    rewards: { exp: 1200, gold: 600, cultivationExp: 1600, items: [] },
   },
 };

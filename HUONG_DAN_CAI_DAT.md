@@ -1,9 +1,9 @@
 # HƯỚNG DẪN CÀI ĐẶT VÀ VẬN HÀNH DỰ ÁN VẠN ĐẠO TRƯỜNG SINH (萬道長生)
 
 > **Tác giả:** BigK  
-> **Repository:** [https://github.com/DJBigH/tutien_game.git](https://github.com/DJBigH/tutien_game.git)  
+> **Repository:** [https://github.com/DJBigH/vandaotruongsinh](https://github.com/DJBigH/vandaotruongsinh)
 > **Thể loại:** Game Tu Tiên ARPG 2D Đồ Họa Cổ Phong — Chiến Đấu Thời Gian Thực Chơi Trực Tiếp Trên Web  
-> **Phiên bản:** 1.0.0  
+> **Phiên bản:** 1.0.2
 
 ---
 
@@ -134,13 +134,14 @@ GRANT ALL PRIVILEGES ON DATABASE vandao TO vandao_user;
 
 ### Bước 5: Khởi tạo Schema & Nạp Dữ Liệu Ban Đầu (Seed Data)
 
-Di chuyển vào thư mục `server` để đồng bộ cơ sở dữ liệu và nạp toàn bộ 150 vật phẩm, 36 kỹ năng, 40 quái vật, 20 boss, và 56 nhiệm vụ:
+Di chuyển vào thư mục `server` để đồng bộ cơ sở dữ liệu và nạp toàn bộ 150 vật phẩm, 36 kỹ năng, 40 quái vật, 20 boss, và 58 nhiệm vụ:
 
 ```bash
 cd server
 
 # Đồng bộ Prisma schema vào PostgreSQL
 npx prisma db push
+npx prisma generate
 
 # Nạp dữ liệu mẫu ban đầu (150 Items, 36 Skills, 20 Bosses, Story...)
 npm run seed
@@ -154,7 +155,7 @@ cd server
 npm run create-admin
 cd ..
 ```
-*(Hoặc sử dụng tài khoản Admin mẫu sẵn có từ seed: Tài khoản: `daochu` | Mật khẩu: `Admin@123456`).*
+Không có mật khẩu quản trị mặc định; hãy tạo tài khoản Owner bằng lệnh trên.
 
 ---
 

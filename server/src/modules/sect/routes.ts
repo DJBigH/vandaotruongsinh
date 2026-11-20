@@ -5,8 +5,13 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { PrismaClient } from '@prisma/client';
 import { authenticate } from '../../middleware/auth';
-import { SECT_DATA, ITEM_TEMPLATES } from '../../data/game-content';
+import { SECT_DATA, ITEM_TEMPLATES, SECT_MISSION_REQUIREMENTS } from '../../data/game-content';
 import { getActiveCharacter } from '../character/helpers';
+import { computeCharacterStats } from '../character/stats';
+import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
+import { CultivationPath } from '@shared';
+
+class MissionRequirementError extends Error {}
 
 export async function sectRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
   const { prisma } = options;
@@ -23,6 +28,12 @@ export async function sectRoutes(fastify: FastifyInstance, options: { prisma: Pr
       if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
 
       const currentSect = char.sectId ? SECT_DATA[char.sectId] : null;
+      const today = new Date().toISOString().slice(0, 10);
+      const claimKeys = currentSect?.missions.map((mission) => `sect_mission_${mission.id}_${today}`) ?? [];
+      const claims = await prisma.rewardClaim.findMany({
+        where: { characterId: char.id, eventKey: { in: claimKeys } }, select: { eventKey: true },
+      });
+      const claimed = new Set(claims.map((claim) => claim.eventKey));
 
       return reply.send({
         success: true,
@@ -37,7 +48,12 @@ export async function sectRoutes(fastify: FastifyInstance, options: { prisma: Pr
           contribution: char.sectContribution,
           reputation: 100,
           shopItems: currentSect?.shopItems || [],
-          missions: currentSect?.missions || [],
+          missions: currentSect?.missions.map((mission) => {
+            const requirement = SECT_MISSION_REQUIREMENTS[mission.id];
+            return { ...mission, completedToday: claimed.has(`sect_mission_${mission.id}_${today}`),
+              requiredItem: requirement && { name: ITEM_TEMPLATES[requirement.templateId]?.name ?? requirement.templateId,
+                quantity: requirement.quantity } };
+          }) || [],
           availableSects: Object.values(SECT_DATA),
         },
       });
@@ -63,23 +79,26 @@ export async function sectRoutes(fastify: FastifyInstance, options: { prisma: Pr
         return reply.status(400).send({ success: false, error: 'Đạo hữu đã là đệ tử của môn phái này' });
       }
 
-      const updated = await prisma.character.update({
-        where: { id: char.id },
-        data: {
-          sectId,
-          sectRank: 'Đệ Tử Ngoại Môn',
-          sectContribution: char.sectContribution, // preserve or reset
-        },
+      const updated = await ArpgSessionManager.getInstance().updateCharacterCombat(char.id, async (tx, current) => {
+        const stats = computeCharacterStats(
+          current.cultivationPath as CultivationPath, current.realmIndex, current.realmTier,
+          current.inventory.filter((item) => item.isEquipped), sectId,
+        );
+        const character = await tx.character.update({
+          where: { id: current.id },
+          data: { sectId, sectRank: 'Đệ Tử Ngoại Môn', stats: { ...stats } },
+        });
+        return { success: true, character };
       });
 
       return reply.send({
         success: true,
         message: `Chúc mừng đạo hữu đã gia nhập [${SECT_DATA[sectId].name}]!`,
         data: {
-          sectId: updated.sectId,
+          sectId: updated.character.sectId,
           sectName: SECT_DATA[sectId].name,
-          sectRank: updated.sectRank,
-          contribution: updated.sectContribution,
+          sectRank: updated.character.sectRank,
+          contribution: updated.character.sectContribution,
         },
       });
     } catch (err: any) {
@@ -107,38 +126,29 @@ export async function sectRoutes(fastify: FastifyInstance, options: { prisma: Pr
         return reply.status(404).send({ success: false, error: 'Nhiệm vụ môn phái không tồn tại' });
       }
 
-      // Check required items if it is an item submission mission
-      let itemToConsume: { templateId: string; quantity: number } | null = null;
-      if (missionId === 'sm_01') itemToConsume = { templateId: 'item_057', quantity: 2 }; // Cổ Kiếm Tủy
-      else if (missionId === 'sm_03') itemToConsume = { templateId: 'item_009', quantity: 5 }; // Hồi Nguyên Đan
-      else if (missionId === 'sm_04') itemToConsume = { templateId: 'item_012', quantity: 5 }; // Linh Thảo
-      else if (missionId === 'sm_06') itemToConsume = { templateId: 'item_010', quantity: 3 }; // Tiểu Hoàn Linh Đan
-      else if (missionId === 'sm_07') itemToConsume = { templateId: 'item_013', quantity: 5 }; // Thiết Khoáng
-      else if (missionId === 'sm_09') itemToConsume = { templateId: 'item_001', quantity: 1 }; // Thanh Phong Kiếm
-
-      if (itemToConsume) {
-        const userItem = char.inventory.find((i) => i.templateId === itemToConsume!.templateId);
-        if (!userItem || userItem.quantity < itemToConsume.quantity) {
-          const tmpl = ITEM_TEMPLATES[itemToConsume.templateId];
-          return reply.status(400).send({
-            success: false,
-            error: `Đạo hữu không đủ nguyên liệu giao nộp! Yêu cầu: ${tmpl?.name || itemToConsume.templateId} x${itemToConsume.quantity}`,
-          });
-        }
+      const requirement = SECT_MISSION_REQUIREMENTS[missionId];
+      if (!requirement) return reply.status(500).send({ success: false, error: 'Thiếu điều kiện nhiệm vụ môn phái' });
+      const eventKey = `sect_mission_${missionId}_${new Date().toISOString().slice(0, 10)}`;
+      if (await prisma.rewardClaim.findUnique({ where: { characterId_eventKey: { characterId: char.id, eventKey } } })) {
+        return reply.status(400).send({ success: false, error: 'Nhiệm vụ hôm nay đã được giao nộp' });
       }
 
-      // Execute reward and item consumption
       await prisma.$transaction(async (tx) => {
-        if (itemToConsume) {
-          const invItem = char.inventory.find((i) => i.templateId === itemToConsume!.templateId)!;
-          if (invItem.quantity === itemToConsume.quantity) {
-            await tx.inventoryItem.delete({ where: { id: invItem.id } });
-          } else {
-            await tx.inventoryItem.update({
-              where: { id: invItem.id },
-              data: { quantity: invItem.quantity - itemToConsume.quantity },
-            });
-          }
+        await tx.rewardClaim.create({ data: { characterId: char.id, eventKey } });
+        const stacks = await tx.inventoryItem.findMany({
+          where: { characterId: char.id, templateId: requirement.templateId }, orderBy: { createdAt: 'asc' },
+        });
+        if (stacks.reduce((total, item) => total + item.quantity, 0) < requirement.quantity) {
+          const itemName = ITEM_TEMPLATES[requirement.templateId]?.name || requirement.templateId;
+          throw new MissionRequirementError(`Cần ${itemName} x${requirement.quantity} để giao nộp`);
+        }
+        let remaining = requirement.quantity;
+        for (const stack of stacks) {
+          if (remaining === 0) break;
+          const consumed = Math.min(stack.quantity, remaining);
+          if (consumed === stack.quantity) await tx.inventoryItem.delete({ where: { id: stack.id } });
+          else await tx.inventoryItem.update({ where: { id: stack.id }, data: { quantity: { decrement: consumed } } });
+          remaining -= consumed;
         }
 
         // Determine if rank can be upgraded
@@ -151,9 +161,9 @@ export async function sectRoutes(fastify: FastifyInstance, options: { prisma: Pr
         await tx.character.update({
           where: { id: char.id },
           data: {
-            sectContribution: newContribution,
+            sectContribution: { increment: mission.contributionReward },
             sectRank: newRank,
-            gold: char.gold + mission.goldReward,
+            gold: { increment: mission.goldReward },
           },
         });
       });
@@ -168,6 +178,8 @@ export async function sectRoutes(fastify: FastifyInstance, options: { prisma: Pr
         },
       });
     } catch (err: any) {
+      if (err instanceof MissionRequirementError) return reply.status(400).send({ success: false, error: err.message });
+      if (err?.code === 'P2002') return reply.status(400).send({ success: false, error: 'Nhiệm vụ hôm nay đã được giao nộp' });
       fastify.log.error(err);
       return reply.status(500).send({ success: false, error: 'Lỗi khi hoàn thành nhiệm vụ môn phái' });
     }
@@ -185,7 +197,7 @@ export async function sectRoutes(fastify: FastifyInstance, options: { prisma: Pr
       }
 
       const { itemId, quantity = 1 } = (request.body as any) || {};
-      if (!itemId || quantity <= 0) {
+      if (!itemId || !Number.isSafeInteger(quantity) || quantity < 1 || quantity > 99) {
         return reply.status(400).send({ success: false, error: 'Vật phẩm hoặc số lượng không hợp lệ' });
       }
 
@@ -209,10 +221,11 @@ export async function sectRoutes(fastify: FastifyInstance, options: { prisma: Pr
       }
 
       await prisma.$transaction(async (tx) => {
-        await tx.character.update({
-          where: { id: char.id },
-          data: { sectContribution: char.sectContribution - totalCost },
+        const debit = await tx.character.updateMany({
+          where: { id: char.id, sectContribution: { gte: totalCost } },
+          data: { sectContribution: { decrement: totalCost } },
         });
+        if (debit.count !== 1) throw new MissionRequirementError('Điểm cống hiến không đủ');
 
         // Add to inventory
         if (template.maxStack > 1) {
@@ -256,6 +269,7 @@ export async function sectRoutes(fastify: FastifyInstance, options: { prisma: Pr
         },
       });
     } catch (err: any) {
+      if (err instanceof MissionRequirementError) return reply.status(400).send({ success: false, error: err.message });
       fastify.log.error(err);
       return reply.status(500).send({ success: false, error: 'Lỗi khi đổi vật phẩm môn phái' });
     }

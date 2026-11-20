@@ -14,6 +14,7 @@ import {
 import { updateQuestProgress, updateQuestProgressBatch } from '../quest/quest-engine';
 import { getActiveCharacter } from '../character/helpers';
 import { ArpgSessionManager, RestorationConflict } from '../../engine/realtime-arpg-engine';
+import { resolvePortalTravel } from './portal-travel';
 
 type CharacterLocation = Pick<Character, 'id' | 'currentMapId' | 'positionX' | 'positionY'>;
 
@@ -101,12 +102,21 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
       const char = await getCharacter(user.userId);
       if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
 
-      const { targetMapId } = (request.body as any) || {};
+      const { targetMapId, portalId } = (request.body as any) || {};
       const targetMap = typeof targetMapId === 'string' && Object.hasOwn(MAP_DATA, targetMapId)
         ? MAP_DATA[targetMapId] : undefined;
       if (!targetMap) return reply.status(404).send({ success: false, error: 'Bản đồ đích không tồn tại' });
+      let arrival: Position | undefined;
+      if (portalId !== undefined) {
+        const location = getLocation(char);
+        const travel = location.map && location.canInteract && typeof portalId === 'string'
+          ? resolvePortalTravel(location.map, location.position, portalId, targetMapId)
+          : null;
+        if (!travel) return reply.status(400).send({ success: false, error: 'Cần đến gần cổng dịch chuyển hợp lệ' });
+        arrival = travel.position;
+      }
 
-      const position = await sessions.teleportCharacter(char.id, targetMap);
+      const position = await sessions.teleportCharacter(char.id, targetMap, arrival);
 
       return reply.send({
         success: true,

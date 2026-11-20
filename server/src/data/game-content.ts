@@ -129,7 +129,7 @@ export const SECT_DATA: Record<string, SectData> = {
     ],
     missions: [
       { id: 'sm_01', name: 'Thu Thập Kiếm Tủy', description: 'Đến Kiếm Trũng thu thập 2 mảnh Cổ Kiếm Tủy', contributionReward: 100, goldReward: 50 },
-      { id: 'sm_02', name: 'Trảm Yêu Trừ Ma', description: 'Tiêu diệt 5 con Kiếm Khí Khôi Lỗi trong tông môn', contributionReward: 120, goldReward: 60 },
+      { id: 'sm_02', name: 'Củng Cố Khôi Lỗi', description: 'Giao 5 khối Thiết Khoáng để sửa khôi lỗi thí luyện', contributionReward: 120, goldReward: 60 },
       { id: 'sm_03', name: 'Trợ Giúp Đồng Môn', description: 'Giao nộp 5 viên Hồi Nguyên Đan cho dược phòng', contributionReward: 80, goldReward: 40 },
     ],
   },
@@ -139,7 +139,7 @@ export const SECT_DATA: Record<string, SectData> = {
     description: 'Môn phái đan đạo số một thiên hạ, nắm giữ phương thức luyện chế mọi tiên đan tuyệt phẩm.',
     leaderName: 'Đan Tôn Liễu Nhược Vân',
     specialization: 'Đan Đạo (Tăng Linh Lực & Khả Năng Hồi Phục)',
-    buffDescription: 'Tăng 15% Hiệu quả hồi phục đan dược và 10% Linh lực tối đa',
+    buffDescription: 'Tăng 10% Linh lực tối đa khi xuất chiến',
     shopItems: [
       { itemId: 'item_017', name: 'Hàn Băng Thần Trượng', priceContribution: 300, quality: ItemQuality.MYSTIC },
       { itemId: 'item_044', name: 'Đan Hà Dược Kinh', priceContribution: 250, quality: ItemQuality.MYSTIC },
@@ -149,7 +149,7 @@ export const SECT_DATA: Record<string, SectData> = {
     ],
     missions: [
       { id: 'sm_04', name: 'Hái Thuốc Đan Hà', description: 'Thu thập 5 nhánh Linh Thảo giao cho đan phòng', contributionReward: 90, goldReward: 45 },
-      { id: 'sm_05', name: 'Trừ Độc Hỏa Viêm Mãng', description: 'Tiêu diệt 4 con Hỏa Viêm Mãng quanh lò luyện', contributionReward: 130, goldReward: 70 },
+      { id: 'sm_05', name: 'Da Mãng Hộ Lò', description: 'Giao 4 tấm Thú Bì để bọc lò đan chống hỏa độc', contributionReward: 130, goldReward: 70 },
       { id: 'sm_06', name: 'Luyện Đan Đóng Góp', description: 'Luyện 3 viên Tiểu Hoàn Linh Đan nộp cho chấp sự', contributionReward: 110, goldReward: 55 },
     ],
   },
@@ -169,10 +169,22 @@ export const SECT_DATA: Record<string, SectData> = {
     ],
     missions: [
       { id: 'sm_07', name: 'Khai Thác Thiết Khoáng', description: 'Khai thác 5 khối Thiết Khoáng về cho lò rèn', contributionReward: 100, goldReward: 50 },
-      { id: 'sm_08', name: 'Thí Luyện Thể Lực', description: 'Đánh bại 5 con Sói Tinh rèn luyện cơ bắp', contributionReward: 140, goldReward: 80 },
-      { id: 'sm_09', name: 'Rèn Kiếm Giao Nộp', description: 'Rèn 1 thanh Thanh Phong Kiếm cống hiến cho đường môn', contributionReward: 120, goldReward: 60 },
+      { id: 'sm_08', name: 'Rèn Giáp Từ Thú Bì', description: 'Giao 5 tấm Thú Bì để luyện giáp hộ thân', contributionReward: 140, goldReward: 80 },
+      { id: 'sm_09', name: 'Tôi Luyện Tinh Thiết', description: 'Giao 8 khối Thiết Khoáng cho lò rèn', contributionReward: 120, goldReward: 60 },
     ],
   },
+};
+
+export const SECT_MISSION_REQUIREMENTS: Record<string, { templateId: string; quantity: number }> = {
+  sm_01: { templateId: 'item_057', quantity: 2 },
+  sm_02: { templateId: 'item_013', quantity: 5 },
+  sm_03: { templateId: 'item_009', quantity: 5 },
+  sm_04: { templateId: 'item_012', quantity: 5 },
+  sm_05: { templateId: 'item_014', quantity: 4 },
+  sm_06: { templateId: 'item_010', quantity: 3 },
+  sm_07: { templateId: 'item_013', quantity: 5 },
+  sm_08: { templateId: 'item_014', quantity: 5 },
+  sm_09: { templateId: 'item_013', quantity: 8 },
 };
 
 // === 6 Linh Thú (Pets) ===

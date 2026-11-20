@@ -243,3 +243,37 @@ test('Thanh Khê forest has black wolves for the second main quest', () => {
   const session = new ArpgGameSession(character, forest.id);
   assert.ok(session.monsters.filter((monster) => monster.templateId === 'mon_002').length >= 2);
 });
+
+test('every map objective and portal is reachable from its spawn', () => {
+  const failures: string[] = [];
+  for (const map of Object.values(MAP_TEMPLATES)) {
+    const size = map.tileSize;
+    const start = { x: map.spawnPoint.x * size, y: map.spawnPoint.y * size };
+    const key = (x: number, y: number) => `${x},${y}`;
+    const queue = [start];
+    const visited = new Set([key(start.x, start.y)]);
+    for (const point of queue) {
+      for (const [dx, dy] of [[size, 0], [-size, 0], [0, size], [0, -size]]) {
+        const next = { x: point.x + dx, y: point.y + dy };
+        const id = key(next.x, next.y);
+        if (visited.has(id) || !shared.isWorldPositionWalkable(map, next)) continue;
+        visited.add(id);
+        queue.push(next);
+      }
+    }
+    for (const target of [...map.npcs, ...map.monsters, ...map.interactables]) {
+      const point = { x: target.position.x * size, y: target.position.y * size };
+      if (!visited.has(key(point.x, point.y))) failures.push(`${map.id}/${target.id}`);
+    }
+    for (const portal of map.portals) {
+      const point = { x: portal.position.x * size, y: portal.position.y * size };
+      if (!visited.has(key(point.x, point.y))) failures.push(`${map.id}/${portal.id}`);
+      const target = MAP_TEMPLATES[portal.targetMapId];
+      if (!target || !shared.isWorldPositionWalkable(target, {
+        x: portal.targetPosition.x * target.tileSize,
+        y: portal.targetPosition.y * target.tileSize,
+      })) failures.push(`${map.id}/${portal.id}:landing`);
+    }
+  }
+  assert.deepEqual(failures, []);
+});

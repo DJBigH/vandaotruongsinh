@@ -12,6 +12,7 @@ export default function SectPanel() {
   const [sectInfo, setSectInfo] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<'missions' | 'shop'>('missions');
   const [actionLoading, setActionLoading] = useState(false);
+  const [showSects, setShowSects] = useState(false);
 
   async function fetchSect() {
     try {
@@ -38,6 +39,7 @@ export default function SectPanel() {
       if (res.success) {
         addNotification(res.message || 'Gia nhập môn phái thành công!', 'success');
         await fetchSect();
+        setShowSects(false);
         await loadCharacter();
       }
     } catch (err: any) {
@@ -111,6 +113,11 @@ export default function SectPanel() {
               {sectInfo?.sectId ? `${sectInfo.rankName} | Điểm cống hiến: ${sectInfo.contribution}` : 'Chưa gia nhập môn phái'}
             </div>
           </div>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          {sectInfo?.sectId && <button onClick={() => setShowSects((shown) => !shown)}
+            style={{ background: '#243444', border: '1px solid #c5a059', color: '#ffd700', borderRadius: '6px', padding: '7px 10px', cursor: 'pointer' }}>
+            {showSects ? 'Về môn phái' : 'Ba môn phái'}
+          </button>}
           <button
             onClick={() => setActivePanel(null)}
             style={{
@@ -123,11 +130,12 @@ export default function SectPanel() {
           >
             ✕
           </button>
+          </div>
         </div>
 
         {loading ? (
           <div style={{ padding: '40px', textAlign: 'center', color: '#90a4ae' }}>Đang tải dữ liệu tông môn...</div>
-        ) : !sectInfo?.sectId ? (
+        ) : !sectInfo?.sectId || showSects ? (
           /* Sect Selection View */
           <div style={{ marginTop: '16px', overflowY: 'auto', paddingRight: '8px' }}>
             <p style={{ color: '#cfd8dc', fontSize: '0.9rem', marginBottom: '16px' }}>
@@ -162,7 +170,7 @@ export default function SectPanel() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
                     <span style={{ fontSize: '0.8rem', color: '#78909c' }}>Chưởng môn: {sect.leaderName}</span>
                     <button
-                      disabled={actionLoading}
+                      disabled={actionLoading || sectInfo?.sectId === sect.id}
                       onClick={() => handleJoin(sect.id)}
                       style={{
                         background: '#c5a059',
@@ -175,7 +183,7 @@ export default function SectPanel() {
                         fontSize: '0.85rem',
                       }}
                     >
-                      Bái Nhập Sơn Môn
+                      {sectInfo?.sectId === sect.id ? 'Đang Gia Nhập' : 'Bái Nhập Sơn Môn'}
                     </button>
                   </div>
                 </div>
@@ -244,9 +252,12 @@ export default function SectPanel() {
                         <div style={{ fontSize: '0.8rem', color: '#ffd700', marginTop: '4px' }}>
                           Thưởng: +{m.contributionReward} Cống hiến, +{m.goldReward} Linh thạch
                         </div>
+                        {m.requiredItem && <div style={{ fontSize: '0.8rem', color: '#b0bec5', marginTop: '4px' }}>
+                          Cần giao: {m.requiredItem.name} ×{m.requiredItem.quantity}
+                        </div>}
                       </div>
                       <button
-                        disabled={actionLoading}
+                        disabled={actionLoading || m.completedToday}
                         onClick={() => handleCompleteMission(m.id)}
                         style={{
                           background: '#2e7d32',
@@ -260,7 +271,7 @@ export default function SectPanel() {
                           whiteSpace: 'nowrap',
                         }}
                       >
-                        Giao Nộp
+                        {m.completedToday ? 'Đã xong hôm nay' : 'Giao Nộp'}
                       </button>
                     </div>
                   ))}

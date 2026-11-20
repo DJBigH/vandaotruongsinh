@@ -30,20 +30,15 @@ export default function TowerPanel() {
     fetchTower();
   }, []);
 
-  async function handleChallenge(bossId: string) {
+  async function handleChallenge(floor: number) {
     try {
-      setActivePanel(null);
-      const res = await gameApi.startCombat(bossId);
-      if (res.success && res.data) {
-        // Trigger combat scene in Phaser
-        const gameInstance = (window as any).phaserGame;
-        if (gameInstance) {
-          gameInstance.scene.stop('ExplorationScene');
-          gameInstance.scene.start('CombatScene', { combatState: res.data });
-        }
-      }
+      setActionLoading(true);
+      const res = await gameApi.challengeTowerFloor(floor);
+      if (res.success) { setActivePanel(null); addNotification(res.message || 'Đã vào Trấn Yêu Tháp', 'success'); }
     } catch (err: any) {
       addNotification(err.response?.data?.error || 'Không thể khiêu chiến tầng tháp', 'error');
+    } finally {
+      setActionLoading(false);
     }
   }
 
@@ -92,7 +87,7 @@ export default function TowerPanel() {
               🗼 Trấn Yêu Tháp (Endgame Boss Rush)
             </h2>
             <div style={{ fontSize: '0.85rem', color: '#90a4ae', marginTop: '2px' }}>
-              Nơi phong ấn 6 đại ma thần và kiếm tổ viễn cổ. Thử thách tối thượng cho bậc đại tu sĩ!
+              Chọn tầng rồi hạ boss trực tiếp trên bản đồ. Vượt tầng trước để mở tầng kế tiếp.
             </div>
           </div>
           <button
@@ -156,6 +151,7 @@ export default function TowerPanel() {
                           ✅ Đã Vượt Ải
                         </span>
                       )}
+                      {fl.isClaimed && <span style={{ fontSize: '0.75rem', color: '#81c784' }}>Đã nhận thưởng</span>}
                     </div>
 
                     <div style={{ fontSize: '0.85rem', color: '#cfd8dc', marginTop: '4px' }}>
@@ -171,8 +167,8 @@ export default function TowerPanel() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', minWidth: '110px' }}>
                   <button
-                    disabled={actionLoading}
-                    onClick={() => handleChallenge(fl.bossId)}
+                    disabled={actionLoading || !fl.isUnlocked}
+                    onClick={() => handleChallenge(fl.floor)}
                     style={{
                       background: '#b71c1c',
                       color: '#fff',
@@ -184,9 +180,9 @@ export default function TowerPanel() {
                       cursor: 'pointer',
                     }}
                   >
-                    ⚔️ Khiêu Chiến
+                    {fl.isActive ? '⚔️ Đang Trong Tầng' : fl.isUnlocked ? '⚔️ Khiêu Chiến' : '🔒 Chưa Mở'}
                   </button>
-                  {fl.isCleared && (
+                  {fl.isCleared && !fl.isClaimed && (
                     <button
                       disabled={actionLoading}
                       onClick={() => handleClaim(fl.floor)}

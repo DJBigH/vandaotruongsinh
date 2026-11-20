@@ -216,6 +216,20 @@ test('retrying a teleport preserves the active destination position and encounte
   assert.equal(session.projectiles[0]?.id, 'in-flight');
 });
 
+test('portal travel requires proximity and uses the configured arrival rather than map spawn', async (t) => {
+  const game = await setup(t);
+  const { session } = await game.connect();
+  assert.equal((await game.post('/maps/teleport', { targetMapId: 'map_thanh_van' })).statusCode, 200);
+  const portal = { targetMapId: village.id, portalId: 'portal_back_village' };
+  assert.equal((await game.post('/maps/teleport', portal)).statusCode, 400);
+  Object.assign(session.player, { x: 12 * 32, y: 24 * 32 });
+  assert.equal((await game.post('/maps/teleport', { ...portal, targetMapId: forest.id })).statusCode, 400);
+  const response = await game.post('/maps/teleport', portal);
+  assert.equal(response.statusCode, 200);
+  assert.deepEqual(response.json().data.position, { x: 12 * 32, y: 2 * 32 });
+  assert.deepEqual([session.mapId, session.player.x, session.player.y], [village.id, 12 * 32, 2 * 32]);
+});
+
 test('chest interaction checks live position and only one simultaneous request rewards the player', async (t) => {
   const game = await setup(t, chest);
   const { session } = await game.connect();

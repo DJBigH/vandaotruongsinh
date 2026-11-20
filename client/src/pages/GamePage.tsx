@@ -21,6 +21,7 @@ import SettingsPanel from '../components/game/SettingsPanel';
 import SectPanel from '../components/game/SectPanel';
 import CavePanel from '../components/game/CavePanel';
 import PetPanel from '../components/game/PetPanel';
+import DisciplePanel from '../components/game/DisciplePanel';
 import OfflineModal from '../components/game/OfflineModal';
 import StoryJournalPanel from '../components/game/StoryJournalPanel';
 import TowerPanel from '../components/game/TowerPanel';
@@ -169,6 +170,7 @@ export default function GamePage() {
           {activePanel === 'sect' && <SectPanel />}
           {activePanel === 'cave' && <CavePanel />}
           {activePanel === 'pets' && <PetPanel />}
+          {activePanel === 'disciple' && <DisciplePanel />}
           {activePanel === 'offline' && <OfflineModal />}
           {activePanel === 'story' && <StoryJournalPanel />}
           {activePanel === 'tower' && <TowerPanel />}

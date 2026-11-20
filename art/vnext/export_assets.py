@@ -132,6 +132,52 @@ def export_hero():
     pack_character('player_respawn', [[row[5],row[2],row[0]] for row in states], 8, 500, reference)
 
 
+def export_other_paths():
+    """Export the two original V1.0.2 path actors in the hero's runtime layout.
+
+    Reference sheets are 2x2 in down/right/left/up order. Walk and action
+    sheets already follow the runtime up/left/down/right row contract. The
+    source frames are never mirrored, painted, or replaced by block sprites.
+    """
+    for role, source in [('magic', 'phap-tu'), ('body', 'the-tu')]:
+        reference = split_sheet(f'{source}-reference-v102.png', 2, 2)
+        idle = [reference[1][1], reference[1][0], reference[0][0], reference[0][1]]
+        walk = split_sheet(f'{source}-walk-v102.png', 4, 4)
+        slash = split_sheet(f'{source}-slash-v102.png', 3, 4)
+        cast = split_sheet(f'{source}-cast-v102.png', 3, 4)
+        states = split_sheet(f'{source}-states-v102.png', 4, 4)
+
+        # Idle uses the approved standing reference. Duplicating the drawing
+        # keeps the two-frame runtime contract without inventing new anatomy.
+        pack_character(f'player_{role}_idle', [[frame, frame] for frame in idle], 4, 1000)
+        pack_character(f'player_{role}_walk', walk, 16, 500)
+        pack_character(f'player_{role}_slash', slash, 12, 6/14*1000)
+        pack_character(f'player_{role}_cast', cast, 12, 7/12*1000)
+        pack_character(f'player_{role}_dodge',
+                       [[walk[r][0], states[r][0], walk[r][2]] for r in range(4)],
+                       12, 5/16*1000)
+        pack_character(f'player_{role}_hurt',
+                       [[states[r][1], states[r][2]] for r in range(4)], 8, 500)
+        pack_character(f'player_{role}_death',
+                       [[states[r][1], states[r][2], states[r][3]] for r in range(4)],
+                       12, 1000)
+        pack_character(f'player_{role}_respawn',
+                       [[states[r][3], states[r][2], walk[r][0]] for r in range(4)],
+                       12, 500)
+
+
+def export_disciple():
+    """Liễu Muội has her own identity and four-direction follower actions."""
+    walk = split_sheet('lieu-muoi-walk-v102.png', 4, 4)
+    attack = split_sheet('lieu-muoi-attack-v102.png', 3, 4)
+    cast = split_sheet('lieu-muoi-cast-v102.png', 3, 4)
+    # The passing stance is stable for idle; a held drawing avoids foot drift.
+    pack_character('disciple_lieu_muoi_idle', [[row[1], row[1]] for row in walk], 4, 1000)
+    pack_character('disciple_lieu_muoi_walk', walk, 16, 500)
+    pack_character('disciple_lieu_muoi_attack', attack, 12, 6/14*1000)
+    pack_character('disciple_lieu_muoi_cast', cast, 12, 7/12*1000)
+
+
 def export_props():
     rows = split_sheet('thanh-khe-props-v1.png', 4, 4)
     specs = [('building_hall',384),('building_herbalist',320),('building_barracks',320),('building_house',224),
@@ -176,6 +222,7 @@ def export_ground():
 
 def write_qa():
     tiles = []
+    follower_tiles = []
     for item in manifest['assets']:
         if item['type'] != 'spritesheet':continue
         sheet = Image.open(ROOT/'client/public'/item['file'])
@@ -185,11 +232,19 @@ def write_qa():
         label.paste(sheet.resize((sheet.width*2,sheet.height*2),Image.Resampling.NEAREST),(0,28),
                     sheet.resize((sheet.width*2,sheet.height*2),Image.Resampling.NEAREST))
         tiles.append(label)
+        if item['key'].startswith('disciple_lieu_muoi_'):
+            follower_tiles.append(label)
     if tiles:
         contact=Image.new('RGB',(max(im.width for im in tiles),sum(im.height for im in tiles)),(28,36,31))
         y=0
         for im in tiles:contact.paste(im,(0,y));y+=im.height
         contact.save(QA/'sprites-contact-sheet.png')
+    if len(follower_tiles) == 4:
+        # Focused 2x nearest-neighbor reference; gameplay files stay at 1x.
+        focus = Image.new('RGB', (1024, 1080), (28, 36, 31))
+        for index, tile in enumerate(follower_tiles):
+            focus.paste(tile, ((index % 2) * 512, (index // 2) * 540))
+        focus.save(QA/'lieu-muoi-v102-contact-sheet.png')
     for item in manifest['assets']:
         path=ROOT/'client/public'/item['file']
         item['sha256']=hashlib.sha256(path.read_bytes()).hexdigest()
@@ -198,7 +253,7 @@ def write_qa():
 
 
 if __name__=='__main__':
-    export_hero();export_props()
+    export_hero();export_other_paths();export_disciple();export_props()
     if (SOURCE/'thanh-khe-npcs-v1.png').exists():export_npcs()
     if (SOURCE/'forest-creatures-v1.png').exists():export_creatures()
     if (SOURCE/'ground-materials-v1.png').exists():export_ground()

@@ -1,139 +1,113 @@
-// ============================================================
-// VẠN ĐẠO TRƯỜNG SINH - Story & Narrative Journal Routes
-// ============================================================
-
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { PrismaClient } from '@prisma/client';
 import { StoryEndingType } from '@shared';
 import { authenticate } from '../../middleware/auth';
-import { STORY_CHAPTERS, STORY_ENDINGS } from '../../data/game-content';
+import { getEndingChoices, getStoryChaptersForProgress, STORY_ENDINGS } from '../../data/story';
 import { getActiveCharacter } from '../character/helpers';
+
+const ENDING_REWARD_GOLD = 1000;
 
 export async function storyRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
   const { prisma } = options;
 
-  async function getCharacter(userId: string) {
-    return getActiveCharacter(prisma, userId);
+  async function storyState(userId: string) {
+    const char = await getActiveCharacter(prisma, userId);
+    if (!char) return null;
+    const turnedIn = new Set(char.quests.filter((quest) => quest.status === 'TURNED_IN').map((quest) => quest.questId));
+    const chosenKey = char.storyFlags.find((flag) => flag.flagKey === 'CHOSEN_ENDING')?.flagValue as StoryEndingType | undefined;
+    const seenEndings = Object.values(StoryEndingType).filter((ending) =>
+      ending === chosenKey || char.storyFlags.some((flag) => flag.flagKey === `ENDING_SEEN_${ending}`));
+    return {
+      chapters: getStoryChaptersForProgress(turnedIn),
+      endingChoices: getEndingChoices(turnedIn),
+      currentEnding: chosenKey && STORY_ENDINGS[chosenKey] ? chosenKey : null,
+      chosenEnding: chosenKey && STORY_ENDINGS[chosenKey] ? STORY_ENDINGS[chosenKey] : null,
+      seenEndings,
+      storyComplete: turnedIn.has('quest_main_24'),
+      preparationAvailable: turnedIn.has('quest_main_23'),
+    };
   }
 
-  // GET /api/game/story/chapters - Get chapter progress
   fastify.get('/story/chapters', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
     try {
-      const user = (request as any).user;
-      const char = await getCharacter(user.userId);
-      if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
-
-      // Check completed quests to determine completed chapters
-      const turnedInQuests = new Set(char.quests.filter((q) => q.status === 'TURNED_IN').map((q) => q.questId));
-
-      const chapterCompletion: Record<number, boolean> = {
-        1: turnedInQuests.has('quest_main_03'),
-        2: turnedInQuests.has('quest_main_06'),
-        3: turnedInQuests.has('quest_main_09'),
-        4: turnedInQuests.has('quest_main_12'),
-        5: turnedInQuests.has('quest_main_15'),
-        6: turnedInQuests.has('quest_main_18'),
-        7: turnedInQuests.has('quest_main_21'),
-        8: turnedInQuests.has('quest_main_24'),
-      };
-
-      const endingFlag = char.storyFlags.find((f) => f.flagKey === 'CHOSEN_ENDING');
-
-      const chapters = Object.values(STORY_CHAPTERS).map((ch) => ({
-        chapter: ch.chapter,
-        title: ch.title,
-        location: ch.location,
-        openingEvent: ch.openingEvent,
-        climaxEvent: ch.climaxEvent,
-        summary: ch.summary,
-        isCompleted: Boolean(chapterCompletion[ch.chapter]),
-        majorNPCs: ch.majorNPCs,
-      }));
-
-      return reply.send({
-        success: true,
-        data: {
-          chapters,
-          currentEnding: endingFlag?.flagValue || null,
-        },
-      });
-    } catch (err: any) {
-      fastify.log.error(err);
+      const state = await storyState((request as any).user.userId);
+      if (!state) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
+      return reply.send({ success: true, data: state });
+    } catch (err) {
+      request.log.error(err);
       return reply.status(500).send({ success: false, error: 'Lỗi khi tải tiến trình cốt truyện' });
     }
   });
 
-  // GET /api/game/story/journal - Get chronicle history for re-reading
   fastify.get('/story/journal', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
     try {
-      const user = (request as any).user;
-      const char = await getCharacter(user.userId);
-      if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
-
-      const turnedInQuests = new Set(char.quests.filter((q) => q.status === 'TURNED_IN').map((q) => q.questId));
-      const unlockedChapters = Object.values(STORY_CHAPTERS).filter((ch) => {
-        if (ch.chapter === 1) return true;
-        const prevKey = `quest_main_${String((ch.chapter - 1) * 3).padStart(2, '0')}`;
-        return turnedInQuests.has(prevKey);
-      });
-
-      const endingFlag = char.storyFlags.find((f) => f.flagKey === 'CHOSEN_ENDING');
-      const endingDetail = endingFlag ? STORY_ENDINGS[endingFlag.flagValue as StoryEndingType] : null;
-
+      const state = await storyState((request as any).user.userId);
+      if (!state) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
       return reply.send({
         success: true,
-        data: {
-          unlockedChapters,
-          chosenEnding: endingDetail,
-        },
+        data: { unlockedChapters: state.chapters, chosenEnding: state.chosenEnding, endingChoices: state.endingChoices, seenEndings: state.seenEndings },
       });
-    } catch (err: any) {
-      fastify.log.error(err);
+    } catch (err) {
+      request.log.error(err);
       return reply.status(500).send({ success: false, error: 'Lỗi khi tải nhật ký cốt truyện' });
     }
   });
 
-  // POST /api/game/story/end - Choose final world outcome
   fastify.post('/story/end', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const { ending } = (request.body as { ending?: unknown } | null) ?? {};
+    if (typeof ending !== 'string' || !Object.hasOwn(STORY_ENDINGS, ending)) {
+      return reply.status(400).send({ success: false, error: 'Kết cục không hợp lệ' });
+    }
+
     try {
-      const user = (request as any).user;
-      const char = await getCharacter(user.userId);
+      const char = await getActiveCharacter(prisma, (request as any).user.userId);
       if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
 
-      const { ending } = (request.body as any) || {};
-      if (!ending || !STORY_ENDINGS[ending as StoryEndingType]) {
-        return reply.status(400).send({ success: false, error: 'Kết cục không hợp lệ' });
-      }
+      const outcome = await prisma.$transaction(async (tx) => {
+        await tx.$queryRaw`SELECT id FROM characters WHERE id = ${char.id}::uuid FOR UPDATE`;
+        const [quests, chosenFlag, seenFlag, claim] = await Promise.all([
+          tx.characterQuest.findMany({ where: { characterId: char.id, questId: { in: ['quest_main_24', 'quest_memory_evidence', 'quest_memory_rebirth'] }, status: 'TURNED_IN' } }),
+          tx.storyFlag.findUnique({ where: { characterId_flagKey: { characterId: char.id, flagKey: 'CHOSEN_ENDING' } } }),
+          tx.storyFlag.findUnique({ where: { characterId_flagKey: { characterId: char.id, flagKey: `ENDING_SEEN_${ending}` } } }),
+          tx.rewardClaim.findUnique({ where: { characterId_eventKey: { characterId: char.id, eventKey: `story_ending_${ending}` } } }),
+        ]);
+        const choice = getEndingChoices(new Set(quests.map((quest) => quest.questId))).find((candidate) => candidate.type === ending)!;
+        if (!choice.canChoose) return { denied: choice.missing.join(' '), firstView: false };
 
-      const endingDetail = STORY_ENDINGS[ending as StoryEndingType];
+        await tx.storyFlag.upsert({
+          where: { characterId_flagKey: { characterId: char.id, flagKey: 'STORY_CHECKPOINT' } },
+          create: { characterId: char.id, flagKey: 'STORY_CHECKPOINT', flagValue: 'BEFORE_FINAL_CHOICE' },
+          update: { flagValue: 'BEFORE_FINAL_CHOICE' },
+        });
+        await tx.storyFlag.upsert({
+          where: { characterId_flagKey: { characterId: char.id, flagKey: 'CHOSEN_ENDING' } },
+          create: { characterId: char.id, flagKey: 'CHOSEN_ENDING', flagValue: ending },
+          update: { flagValue: ending },
+        });
+        await tx.storyFlag.upsert({
+          where: { characterId_flagKey: { characterId: char.id, flagKey: `ENDING_SEEN_${ending}` } },
+          create: { characterId: char.id, flagKey: `ENDING_SEEN_${ending}`, flagValue: 'SEEN' },
+          update: {},
+        });
 
-      // Save ending in story flags
-      await prisma.storyFlag.upsert({
-        where: {
-          characterId_flagKey: {
-            characterId: char.id,
-            flagKey: 'CHOSEN_ENDING',
-          },
-        },
-        create: {
-          characterId: char.id,
-          flagKey: 'CHOSEN_ENDING',
-          flagValue: ending,
-        },
-        update: {
-          flagValue: ending,
-        },
+        // A legacy CHOSEN_ENDING is already a viewed ending, even if it predates RewardClaim.
+        const firstView = !claim && !seenFlag && chosenFlag?.flagValue !== ending;
+        if (!claim) {
+          await tx.rewardClaim.create({ data: { characterId: char.id, eventKey: `story_ending_${ending}` } });
+          if (firstView) await tx.character.update({ where: { id: char.id }, data: { gold: { increment: ENDING_REWARD_GOLD } } });
+        }
+        return { denied: null, firstView };
       });
 
+      if (outcome.denied) return reply.status(400).send({ success: false, error: outcome.denied });
+      const endingDetail = STORY_ENDINGS[ending as StoryEndingType];
       return reply.send({
         success: true,
-        message: `Đạo hữu đã hoàn thành đại kết cục: [${endingDetail.title}]!`,
-        data: {
-          ending: endingDetail,
-        },
+        message: `Đã xem kết cục: ${endingDetail.title}. Có thể tiếp tục tu luyện từ mốc trước quyết định.`,
+        data: { ending: endingDetail, firstView: outcome.firstView, rewardGold: outcome.firstView ? ENDING_REWARD_GOLD : 0 },
       });
-    } catch (err: any) {
-      fastify.log.error(err);
+    } catch (err) {
+      request.log.error(err);
       return reply.status(500).send({ success: false, error: 'Lỗi khi lưu kết cục' });
     }
   });

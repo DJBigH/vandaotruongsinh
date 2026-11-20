@@ -1,7 +1,7 @@
 // ============================================================
 // VẠN ĐẠO TRƯỜNG SINH - Phase 3 Automated Verification Test Suite
 // Full Scope: 8 Chapters, 20 Bosses, 150 Items, 36 Skills,
-// 40 Monsters, 56 Quests, 10 Maps, 3 Endings & Trấn Yêu Tháp
+// 40 Monsters, 58 Quests, 10 Maps, 3 Endings & Trấn Yêu Tháp
 // ============================================================
 
 import './require-disposable-database';
@@ -30,7 +30,7 @@ async function runPhase3Tests() {
   console.log('====================================================');
   console.log('🧪 BẮT ĐẦU KIỂM THỬ TỰ ĐỘNG GIAI ĐOẠN 3 (HOÀN THIỆN)');
   console.log('   (8 Chương, 20 Boss, 150 Vật Phẩm, 36 Kỹ Năng,');
-  console.log('    40 Quái, 56 Nhiệm Vụ, 10 Bản Đồ, 3 Kết Cục & Tháp)');
+  console.log('    40 Quái, 58 Nhiệm Vụ, 10 Bản Đồ, 3 Kết Cục & Tháp)');
   console.log('====================================================\n');
 
   let passed = 0;
@@ -70,7 +70,7 @@ async function runPhase3Tests() {
   assert(skillCount === 36, `Đầy đủ 36 kỹ năng chủ động/bị động chia đều cho 3 hướng tu luyện (12 Kiếm, 12 Pháp, 12 Thể) (Hiện có: ${skillCount})`);
 
   const questCount = Object.keys(QUEST_TEMPLATES).length;
-  assert(questCount === 56, `Đầy đủ 56 nhiệm vụ (24 chính tuyến, 24 phụ tuyến, 8 ẩn tuyến qua 8 chương) (Hiện có: ${questCount})`);
+  assert(questCount === 58, `Đầy đủ 58 nhiệm vụ (24 chính tuyến, 24 phụ tuyến, 8 ẩn tuyến và 2 nhiệm vụ chuẩn bị kết cục) (Hiện có: ${questCount})`);
 
   const mapCount = Object.keys(MAP_TEMPLATES).length;
   assert(mapCount === 10, `Đầy đủ 10 bản đồ thế giới (8 chương cốt truyện, 1 rừng săn, 1 Trấn Yêu Tháp) (Hiện có: ${mapCount})`);
@@ -128,7 +128,7 @@ async function runPhase3Tests() {
     },
   });
 
-  // Choose Ending 3: REWRITE_PACT (Viết lại Thiên Khế: Vạn Đạo Trường Sinh)
+  // Legacy REWRITE_PACT save key now carries the Luân Hồi ending.
   const chosenEnding = StoryEndingType.REWRITE_PACT;
   await prisma.storyFlag.create({
     data: {
@@ -146,10 +146,10 @@ async function runPhase3Tests() {
       },
     },
   });
-  assert(savedEnding?.flagValue === StoryEndingType.REWRITE_PACT, 'Lựa chọn đại kết cục [Viết Lại Thiên Khế: Vạn Đạo Trường Sinh] thành công');
+  assert(savedEnding?.flagValue === StoryEndingType.REWRITE_PACT, 'Lựa chọn đại kết cục [Luân Hồi Trọng Sinh] thành công');
 
   const endingDetail = STORY_ENDINGS[StoryEndingType.REWRITE_PACT];
-  assert(endingDetail.unlockedTitle === 'Vạn Đạo Trường Sinh Đại Đế', 'Khai mở danh hiệu tối thượng [Vạn Đạo Trường Sinh Đại Đế]');
+  assert(endingDetail.unlockedTitle === 'Người Gieo Mầm Luân Hồi', 'Khai mở danh hiệu [Người Gieo Mầm Luân Hồi]');
 
   // 4. Trấn Yêu Tháp (Demon Subduing Tower - Endgame Boss Rush)
   console.log('\n--- 4. Kiểm Thử Trấn Yêu Tháp (Endgame Content) ---');

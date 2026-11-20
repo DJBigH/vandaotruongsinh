@@ -1,9 +1,10 @@
 # VẠN ĐẠO TRƯỜNG SINH (萬道長生)
 
 > **Tác giả:** BigK  
-> **Kho lưu trữ mã nguồn (Repository):** [https://github.com/DJBigH/tutien_game.git](https://github.com/DJBigH/tutien_game.git)  
-> **Hướng dẫn cài đặt chi tiết:** Xem tệp [HUONG_DAN_CAI_DAT.md](file:///e:/tutienAI/HUONG_DAN_CAI_DAT.md)  
-> **Hướng dẫn sử dụng Launcher Desktop:** Xem tệp [LAUNCHER_GUIDE.md](file:///e:/tutienAI/LAUNCHER_GUIDE.md)  
+> **Phiên bản:** 1.0.2
+> **Kho lưu trữ mã nguồn:** [DJBigH/vandaotruongsinh](https://github.com/DJBigH/vandaotruongsinh)
+> **Hướng dẫn cài đặt:** [HUONG_DAN_CAI_DAT.md](HUONG_DAN_CAI_DAT.md)
+> **Hướng dẫn Launcher:** [LAUNCHER_GUIDE.md](LAUNCHER_GUIDE.md)
 
 **Game Tu Tiên ARPG 2D Đồ Họa Cổ Phong — Chiến Đấu Thời Gian Thực Chơi Trực Tiếp Trên Web**
 
@@ -29,7 +30,7 @@
 | Thành phần | Công nghệ sử dụng | Vai trò |
 |---|---|---|
 | **Frontend UI** | React 18, Vite 5, TypeScript | Giao diện túi đồ, tu vi, nhiệm vụ, chế tạo, đàm thoại, Admin Panel |
-| **Game Engine** | Phaser 3 CE | Điều khiển di chuyển 2D top-down, camera, bản đồ, chiến đấu theo lượt |
+| **Game Engine** | Phaser 3 CE | Điều khiển di chuyển 2D, camera, bản đồ và chiến đấu thời gian thực |
 | **Backend API** | Node.js, Fastify 5, TypeScript | Xử lý toàn bộ logic máy chủ, chống gian lận (Server-authoritative) |
 | **Cơ sở dữ liệu** | PostgreSQL 16, Prisma ORM | Lưu trữ tài khoản, nhân vật, túi đồ, nhiệm vụ, ContentVersion, AuditLog |
 | **Bảo mật** | bcrypt, @fastify/jwt (httpOnly) | Mã hóa mật khẩu, bảo mật phiên, phân quyền RBAC đa cấp độ |
@@ -37,14 +38,14 @@
 ### Cấu Trúc Thư Mục
 
 ```
-e:\tutienAI\
+vandaotruongsinh/
 ├── shared/                     # Mã nguồn chia sẻ kiểu dữ liệu & hằng số dùng chung
 │   ├── src/index.ts            # Enums, Interfaces, Base Stats, 9 Realm Multipliers, Story, Tower
 │   └── package.json
 ├── server/                     # Backend API & Game Engine Server
 │   ├── prisma/
 │   │   ├── schema.prisma       # Schema PostgreSQL (Accounts, Characters, Items, Combat, Audit, Sect, Pet, Abode...)
-│   │   └── seed.ts             # Dữ liệu khởi tạo (150 Items, 36 Skills, 40 Monsters, 20 Bosses, 56 Quests)
+│   │   └── seed.ts             # Dữ liệu khởi tạo (150 Items, 36 Skills, 40 Monsters, 20 Bosses, 58 Quests)
 │   ├── src/
 │   │   ├── config.ts           # Cấu hình môi trường (.env)
 │   │   ├── data/               # Kho dữ liệu nội dung dạng module hoàn chỉnh
@@ -53,11 +54,11 @@ e:\tutienAI\
 │   │   │   ├── bosses.ts       # 20 Boss (8 Chương, 6 Ẩn/Phụ, 6 Trấn Yêu Tháp)
 │   │   │   ├── items.ts        # 150 Vật phẩm (Vũ khí, Giáp, Đan dược, Pháp bảo, Thần khí...)
 │   │   │   ├── maps.ts         # 10 Bản đồ thế giới chi tiết
-│   │   │   ├── quests.ts       # 56 Nhiệm vụ (24 Chính, 24 Phụ, 8 Ẩn)
+│   │   │   ├── quests.ts       # 58 Nhiệm vụ (24 Chính, 24 Phụ, 8 Ẩn, 2 chuẩn bị kết cục)
 │   │   │   ├── story.ts        # 8 Chương cốt truyện & 3 Đại kết cục
 │   │   │   └── game-content.ts # Bảng dữ liệu trung tâm & Môn phái, Linh thú, Đột phá
 │   │   ├── engine/
-│   │   │   ├── combat-engine.ts# Động cơ chiến đấu theo lượt, tính dame, hành vi boss, rơi đồ
+│   │   │   ├── realtime-arpg-engine.ts # Chiến đấu và di chuyển do máy chủ xác thực
 │   │   │   └── realm-engine.ts # Động cơ tu vi, điều kiện đột phá 9 cảnh giới
 │   │   ├── middleware/
 │   │   │   └── auth.ts         # Xác thực JWT & phân quyền RBAC (Player, Editor, GM, Owner)
@@ -65,7 +66,7 @@ e:\tutienAI\
 │   │   │   ├── auth/           # Đăng ký, đăng nhập, phiên
 │   │   │   ├── character/      # Nhân vật, tính chỉ số (stats)
 │   │   │   ├── inventory/      # Túi đồ, trang bị, sử dụng, khóa, bán
-│   │   │   ├── combat/         # Phiên chiến đấu theo lượt máy chủ
+│   │   │   ├── disciple/       # Đệ tử đi theo và hỗ trợ chiến đấu
 │   │   │   ├── quest/          # Động cơ nhiệm vụ, tiến trình, trả thưởng transaction
 │   │   │   ├── crafting/       # Luyện đan, rèn đúc trang bị
 │   │   │   ├── world/          # Bản đồ, dịch chuyển, đàm thoại NPC, tương tác miếu/khoáng
@@ -109,7 +110,7 @@ e:\tutienAI\
 
 ## 3. Hướng Dẫn Cài Đặt & Khởi Chạy
 
-> Xem hướng dẫn cài đặt chi tiết từng bước tại [HUONG_DAN_CAI_DAT.md](file:///e:/tutienAI/HUONG_DAN_CAI_DAT.md).
+> Xem hướng dẫn cài đặt chi tiết từng bước tại [HUONG_DAN_CAI_DAT.md](HUONG_DAN_CAI_DAT.md).
 
 ### Khởi Chạy Nhanh Bằng Desktop Launcher GUI:
 1. Nhấp đúp vào **`CHAY_LAUNCHER.bat`** tại thư mục gốc.
@@ -137,6 +138,7 @@ Tại thư mục `server`:
 cd server
 npm install
 npx prisma db push
+npx prisma generate
 npm run seed
 ```
 
@@ -166,7 +168,7 @@ Mở trình duyệt truy cập: `http://localhost:5173`.
 
 ## 4. Chạy Bộ Kiểm Thử Tự Động (Test Suite)
 
-Dự án sở hữu hệ thống kiểm thử tự động toàn diện qua 3 giai đoạn phát triển (Tổng cộng **74/74 tiêu chí ĐẠT 100%**):
+Dự án có các bộ kiểm thử ARPG, nội dung, bảo mật và launcher. Chạy `npm run test:all` ở thư mục gốc, sau đó chạy `npm run test:v102` để kiểm tra các luồng của bản 1.0.2.
 
 ```bash
 cd server
@@ -177,12 +179,12 @@ npx tsx src/tests/arpg-test.ts
 # 2. Kiểm thử Môn Phái, Động Phủ, Linh Thú, Tu Luyện Vắng Mặt:
 npx tsx src/tests/phase2-test.ts
 
-# 3. Kiểm thử 8 Chương, 20 Boss, 150 Vật Phẩm, 36 Kỹ Năng, 56 Nhiệm Vụ, 3 Kết Cục, Trấn Yêu Tháp:
+# 3. Kiểm thử 8 Chương, 20 Boss, 150 Vật Phẩm, 36 Kỹ Năng, 58 Nhiệm Vụ, 3 Kết Cục, Trấn Yêu Tháp:
 npx tsx src/tests/phase3-test.ts
 ```
 
-### Chi Tiết Kết Quả Kiểm Thử (20/20 PASS ARPG)
-- **Động cơ ARPG Máy chủ (20/20 PASS):**
+### Chi Tiết Kết Quả Kiểm Thử
+- **Động cơ ARPG Máy chủ (27/27 PASS):**
   - Khởi tạo quái vật và Boss `boss_001` (Xích Nha Lang Vương) tại tọa độ thực của bản đồ.
   - Tốc độ di chuyển cố định do server kiểm soát (7.20px/tick), spam gói tin không làm nhân vật chạy nhanh hơn.
   - Đánh thường cận chiến/tầm xa và kỹ năng kiếm khí bay theo thời gian thực làm suy giảm sinh lực quái vật.
@@ -201,9 +203,9 @@ npx tsx src/tests/phase3-test.ts
   - Toàn bộ 150 mẫu vật phẩm (Vũ khí, Giáp, Giày, Hộ phù, Pháp bảo, Thần Khí...).
   - Đầy đủ 40 loại quái vật và 20 Boss đầu lĩnh đa giai đoạn qua 8 chương và tháp thần thoại.
   - Đầy đủ 36 kỹ năng (12 Kiếm, 12 Pháp, 12 Thể) bao quát toàn bộ 9 đại cảnh giới tu vi.
-  - Đầy đủ 56 nhiệm vụ (24 chính, 24 phụ, 8 ẩn) với chuỗi sự kiện và thưởng linh thạch/tu vi.
+  - Đầy đủ 58 nhiệm vụ (24 chính, 24 phụ, 8 ẩn, 2 chuẩn bị kết cục) với chuỗi sự kiện và thưởng linh thạch/tu vi.
   - Đầy đủ 10 bản đồ 2D top-down kết nối cổng dịch chuyển.
-  - 8 Chương cốt truyện Thiên Thư & 3 Đại Kết Cục: *Duy Trì Thiên Khế*, *Phá Bỏ Thiên Khế*, *Viết Lại Thiên Khế*.
+  - 8 chương cốt truyện Thiên Thư và 3 kết cục: *Vô Tình Phi Thăng*, *Nghịch Thiên Phá Đạo*, *Luân Hồi Trọng Sinh*.
   - Trấn Yêu Tháp 6 tầng chiến đấu Boss Thần Thoại đỉnh phong và Boss chung cực Vạn Đạo Thiên Tôn.
 
 ---
@@ -224,7 +226,7 @@ npx tsx src/tests/phase3-test.ts
      - Đàm thoại với các NPC cốt truyện và nhận nhiệm vụ.
      - Thu hái Linh Thảo hoặc khai thác Thiết Khoáng.
      - Tương tác với Linh Miếu cổ kính để thanh lọc tâm thần và hồi phục 100% Sinh Lực & Linh Lực.
-     - Bước qua Cổng Dịch Chuyển để khám phá 8 vùng đất rộng lớn: Làng Thanh Khê, Rừng Thanh Khê, Núi Thanh Vân, Đan Hà Cốc, Cổ Kiếm Di Tích, U Minh Vực, Kính Tâm Cảnh, Long Mạch Thiên Sơn, Thiên Khế Đài, và Trấn Yêu Tháp.
+     - Bước qua Cổng Dịch Chuyển để khám phá 10 bản đồ: Làng Thanh Khê, Rừng Thanh Khê, Núi Thanh Vân, Đan Hà Cốc, Cổ Kiếm Di Tích, U Minh Vực, Kính Tâm Cảnh, Long Mạch Thiên Sơn, Thiên Khế Đài và Trấn Yêu Tháp.
 4. **Chiến Đấu ARPG Thời Gian Thực (Real-Time Combat):**
    - Không chuyển cảnh, chiến đấu trực tiếp ngay trên bản đồ!
    - **Chuột:** Di chuyển chuột để xoay hướng ngắm và thi triển chiêu thức.
@@ -241,7 +243,7 @@ npx tsx src/tests/phase3-test.ts
    - Tích lũy đủ tu vi thông qua đánh quái, nhiệm vụ hoặc đan dược, chuẩn bị đủ đan dược đột phá (như Trúc Cơ Đan, Kim Đan...) rồi nhấn *⚡ Đột Phá Cảnh Giới*.
 6. **Môn Phái & Tông Môn:**
    - Mở giao diện `🏯 Môn Phái`.
-   - Lựa chọn bái nhập 1 trong 3 đại tông môn: *Thanh Vân Kiếm Tông* (+ATK), *Đan Hà Cốc* (+HP/MP), *Bách Luyện Bảo Các* (+DEF/CRI).
+   - Lựa chọn bái nhập 1 trong 3 đại tông môn: *Thanh Vân Kiếm Tông* (+ATK/SPD), *Đan Hà Cốc* (+MP), *Bách Luyện Bảo Các* (+DEF/HP). Có thể chuyển phái trong giao diện môn phái.
    - Làm nhiệm vụ tông môn nhận điểm Cống Hiến, mua sắm pháp bảo & đan dược hiếm tại Tàng Bảo Các.
 7. **Động Phủ & Thảo Dược:**
    - Mở giao diện `🏡 Động Phủ`.
@@ -251,26 +253,29 @@ npx tsx src/tests/phase3-test.ts
    - Mở giao diện `🐾 Linh Thú`.
    - Thuần phục và nuôi dưỡng 6 Thần Thú: Thanh Loan, Hỏa Lân Ấu Thú, Bạch Hổ, Huyền Vũ Thần Quy, U Minh Điệp, Lôi Bằng.
    - Chọn Thần Thú xuất chiến để nhận buff chỉ số và kỹ năng hỗ trợ độc quyền trong chiến đấu.
-9. **Tu Luyện Vắng Mặt (Offline Cultivation):**
+9. **Đệ Tử Đồng Hành:**
+   - Sau chương 1, mở giao diện `Đệ Tử` để chiêu mộ Liễu Muội. Đệ tử đi theo, hỗ trợ đánh quái và có thể nâng cấp bằng linh thạch.
+10. **Tu Luyện Vắng Mặt (Offline Cultivation):**
    - Khi đạo hữu rời mạng, nhân vật tự động tĩnh tâm đả tọa hấp thu thiên địa linh khí.
    - Đăng nhập lại, hệ thống hiển thị bảng nhận thưởng Tu vi và Kinh nghiệm tương ứng với thời gian vắng mặt (tối đa 8 giờ).
-10. **Sử Ký Cốt Truyện & 3 Đại Kết Cục:**
+11. **Sử Ký Cốt Truyện & 3 Đại Kết Cục:**
    - Mở giao diện `📖 Sử Ký`.
    - Xem lại hành trình 8 chương cốt truyện, ghi chú bí mật Thiên Thư và hồ sơ quan hệ với các nhân vật then chốt.
    - Tại chương 8 (Thiên Khế Đài), người chơi được quyền tự do lựa chọn 1 trong 3 đại kết cục:
-     - **Duy Trì Thiên Khế:** Bảo tồn trật tự ngàn năm, nhận danh hiệu *Thiên Khế Thủ Hộ Giả*.
-     - **Phá Bỏ Thiên Khế:** Giải phóng tu vi và ký ức của nhân gian, nhận danh hiệu *Nghịch Mệnh Tiên Tôn*.
-     - **Viết Lại Thiên Khế:** Hòa quyện vạn đạo, lập nên trật tự trường sinh mới, nhận danh hiệu *Vạn Đạo Trường Sinh Đại Đế*.
-11. **Trấn Yêu Tháp (Endgame Boss Rush):**
+     - **Vô Tình Phi Thăng:** Đổi ký ức lấy đường lên Thượng Giới.
+     - **Nghịch Thiên Phá Đạo:** Gom chứng cứ để phá Thiên Khế và trả ký ức cho nhân gian.
+     - **Luân Hồi Trọng Sinh:** Giữ ký ức, chữa long mạch và trở về đời phàm trong câu chuyện.
+   - Hai kết cục sau cần hoàn thành nhiệm vụ hồi tưởng tương ứng. Sau hoạt cảnh, save vẫn chơi tiếp được.
+12. **Trấn Yêu Tháp (Endgame Boss Rush):**
    - Mở giao diện `🗼 Trấn Yêu`.
-   - Chinh phục 6 tầng tháp thần thoại đối đầu các Boss huyền thoại sau cốt truyện: Lôi Giác Thú Tôn, Cửu Vĩ Linh Hồ, Viêm Ma Tướng Quân, Hắc Long Vương, Cổ Thần Tàn Niệm, và đỉnh tháp là **Vạn Đạo Thiên Tôn**.
+   - Chinh phục 6 tầng tháp theo thứ tự, đối đầu Thái Cổ Hỗn Độn Ma Viên, Cửu U Minh Hoàng, Diệt Thế Lôi Long, Hư Không Thôn Thiên Thú, Bất Diệt Kiếm Tổ và đỉnh tháp là **Vạn Đạo Thiên Tôn**.
    - Nhận kho tàng linh thạch khổng lồ, mảnh Thiên Thư Cổ và trang bị Thần Khí cực phẩm.
 
 ---
 
 ## 6. Hướng Dẫn Admin Panel (`/admin`)
 
-Đăng nhập bằng tài khoản có quyền `GAME_MASTER` hoặc `OWNER` (đã tạo ở bước 3 hoặc tài khoản mẫu seed: `daochu` / `Admin@123456`).
+Đăng nhập bằng tài khoản có quyền `GAME_MASTER` hoặc `OWNER` (tạo bằng `npm run create-admin` ở bước 3).
 - Truy cập đường dẫn: `http://localhost:5173/admin`
 - **Các phân hệ quản trị:**
   - **📊 Tổng Quan (Dashboard):** Xem số lượng người chơi thời gian thực, phân bố cảnh giới tu vi, thống kê số lượt boss bị hạ.

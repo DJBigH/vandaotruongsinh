@@ -1,0 +1,21 @@
+{
+  "tool": "built-in image_gen",
+  "transparentBackground": true,
+  "outputs": [
+    {
+      "file": "source/phap-tu-states-v102.png",
+      "reference": "source/phap-tu-reference-v102.png",
+      "prompt": "Use case: stylized-concept. Asset type: original 2D game character animation source sheet. Image 1 is the identity/style REFERENCE, not an edit target. Draw exactly 16 fully visible isolated poses of the SAME young male Chinese xianxia mage in purple gold-trimmed robe, ornate gnarled staff with pale jade orb, black topknot with purple ribbon. Clean transparent background, no shadow, no text, no guide lines. Precise 4 columns × 4 rows, generous even gaps; each cell has one complete character and nothing crosses cell boundaries. Row 1 BACK view (facing north/up), row 2 LEFT profile, row 3 FRONT view (facing south/down), row 4 RIGHT profile. In EACH row, columns 1–4 show: (1) low fast evasive side-step with robe trailing; (2) recoil from being struck, torso leaned and forearm raised to protect face; (3) knees buckling while collapsing; (4) fallen on side, motionless but fully visible, staff nearby still within cell. Keep face, robe cut, jade belt jewel, staff design and rendering consistent with reference. Polished semireal anime game sprite source, accurate anatomy, clean crisp silhouette. Avoid cute block pixels, giant head, checkerboard, extra limbs, unrelated VFX."
+    },
+    {
+      "file": "source/the-tu-states-v102.png",
+      "reference": "source/the-tu-reference-v102.png",
+      "prompt": "Use case: stylized-concept. Asset type: original 2D game character animation source sheet. Image 1 is the identity/style REFERENCE, not an edit target. Draw exactly 16 fully visible isolated poses of the SAME young male Chinese xianxia martial fighter in russet red brown sleeveless tunic, gold trim, dark trousers, leather bracers, black high ponytail. Clean transparent background, no shadow, no text, no guide lines. Precise 4 columns × 4 rows, generous even gaps; each cell has one complete character and nothing crosses cell boundaries. Row 1 BACK view (facing north/up), row 2 LEFT profile, row 3 FRONT view (facing south/down), row 4 RIGHT profile. In EACH row, columns 1–4 show: (1) low fast evasive side-step with coat tails trailing; (2) recoil from being struck, torso leaned and forearm raised to protect face; (3) knees buckling while collapsing; (4) fallen on side, motionless but fully visible. Keep face, hair, tunic, armor, belt and rendering consistent with reference. Polished semireal anime game sprite source, accurate anatomy, clean crisp silhouette. Avoid cute block pixels, giant head, checkerboard, extra limbs, unrelated VFX."
+    },
+    {
+      "file": "source/phap-tu-slash-v102.png",
+      "reference": "source/phap-tu-reference-v102.png",
+      "prompt": "Use case: stylized-concept. Asset type: original 2D game melee attack sprite source sheet. Image 1 is the identity/style REFERENCE, not an edit target. Draw exactly 12 fully visible isolated poses of the SAME young male Chinese xianxia mage in a purple gold-trimmed robe, black topknot with purple ribbon, holding the exact ornate wooden staff with pale jade orb. Clean transparent background, no floor shadow, no text, no guides. Precise 3 columns × 4 rows with generous even gaps, one complete character per cell; no silhouette crosses a cell boundary. Row 1 BACK view (attacking north/up), row 2 LEFT profile (attacking west), row 3 FRONT view (attacking south/down), row 4 RIGHT profile (attacking east). In EACH row, columns 1–3: (1) winds up by pulling the staff back; (2) swift wide staff sweep, body turning and feet planted; (3) follow-through with the staff low. Clearly a physical staff strike distinct from spell casting: NO floating fireball or hand spell effect. Keep exact facial identity, robe cut, jade belt ornament, staff shape and polished semi-real anime game art of reference. Correct anatomy, distinct movement and sharp silhouettes. Avoid block pixels, giant chibi head, checkerboard, extra limbs."
+    }
+  ]
+}

@@ -23,6 +23,7 @@ export function computeCharacterStats(
   realmIndex: number,
   realmTier: number,
   equippedItems: EquippedItemSummary[] = [],
+  sectId?: string | null,
 ): CharacterStats {
   const base = BASE_STATS[path] || BASE_STATS[CultivationPath.SWORD];
   const realmMultiplier = REALM_STAT_MULTIPLIERS[realmIndex] ?? 1.0;
@@ -62,6 +63,18 @@ export function computeCharacterStats(
     if (template.stats.critRate) calculated.critRate += template.stats.critRate;
     if (template.stats.critDmg) calculated.critDmg += template.stats.critDmg;
     if (template.stats.resist) calculated.resist += template.stats.resist;
+  }
+
+  if (sectId === 'sect_thanh_van') {
+    calculated.atk = Math.round(calculated.atk * 1.08);
+    calculated.spd = Math.round(calculated.spd * 1.05);
+  } else if (sectId === 'sect_dan_ha') {
+    calculated.maxMp = Math.round(calculated.maxMp * 1.10);
+    calculated.mp = calculated.maxMp;
+  } else if (sectId === 'sect_bach_luyen') {
+    calculated.def = Math.round(calculated.def * 1.12);
+    calculated.maxHp = Math.round(calculated.maxHp * 1.10);
+    calculated.hp = calculated.maxHp;
   }
 
   // Ensure HP and MP don't exceed max

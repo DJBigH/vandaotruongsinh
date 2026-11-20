@@ -1,26 +1,53 @@
-// ============================================================
-// VẠN ĐẠO TRƯỜNG SINH - React Story Journal (Sử Ký Cốt Truyện) Panel
-// ============================================================
-
-import React, { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import * as gameApi from '../../api/game';
 
-export default function StoryJournalPanel() {
-  const { setActivePanel, addNotification, loadCharacter } = useGameStore();
-  const [loading, setLoading] = useState(true);
-  const [chapters, setChapters] = useState<any[]>([]);
-  const [selectedChapter, setSelectedChapter] = useState<number>(1);
-  const [currentEnding, setCurrentEnding] = useState<string | null>(null);
-  const [actionLoading, setActionLoading] = useState(false);
+interface ChapterView {
+  chapter: number;
+  title: string;
+  location: string;
+  summary: string;
+  openingEvent: string;
+  climaxEvent: string | null;
+  isCompleted: boolean;
+  majorNPCs: { name: string; role: string; description: string }[];
+}
 
-  async function fetchStory() {
+interface EndingChoice {
+  type: string;
+  title: string;
+  description: string;
+  epilogue: string;
+  preparationQuestId: string | null;
+  preparationHint: string;
+  canChoose: boolean;
+  missing: string[];
+}
+
+export default function StoryJournalPanel() {
+  const { setActivePanel, addNotification, loadCharacter, loadQuests } = useGameStore();
+  const [loading, setLoading] = useState(true);
+  const [chapters, setChapters] = useState<ChapterView[]>([]);
+  const [selectedChapter, setSelectedChapter] = useState(1);
+  const [endingChoices, setEndingChoices] = useState<EndingChoice[]>([]);
+  const [currentEnding, setCurrentEnding] = useState<string | null>(null);
+  const [seenEndings, setSeenEndings] = useState<string[]>([]);
+  const [preparationAvailable, setPreparationAvailable] = useState(false);
+  const [viewedEnding, setViewedEnding] = useState<EndingChoice | null>(null);
+  const [actionLoading, setActionLoading] = useState(false);
+  const closeButton = useRef<HTMLButtonElement>(null);
+  const dialog = useRef<HTMLElement>(null);
+
+  async function fetchStory(showLoading = true) {
     try {
-      setLoading(true);
+      if (showLoading) setLoading(true);
       const res = await gameApi.getStoryChapters();
       if (res.success && res.data) {
         setChapters(res.data.chapters || []);
-        setCurrentEnding(res.data.currentEnding);
+        setEndingChoices(res.data.endingChoices || []);
+        setCurrentEnding(res.data.currentEnding || null);
+        setSeenEndings(res.data.seenEndings || []);
+        setPreparationAvailable(Boolean(res.data.preparationAvailable));
       }
     } catch {
       addNotification('Không thể tải nhật ký cốt truyện', 'error');
@@ -30,228 +57,128 @@ export default function StoryJournalPanel() {
   }
 
   useEffect(() => {
-    fetchStory();
+    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    closeButton.current?.focus();
+    void fetchStory();
+    return () => previousFocus?.focus();
   }, []);
 
-  async function handleChooseEnding(endingKey: string) {
+  async function handleChooseEnding(choice: EndingChoice) {
+    if (!choice.canChoose || actionLoading) return;
     try {
       setActionLoading(true);
-      const res = await gameApi.chooseStoryEnding(endingKey);
+      const res = await gameApi.chooseStoryEnding(choice.type);
       if (res.success) {
-        addNotification(res.message || 'Đã định đoạt tương lai!', 'success');
-        await fetchStory();
-        await loadCharacter();
+        setViewedEnding(choice);
+        addNotification(res.message || `Đã xem kết cục ${choice.title}`, 'success');
+        await Promise.all([fetchStory(false), loadCharacter()]);
       }
     } catch (err: any) {
-      addNotification(err.response?.data?.error || 'Lỗi khi chọn kết cục', 'error');
+      addNotification(err.response?.data?.error || 'Chưa thể chọn kết cục', 'error');
+      await fetchStory(false);
     } finally {
       setActionLoading(false);
     }
   }
 
-  const currentCh = chapters.find((c) => c.chapter === selectedChapter);
+  const currentChapter = chapters.find((chapter) => chapter.chapter === selectedChapter) || chapters[chapters.length - 1];
+  const chosenEnding = endingChoices.find((choice) => choice.type === currentEnding);
+
+  function handleDialogKeyDown(event: KeyboardEvent<HTMLElement>) {
+    if (event.key === 'Escape') { setActivePanel(null); return; }
+    if (event.key !== 'Tab' || !dialog.current) return;
+    const controls = Array.from(dialog.current.querySelectorAll<HTMLButtonElement>('button:not(:disabled)'));
+    if (controls.length === 0) return;
+    if (event.shiftKey && document.activeElement === controls[0]) { event.preventDefault(); controls[controls.length - 1].focus(); }
+    else if (!event.shiftKey && document.activeElement === controls[controls.length - 1]) { event.preventDefault(); controls[0].focus(); }
+  }
 
   return (
-    <div style={{
-      position: 'absolute',
-      inset: 0,
-      background: 'rgba(0, 0, 0, 0.75)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 100,
-    }}>
-      <div style={{
-        width: '800px',
-        maxHeight: '85vh',
-        background: '#0d131d',
-        border: '2px solid #ffd700',
-        borderRadius: '12px',
-        padding: '24px',
-        display: 'flex',
-        flexDirection: 'column',
-        boxShadow: '0 8px 32px rgba(255, 215, 0, 0.25)',
-        color: '#e0e0e0',
-      }}>
-        {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #37474f', paddingBottom: '12px' }}>
+    <div style={{ position: 'absolute', inset: 0, zIndex: 100, background: 'rgba(0, 0, 0, 0.78)', display: 'grid', placeItems: 'center' }}>
+      <section
+        ref={dialog}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="story-title"
+        onKeyDown={handleDialogKeyDown}
+        style={{ width: 'min(940px, 94vw)', maxHeight: '88vh', background: '#0d131d', border: '2px solid #c5a059', borderRadius: 12, color: '#e0e0e0', display: 'flex', flexDirection: 'column', boxShadow: '0 12px 40px rgba(0,0,0,.6)' }}
+      >
+        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, padding: '18px 20px', borderBottom: '1px solid #37474f' }}>
           <div>
-            <h2 style={{ margin: 0, color: '#ffd700', fontSize: '1.4rem' }}>
-              📜 Thiên Thư Sử Ký (8 Chương Cốt Truyện)
-            </h2>
-            <div style={{ fontSize: '0.85rem', color: '#90a4ae', marginTop: '2px' }}>
-              Nơi lưu giữ toàn bộ ký ức, chân tướng lịch sử và các sự kiện đã trải qua
-            </div>
+            <h2 id="story-title" style={{ margin: 0, color: '#ffd700', fontSize: '1.3rem' }}>Thiên Thư Sử Ký</h2>
+            <p style={{ margin: '4px 0 0', color: '#b0bec5', fontSize: '.85rem' }}>Tám chương Thiên Khế · Những ký ức đã mở có thể đọc lại</p>
+            {chosenEnding && <p style={{ margin: '4px 0 0', color: '#a5d6a7', fontSize: '.78rem' }}>Kết cục đã lưu: {chosenEnding.title}</p>}
           </div>
-          <button
-            onClick={() => setActivePanel(null)}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: '#b0bec5',
-              fontSize: '1.4rem',
-              cursor: 'pointer',
-            }}
-          >
-            ✕
-          </button>
-        </div>
+          <button ref={closeButton} type="button" onClick={() => setActivePanel(null)} aria-label="Đóng Thiên Thư Sử Ký" style={{ background: 'transparent', color: '#fff', border: '1px solid #607d8b', borderRadius: 6, fontSize: '1.1rem', cursor: 'pointer', padding: '4px 10px' }}>✕</button>
+        </header>
 
-        {loading ? (
-          <div style={{ padding: '40px', textAlign: 'center', color: '#90a4ae' }}>Đang mở cuốn Thiên Thư...</div>
-        ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '16px', marginTop: '16px', height: '460px' }}>
-            {/* Left: Chapter list */}
-            <div style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px', paddingRight: '4px' }}>
-              {chapters.map((ch) => {
-                const isSelected = selectedChapter === ch.chapter;
-                return (
-                  <div
-                    key={ch.chapter}
-                    onClick={() => setSelectedChapter(ch.chapter)}
-                    style={{
-                      background: isSelected ? 'rgba(255, 215, 0, 0.15)' : '#131b26',
-                      border: `1px solid ${isSelected ? '#ffd700' : '#37474f'}`,
-                      borderRadius: '8px',
-                      padding: '10px 12px',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s',
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontWeight: 'bold', fontSize: '0.85rem', color: isSelected ? '#ffd700' : '#cfd8dc' }}>
-                        Chương {ch.chapter}
-                      </span>
-                      <span style={{ fontSize: '0.75rem', color: ch.isCompleted ? '#81c784' : '#78909c' }}>
-                        {ch.isCompleted ? '✅ Đã Thông Suốt' : '⏳ Đang Tu Luyện'}
-                      </span>
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: '#90a4ae', marginTop: '4px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {ch.location}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+        {loading ? <p role="status" style={{ padding: 24 }}>Đang mở Thiên Thư...</p> : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(150px, 205px) minmax(0, 1fr)', gap: 14, padding: 16, minHeight: 0, overflowY: 'auto' }}>
+            <nav aria-label="Chương truyện đã mở" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {chapters.map((chapter) => (
+                <button
+                  key={chapter.chapter}
+                  type="button"
+                  onClick={() => { setSelectedChapter(chapter.chapter); setViewedEnding(null); }}
+                  aria-current={currentChapter?.chapter === chapter.chapter ? 'page' : undefined}
+                  style={{ textAlign: 'left', cursor: 'pointer', background: currentChapter?.chapter === chapter.chapter ? '#334155' : '#17212e', color: '#e0e0e0', border: currentChapter?.chapter === chapter.chapter ? '2px solid #ffd700' : '1px solid #455a64', borderRadius: 6, padding: '9px 10px' }}
+                >
+                  <strong>Chương {chapter.chapter}</strong><br />
+                  <span style={{ fontSize: '.77rem' }}>{chapter.location}</span><br />
+                  <span style={{ color: chapter.isCompleted ? '#a5d6a7' : '#b0bec5', fontSize: '.72rem' }}>{chapter.isCompleted ? 'Đã hoàn thành' : 'Đang mở'}</span>
+                </button>
+              ))}
+            </nav>
 
-            {/* Right: Chapter Content & Climax */}
-            {currentCh && (
-              <div style={{
-                background: '#131b26',
-                border: '1px solid #37474f',
-                borderRadius: '8px',
-                padding: '18px',
-                overflowY: 'auto',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '14px',
-              }}>
-                <div>
-                  <h3 style={{ margin: 0, color: '#ffd700', fontSize: '1.2rem' }}>
-                    {currentCh.title}
-                  </h3>
-                  <div style={{ fontSize: '0.85rem', color: '#64b5f6', marginTop: '4px' }}>
-                    📍 Địa danh: {currentCh.location}
-                  </div>
-                </div>
+            {currentChapter && (
+              <article style={{ background: '#131b26', border: '1px solid #37474f', borderRadius: 8, padding: '15px 18px', minWidth: 0 }}>
+                <h3 style={{ margin: '0 0 4px', color: '#ffd700', fontSize: '1.1rem' }}>{currentChapter.title}</h3>
+                <p style={{ margin: '0 0 12px', color: '#90caf9', fontSize: '.8rem' }}>{currentChapter.location}</p>
+                <p style={{ lineHeight: 1.5, fontSize: '.86rem' }}>{currentChapter.summary}</p>
+                <h4 style={{ margin: '16px 0 4px', color: '#ffcc80' }}>Khởi sự</h4>
+                <p style={{ margin: 0, lineHeight: 1.5, fontSize: '.84rem' }}>{currentChapter.openingEvent}</p>
+                <h4 style={{ margin: '16px 0 4px', color: '#ffab91' }}>Hồi kết chương</h4>
+                <p style={{ margin: 0, lineHeight: 1.5, fontSize: '.84rem' }}>{currentChapter.climaxEvent || 'Hoàn thành nhiệm vụ cuối chương để ghi lại hồi kết.'}</p>
+                <h4 style={{ margin: '16px 0 4px', color: '#b2dfdb' }}>Người trong truyện</h4>
+                <ul style={{ margin: '0 0 14px', paddingLeft: 20, lineHeight: 1.5, fontSize: '.82rem' }}>
+                  {currentChapter.majorNPCs.map((npc) => <li key={npc.name}><strong>{npc.name}</strong> ({npc.role}): {npc.description}</li>)}
+                </ul>
 
-                <div style={{ background: '#1e293b', padding: '12px', borderRadius: '6px' }}>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#ffb74d', marginBottom: '4px' }}>
-                    📖 Tóm Tắt Diễn Biến:
-                  </div>
-                  <p style={{ margin: 0, fontSize: '0.85rem', color: '#cfd8dc', lineHeight: '1.5' }}>
-                    {currentCh.summary}
-                  </p>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                  <div style={{ background: '#1e293b', padding: '10px', borderRadius: '6px' }}>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#81c784', marginBottom: '2px' }}>
-                      ⚡ Sự Kiện Mở Đầu:
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: '#b0bec5' }}>
-                      {currentCh.openingEvent}
-                    </div>
-                  </div>
-                  <div style={{ background: '#1e293b', padding: '10px', borderRadius: '6px' }}>
-                    <div style={{ fontSize: '0.8rem', fontWeight: 'bold', color: '#ef5350', marginBottom: '2px' }}>
-                      🔥 Cao Trào & Thử Thách:
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: '#b0bec5' }}>
-                      {currentCh.climaxEvent}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Major NPCs */}
-                <div>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#ffd700', marginBottom: '6px' }}>
-                    👥 Nhân Vật Then Chốt:
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    {currentCh.majorNPCs?.map((npc: any, idx: number) => (
-                      <div key={idx} style={{ background: '#1e293b', padding: '8px 10px', borderRadius: '6px', fontSize: '0.8rem' }}>
-                        <span style={{ fontWeight: 'bold', color: '#64b5f6' }}>{npc.name}</span>{' '}
-                        <span style={{ color: '#ffb74d' }}>({npc.role})</span>: <span style={{ color: '#b0bec5' }}>{npc.description}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Ending Selection if Chapter 8 */}
-                {currentCh.chapter === 8 && (
-                  <div style={{ borderTop: '1px solid #37474f', paddingTop: '14px', marginTop: '6px' }}>
-                    <div style={{ fontSize: '0.95rem', fontWeight: 'bold', color: '#ffd700', marginBottom: '8px' }}>
-                      🌟 3 Đại Kết Cục Vận Mệnh Thế Giới:
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      {[
-                        { key: 'MAINTAIN_PACT', label: '1. Duy Trì Thiên Khế (Thuận Thiên)', desc: 'Bảo vệ linh mạch trường tồn, giữ trật tự cổ xưa.' },
-                        { key: 'DESTROY_PACT', label: '2. Phá Bỏ Thiên Khế (Nghịch Thiên)', desc: 'Giải phóng toàn bộ ký ức đã mất cho muôn vạn sinh linh.' },
-                        { key: 'REWRITE_PACT', label: '3. Viết Lại Thiên Khế: Vạn Đạo Trường Sinh', desc: 'Dung hợp ký ức và linh mạch, nhân loại làm chủ vận mệnh.' },
-                      ].map((endOpt) => (
-                        <div
-                          key={endOpt.key}
-                          style={{
-                            background: currentEnding === endOpt.key ? 'rgba(255, 215, 0, 0.2)' : '#1e293b',
-                            border: `1px solid ${currentEnding === endOpt.key ? '#ffd700' : '#37474f'}`,
-                            padding: '10px',
-                            borderRadius: '6px',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <div>
-                            <div style={{ fontWeight: 'bold', color: '#ffd700', fontSize: '0.85rem' }}>{endOpt.label}</div>
-                            <div style={{ fontSize: '0.75rem', color: '#90a4ae' }}>{endOpt.desc}</div>
+                {currentChapter.chapter === 8 && (
+                  <section aria-labelledby="endings-title" style={{ borderTop: '1px solid #455a64', paddingTop: 12 }}>
+                    <h4 id="endings-title" style={{ margin: '0 0 6px', color: '#ffd700' }}>Ba kết cục Thiên Khế</h4>
+                    <p style={{ color: '#b0bec5', fontSize: '.8rem', margin: '0 0 10px' }}>Kết cục chỉ mở sau khi giao nhiệm vụ cuối. Nhiệm vụ hồi tưởng có thể làm sau trận cuối nếu còn thiếu chuẩn bị.</p>
+                    <div style={{ display: 'grid', gap: 9 }}>
+                      {endingChoices.map((choice) => (
+                        <div key={choice.type} style={{ background: '#1e293b', border: currentEnding === choice.type ? '2px solid #ffd700' : '1px solid #455a64', borderRadius: 7, padding: 11 }}>
+                          <strong style={{ color: '#ffd700' }}>{choice.title}</strong>
+                          {seenEndings.includes(choice.type) && <span style={{ color: '#a5d6a7', marginLeft: 8, fontSize: '.75rem' }}>Đã xem</span>}
+                          <p style={{ lineHeight: 1.45, fontSize: '.81rem', margin: '5px 0' }}>{choice.description}</p>
+                          {choice.missing.length > 0 && <ul style={{ margin: '7px 0', paddingLeft: 20, color: '#ffcc80', fontSize: '.77rem' }}>{choice.missing.map((reason) => <li key={reason}>{reason}</li>)}</ul>}
+                          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                            <button type="button" disabled={!choice.canChoose || actionLoading} onClick={() => void handleChooseEnding(choice)} style={{ background: choice.canChoose ? '#c5a059' : '#455a64', color: choice.canChoose ? '#161616' : '#e0e0e0', border: 0, borderRadius: 5, padding: '7px 11px', fontWeight: 700, cursor: choice.canChoose ? 'pointer' : 'not-allowed' }}>
+                              {seenEndings.includes(choice.type) ? 'Xem lại kết cục' : 'Chọn kết cục'}
+                            </button>
+                            {!choice.canChoose && choice.preparationQuestId && preparationAvailable && <button type="button" onClick={() => { void loadQuests(); setActivePanel('quest'); }} style={{ background: '#263238', color: '#fff', border: '1px solid #78909c', borderRadius: 5, padding: '7px 11px', cursor: 'pointer' }}>Mở nhiệm vụ hồi tưởng</button>}
                           </div>
-                          <button
-                            disabled={actionLoading}
-                            onClick={() => handleChooseEnding(endOpt.key)}
-                            style={{
-                              background: currentEnding === endOpt.key ? '#2e7d32' : '#c5a059',
-                              color: currentEnding === endOpt.key ? '#fff' : '#000',
-                              border: 'none',
-                              padding: '6px 12px',
-                              borderRadius: '4px',
-                              fontWeight: 'bold',
-                              fontSize: '0.75rem',
-                              cursor: 'pointer',
-                            }}
-                          >
-                            {currentEnding === endOpt.key ? 'Đã Chọn' : 'Định Đoạt'}
-                          </button>
                         </div>
                       ))}
                     </div>
-                  </div>
+                    {viewedEnding && (
+                      <div role="status" style={{ background: '#263238', border: '1px solid #81c784', borderRadius: 7, marginTop: 12, padding: 12 }}>
+                        <h5 style={{ margin: '0 0 6px', color: '#a5d6a7', fontSize: '.95rem' }}>{viewedEnding.title}</h5>
+                        <p style={{ lineHeight: 1.5, fontSize: '.84rem' }}>{viewedEnding.epilogue}</p>
+                        <button type="button" onClick={() => setActivePanel(null)} style={{ background: '#81c784', border: 0, borderRadius: 5, padding: '7px 11px', cursor: 'pointer', fontWeight: 700 }}>Tiếp tục tu luyện</button>
+                      </div>
+                    )}
+                    {!viewedEnding && chosenEnding && <p style={{ color: '#a5d6a7', fontSize: '.8rem' }}>Kết cục gần nhất: {chosenEnding.title}. Chọn “Xem lại kết cục” để đọc hoạt cảnh.</p>}
+                  </section>
                 )}
-              </div>
+              </article>
             )}
           </div>
         )}
-      </div>
+      </section>
     </div>
   );
 }

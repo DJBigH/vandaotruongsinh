@@ -9,6 +9,7 @@ import type {
   CombatActionRequest,
   MapData,
   DialogueLine,
+  DiscipleOverview,
 } from '@shared/index';
 
 // === Character ===
@@ -116,8 +117,8 @@ export async function getWorldMaps(): Promise<ApiResponse<{ id: string; name: st
   return res.data;
 }
 
-export async function teleport(targetMapId: string): Promise<ApiResponse<{ mapId: string; position: { x: number; y: number } }>> {
-  const res = await apiClient.post('/game/maps/teleport', { targetMapId });
+export async function teleport(targetMapId: string, portalId?: string): Promise<ApiResponse<{ mapId: string; position: { x: number; y: number } }>> {
+  const res = await apiClient.post('/game/maps/teleport', { targetMapId, portalId });
   return res.data;
 }
 
@@ -192,6 +193,27 @@ export async function getPets(): Promise<ApiResponse<any>> {
   return res.data;
 }
 
+// === Disciple companion ===
+export async function getDisciple(): Promise<ApiResponse<DiscipleOverview>> {
+  const res = await apiClient.get('/game/disciple');
+  return res.data;
+}
+
+export async function recruitDisciple(): Promise<ApiResponse> {
+  const res = await apiClient.post('/game/disciple/recruit');
+  return res.data;
+}
+
+export async function upgradeDisciple(): Promise<ApiResponse> {
+  const res = await apiClient.post('/game/disciple/upgrade');
+  return res.data;
+}
+
+export async function setDiscipleActive(active: boolean): Promise<ApiResponse> {
+  const res = await apiClient.post('/game/disciple/active', { active });
+  return res.data;
+}
+
 export async function unlockPet(templateId: string): Promise<ApiResponse<any>> {
   const res = await apiClient.post('/game/pets/unlock', { templateId });
   return res.data;
@@ -237,6 +259,11 @@ export async function chooseStoryEnding(ending: string): Promise<ApiResponse<any
 // === Phase 3: Demon Subduing Tower (Trấn Yêu Tháp) ===
 export async function getTowerFloors(): Promise<ApiResponse<any>> {
   const res = await apiClient.get('/game/tower/floors');
+  return res.data;
+}
+
+export async function challengeTowerFloor(floor: number): Promise<ApiResponse<any>> {
+  const res = await apiClient.post(`/game/tower/floor/${floor}/challenge`);
   return res.data;
 }
 

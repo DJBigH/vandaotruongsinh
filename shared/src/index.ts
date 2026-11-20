@@ -696,7 +696,7 @@ export interface WsClientMessage {
 export interface EntitySnapshot {
   id: string;
   name: string;
-  type: 'PLAYER' | 'MONSTER' | 'BOSS' | 'NPC' | 'PET';
+  type: 'PLAYER' | 'MONSTER' | 'BOSS' | 'NPC' | 'PET' | 'DISCIPLE';
   templateId?: string;
   stats?: { spd?: number };
   x: number;
@@ -714,6 +714,24 @@ export interface EntitySnapshot {
   isInvulnerable?: boolean;      // Đang lướt né i-frame
   buffs?: { type: string; remainingSec: number }[];
   cultivationPath?: CultivationPath;
+}
+
+export interface DiscipleInfo {
+  id: string;
+  templateId: string;
+  name: string;
+  level: number;
+  maxLevel: number;
+  isActive: boolean;
+  attack: number;
+  upgradeCost: number;
+}
+
+export interface DiscipleOverview {
+  eligible: boolean;
+  requirement: string;
+  recruitCost: number;
+  disciple: DiscipleInfo | null;
 }
 
 export interface ProjectileSnapshot {

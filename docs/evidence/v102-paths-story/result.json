@@ -1,0 +1,116 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "path": "SWORD",
+      "idle": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_idle",
+        "playerAnimation": "player_idle_down",
+        "fps": 53
+      },
+      "walking": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_walk",
+        "playerAnimation": "player_walk_right",
+        "fps": 53
+      },
+      "attack": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_slash",
+        "playerAnimation": "player_attack_right",
+        "fps": 53
+      },
+      "cast": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_cast",
+        "playerAnimation": "player_cast_right",
+        "fps": 55
+      }
+    },
+    {
+      "disciple": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_idle",
+        "playerAnimation": "player_idle_down",
+        "disciple": {
+          "name": "Liễu Muội",
+          "texture": "disciple_lieu_muoi_idle",
+          "animation": "disciple_lieu_muoi_idle_right"
+        },
+        "fps": 56
+      }
+    },
+    {
+      "ending": "DESTROY_PACT"
+    },
+    {
+      "tower": {
+        "map": "map_tran_yeu_thap",
+        "playerTexture": "player_idle",
+        "playerAnimation": "player_idle_down",
+        "disciple": {
+          "name": "Liễu Muội",
+          "texture": "disciple_lieu_muoi_idle",
+          "animation": "disciple_lieu_muoi_idle_right"
+        },
+        "fps": 57
+      }
+    },
+    {
+      "path": "SPELL",
+      "idle": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_magic_idle",
+        "playerAnimation": "player_magic_idle_down",
+        "fps": 56
+      },
+      "walking": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_magic_walk",
+        "playerAnimation": "player_magic_walk_right",
+        "fps": 56
+      },
+      "attack": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_magic_slash",
+        "playerAnimation": "player_magic_attack_right",
+        "fps": 56
+      },
+      "cast": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_magic_cast",
+        "playerAnimation": "player_magic_cast_right",
+        "fps": 57
+      }
+    },
+    {
+      "path": "BODY",
+      "idle": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_body_idle",
+        "playerAnimation": "player_body_idle_down",
+        "fps": 55
+      },
+      "walking": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_body_walk",
+        "playerAnimation": "player_body_walk_right",
+        "fps": 55
+      },
+      "attack": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_body_slash",
+        "playerAnimation": "player_body_attack_right",
+        "fps": 55
+      },
+      "cast": {
+        "map": "map_thanh_khe",
+        "playerTexture": "player_body_cast",
+        "playerAnimation": "player_body_cast_right",
+        "fps": 56
+      }
+    }
+  ],
+  "failure": null
+}

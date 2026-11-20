@@ -19,7 +19,7 @@ import {
   type MapData,
 } from '@shared';
 import { isWorldPathWalkable } from '@shared/world-collision';
-import type { Character, InventoryItem, Prisma } from '@prisma/client';
+import type { Character, CharacterDisciple, InventoryItem, Prisma } from '@prisma/client';
 import { MAP_TEMPLATES } from '../data/maps';
 import { MONSTER_TEMPLATES, MonsterTemplate } from '../data/monsters';
 import { BOSS_TEMPLATES, BossTemplate } from '../data/bosses';
@@ -27,6 +27,8 @@ import { SKILL_TEMPLATES, getSkillRealtimeData } from '../data/skills';
 import { computeCharacterStats } from '../modules/character/stats';
 import { prisma } from '../index';
 import { updateQuestProgressBatch } from '../modules/quest/quest-engine';
+import { DISCIPLE_NAME, DISCIPLE_TEMPLATE_ID, discipleAttack } from '../modules/disciple/disciple';
+import { TOWER_FLOORS } from '../data/tower';
 
 interface SessionCharacter {
   id: string;
@@ -34,11 +36,14 @@ interface SessionCharacter {
   cultivationPath: string;
   realmIndex: number;
   realmTier: number;
+  sectId?: string | null;
   currentMapId?: string;
   positionX?: number;
   positionY?: number;
   inventory?: { templateId: string; isEquipped: boolean }[];
   skills?: { skillId: string; isEquipped: boolean }[];
+  disciple?: CharacterDisciple | null;
+  storyFlags?: { flagKey: string; flagValue: string }[];
 }
 
 function getMapTemplate(mapId: string) {
@@ -81,6 +86,7 @@ function getCombatConfiguration(character: SessionCharacter) {
   const stats = computeCharacterStats(
     path, character.realmIndex, character.realmTier,
     character.inventory?.filter((item) => item.isEquipped) ?? [],
+    character.sectId,
   );
   const skills = character.skills?.filter((skill) => skill.isEquipped).map((skill) => skill.skillId) ?? [];
   if (skills.length === 0) {
@@ -179,6 +185,18 @@ export interface ArpgPlayerState {
   lastHeartbeat: number;
 }
 
+interface ArpgDiscipleState {
+  id: string;
+  level: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  facingAngle: number;
+  state: 'IDLE' | 'MOVING' | 'ATTACKING';
+  lastAttackTime: number;
+}
+
 export class RestorationConflict extends Error {
   constructor() { super('Không thể hồi phục khi phiên chơi hoặc sinh mệnh đã thay đổi'); }
 }
@@ -187,6 +205,7 @@ export class ArpgGameSession {
   public characterId: string;
   public mapId: string;
   public player: ArpgPlayerState;
+  public disciple: ArpgDiscipleState | null = null;
   public monsters: ArpgMonsterEntity[] = [];
   public projectiles: ArpgProjectile[] = [];
   public telegraphs: ArpgTelegraph[] = [];
@@ -196,6 +215,7 @@ export class ArpgGameSession {
   public isPaused: boolean = false;
   public isTerminated: boolean = false;
   private nextEntityId: number = 1000;
+  private activeTowerFloor = 1;
 
   // Simultaneous death tracking and reward queuing per tick
   public pendingKillsInTick: ArpgMonsterEntity[] = [];
@@ -212,6 +232,7 @@ export class ArpgGameSession {
   constructor(character: SessionCharacter | null, mapId = character?.currentMapId ?? 'map_thanh_khe_rung') {
     if (!character) throw new Error('A character is required to open an ARPG session');
     this.characterId = character.id;
+    this.activeTowerFloor = Number(character.storyFlags?.find((flag) => flag.flagKey === 'TOWER_ACTIVE_FLOOR')?.flagValue) || 1;
     const map = getMapTemplate(mapId);
     this.mapId = map.id;
     const { path, stats, skills } = getCombatConfiguration(character);
@@ -245,6 +266,7 @@ export class ArpgGameSession {
     };
 
     this.initMonstersForMap(map);
+    this.refreshDisciple(character.disciple);
   }
 
   public transitionToMap(map: MapData, position?: { x: number; y: number }) {
@@ -263,6 +285,7 @@ export class ArpgGameSession {
     this.pendingKillsInTick = [];
     this.playerDiedInTick = false;
     this.initMonstersForMap(map);
+    this.resetDisciplePosition(map);
   }
 
   public refreshStats(stats: CharacterStats) {
@@ -299,6 +322,97 @@ export class ArpgGameSession {
     this.player.realmIndex = character.realmIndex;
     this.player.realmTier = character.realmTier;
     this.player.equippedSkillIds = skills;
+    this.refreshDisciple(character.disciple);
+    const selectedFloor = Number(character.storyFlags?.find((flag) => flag.flagKey === 'TOWER_ACTIVE_FLOOR')?.flagValue);
+    if (selectedFloor) this.setTowerFloor(selectedFloor);
+  }
+
+  public setTowerFloor(floor: number) {
+    if (!TOWER_FLOORS.some((entry) => entry.floor === floor) || this.activeTowerFloor === floor) return;
+    this.activeTowerFloor = floor;
+    if (this.mapId === 'map_tran_yeu_thap') this.transitionToMap(getMapTemplate(this.mapId));
+  }
+
+  public refreshDisciple(record?: Pick<CharacterDisciple, 'id' | 'level' | 'isActive'> | null) {
+    if (!record?.isActive) {
+      this.disciple = null;
+      return;
+    }
+    if (this.disciple?.id === record.id) {
+      this.disciple.level = record.level;
+      return;
+    }
+    this.disciple = {
+      id: record.id, level: record.level,
+      x: this.player.x, y: this.player.y,
+      vx: 0, vy: 0, facingAngle: 0, state: 'IDLE', lastAttackTime: 0,
+    };
+  }
+
+  private resetDisciplePosition(map: MapData) {
+    const disciple = this.disciple;
+    if (!disciple) return;
+    const preferred = { x: this.player.x - 28, y: this.player.y + 24 };
+    const position = isWorldPositionWalkable(map, preferred) ? preferred : { x: this.player.x, y: this.player.y };
+    Object.assign(disciple, position, { vx: 0, vy: 0, state: 'IDLE' });
+  }
+
+  private tickDisciple(map: MapData, dt: number, now: number) {
+    const disciple = this.disciple;
+    if (!disciple) return;
+    if (this.player.state === 'DEAD') {
+      disciple.vx = 0;
+      disciple.vy = 0;
+      disciple.state = 'IDLE';
+      return;
+    }
+
+    const distanceToPlayer = Math.hypot(this.player.x - disciple.x, this.player.y - disciple.y);
+    if (distanceToPlayer > 320 || !isWorldPositionWalkable(map, disciple) ||
+        (distanceToPlayer > 120 && !isWorldPathWalkable(map, disciple, this.player, 8))) {
+      this.resetDisciplePosition(map);
+    }
+
+    let target: ArpgMonsterEntity | undefined;
+    let nearest = Infinity;
+    for (const monster of this.monsters) {
+      if (monster.state === 'DEAD' || Math.hypot(monster.x - this.player.x, monster.y - this.player.y) > 190) continue;
+      const distance = Math.hypot(monster.x - disciple.x, monster.y - disciple.y);
+      if (distance < nearest && isWorldPathWalkable(map, disciple, monster, 8)) {
+        target = monster;
+        nearest = distance;
+      }
+    }
+
+    const follow = { x: this.player.x - 32, y: this.player.y + 28 };
+    const goal = target && nearest > 78
+      ? { x: target.x - Math.cos(Math.atan2(target.y - disciple.y, target.x - disciple.x)) * 66,
+          y: target.y - Math.sin(Math.atan2(target.y - disciple.y, target.x - disciple.x)) * 66 }
+      : follow;
+    const dx = goal.x - disciple.x;
+    const dy = goal.y - disciple.y;
+    const distance = Math.hypot(dx, dy);
+    if (distance > 18 && isWorldPathWalkable(map, disciple, goal, 8)) {
+      const speed = Math.min(170, distance * 4);
+      disciple.vx = dx / distance * speed;
+      disciple.vy = dy / distance * speed;
+      Object.assign(disciple, resolveWorldMovement(map, disciple, { x: disciple.vx * dt, y: disciple.vy * dt }));
+      disciple.state = 'MOVING';
+      disciple.facingAngle = Math.atan2(dy, dx);
+    } else {
+      disciple.vx = 0;
+      disciple.vy = 0;
+      disciple.state = 'IDLE';
+    }
+
+    if (target && target.state !== 'DEAD' && Math.hypot(target.x - disciple.x, target.y - disciple.y) <= 105 &&
+        now - disciple.lastAttackTime >= 1800 && isWorldPathWalkable(map, disciple, target, 8)) {
+      disciple.facingAngle = Math.atan2(target.y - disciple.y, target.x - disciple.x);
+      disciple.lastAttackTime = now;
+      disciple.state = 'ATTACKING';
+      this.addFloatingText(disciple.x, disciple.y - 36, '✦ Liễu Muội', '#86efac');
+      this.applyDamageToMonster(target, discipleAttack(disciple.level), 1, false, now, false);
+    }
   }
 
   public receiveHeartbeat(now = Date.now()) {
@@ -326,6 +440,7 @@ export class ArpgGameSession {
     if (!map.monsters || map.monsters.length === 0) return;
 
     for (const spawn of map.monsters) {
+      if (map.id === 'map_tran_yeu_thap' && spawn.monsterId !== TOWER_FLOORS[this.activeTowerFloor - 1]?.bossId) continue;
       const isBoss = spawn.monsterId.startsWith('boss_');
       const template = isBoss ? BOSS_TEMPLATES[spawn.monsterId] : MONSTER_TEMPLATES[spawn.monsterId];
       if (!template) continue;
@@ -575,8 +690,8 @@ export class ArpgGameSession {
   }
 
   // --- Damage Calculations ---
-  private applyDamageToMonster(monster: ArpgMonsterEntity, rawAtk: number, multiplier: number, isSkill: boolean, now = Date.now()) {
-    const isCrit = Math.random() * 100 < this.player.stats.critRate;
+  private applyDamageToMonster(monster: ArpgMonsterEntity, rawAtk: number, multiplier: number, isSkill: boolean, now = Date.now(), canCrit = true) {
+    const isCrit = canCrit && Math.random() * 100 < this.player.stats.critRate;
     const critMult = isCrit ? (1 + this.player.stats.critDmg / 100) : 1;
     const effectiveAtk = rawAtk * multiplier * critMult;
     const damage = Math.max(1, Math.round(effectiveAtk - monster.def * 0.5));
@@ -674,6 +789,14 @@ export class ArpgGameSession {
           { type: 'KILL', targetId: monster.templateId, amount: 1 },
           ...itemsGained.map((item) => ({ type: 'COLLECT' as const, targetId: item.itemId, amount: item.quantity })),
         ]);
+        if (this.mapId === 'map_tran_yeu_thap') {
+          const floor = TOWER_FLOORS.find((entry) => entry.bossId === monster.templateId);
+          if (floor) await tx.storyFlag.upsert({
+            where: { characterId_flagKey: { characterId: this.characterId, flagKey: `TOWER_FLOOR_${floor.floor}` } },
+            create: { characterId: this.characterId, flagKey: `TOWER_FLOOR_${floor.floor}`, flagValue: 'CLEARED' },
+            update: {},
+          });
+        }
       });
     } catch (err) {
       console.error('Lỗi khi quyết toán phần thưởng diệt quái:', err);
@@ -941,6 +1064,8 @@ export class ArpgGameSession {
       }
     }
 
+    this.tickDisciple(map, dt, now);
+
     // 5. Resolve Deaths, Simultaneous Death Rules & Reward Commitments
     if (this.playerDiedInTick || this.player.state === 'DEAD') {
       const hadBossInTick = this.pendingKillsInTick.some(m => m.isBoss);
@@ -1021,6 +1146,20 @@ export class ArpgGameSession {
       maxHp: m.maxHp,
       state: m.state,
     }));
+    if (this.disciple) entitySnapshots.push({
+      id: this.disciple.id,
+      name: DISCIPLE_NAME,
+      type: 'DISCIPLE',
+      templateId: DISCIPLE_TEMPLATE_ID,
+      x: Math.round(this.disciple.x),
+      y: Math.round(this.disciple.y),
+      vx: Math.round(this.disciple.vx),
+      vy: Math.round(this.disciple.vy),
+      facingAngle: Number(this.disciple.facingAngle.toFixed(3)),
+      hp: 1,
+      maxHp: 1,
+      state: this.disciple.state,
+    });
 
     const projectileSnapshots: ProjectileSnapshot[] = this.projectiles.map(p => ({
       id: p.id,
@@ -1136,6 +1275,8 @@ export class ArpgSessionManager {
         include: {
           inventory: { where: { isEquipped: true } },
           skills: { where: { isEquipped: true } },
+          disciple: true,
+          storyFlags: { where: { flagKey: 'TOWER_ACTIVE_FLOOR' } },
         },
       });
       if (!character) return undefined;
@@ -1213,6 +1354,7 @@ export class ArpgSessionManager {
               include: {
                 inventory: { where: { isEquipped: true } },
                 skills: { where: { isEquipped: true } },
+                disciple: true,
               },
             })
           : undefined;

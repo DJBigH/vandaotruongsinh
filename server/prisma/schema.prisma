@@ -90,6 +90,7 @@ model Character {
   rewardClaims       RewardClaim[]
   caveAbode          CaveAbode?
   pets               CharacterPet[]
+  disciple           CharacterDisciple?
 
   @@index([accountId])
   @@index([name])
@@ -213,6 +214,18 @@ model CharacterPet {
   @@unique([characterId, petTemplateId])
   @@index([characterId])
   @@map("character_pets")
+}
+
+model CharacterDisciple {
+  id          String    @id @default(uuid()) @db.Uuid
+  characterId String    @unique @db.Uuid
+  level       Int       @default(1)
+  isActive    Boolean   @default(true)
+  recruitedAt DateTime  @default(now())
+
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@map("character_disciples")
 }
 
 model AuditLog {
