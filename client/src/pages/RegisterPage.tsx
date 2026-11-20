@@ -126,7 +126,7 @@ const styles: Record<string, React.CSSProperties> = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    background: 'linear-gradient(180deg, #0d0d20 0%, #1a1a3e 30%, #1b4332 70%, #0d0d20 100%)',
+    background: '#172620',
     position: 'relative',
     overflow: 'hidden',
   },
@@ -139,14 +139,14 @@ const styles: Record<string, React.CSSProperties> = {
   mountainLeft: {
     position: 'absolute', bottom: 0, left: '-5%',
     width: '40%', height: '35%',
-    background: 'linear-gradient(135deg, #1b4332 0%, #0d0d20 100%)',
+    background: '#304637',
     clipPath: 'polygon(0 100%, 50% 0, 100% 100%)',
     opacity: 0.5, pointerEvents: 'none',
   },
   mountainRight: {
     position: 'absolute', bottom: 0, right: '-5%',
     width: '35%', height: '30%',
-    background: 'linear-gradient(225deg, #1b4332 0%, #0d0d20 100%)',
+    background: '#263d32',
     clipPath: 'polygon(0 100%, 60% 0, 100% 100%)',
     opacity: 0.4, pointerEvents: 'none',
   },
@@ -157,13 +157,13 @@ const styles: Record<string, React.CSSProperties> = {
   },
   card: {
     position: 'relative', zIndex: 1,
-    background: 'rgba(13, 13, 32, 0.9)',
-    border: '1px solid rgba(212, 165, 116, 0.3)',
-    borderRadius: '12px',
+    background: '#1e2d26',
+    border: '1px solid #9c8357',
+    borderRadius: '4px',
     padding: '36px 36px 28px',
     width: '400px', maxWidth: '90vw',
-    backdropFilter: 'blur(20px)',
-    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(212, 165, 116, 0.1)',
+
+    boxShadow: '0 16px 45px rgba(0, 0, 0, 0.32)',
   },
   titleSection: {
     display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -176,7 +176,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontFamily: "'Noto Serif', serif",
     fontSize: '22px', fontWeight: 700, color: '#d4a574',
     textAlign: 'center' as const, letterSpacing: '3px',
-    textShadow: '0 2px 10px rgba(212, 165, 116, 0.3)',
+
   },
   subtitle: {
     fontFamily: "'Noto Serif', serif",

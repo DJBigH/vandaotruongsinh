@@ -6,9 +6,9 @@
   --jade: #2d6a4f;
   --jade-light: #40916c;
   --jade-dark: #1b4332;
-  --night-blue: #1a1a3e;
-  --night-blue-light: #2a2a5e;
-  --night-blue-dark: #0d0d20;
+  --night-blue: #1e3029;
+  --night-blue-light: #30463a;
+  --night-blue-dark: #121f1a;
   --pale-gold: #d4a574;
   --gold-light: #e8c89e;
   --gold-dark: #b8864e;
@@ -18,13 +18,13 @@
   --crimson-light: #e74c3c;
   --crimson-dark: #962d22;
 
-  --bg-primary: #0d0d20;
-  --bg-secondary: #1a1a3e;
-  --bg-card: rgba(26, 26, 62, 0.9);
-  --bg-input: rgba(13, 13, 32, 0.8);
+  --bg-primary: #121f1a;
+  --bg-secondary: #1e3029;
+  --bg-card: #23372e;
+  --bg-input: #16251e;
   --text-primary: #f5e6c8;
   --text-secondary: #b8a88a;
-  --text-muted: #7a7a8a;
+  --text-muted: #a4a998;
   --border-color: rgba(212, 165, 116, 0.3);
   --border-focus: #d4a574;
   --shadow-color: rgba(0, 0, 0, 0.5);
@@ -126,43 +126,47 @@ a:hover {
   padding: 10px 24px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
-  background: linear-gradient(135deg, var(--jade-dark), var(--jade));
+  background: var(--jade-dark);
   color: var(--parchment);
   font-family: var(--font-serif);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
   letter-spacing: 0.5px;
   user-select: none;
 }
 .btn:hover {
-  background: linear-gradient(135deg, var(--jade), var(--jade-light));
+  background: var(--jade);
   border-color: var(--pale-gold);
-  box-shadow: 0 0 12px rgba(45, 106, 79, 0.4);
-  transform: translateY(-1px);
+  box-shadow: none;
 }
 .btn:active {
-  transform: translateY(0);
+  filter: brightness(.92);
 }
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  transform: none;
+  filter: none;
+}
+.btn:focus-visible, .input:focus-visible, .game-hud button:focus-visible,
+.character-create-page button:focus-visible, .character-create-page input:focus-visible {
+  outline: 2px solid #ead39d;
+  outline-offset: 2px;
 }
 .btn-danger {
-  background: linear-gradient(135deg, var(--crimson-dark), var(--crimson));
+  background: var(--crimson-dark);
 }
 .btn-danger:hover {
-  background: linear-gradient(135deg, var(--crimson), var(--crimson-light));
-  box-shadow: 0 0 12px rgba(192, 57, 43, 0.4);
+  background: var(--crimson);
+  box-shadow: none;
 }
 .btn-gold {
-  background: linear-gradient(135deg, var(--gold-dark), var(--pale-gold));
+  background: #b99a63;
   color: var(--night-blue-dark);
 }
 .btn-gold:hover {
-  background: linear-gradient(135deg, var(--pale-gold), var(--gold-light));
+  background: #d0b47c;
 }
 .btn-small {
   padding: 6px 14px;
