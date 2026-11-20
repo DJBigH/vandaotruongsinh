@@ -31,7 +31,7 @@ const PORTRAITS: Record<PortraitRole, { image: string; size: string; position: s
 export default function NpcPortrait({ speaker, spriteKey, size = 104 }: { speaker: string; spriteKey?: string; size?: number }) {
   const portrait = PORTRAITS[portraitRole(speaker, spriteKey)];
   return <div role="img" aria-label={`Chân dung ${speaker}`} style={{
-    width: size, height: size, flexShrink: 0, border: '2px solid #c5a059', borderRadius: 8,
+    width: size, height: size, flexShrink: 0, border: '2px solid #aa9163', borderRadius: 4,
     boxSizing: 'border-box', backgroundColor: portrait.tint, backgroundImage: `url(${portrait.image})`,
     backgroundSize: portrait.size, backgroundPosition: portrait.position, backgroundRepeat: 'no-repeat',
     boxShadow: 'inset 0 0 18px #0008, 0 4px 14px #0007',

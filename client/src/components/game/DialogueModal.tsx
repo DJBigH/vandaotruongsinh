@@ -29,19 +29,19 @@ export default function DialogueModal() {
       maxHeight: 'min(55vh, 430px)',
       overflowY: 'auto',
       boxSizing: 'border-box',
-      background: 'rgba(15, 23, 42, 0.96)',
-      border: '2px solid #c5a059',
-      borderRadius: '12px',
+      background: 'rgba(25, 41, 33, 0.97)',
+      border: '2px solid #aa9163',
+      borderRadius: '4px',
       padding: '20px 24px',
       boxShadow: '0 8px 36px rgba(0,0,0,0.85)',
       zIndex: 200,
-      color: '#e2e8f0',
+      color: '#e7e4d5',
     }}>
       {/* Speaker Name Tag */}
       <div style={{
         display: 'inline-block',
         marginBottom: 8,
-        background: '#c5a059',
+        background: '#aa9163',
         color: '#000',
         fontWeight: 'bold',
         fontSize: '0.9rem',
@@ -63,7 +63,7 @@ export default function DialogueModal() {
             fontSize: '1.05rem',
             lineHeight: 1.6,
             marginBottom: '16px',
-            color: '#f1f5f9',
+            color: '#f0ebd9',
           }}>
             {currentLine.text}
           </div>
@@ -76,9 +76,9 @@ export default function DialogueModal() {
                   key={idx}
                   onClick={() => selectChoice(idx)}
                   style={{
-                    background: '#1e293b',
-                    border: '1px solid #c5a059',
-                    color: '#f8fafc',
+                    background: '#26382c',
+                    border: '1px solid #aa9163',
+                    color: '#f0ebd9',
                     padding: '10px 16px',
                     borderRadius: '6px',
                     textAlign: 'left',
@@ -86,8 +86,8 @@ export default function DialogueModal() {
                     fontSize: '0.95rem',
                     transition: 'background 0.2s',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = '#334155')}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = '#1e293b')}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#3d513c')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#26382c')}
                 >
                   ➤ {c.text}
                 </button>
