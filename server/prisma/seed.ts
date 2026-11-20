@@ -3,7 +3,6 @@
 // ============================================================
 
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
 import {
   ITEM_TEMPLATES,
   MONSTER_TEMPLATES,
@@ -16,25 +15,8 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('[Seed] Đang khởi tạo dữ liệu mẫu cho Vạn Đạo Trường Sinh...');
 
-  // 1. Create a default dev admin account if not exists
-  const existingOwner = await prisma.account.findFirst({
-    where: { role: 'OWNER' },
-  });
-
-  if (!existingOwner) {
-    const pwHash = await bcrypt.hash('admin@1234', 10);
-    const owner = await prisma.account.create({
-      data: {
-        username: 'admin',
-        email: 'admin@vandao.vn',
-        passwordHash: pwHash,
-        role: 'OWNER',
-      },
-    });
-    console.log(`[Seed] Đã tạo tài khoản Quản trị viên (Owner): ${owner.username}`);
-  }
-
-  // 2. Insert initial ContentVersion entries for all items, monsters, bosses, quests
+  // ContentVersion records can be seeded before the owner creates an account.
+  // Never create an owner with a fixed password from seed data.
   const owner = await prisma.account.findFirst({ where: { role: 'OWNER' } });
   const ownerId = owner?.id || '00000000-0000-0000-0000-000000000000';
 
