@@ -17,7 +17,7 @@ Object.assign(process.env, environment.env, { NODE_ENV: nodeEnv });
 export const config = {
   server: {
     port: parseInt(process.env.SERVER_PORT || '3001', 10),
-    host: process.env.SERVER_HOST || '0.0.0.0',
+    host: process.env.SERVER_HOST || '127.0.0.1',
     nodeEnv,
   },
   database: {
