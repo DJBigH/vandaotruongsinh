@@ -5,7 +5,7 @@ import { useGameStore } from '../../stores/gameStore';
 const clock = new Intl.DateTimeFormat('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh', hour: '2-digit', minute: '2-digit' });
 const detail: Record<TimedEvent['id'], string> = {
   'noon-meditation': 'Ngồi tụ linh nhận 100 tu vi, một lần mỗi khung giờ.',
-  'world-boss': 'Tới Rừng Thanh Khê hạ Xích Nha Lang Vương. Lần đầu trong khung giờ nhận thêm 500 linh thạch và 600 tu vi.',
+  'world-boss': 'Tới Rừng Thanh Khê hạ Xích Nha Lang Vương · Thiên Khế. Trong khung giờ boss có gấp đôi sinh lực và đòn mạnh hơn; lần đầu hạ gục nhận thêm 500 linh thạch và 600 tu vi.',
   'night-hunt': 'Săn một yêu thú tại Rừng Thanh Khê. Lần đầu trong khung giờ nhận thêm 120 linh thạch và 150 tu vi.',
 };
 

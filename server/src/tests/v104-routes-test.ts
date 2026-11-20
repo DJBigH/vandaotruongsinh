@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { test } from 'node:test';
 import { AccountRole, CultivationPath } from '@shared';
 import { buildServer, prisma } from '../index';
-import { ArpgSessionManager } from '../engine/realtime-arpg-engine';
+import { ArpgGameSession, ArpgSessionManager } from '../engine/realtime-arpg-engine';
 import { breakthroughRng } from '../engine/breakthrough-chance';
 import { computeCharacterStats } from '../modules/character/stats';
 import bcrypt from 'bcrypt';
@@ -97,4 +97,20 @@ test('bootstrap password must change before game access and old token is revoked
   const newCookie = change.cookies.find((entry) => entry.name === 'token')?.value;
   assert.ok(newCookie);
   assert.equal((await app.inject({ url: '/api/auth/me', headers: { cookie: `token=${newCookie}` } })).statusCode, 200);
+});
+
+test('the timed Lang Vương has a distinct empowered form and returns to ordinary combat after the window', () => {
+  const session = new ArpgGameSession({ id: randomUUID(), name: 'boss_fixture', cultivationPath: 'SWORD',
+    realmIndex: 0, realmTier: 0, currentMapId: 'map_thanh_khe_rung' });
+  const boss = session.monsters.find((monster) => monster.templateId === 'boss_001');
+  assert.ok(boss);
+  const baseHp = boss.maxHp;
+  const baseAtk = boss.atk;
+  (session as any).syncWorldBossPower(Date.parse('2026-11-20T13:05:00Z'));
+  assert.equal(boss.maxHp, baseHp * 2);
+  assert.ok(boss.atk > baseAtk);
+  assert.match(boss.name, /Thiên Khế/);
+  (session as any).syncWorldBossPower(Date.parse('2026-11-20T13:35:00Z'));
+  assert.equal(boss.maxHp, baseHp);
+  assert.equal(boss.atk, baseAtk);
 });

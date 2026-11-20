@@ -221,6 +221,7 @@ export class ArpgGameSession {
   private nextEntityId: number = 1000;
   private activeTowerFloor = 1;
   private godMode = false;
+  private lastBossWindowMinute = -1;
 
   // Simultaneous death tracking and reward queuing per tick
   public pendingKillsInTick: ArpgMonsterEntity[] = [];
@@ -278,6 +279,7 @@ export class ArpgGameSession {
   public transitionToMap(map: MapData, position?: { x: number; y: number }) {
     const spawn = selectSpawn(map, position);
     this.mapId = map.id;
+    this.lastBossWindowMinute = -1;
     Object.assign(this.player, spawn, {
       vx: 0, vy: 0,
       state: this.player.hp > 0 ? 'IDLE' : 'DEAD',
@@ -481,6 +483,23 @@ export class ArpgGameSession {
         respawnAt: 0,
         template,
       });
+    }
+  }
+
+  private syncWorldBossPower(now: number) {
+    const minute = Math.floor(now / 60_000);
+    if (minute === this.lastBossWindowMinute) return;
+    this.lastBossWindowMinute = minute;
+    if (this.mapId !== 'map_thanh_khe_rung') return;
+    const empowered = activeWorldEvent(new Date(now))?.id === 'world-boss';
+    for (const monster of this.monsters) {
+      if (monster.templateId !== 'boss_001') continue;
+      const nextMaxHp = Math.round(monster.template.stats.maxHp * (empowered ? 2 : 1));
+      const healthRatio = monster.maxHp > 0 ? monster.hp / monster.maxHp : 1;
+      monster.maxHp = nextMaxHp;
+      monster.hp = monster.state === 'DEAD' ? 0 : Math.max(1, Math.round(nextMaxHp * healthRatio));
+      monster.atk = Math.round(monster.template.stats.atk * (empowered ? 1.35 : 1));
+      monster.name = empowered ? 'Xích Nha Lang Vương · Thiên Khế' : monster.template.name;
     }
   }
 
@@ -1007,6 +1026,7 @@ export class ArpgGameSession {
     }
 
     // 4. Update Monsters & Boss AI
+    this.syncWorldBossPower(now);
     for (const m of this.monsters) {
       if (m.state === 'DEAD') {
         if (now >= m.respawnAt) {
