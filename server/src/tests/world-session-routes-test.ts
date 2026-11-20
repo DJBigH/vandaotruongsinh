@@ -41,6 +41,18 @@ test('backend health publishes the launcher game identity', async () => {
   assert.deepEqual({ status, game }, { status: 'ok', game: 'Vạn Đạo Trường Sinh' });
 });
 
+test('a failed world bind reports the setup problem instead of leaving the client connecting', async (t) => {
+  const game = await setup(t);
+  t.mock.method(manager, 'openSession', async () => { throw new Error('missing disciple table'); });
+  const socket = await app.injectWS('/ws/game');
+  t.after(() => socket.terminate());
+  const error = message(socket, 'ERROR');
+  const closed = once(socket, 'close');
+  socket.send(JSON.stringify({ type: 'AUTH', token: game.cookie.slice('token='.length), characterId: game.character.id }));
+  assert.match((await error).error ?? '', /Cài Đặt Tự Động|đồng bộ dữ liệu/);
+  await closed;
+});
+
 async function setup(t: TestContext, position = forestSpawn) {
   const username = `world_${randomUUID().slice(0, 8)}`;
   const account = await prisma.account.create({

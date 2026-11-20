@@ -265,8 +265,17 @@ export async function arpgWebSocketRoutes(fastify: FastifyInstance, options: { p
           );
         }
       } catch (err) {
-        if (!activeCharacterId) authPending = false;
-        console.error('Lỗi xử lý gói tin WebSocket ARPG:', err);
+        req.log.error(err, 'Lỗi xử lý gói tin WebSocket ARPG');
+        if (!activeCharacterId) {
+          authPending = false;
+          if (socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({
+              type: 'ERROR',
+              error: 'Không thể mở thế giới. Hãy chạy Cài Đặt Tự Động trong Launcher để đồng bộ dữ liệu, rồi tải lại game.',
+            }));
+            socket.close(1011, 'World initialization failed');
+          }
+        }
       }
     });
 
