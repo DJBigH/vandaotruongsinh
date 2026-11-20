@@ -39,6 +39,14 @@ test('v1.0.4 protects GM commands, applies equipment runes, and records failed b
   assert.equal(gm.statusCode, 200, gm.body);
   assert.equal((await prisma.character.findUniqueOrThrow({ where: { id: char.id } })).godMode, true);
   assert.equal(await prisma.auditLog.count({ where: { targetId: char.id, action: 'OWNER_CHEAT' } }), 1);
+  const session = await ArpgSessionManager.getInstance().openSession(char.id, owner.id);
+  assert.ok(session);
+  const fullHp = session.player.hp;
+  (session as any).applyDamageToPlayer(999, 'GM test');
+  assert.equal(session.player.hp, fullHp, 'server denies damage while OWNER cheat is active');
+  assert.equal((await send(owner, '/api/admin/cheats', { godMode: false })).statusCode, 200);
+  (session as any).applyDamageToPlayer(10, 'GM test');
+  assert.ok(session.player.hp < fullHp, 'turning the cheat off restores ordinary damage');
 
   const enchant = await send(owner, `/api/game/inventory/${item.id}/enchant`, { type: 'FURY' });
   assert.equal(enchant.statusCode, 200, enchant.body);
