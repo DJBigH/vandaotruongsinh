@@ -104,7 +104,7 @@ export default function GmTools() {
         <article><h3>Vật phẩm và cường hóa</h3><p>Thêm vật phẩm có thật trong kho game.</p>
           <label>Vật phẩm<select value={itemId} onChange={(e) => setItemId(e.target.value)}>{catalog?.items.map((entry) => <option key={entry.id} value={entry.id}>{entry.name} · {entry.id}</option>)}</select></label>
           <div className="gm-v110-fields"><label>Số lượng<input type="number" min="1" max="99" value={quantity} disabled={Boolean(selectedItem?.slot)} onChange={(e) => setQuantity(Number(e.target.value))} /></label>
-            <label>Cường hóa<select value={enhanceLevel} disabled={!selectedItem?.slot} onChange={(e) => setEnhanceLevel(Number(e.target.value))}>{Array.from({ length: 11 }, (_, value) => <option key={value} value={value}>+{value}</option>)}</select></label></div>
+            <label>Cường hóa<select value={enhanceLevel} disabled={!selectedItem?.slot} onChange={(e) => setEnhanceLevel(Number(e.target.value))}>{[0, 1, 2, 3, 4, 5].map((value) => <option key={value} value={value}>+{value}</option>)}</select></label></div>
           <button disabled={busy || !itemId} onClick={() => void apply({ kind: 'item', templateId: itemId, quantity: selectedItem?.slot ? 1 : quantity, enhanceLevel: selectedItem?.slot ? enhanceLevel : 0 }, 'Vật phẩm')}>Thêm vào túi</button></article>
         <article><h3>Bí kíp</h3><p>Chỉ hiện chiêu của phái nhân vật đang chọn.</p>
           <label>Chiêu thức<select value={selectedSkill} onChange={(e) => setSkillId(e.target.value)}>{skills.map((skill) => <option key={skill.id} value={skill.id}>{skill.name}</option>)}</select></label>

@@ -8,11 +8,10 @@ import { discoveryReward, discoveryKey } from '../modules/world/discoveries';
 import { QUEST_TEMPLATES } from '../data/quests';
 import { MAP_DATA } from '../data/maps';
 
-test('cường hóa có mốc chi phí rõ ràng và giới hạn +10', () => {
+test('cường hóa có mốc chi phí rõ ràng và giới hạn +5', () => {
   assert.deepEqual(enhancementCost(0), { nextLevel: 1, gold: 40, ore: 1 });
   assert.deepEqual(enhancementCost(4), { nextLevel: 5, gold: 1000, ore: 5 });
-  assert.deepEqual(enhancementCost(5), { nextLevel: 6, gold: 1440, ore: 6 });
-  assert.equal(enhancementCost(10), null);
+  assert.equal(enhancementCost(5), null);
 });
 
 test('cường hóa chỉ tăng thuộc tính của đúng món đang trang bị', () => {

@@ -1166,24 +1166,8 @@ export default class ExplorationScene extends Phaser.Scene {
         if (!mountId) return;
         const res = await gameApi.tameMount(mountId);
         if (res.success && this.sceneListeners === lifetime) {
-          const succeeded = Boolean(res.data?.success);
-          const effectKey = `vfx_upgrade_mount_${succeeded ? 'success' : 'failure'}`;
-          if (this.textures.exists(effectKey) && this.mapData) {
-            const site = target as MapInteractable;
-            const x = site.position.x * this.mapData.tileSize;
-            const y = site.position.y * this.mapData.tileSize - 32;
-            const effect = this.add.sprite(x, y, effectKey).setDepth(y + 60);
-            if (usePresentationSettings.getState().reducedEffects) {
-              effect.setFrame(succeeded ? 3 : 0);
-              this.time.delayedCall(850, () => effect.destroy());
-            } else {
-              const animation = `${effectKey}_play`;
-              effect.play(animation);
-              effect.once(Phaser.Animations.Events.ANIMATION_COMPLETE_KEY + animation, () => effect.destroy());
-            }
-          }
-          eventBridge.emit('notification', res.message || (succeeded ? 'Đã thu phục linh thú!' : 'Khế ước chưa thành'));
-          if (succeeded) eventBridge.emit('worldProgressCommitted');
+          eventBridge.emit('notification', `Đã thu phục ${res.data?.name ?? 'linh thú'}!`);
+          eventBridge.emit('worldProgressCommitted');
         }
       } else {
         const res = await gameApi.interact(id);

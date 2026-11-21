@@ -88,8 +88,6 @@ Bản 1.1.0 bổ sung 20 boss riêng, 8 NPC cốt truyện riêng, 6 đạo cụ
 
 Bản 1.2.0 dùng `art/pack-v120.py` đóng gói tranh đã duyệt từ `art/future-library`, `art/event-vision` và `art/motion-library` vào `client/public/assets/v120/`. NPC/đệ tử phải có avatar cận mặt; thú chưa thu phục dùng sheet không yên và có avatar hoang, thú đã thu phục dùng avatar bonded. Trang bị có icon và tranh chi tiết riêng ở từng mức +0 đến +5. Mỗi boss có sheet hành động theo trạng thái server, sheet chuyển pha và chết phát một lần; 36 bí kíp và đột phá có bốn khung hiệu ứng. Mốc vùng chỉ là trang trí, không thêm collision.
 
-Bản 1.3.0 mở hình trang bị, phụ kiện và sáu loại vũ khí từ +6 đến +10. Mỗi cấp mới có icon 64 × 64 và avatar vật phẩm 192 × 192; cấp cao có chi tiết khảm vàng/ngọc trên vật thể, không dùng quầng mờ để phân biệt. Ba hành động cường hóa, thu phục thú và đột phá có dải bốn khung thành công/thất bại riêng 96 × 96, giữ neo cố định và chỉ phát khi máy chủ trả kết quả. Hiệu ứng thuần túy dùng avatar vật phẩm, thú hoặc nhân vật đã có. Nguồn, bản bị loại, ảnh xem trước và validator ở `art/upgrade-v130/`.
-
 Thú cưỡi v1.0.5 dùng bốn khung bước chân trên một hàng `128 × 96`, riêng cho sáu loài. Khung cuối trở về tư thế đầu để vòng đi không hiện hình bị cắt cạnh. Sheet được hiển thị khoảng `105 × 79` pixel, nhân vật cưỡi dùng dáng rút thấp và lớp yên phía trước chân. Icon vũ khí là 64 × 64 alpha, giữ nét pixel rõ khi hiện trong Túi và Lò Rèn. Nguồn tạo ảnh, script đóng gói và thành phẩm nằm tại `art/v105/` và `assets/v105/`.
 
 ---

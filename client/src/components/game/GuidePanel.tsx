@@ -19,7 +19,7 @@ const STEPS = [
   },
   {
     title: 'Mạnh lên theo cách của bạn',
-    body: 'Nhận trang bị qua nhiệm vụ, trận đánh và Lò Rèn. Trong Túi, dùng Thiết Khoáng để cường hóa tới +10 hoặc khắc một phù văn. Từ +6 trở đi có thể thất bại nhưng món đồ không tụt cấp. Xem Tu Vi để biết mốc đột phá và xác suất thành công. Sự Kiện mở theo giờ Việt Nam, có Lang Vương ở Rừng Thanh Khê.',
+    body: 'Nhận trang bị qua nhiệm vụ, trận đánh và Lò Rèn. Trong Túi, dùng Thiết Khoáng để cường hóa +5 hoặc khắc một phù văn. Xem Tu Vi để biết mốc đột phá và xác suất thành công. Sự Kiện mở theo giờ Việt Nam, có Lang Vương ở Rừng Thanh Khê.',
     action: 'Lò Rèn cho biết nguyên liệu kiếm ở đâu. Chiêu mộ đệ tử và khám phá từng linh miếu để mở tiếp chính tuyến.',
   },
   {

@@ -16,11 +16,6 @@ export function weaponArt(templateId: string, name = '', enhanceLevel = 0) {
         /thương|kích|đao/.test(name.toLowerCase()) ? 'spear' :
           /cung/.test(name.toLowerCase()) ? 'bow' :
             /phủ|rìu/.test(name.toLowerCase()) ? 'axe' : 'sword');
-  const stage = Math.max(0, Math.min(10, Math.trunc(enhanceLevel || 0)));
-  return stage <= 5 ? `/assets/v110/weapon_${kind}_${stage}.png` : `/assets/v130/weapon_${kind}_${stage}.png`;
-}
-
-export function weaponPortrait(templateId: string, name = '', enhanceLevel = 0) {
-  const icon = weaponArt(templateId, name, enhanceLevel);
-  return enhanceLevel <= 5 ? icon : icon.replace('/weapon_', '/avatar_weapon_');
+  const stage = Math.max(0, Math.min(5, Math.trunc(enhanceLevel || 0)));
+  return `/assets/v110/weapon_${kind}_${stage}.png`;
 }

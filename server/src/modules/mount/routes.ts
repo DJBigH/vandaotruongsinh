@@ -4,8 +4,7 @@ import { z } from 'zod';
 import { authenticate } from '../../middleware/auth';
 import { getActiveCharacter } from '../character/helpers';
 import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
-import { MOUNTS, canEquipMount, mountHuntKey, mountOwnedKey, mountTameFailureKey,
-  mountTameRng, tamingChance, tamingOutcome } from './mounts';
+import { MOUNTS, canEquipMount, mountHuntKey, mountOwnedKey } from './mounts';
 
 const requestSchema = z.object({ mountId: z.string().max(40).nullable() });
 const tameSchema = z.object({ mountId: z.string().max(40) });
@@ -26,8 +25,6 @@ export async function mountRoutes(fastify: FastifyInstance, options: { prisma: P
         owned: character.activeMount === mount.id || character.storyFlags.some((flag) => flag.flagKey === mountOwnedKey(mount.id)),
         huntProgress: Number(character.storyFlags.find((flag) => flag.flagKey === mountHuntKey(mount.id))?.flagValue ?? 0),
         realmReady: character.realmIndex >= mount.realmIndex,
-        tameChance: tamingChance(Math.max(0, Math.min(2,
-          Number(character.storyFlags.find((flag) => flag.flagKey === mountTameFailureKey(mount.id))?.flagValue) || 0))),
       }));
     return reply.send({ success: true, data: { mounts, activeMount: character.activeMount } });
   });
@@ -57,26 +54,9 @@ export async function mountRoutes(fastify: FastifyInstance, options: { prisma: P
       } } });
       if (Number(hunt?.flagValue ?? 0) < mount.requiredKills)
         return { success: false as const, status: 403, error: `Cần đánh bại ${mount.requiredKills} ${mount.preyName} ở ${mount.mapName}` };
-      const failureKey = mountTameFailureKey(mount.id);
-      const failureFlag = await tx.storyFlag.findUnique({ where: { characterId_flagKey: {
-        characterId: current.id, flagKey: failureKey,
-      } } });
-      const previousFailures = Math.max(0, Math.min(2, Number(failureFlag?.flagValue) || 0));
-      const outcome = tamingOutcome(previousFailures, mountTameRng.roll());
-      if (!outcome.success) {
-        await tx.storyFlag.upsert({ where: { characterId_flagKey: {
-          characterId: current.id, flagKey: failureKey,
-        } }, create: { characterId: current.id, flagKey: failureKey, flagValue: String(outcome.failures) },
-        update: { flagValue: String(outcome.failures) } });
-        return { success: true as const, data: { success: false, mountId: mount.id, name: mount.name,
-          chance: outcome.chance, nextChance: tamingChance(outcome.failures) },
-          message: `${mount.name} chưa chịu khế ước. Lần tới có ${Math.round(tamingChance(outcome.failures) * 100)}% cơ hội.` };
-      }
-      if (failureFlag) await tx.storyFlag.delete({ where: { id: failureFlag.id } });
       await tx.storyFlag.create({ data: { characterId: current.id, flagKey: mountOwnedKey(mount.id), flagValue: '1' } });
       await tx.character.update({ where: { id: current.id }, data: { activeMount: mount.id } });
-      return { success: true as const, data: { success: true, mountId: mount.id, name: mount.name,
-        chance: outcome.chance, nextChance: 1 }, message: `Đã thu phục ${mount.name}` };
+      return { success: true as const, data: { mountId: mount.id, name: mount.name } };
     });
     if (!result.success) return reply.status(result.status).send({ success: false, error: result.error });
     return reply.send(result);

@@ -62,18 +62,18 @@
 .event-panel li > img { grid-column: 1 / -1; width: 100%; height: 90px; object-fit: cover; border: 1px solid #526951; }
 .realm-stages span { border: 1px solid #52606a; color: #a9b4b7; padding: 4px 7px; font-size: 0.73rem; background: #1b2930; }
 .realm-stages span.reached { color: #f2db9d; border-color: #9f8250; background: #3b3427; }
+.breakthrough-overlay { position: fixed; inset: 0; z-index: 350; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px; text-align: center; background: rgba(8, 15, 18, 0.94); color: #f3e8cb; }
+.breakthrough-overlay h2 { font-family: var(--font-serif); color: #e8cf90; font-size: clamp(1.4rem, 4vw, 2rem); }
+.breakthrough-overlay.failed h2 { color: #e4a48e; }
+.breakthrough-overlay p { max-width: 490px; line-height: 1.6; }
+.breakthrough-overlay button { color: #172020; background: #d6b977; border: 1px solid #f5db9f; padding: 11px 20px; cursor: pointer; }
+.breakthrough-orbit { display: grid; place-items: center; width: 132px; height: 132px; border: 3px solid #b7975e; border-radius: 50%; box-shadow: 0 0 0 12px #9b7c3933, inset 0 0 24px #e7c06d55; animation: breakthrough-rise 1.4s ease-out both; }
+.breakthrough-orbit span { font-family: var(--font-serif); font-size: 3rem; color: #f3d693; }
+.breakthrough-sprite { width: 96px; height: 96px; image-rendering: pixelated; background-size: 384px 96px; background-repeat: no-repeat; animation: breakthrough-frames .85s linear 1 forwards; }
 @keyframes breakthrough-frames { 0%, 24.9% { background-position: 0 0; } 25%, 49.9% { background-position: -96px 0; } 50%, 74.9% { background-position: -192px 0; } 75%, 100% { background-position: -288px 0; } }
-.upgrade-outcome { position: fixed; inset: 0; z-index: 360; display: grid; place-items: center; padding: 18px; background: #081116df; color: #f4e9d3; }
-.upgrade-outcome-card { width: min(340px, 100%); display: grid; justify-items: center; gap: 10px; text-align: center; padding: 20px; background: #1c3028; border: 1px solid #ad9567; box-shadow: 0 18px 55px #000b; }
-.upgrade-outcome.is-failure .upgrade-outcome-card { border-color: #9a746e; }
-.upgrade-outcome-avatar { object-fit: contain; image-rendering: pixelated; }
-.upgrade-outcome-sprite { width: 96px; height: 96px; background-size: 384px 96px; background-position: 0 0; background-repeat: no-repeat; image-rendering: pixelated; }
-@media (prefers-reduced-motion: no-preference) { .upgrade-outcome-sprite { animation: breakthrough-frames .88s linear 1 forwards; } }
-.upgrade-outcome.reduced .upgrade-outcome-sprite { animation: none; background-position: -288px 0; }
-.upgrade-outcome h2 { color: #e9d497; font-family: var(--font-serif); font-size: 1.3rem; }
-.upgrade-outcome.is-failure h2 { color: #d5aaad; }
-.upgrade-outcome p { line-height: 1.5; }
-.upgrade-outcome button { padding: 8px 18px; border: 1px solid #ecd7a1; background: #c2a167; color: #14221c; cursor: pointer; font-weight: 700; }
+.breakthrough-overlay.failed .breakthrough-orbit { border-color: #9c6557; box-shadow: 0 0 0 12px #935b4733, inset 0 0 24px #bd6b5555; }
+@keyframes breakthrough-rise { from { opacity: 0; transform: scale(.55) rotate(-65deg); } 55% { opacity: 1; transform: scale(1.12) rotate(14deg); } to { transform: scale(1) rotate(0); } }
+@media (prefers-reduced-motion: reduce) { .breakthrough-orbit, .breakthrough-sprite { animation: none; } }
 
 * {
   margin: 0;

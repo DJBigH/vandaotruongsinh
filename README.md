@@ -1,7 +1,7 @@
 # VẠN ĐẠO TRƯỜNG SINH (萬道長生)
 
 > **Tác giả:** BigK  
-> **Phiên bản:** 1.3.0
+> **Phiên bản:** 1.2.0
 > **Kho lưu trữ mã nguồn:** [DJBigH/vandaotruongsinh](https://github.com/DJBigH/vandaotruongsinh)
 > **Hướng dẫn cài đặt:** [HUONG_DAN_CAI_DAT.md](HUONG_DAN_CAI_DAT.md)
 > **Hướng dẫn Launcher:** [LAUNCHER_GUIDE.md](LAUNCHER_GUIDE.md)
@@ -168,7 +168,7 @@ Mở trình duyệt truy cập: `http://localhost:5173`.
 
 ## 4. Chạy Bộ Kiểm Thử Tự Động (Test Suite)
 
-Dự án có các bộ kiểm thử ARPG, nội dung, bảo mật và launcher. Chạy `npm run test:all`, `npm run test:v120` và `npm run test:v130` ở thư mục gốc. Bản 1.3.0 thêm hình trang bị và vũ khí +6 đến +10, ba cặp hiệu ứng kết quả cùng xác suất cường hóa/thu phục minh bạch. Xem [ghi chú phát hành](docs/checkpoints/1.3.0-release.md) và [quy ước phiên bản](docs/VERSIONING.md).
+Dự án có các bộ kiểm thử ARPG, nội dung, bảo mật và launcher. Chạy `npm run test:all`, `npm run test:v120` ở thư mục gốc. Bản 1.2.0 tích hợp chân dung NPC, tranh thú hoang, các cấp trang bị, mốc tám vùng, icon menu, mỹ thuật sự kiện, chuyển động 20 boss và 36 bí kíp. Xem [ghi chú phát hành](docs/checkpoints/1.2.0-release.md) và [quy ước phiên bản](docs/VERSIONING.md).
 
 ```bash
 cd server

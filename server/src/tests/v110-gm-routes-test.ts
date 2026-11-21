@@ -34,7 +34,6 @@ test('owner GM bench validates commands, updates the game state, and audits ever
   assert.equal((await post(player, { kind: 'godMode', value: true })).statusCode, 403);
   assert.equal((await post(owner, { kind: 'item', templateId: 'made_up', quantity: 1, enhanceLevel: 0 })).statusCode, 400);
   assert.equal((await post(owner, { kind: 'item', templateId: 'item_001', quantity: 2, enhanceLevel: 0 })).statusCode, 400);
-  assert.equal((await post(owner, { kind: 'item', templateId: 'item_001', quantity: 1, enhanceLevel: 11 })).statusCode, 400);
   assert.equal((await post(owner, { kind: 'skill', skillId: 'skill_body_01', level: 1 })).statusCode, 400);
   assert.equal((await post(owner, { kind: 'resources', gold: 1_000_001, exp: 0, cultivationExp: 0 })).statusCode, 400);
   assert.equal(await prisma.auditLog.count({ where: { adminId: owner.id } }), 0);
@@ -43,7 +42,7 @@ test('owner GM bench validates commands, updates the game state, and audits ever
     { kind: 'godMode', value: true },
     { kind: 'resources', gold: 500, exp: 700, cultivationExp: 900 },
     { kind: 'realm', realmIndex: 2, realmTier: 1 },
-    { kind: 'item', templateId: 'item_001', quantity: 1, enhanceLevel: 10 },
+    { kind: 'item', templateId: 'item_001', quantity: 1, enhanceLevel: 5 },
     { kind: 'skill', skillId: 'skill_sword_01', level: 5 },
     { kind: 'mount', mountId: 'mount_crane' },
     { kind: 'heal' },
@@ -63,7 +62,7 @@ test('owner GM bench validates commands, updates the game state, and audits ever
   assert.equal(saved.exp, 700n);
   assert.equal(saved.cultivationExp, 900n);
   assert.deepEqual([saved.realmIndex, saved.realmTier], [2, 1]);
-  assert.equal(saved.inventory[0]?.enhanceLevel, 10);
+  assert.equal(saved.inventory[0]?.enhanceLevel, 5);
   assert.equal(saved.skills[0]?.level, 5);
   assert.equal(saved.activeMount, 'mount_crane');
   assert.equal(saved.currentMapId, 'map_thanh_khe_rung');

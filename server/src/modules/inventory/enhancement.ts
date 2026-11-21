@@ -1,7 +1,4 @@
-import { randomInt } from 'node:crypto';
-import { MAX_ENHANCEMENT, enhancementChance } from '@shared';
-export { MAX_ENHANCEMENT, enhancementChance } from '@shared';
-export const enhancementRng = { roll: () => randomInt(1_000_000) / 1_000_000 };
+export const MAX_ENHANCEMENT = 5;
 export const ENHANCEMENT_ORE_ID = 'item_013';
 export const ENCHANTMENTS = {
   FURY: { name: 'Liệt Hỏa', stat: 'atk', bonus: 8 },
@@ -22,14 +19,6 @@ export function enhancementCost(currentLevel: number): { nextLevel: number; gold
   if (!Number.isInteger(currentLevel) || currentLevel < 0 || currentLevel >= MAX_ENHANCEMENT) return null;
   const nextLevel = currentLevel + 1;
   return { nextLevel, gold: 40 * nextLevel * nextLevel, ore: nextLevel };
-}
-
-export function enhancementOutcome(currentLevel: number, roll: number) {
-  const cost = enhancementCost(currentLevel);
-  if (!cost || !Number.isFinite(roll) || roll < 0 || roll >= 1) throw new RangeError('Invalid enhancement attempt');
-  const chance = enhancementChance(cost.nextLevel);
-  const success = roll < chance;
-  return { success, enhanceLevel: success ? cost.nextLevel : currentLevel, chance };
 }
 
 export function enhancedStat(base: number | undefined, level: number): number {
