@@ -317,8 +317,9 @@ export interface MapPortal {
 
 export interface MapInteractable {
   id: string;
-  type: 'CHEST' | 'HERB' | 'ORE' | 'SHRINE';
+  type: 'CHEST' | 'HERB' | 'ORE' | 'SHRINE' | 'MOUNT';
   position: Position;
+  mountId?: string;
   lootTableId?: string;
   requiredItemId?: string;
 }

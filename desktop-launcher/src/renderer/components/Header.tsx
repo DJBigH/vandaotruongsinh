@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div>
           <div className="brand-title">VẠN ĐẠO TRƯỜNG SINH</div>
           <div className="brand-subtitle">
-            Vạn Đạo Trường Sinh Launcher v{status?.launcherVersion || '1.0.4'} •{' '}
+            Vạn Đạo Trường Sinh Launcher v{status?.launcherVersion || '1.0.5'} •{' '}
             {status?.isPackaged ? 'Bản Đóng Gói (Production)' : 'Bản Phát Triển (Dev)'}
           </div>
         </div>

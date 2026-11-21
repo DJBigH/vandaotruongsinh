@@ -24,6 +24,7 @@ import { MAP_TEMPLATES } from '../data/maps';
 import { MONSTER_TEMPLATES, MonsterTemplate } from '../data/monsters';
 import { BOSS_TEMPLATES, BossTemplate } from '../data/bosses';
 import { SKILL_TEMPLATES, getSkillRealtimeData } from '../data/skills';
+import { mountsForKill, mountHuntKey } from '../modules/mount/mounts';
 import { computeCharacterStats } from '../modules/character/stats';
 import { prisma } from '../index';
 import { updateQuestProgressBatch } from '../modules/quest/quest-engine';
@@ -44,7 +45,7 @@ interface SessionCharacter {
   positionX?: number;
   positionY?: number;
   inventory?: { templateId: string; isEquipped: boolean; enhanceLevel?: number }[];
-  skills?: { skillId: string; isEquipped: boolean }[];
+  skills?: { skillId: string; isEquipped: boolean; equipSlot?: number | null }[];
   disciple?: CharacterDisciple | null;
   storyFlags?: { flagKey: string; flagValue: string }[];
 }
@@ -92,13 +93,18 @@ function getCombatConfiguration(character: SessionCharacter) {
     character.sectId,
   );
   if (character.activeMount) stats.spd += 2;
-  const skills = character.skills?.filter((skill) => skill.isEquipped).map((skill) => skill.skillId) ?? [];
-  if (skills.length === 0) {
-    if (path === CultivationPath.SWORD) skills.push('skill_sword_01');
-    else if (path === CultivationPath.SPELL) skills.push('skill_spell_01');
-    else skills.push('skill_body_01');
+  const skills = ['', '', '', ''];
+  const equipped = character.skills?.filter((skill) => skill.isEquipped)
+    .sort((a, b) => (a.equipSlot ?? 99) - (b.equipSlot ?? 99) || a.skillId.localeCompare(b.skillId)) ?? [];
+  for (const skill of equipped) {
+    const requested = skill.equipSlot ? skill.equipSlot - 1 : skills.indexOf('');
+    if (requested >= 0 && requested < 4 && !skills[requested]) skills[requested] = skill.skillId;
   }
-  return { path, stats, skills: skills.slice(0, 4) };
+  if (skills.every((skill) => !skill) && !character.skills?.length) {
+    skills[0] = path === CultivationPath.SWORD ? 'skill_sword_01'
+      : path === CultivationPath.SPELL ? 'skill_spell_01' : 'skill_body_01';
+  }
+  return { path, stats, skills };
 }
 
 export interface ArpgMonsterEntity {
@@ -831,6 +837,18 @@ export class ArpgGameSession {
           { type: 'KILL', targetId: monster.templateId, amount: 1 },
           ...itemsGained.map((item) => ({ type: 'COLLECT' as const, targetId: item.itemId, amount: item.quantity })),
         ]);
+        const alignment = await tx.character.findUniqueOrThrow({ where: { id: this.characterId }, select: { alignment: true } });
+        for (const mount of mountsForKill(this.mapId, monster.templateId, alignment.alignment)) {
+          const flagKey = mountHuntKey(mount.id);
+          const prior = await tx.storyFlag.findUnique({ where: { characterId_flagKey: {
+            characterId: this.characterId, flagKey,
+          } } });
+          if (Number(prior?.flagValue ?? 0) < mount.requiredKills) {
+            await tx.storyFlag.upsert({ where: { characterId_flagKey: { characterId: this.characterId, flagKey } },
+              create: { characterId: this.characterId, flagKey, flagValue: '1' },
+              update: { flagValue: String(Number(prior?.flagValue ?? 0) + 1) } });
+          }
+        }
         if (this.mapId === 'map_tran_yeu_thap') {
           const floor = TOWER_FLOORS.find((entry) => entry.bossId === monster.templateId);
           if (floor) await tx.storyFlag.upsert({

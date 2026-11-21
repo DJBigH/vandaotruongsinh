@@ -33,7 +33,9 @@ import {
 
 export default class ExplorationScene extends Phaser.Scene {
   private player: Phaser.GameObjects.Sprite | null = null;
-  private mountSprite: Phaser.GameObjects.Image | null = null;
+  private mountSprite: Phaser.GameObjects.Sprite | null = null;
+  private riderSprite: Phaser.GameObjects.Sprite | null = null;
+  private saddleSprite: Phaser.GameObjects.Sprite | null = null;
   private readonly controls = new GameControls();
   private actorAction = new ActionAnimationLock();
   private readonly actionConfirmation = new ActionConfirmation();
@@ -378,6 +380,8 @@ export default class ExplorationScene extends Phaser.Scene {
     this.entitySprites.clear();
     this.player = null;
     this.mountSprite = null;
+    this.riderSprite = null;
+    this.saddleSprite = null;
     this.mapData = null;
     useGameStore.setState({ currentMap: null });
   }
@@ -403,6 +407,8 @@ export default class ExplorationScene extends Phaser.Scene {
     this.mapData = null;
     this.player = null;
     this.mountSprite = null;
+    this.riderSprite = null;
+    this.saddleSprite = null;
     this.latestServerPlayer = null;
     this.latestEntities = [];
     this.latestProjectiles = [];
@@ -506,12 +512,21 @@ export default class ExplorationScene extends Phaser.Scene {
         texture = 'prop_shrine';
         label = 'Linh Miếu';
         originY = 0.88;
+      } else if (item.type === 'MOUNT' && item.mountId) {
+        texture = `${item.mountId}_ride`;
+        label = 'Linh Thú Chờ Thu Phục';
+        originY = 0.88;
       }
 
       const sprite = this.interactablesGroup.create(item.position.x * tileSize, item.position.y * tileSize, texture) as Phaser.Physics.Arcade.Sprite;
       sprite.setData('interactableData', item);
       sprite.setOrigin(0.5, originY);
       sprite.setDepth(sprite.y);
+      if (item.type === 'MOUNT') {
+        sprite.setScale(0.72);
+        const walk = `${item.mountId}_ride_walk`;
+        if (this.anims.exists(walk) && !usePresentationSettings.getState().reducedEffects) sprite.play(walk);
+      }
 
       if (sprite.displayHeight >= 44) this.worldRenderer.track(sprite);
       this.add.text(sprite.x, sprite.y - sprite.displayHeight * originY - 9, label, {
@@ -653,18 +668,39 @@ export default class ExplorationScene extends Phaser.Scene {
 
   private updateMountAppearance(now: number) {
     const mountId = useGameStore.getState().character?.activeMount;
-    if (!mountId || !this.player || !this.textures.exists(mountId)) {
+    const key = `${mountId}_ride`;
+    if (!mountId || !this.player || !this.textures.exists(key)) {
       this.mountSprite?.destroy();
+      this.riderSprite?.destroy();
+      this.saddleSprite?.destroy();
       this.mountSprite = null;
+      this.riderSprite = null;
+      this.saddleSprite = null;
+      this.player?.setVisible(true);
       return;
     }
-    if (!this.mountSprite || this.mountSprite.texture.key !== mountId) {
+    if (!this.mountSprite || this.mountSprite.texture.key !== key) {
       this.mountSprite?.destroy();
-      this.mountSprite = this.add.image(this.player.x, this.player.y, mountId);
-      this.mountSprite.setScale(92 / this.mountSprite.width);
+      this.saddleSprite?.destroy();
+      this.mountSprite = this.add.sprite(this.player.x, this.player.y, key, 0).setScale(0.82);
+      this.saddleSprite = this.add.sprite(this.player.x, this.player.y, key, 0).setScale(0.82)
+        .setCrop(39, 30, 47, 31);
     }
-    this.mountSprite.setPosition(this.player.x, this.player.y + 13 + Math.sin(now / 180) * 1.5)
-      .setDepth(this.player.y - 1).setFlipX(this.currentFacing === 'left');
+    const moving = Math.hypot(this.lastMovement.x, this.lastMovement.y) > 0.05;
+    const walkKey = `${key}_walk`;
+    if (moving && this.anims.exists(walkKey) && this.mountSprite.anims.currentAnim?.key !== walkKey)
+      this.mountSprite.play(walkKey);
+    if (!moving && this.mountSprite.anims.isPlaying) { this.mountSprite.stop(); this.mountSprite.setFrame(0); }
+    const flip = this.currentFacing === 'left';
+    this.mountSprite.setPosition(this.player.x, this.player.y + 2).setDepth(this.player.y)
+      .setFlipX(flip);
+    this.saddleSprite?.setTexture(key, this.mountSprite.frame.name)
+      .setPosition(this.player.x, this.player.y + 2).setFlipX(flip).setDepth(this.player.y + 2);
+    if (!this.riderSprite) this.riderSprite = this.add.sprite(this.player.x, this.player.y, this.player.texture.key);
+    this.player.setVisible(false);
+    this.riderSprite.setTexture(this.player.texture.key, this.player.frame.name)
+      .setPosition(this.player.x + (flip ? 4 : -4), this.player.y - 21 + (moving ? Math.sin(now / 95) * 1.5 : 0))
+      .setScale(0.85, 0.7).setTint(this.player.tintTopLeft).setDepth(this.player.y + 1);
   }
 
   private playPose(pose: HeroPose) {
@@ -1005,6 +1041,8 @@ export default class ExplorationScene extends Phaser.Scene {
               foundPrompt = `⛏️ [E] Khai Thác Linh Khoáng`;
             } else if (obj.type === 'SHRINE') {
               foundPrompt = `⛩️ [E] Tham Bái Linh Miếu`;
+            } else if (obj.type === 'MOUNT') {
+              foundPrompt = `♞ [E] Thu phục linh thú (cần đủ dấu vết)`;
             } else {
               foundPrompt = `✨ [E] Thu thập / Kích hoạt`;
             }
@@ -1049,6 +1087,14 @@ export default class ExplorationScene extends Phaser.Scene {
         // The server moves this same session. The next TICK announces the committed map and spawn.
         const portal = target as MapPortal;
         await gameApi.teleport(portal.targetMapId, portal.id);
+      } else if ((target as MapInteractable).type === 'MOUNT') {
+        const mountId = (target as MapInteractable).mountId;
+        if (!mountId) return;
+        const res = await gameApi.tameMount(mountId);
+        if (res.success && this.sceneListeners === lifetime) {
+          eventBridge.emit('notification', `Đã thu phục ${res.data?.name ?? 'linh thú'}!`);
+          eventBridge.emit('worldProgressCommitted');
+        }
       } else {
         const res = await gameApi.interact(id);
         if (res.success && this.sceneListeners === lifetime) {

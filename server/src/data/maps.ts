@@ -248,6 +248,9 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
       { id: 'ore_f1', type: 'ORE', position: { x: 56, y: 51 } },
       // Miếu thờ hang Lang Vương (kích hoạt boss fight)
       { id: 'shrine_boss', type: 'SHRINE', position: { x: 50, y: 52 } },
+      { id: 'den_crane', type: 'MOUNT', position: { x: 44, y: 34 }, mountId: 'mount_crane' },
+      { id: 'den_shadow_wolf', type: 'MOUNT', position: { x: 38, y: 26 }, mountId: 'mount_shadow_wolf' },
+      { id: 'den_fox', type: 'MOUNT', position: { x: 49, y: 35 }, mountId: 'mount_fox' },
     ],
 
     // --- Collision Zones ---
@@ -416,6 +419,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     ],
     interactables: [
       { id: 'sword_shrine', type: 'SHRINE', position: { x: 16, y: 12 } },
+      { id: 'den_turtle', type: 'MOUNT', position: { x: 23, y: 19 }, mountId: 'mount_turtle' },
     ],
   },
 
@@ -513,6 +517,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     ],
     interactables: [
       { id: 'yellow_spring_well', type: 'SHRINE', position: { x: 16, y: 12 } },
+      { id: 'den_underworld_horse', type: 'MOUNT', position: { x: 21, y: 21 }, mountId: 'mount_underworld_horse' },
     ],
   },
 
@@ -575,6 +580,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     ],
     interactables: [
       { id: 'dragon_vein_node', type: 'SHRINE', position: { x: 16, y: 12 } },
+      { id: 'den_stag', type: 'MOUNT', position: { x: 12, y: 10 }, mountId: 'mount_stag' },
     ],
   },
 

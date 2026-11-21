@@ -82,6 +82,7 @@ async function setup(t: TestContext, position = forestSpawn) {
   const headers = { authorization: `Bearer ${token}` };
   const post = (path: string, payload: Record<string, unknown> = {}) =>
     app.inject({ method: 'POST', url: `/api/game${path}`, headers, payload });
+  const get = (path: string) => app.inject({ method: 'GET', url: `/api/game${path}`, headers });
   const read = () => prisma.character.findUniqueOrThrow({ where: { id: character.id } });
   const readQuest = (questId: string) => prisma.characterQuest.findUniqueOrThrow({
     where: { characterId_questId: { characterId: character.id, questId } },
@@ -96,7 +97,7 @@ async function setup(t: TestContext, position = forestSpawn) {
     assert.ok(session);
     return { socket, init, session };
   };
-  return { character, headers, post, read, readQuest, connect, cookie: `token=${token}` };
+  return { character, headers, get, post, read, readQuest, connect, cookie: `token=${token}` };
 }
 
 function message(socket: WebSocket, type: WsServerMessage['type'], accept = (_msg: WsServerMessage) => true) {
@@ -697,13 +698,16 @@ test('breakthrough checks and updates the active second slot', async (t) => {
   const active = await prisma.character.create({
     data: {
       accountId: game.character.accountId, name: `${game.character.name}_2`, slot: 1, isActive: true,
-      cultivationPath: CultivationPath.BODY, realmTier: 2, cultivationExp: 600, stats: { ...initialStats },
+      cultivationPath: CultivationPath.BODY, realmTier: 2, cultivationExp: 600, gold: 300, stats: { ...initialStats },
     },
   });
 
   assert.equal((await game.post('/character/breakthrough', { characterId: active.id, realmIndex: 0, realmTier: 2 })).statusCode, 200);
   const trained = await prisma.character.findUniqueOrThrow({ where: { id: active.id } });
   assert.deepEqual([trained.realmTier, trained.cultivationExp], [3, 0n]);
+  assert.equal(await prisma.characterSkill.count({ where: { characterId: active.id, skillId: 'skill_body_03' } }), 0);
+  assert.equal((await game.get('/skills')).json().data.skills.find((skill: any) => skill.id === 'skill_body_03').eligible, true);
+  assert.equal((await game.post('/skills/learn', { skillId: 'skill_body_03' })).statusCode, 200);
   assert.equal(await prisma.characterSkill.count({ where: { characterId: active.id, skillId: 'skill_body_03' } }), 1);
   assert.deepEqual([(await game.read()).realmTier, (await game.read()).cultivationExp], [0, 0n]);
 });
@@ -713,23 +717,25 @@ for (const [path, skillId] of [
   [CultivationPath.SPELL, 'skill_spell_03'],
   [CultivationPath.BODY, 'skill_body_03'],
 ] as const) {
-  test(`${path} learns its third skill at Luyện Khí Đại Viên Mãn`, async (t) => {
+  test(`${path} can study and use its third skill at Luyện Khí Đại Viên Mãn`, async (t) => {
     t.mock.method(breakthroughRng, 'roll', () => 0);
     const game = await setup(t);
     await prisma.character.update({
       where: { id: game.character.id },
-      data: { cultivationPath: path, realmTier: 2, cultivationExp: 600 },
+      data: { cultivationPath: path, realmTier: 2, cultivationExp: 600, gold: 300 },
     });
     const starterId = skillId.replace('_03', '_01');
     await prisma.characterSkill.create({
       data: { characterId: game.character.id, skillId: starterId, isEquipped: true },
     });
     const { session, socket } = await game.connect();
-    assert.deepEqual(session.player.equippedSkillIds, [starterId]);
+    assert.deepEqual(session.player.equippedSkillIds, [starterId, '', '', '']);
 
     assert.equal((await game.post('/character/breakthrough', { characterId: game.character.id, realmIndex: 0, realmTier: 2 })).statusCode, 200);
     const character = await game.read();
     assert.deepEqual([character.realmIndex, character.realmTier, character.cultivationExp], [0, 3, 0n]);
+    assert.equal((await game.get('/skills')).json().data.skills.find((skill: any) => skill.id === skillId).eligible, true);
+    assert.equal((await game.post('/skills/learn', { skillId })).statusCode, 200);
     const skills = await prisma.characterSkill.findMany({ where: { characterId: game.character.id } });
     assert.deepEqual(skills.map((skill) => skill.skillId).sort(), [starterId, skillId]);
     assert.equal(session.player.realmTier, 3);

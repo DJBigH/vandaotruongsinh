@@ -1,6 +1,6 @@
 {
   "name": "vandao-truong-sinh-server",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "VẠN ĐẠO TRƯỜNG SINH - Game Server",
   "type": "module",
   "scripts": {

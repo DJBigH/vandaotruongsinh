@@ -28,6 +28,7 @@ import TowerPanel from '../components/game/TowerPanel';
 import GuidePanel from '../components/game/GuidePanel';
 import EventsPanel from '../components/game/EventsPanel';
 import MountPanel from '../components/game/MountPanel';
+import SkillPanel from '../components/game/SkillPanel';
 
 export default function GamePage() {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ export default function GamePage() {
 
   useEffect(() => {
     if (!character || !currentMap || activePanel || useGameStore.getState().dialogueState) return;
-    if (!window.localStorage.getItem(`vandao-guide-v103:${character.id}`)) {
+    if (!window.localStorage.getItem(`vandao-guide-v105:${character.id}`)) {
       useGameStore.getState().setActivePanel('guide');
     }
   }, [character?.id, currentMap?.id, activePanel]);
@@ -191,6 +192,7 @@ export default function GamePage() {
           {activePanel === 'guide' && character && <GuidePanel characterId={character.id} />}
           {activePanel === 'events' && <EventsPanel />}
           {activePanel === 'mount' && <MountPanel />}
+          {activePanel === 'skills' && <SkillPanel />}
         </>
       )}
     </div>

@@ -82,7 +82,9 @@ Bộ Kiếm Tu trong `client/public/assets/vnext/` dùng chung khung 64 × 64, c
 
 Kiếm Tu đứng yên không có hào quang liên tục. Mỗi NPC Thanh Khê có bốn tư thế trên **một hàng**. Sói, rắn, hồ ly và Lang Vương có một hàng sáu khung. Bốn khung đầu dành cho di chuyển, khung 4 giữ tư thế lấy đà và khung 5 ra đòn theo trạng thái quái do máy chủ gửi. Lang Vương hiển thị ở tỷ lệ 1,55×. Hắc Lang dùng màu tối hơn trên cùng sheet sói.
 
-Pháp Tu và Thể Tu giữ sheet riêng `player_magic_idle` và `player_body_idle` trong mọi trạng thái. Bộ tư thế hành động chuyên biệt cho hai phái thuộc đợt mỹ thuật sau. Hướng chân bên dưới vạt áo Kiếm Tu khi đi ngang cần được đánh giá bằng vòng lặp trong game. Manifest xuất ảnh và nguồn được lưu tại `art/vnext/`.
+Pháp Tu và Thể Tu có sheet riêng cho toàn bộ trạng thái hành động, với biến thể giới tính, tiên/ma và cảnh giới trong `assets/v104/`. Manifest xuất ảnh và nguồn gốc được lưu tại `art/vnext/` và `art/v104/`.
+
+Thú cưỡi v1.0.5 dùng bốn khung bước chân trên một hàng `128 × 96`, riêng cho sáu loài. Khung cuối trở về tư thế đầu để vòng đi không hiện hình bị cắt cạnh. Sheet được hiển thị khoảng `105 × 79` pixel, nhân vật cưỡi dùng dáng rút thấp và lớp yên phía trước chân. Icon vũ khí là 64 × 64 alpha, giữ nét pixel rõ khi hiện trong Túi và Lò Rèn. Nguồn tạo ảnh, script đóng gói và thành phẩm nằm tại `art/v105/` và `assets/v105/`.
 
 ---
 

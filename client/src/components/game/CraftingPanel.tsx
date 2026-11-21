@@ -1,205 +1,70 @@
-// ============================================================
-// VẠN ĐẠO TRƯỜNG SINH - Crafting / Alchemy Panel
-// ============================================================
-
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { REALM_NAMES } from '@shared/index';
 import { useGameStore } from '../../stores/gameStore';
-import * as gameApi from '../../api/game';
-import type { CraftingRecipe } from '../../api/game';
+import { craftItem, getRecipes, type CraftingRecipe } from '../../api/game';
+import { weaponArt } from '../../game/assets/weaponArt';
 
 export default function CraftingPanel() {
-  const { inventory, loadInventory, setActivePanel, addNotification } = useGameStore();
+  const { inventory, character, loadInventory, setActivePanel, addNotification } = useGameStore();
   const [recipes, setRecipes] = useState<CraftingRecipe[]>([]);
-  const [selectedRecipe, setSelectedRecipe] = useState<CraftingRecipe | null>(null);
+  const [category, setCategory] = useState<'weapons' | 'elixirs'>('weapons');
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    async function fetchRecipes() {
-      try {
-        const res = await gameApi.getRecipes();
-        if (res.success && res.data) {
-          setRecipes(res.data);
-          if (res.data.length > 0) setSelectedRecipe(res.data[0]);
-        }
-      } catch (err) {
-        console.error('Lỗi tải công thức:', err);
-      }
-    }
-    fetchRecipes();
-  }, []);
-
-  const getOwnedCount = (templateId: string) => {
-    return inventory
-      .filter((i) => i.templateId === templateId)
-      .reduce((sum, i) => sum + i.quantity, 0);
-  };
-
-  const handleCraft = async () => {
-    if (!selectedRecipe) return;
-    setLoading(true);
+  const [busy, setBusy] = useState(false);
+  useEffect(() => { void getRecipes().then((result) => { if (result.success) setRecipes(result.data ?? []); }); }, []);
+  const weapons = (recipe: CraftingRecipe) => recipe.id.startsWith('recipe_weapon_') || recipe.id === 'recipe_003';
+  const shown = recipes.filter((recipe) => category === 'weapons' ? weapons(recipe) : !weapons(recipe));
+  const selected = shown.find((recipe) => recipe.id === selectedId) ?? shown[0];
+  const isWeapon = selected && weapons(selected);
+  const owned = (id: string) => inventory.filter((item) => item.templateId === id)
+    .reduce((sum, item) => sum + item.quantity, 0);
+  const enough = !!selected && selected.ingredients.every((item) => owned(item.itemTemplateId) >= item.quantity * quantity);
+  const realmReady = !!selected && (character?.realmIndex ?? 0) >= (selected.minRealmIndex ?? 0);
+  const craft = async () => {
+    if (!selected || busy) return;
+    setBusy(true);
     try {
-      const res = await gameApi.craftItem(selectedRecipe.id, quantity);
-      if (res.success) {
-        addNotification(res.data?.message || 'Luyện chế thành công!', 'success');
-        await loadInventory();
-      } else {
-        addNotification(res.error || 'Thiếu nguyên liệu luyện chế', 'warning');
-      }
-    } catch (err: any) {
-      addNotification(err.response?.data?.error || 'Lỗi khi luyện chế', 'error');
-    } finally {
-      setLoading(false);
-    }
+      const result = await craftItem(selected.id, isWeapon ? 1 : quantity);
+      if (!result.success) return addNotification(result.error || 'Không thể rèn vật phẩm', 'warning');
+      addNotification(result.data?.message || `Đã tạo ${selected.result.name}`, 'success');
+      await loadInventory();
+    } catch (error: any) { addNotification(error.response?.data?.error || 'Không thể rèn vật phẩm', 'warning'); }
+    finally { setBusy(false); }
   };
-
-  return (
-    <div style={{
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: '740px',
-      maxWidth: '92vw',
-      height: '480px',
-      background: 'rgba(15, 23, 42, 0.96)',
-      border: '2px solid #c5a059',
-      borderRadius: '12px',
-      padding: '24px',
-      boxShadow: '0 12px 48px rgba(0,0,0,0.85)',
-      display: 'flex',
-      flexDirection: 'column',
-      zIndex: 100,
-      color: '#e2e8f0',
-    }}>
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-        <h2 style={{ margin: 0, color: '#ffd700', fontSize: '1.4rem' }}>🔥 ĐAN ĐẠO & KHÍ ĐẠO</h2>
-        <button
-          onClick={() => setActivePanel(null)}
-          style={{ background: 'transparent', border: 'none', color: '#94a3b8', fontSize: '1.2rem', cursor: 'pointer' }}
-        >
-          ✕
-        </button>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '20px', flex: 1, minHeight: 0 }}>
-        {/* Recipe List */}
-        <div style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px', paddingRight: '6px' }}>
-          {recipes.map((r) => {
-            const isSelected = selectedRecipe?.id === r.id;
-            return (
-              <div
-                key={r.id}
-                onClick={() => setSelectedRecipe(r)}
-                style={{
-                  background: isSelected ? 'rgba(197, 160, 89, 0.2)' : '#1e293b',
-                  border: isSelected ? '1px solid #ffd700' : '1px solid #334155',
-                  borderRadius: '6px',
-                  padding: '12px',
-                  cursor: 'pointer',
-                  fontSize: '0.9rem',
-                  fontWeight: 600,
-                  color: isSelected ? '#ffd700' : '#e2e8f0',
-                }}
-              >
-                {r.name}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Selected Recipe Details */}
-        <div style={{ background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', padding: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          {selectedRecipe ? (
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                <img
-                  src={selectedRecipe.name.includes('Lực') ? '/assets/vnext/icon_item_pill_red.png' : selectedRecipe.name.includes('Khí') ? '/assets/vnext/icon_item_pill_blue.png' : '/assets/vnext/icon_item_pill_gold.png'}
-                  alt="Đan Dược"
-                  style={{ width: '38px', height: '38px', imageRendering: 'pixelated', border: '1px solid #c5a059', borderRadius: '4px', background: '#1e293b', padding: '3px' }}
-                />
-                <div>
-                  <h3 style={{ margin: 0, color: '#ffd700', fontSize: '1.15rem' }}>
-                    {selectedRecipe.name}
-                  </h3>
-                  <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '2px' }}>
-                    Phẩm cấp: Cửu Phẩm Linh Đan • Tỷ lệ thành công: 100%
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ marginBottom: '16px' }}>
-                <div style={{ color: '#c5a059', fontWeight: 600, fontSize: '0.85rem', marginBottom: '8px' }}>
-                  Nguyên Liệu Yêu Cầu (mỗi lần luyện):
-                </div>
-                {selectedRecipe.ingredients.map((ing, i) => {
-                  const owned = getOwnedCount(ing.itemTemplateId);
-                  const totalNeed = ing.quantity * quantity;
-                  const isEnough = owned >= totalNeed;
-                  const iconSrc = ing.name.includes('Thảo') || ing.name.includes('Linh')
-                    ? '/assets/vnext/icon_item_herb.png'
-                    : ing.name.includes('Thạch') || ing.name.includes('Khoáng')
-                    ? '/assets/vnext/icon_item_ore.png'
-                    : '/assets/vnext/icon_item_beast_core.png';
-
-                  return (
-                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem', marginBottom: '6px' }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <img src={iconSrc} alt={ing.name} style={{ width: '22px', height: '22px', imageRendering: 'pixelated' }} />
-                        {ing.name} x{ing.quantity}:
-                      </span>
-                      <span style={{ color: isEnough ? '#81c784' : '#ef5350', fontWeight: 'bold' }}>
-                        {owned} / {totalNeed}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-                <span style={{ fontSize: '0.9rem', color: '#94a3b8' }}>Số lượng luyện:</span>
-                <input
-                  type="number"
-                  min={1}
-                  max={99}
-                  value={quantity}
-                  onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                  style={{
-                    width: '70px',
-                    padding: '6px 10px',
-                    borderRadius: '4px',
-                    background: '#1e293b',
-                    border: '1px solid #334155',
-                    color: '#fff',
-                    textAlign: 'center',
-                  }}
-                />
-              </div>
-            </div>
-          ) : (
-            <div style={{ textAlign: 'center', color: '#64748b', margin: 'auto' }}>Chọn công thức luyện chế</div>
-          )}
-
-          <button
-            onClick={handleCraft}
-            disabled={loading || !selectedRecipe}
-            style={{
-              width: '100%',
-              padding: '12px',
-              borderRadius: '6px',
-              border: 'none',
-              background: 'linear-gradient(135deg, #c5a059 0%, #8c6d31 100%)',
-              color: '#000',
-              fontWeight: 'bold',
-              fontSize: '1rem',
-              cursor: loading ? 'not-allowed' : 'pointer',
-            }}
-          >
-            {loading ? 'Đang Luyện Đan...' : '🔥 Bắt Đầu Luyện Chế'}
-          </button>
-        </div>
-      </div>
+  return <section className="craft-panel v105-panel" role="dialog" aria-modal="true" aria-labelledby="craft-heading">
+    <header><div><small>KHÍ ĐẠO · ĐAN ĐẠO</small><h2 id="craft-heading">Lò rèn & đan phòng</h2></div>
+      <button type="button" onClick={() => setActivePanel(null)} aria-label="Đóng lò rèn">✕</button></header>
+    <div className="craft-tabs" role="group" aria-label="Loại công thức">
+      <button type="button" aria-pressed={category === 'weapons'} onClick={() => { setCategory('weapons'); setSelectedId(null); setQuantity(1); }}>Vũ khí ({recipes.filter(weapons).length})</button>
+      <button type="button" aria-pressed={category === 'elixirs'} onClick={() => { setCategory('elixirs'); setSelectedId(null); }}>Đan dược ({recipes.filter((recipe) => !weapons(recipe)).length})</button>
     </div>
-  );
+    <div className="craft-layout">
+      <div className="craft-list" aria-label="Công thức rèn">
+        {shown.map((recipe) => <button type="button" key={recipe.id} className={selected?.id === recipe.id ? 'selected' : ''}
+          onClick={() => { setSelectedId(recipe.id); setQuantity(1); }} aria-current={selected?.id === recipe.id ? 'true' : undefined}>
+          <img src={weapons(recipe) ? weaponArt(recipe.result.itemTemplateId, recipe.result.name)
+            : '/assets/vnext/icon_item_pill_gold.png'} alt="" />
+          <span><strong>{recipe.result.name}</strong><small>{recipe.minRealmIndex
+            ? `${REALM_NAMES[recipe.minRealmIndex]} trở lên` : 'Luyện Khí trở lên'}</small></span></button>)}
+      </div>
+      <div className="craft-detail">{selected ? <>
+        <img className="craft-portrait" src={isWeapon ? weaponArt(selected.result.itemTemplateId, selected.result.name)
+          : '/assets/vnext/icon_item_pill_gold.png'} alt={selected.result.name} />
+        <h3>{selected.result.name}</h3><p>{selected.result.description}</p>
+        <p><strong>Phẩm cấp:</strong> {selected.result.quality} · <strong>Cảnh giới:</strong> {REALM_NAMES[selected.minRealmIndex ?? 0]}</p>
+        {selected.result.stats && <div className="craft-stats">{Object.entries(selected.result.stats).map(([stat, value]) =>
+          <span key={stat}>{stat.toUpperCase()} +{value}</span>)}</div>}
+        <h4>Nguyên liệu</h4><div className="craft-materials">{selected.ingredients.map((ingredient) => {
+          const have = owned(ingredient.itemTemplateId); const need = ingredient.quantity * (isWeapon ? 1 : quantity);
+          return <div key={ingredient.itemTemplateId}><span>{ingredient.name}</span>
+            <strong className={have >= need ? 'enough' : 'missing'}>{have}/{need}</strong></div>;
+        })}</div>
+        {selected.sourceHint && <p className="craft-source">Tìm tại: {selected.sourceHint}</p>}
+        {!isWeapon && <label>Số lượng <input type="number" min={1} max={99} value={quantity}
+          onChange={(event) => setQuantity(Math.min(99, Math.max(1, Number(event.target.value) || 1)))} /></label>}
+        <button type="button" disabled={busy || !realmReady || !enough} onClick={() => void craft()}>
+          {!realmReady ? 'Chưa đủ cảnh giới' : !enough ? 'Thiếu nguyên liệu' : busy ? 'Đang chế tạo…' : isWeapon ? 'Rèn vũ khí' : 'Luyện đan'}</button>
+      </> : <p>Đang tải công thức…</p>}</div>
+    </div>
+  </section>;
 }

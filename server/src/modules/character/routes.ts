@@ -23,7 +23,6 @@ import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
 import {
   checkBreakthroughEligibility,
   getBreakthroughRequirement,
-  getNewlyUnlockedSkills,
 } from '../../engine/realm-engine';
 import {
   STARTER_ITEMS,
@@ -233,6 +232,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
               skillId,
               level: 1,
               isEquipped: true,
+              equipSlot: 1,
             },
           });
         }
@@ -347,25 +347,6 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         }
 
         const currentPath = character.cultivationPath as CultivationPath;
-        const newSkills = getNewlyUnlockedSkills(currentPath, nextRealm, nextTier);
-        for (const skillId of newSkills) {
-          await tx.characterSkill.upsert({
-            where: {
-              characterId_skillId: {
-                characterId: character.id,
-                skillId,
-              },
-            },
-            create: {
-              characterId: character.id,
-              skillId,
-              level: 1,
-              isEquipped: true,
-            },
-            update: {},
-          });
-        }
-
         const equippedItems = character.inventory.filter((item) => item.isEquipped);
         const newStats = computeCharacterStats(currentPath, nextRealm, nextTier, equippedItems, character.sectId);
 

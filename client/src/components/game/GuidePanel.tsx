@@ -19,8 +19,13 @@ const STEPS = [
   },
   {
     title: 'Mạnh lên theo cách của bạn',
-    body: 'Nhận trang bị qua nhiệm vụ, trận đánh và chế tạo. Trong Túi, dùng Thiết Khoáng để cường hóa +5 hoặc khắc một phù văn. Xem Tu Vi để biết mốc đột phá và xác suất thành công. Sự Kiện mở theo giờ Việt Nam, có Lang Vương ở Rừng Thanh Khê.',
-    action: 'Chiêu mộ đệ tử đi theo, mở thú cưỡi sau cảnh giới đầu và khám phá từng linh miếu để mở tiếp chính tuyến.',
+    body: 'Nhận trang bị qua nhiệm vụ, trận đánh và Lò Rèn. Trong Túi, dùng Thiết Khoáng để cường hóa +5 hoặc khắc một phù văn. Xem Tu Vi để biết mốc đột phá và xác suất thành công. Sự Kiện mở theo giờ Việt Nam, có Lang Vương ở Rừng Thanh Khê.',
+    action: 'Lò Rèn cho biết nguyên liệu kiếm ở đâu. Chiêu mộ đệ tử và khám phá từng linh miếu để mở tiếp chính tuyến.',
+  },
+  {
+    title: 'Lĩnh ngộ chiêu và thu phục linh thú',
+    body: 'Sau khi đột phá, mở Bí Kíp để học chiêu bằng linh thạch rồi đặt vào phím 1–4. Thú Cưỡi ghi địa điểm, mục tiêu cần săn và tọa độ hang thú. Hạ đủ mục tiêu, đi đến gần linh thú trên bản đồ rồi nhấn E để thu phục. Thú sẽ theo và hỗ trợ di chuyển.',
+    action: 'Bí Kíp và Thú Cưỡi luôn mở lại được trong menu ở góc phải.',
   },
 ];
 
@@ -33,7 +38,7 @@ export default function GuidePanel({ characterId }: { characterId: string }) {
   useEffect(() => { nextRef.current?.focus(); }, [index]);
 
   const finish = (nextPanel: 'quest' | null) => {
-    window.localStorage.setItem(`vandao-guide-v103:${characterId}`, 'done');
+    window.localStorage.setItem(`vandao-guide-v105:${characterId}`, 'done');
     setActivePanel(nextPanel);
   };
 

@@ -10,6 +10,8 @@ import { AccountRole } from '@shared/index';
 import type { Cooldowns } from '../../game/exploration/actions';
 import { eventBridge } from '../../game/EventBridge';
 import { heroVariantKey } from '../../game/assets/hero-variants';
+import { getSkills, type SkillInfo } from '../../api/game';
+import { skillIcon } from '../../game/assets/skillIcon';
 type Vitals = { hp: number; maxHp: number; mp: number; maxMp: number };
 
 const emptyCooldowns: Cooldowns = { dodgeRemainingSec: 0, attackRemainingSec: 0, skillsRemainingSec: [] };
@@ -34,6 +36,18 @@ export default function HUD() {
   const [prompt, setPrompt] = useState('');
   const [debug, setDebug] = useState('');
   const [worldStatus, setWorldStatus] = useState('');
+  const [learnedSkills, setLearnedSkills] = useState<SkillInfo[]>([]);
+
+  useEffect(() => {
+    let live = true;
+    const refresh = () => { void getSkills().then((response) => {
+      if (live && response.success) setLearnedSkills(response.data?.skills ?? []);
+    }).catch(() => { if (live) setLearnedSkills([]); }); };
+    if (character?.id) refresh();
+    eventBridge.on('skillsChanged', refresh);
+    eventBridge.on('worldProgressCommitted', refresh);
+    return () => { live = false; eventBridge.off('skillsChanged', refresh); eventBridge.off('worldProgressCommitted', refresh); };
+  }, [character?.id]);
 
   useEffect(() => {
     const handleHpMp = (data: Vitals | null) => {
@@ -350,37 +364,12 @@ export default function HUD() {
 
         {[1, 2, 3, 4].map(num => {
           const cooldown = cooldowns.skillsRemainingSec[num - 1];
-          const learned = cooldown !== undefined;
+          const skill = learnedSkills.find((entry) => entry.equipSlot === num);
+          const learned = !!skill;
           const cd = cooldown ?? 0;
-          const p = character?.cultivationPath || 'SWORD';
-          const skillNames: Record<string, string[]> = {
-            SWORD: ['Kiếm Khí Trảm', 'Vạn Kiếm Quy Tông', 'Bạt Kiếm Thuật', 'Kiếm Ý Hộ Thể'],
-            SPELL: ['Cửu Thiên Dẫn Lôi', 'Hỏa Phượng Liêu Nguyên', 'Băng Phong Vạn Lý', 'Thái Hư Hộ Thuẫn'],
-            BODY: ['Băng Sơn Quyền', 'Bất Hoại Kim Thân', 'Cuồng Long Xuất Hải', 'Huyết Khí Liệt Ba'],
-          };
-          const skillIcons: Record<string, string[]> = {
-            SWORD: [
-              '/assets/vnext/icon_skill_sword_slash.png',
-              '/assets/vnext/icon_skill_sword_array.png',
-              '/assets/vnext/icon_skill_sword_dash.png',
-              '/assets/vnext/icon_skill_sword_shield.png',
-            ],
-            SPELL: [
-              '/assets/vnext/icon_skill_spell_thunder.png',
-              '/assets/vnext/icon_skill_spell_fire.png',
-              '/assets/vnext/icon_skill_spell_ice.png',
-              '/assets/vnext/icon_skill_spell_shield.png',
-            ],
-            BODY: [
-              '/assets/vnext/icon_skill_body_punch.png',
-              '/assets/vnext/icon_skill_body_iron.png',
-              '/assets/vnext/icon_skill_body_roar.png',
-              '/assets/vnext/icon_skill_body_wave.png',
-            ],
-          };
-          const skillName = (skillNames[p] && skillNames[p][num - 1]) || `Kỹ năng ${num}`;
-          const skillIcon = (skillIcons[p] && skillIcons[p][num - 1]) || '/assets/vnext/icon_skill_sword_slash.png';
-          const label = learned ? `${skillName} [Phím ${num}]` : `Ô kỹ năng ${num} · Chưa lĩnh ngộ (Yêu cầu tăng cảnh giới)`;
+          const skillName = skill?.name ?? `Ô chiêu ${num}`;
+          const icon = skill ? skillIcon(skill.id) : '';
+          const label = learned ? `${skillName} [Phím ${num}]` : `Ô chiêu ${num} · Mở Bí Kíp để học và trang bị`;
 
           return (
             <div
@@ -403,7 +392,7 @@ export default function HUD() {
             >
               {learned ? (
                 <img
-                  src={skillIcon}
+                  src={icon}
                   alt={skillName}
                   style={{ width: '32px', height: '32px', imageRendering: 'pixelated' }}
                 />
@@ -507,6 +496,7 @@ export default function HUD() {
               { key: 'map', label: '🗺️ Bản Đồ' },
               { key: 'events', label: '☼ Sự Kiện' },
               { key: 'mount', label: '♞ Thú Cưỡi' },
+              { key: 'skills', label: '✦ Bí Kíp' },
               { key: 'settings', label: '⚙️ Cài Đặt' },
               { key: 'guide', label: '❔ Hướng Dẫn' },
             ].map((btn) => (

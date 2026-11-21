@@ -386,3 +386,78 @@ tr:hover td {
 .mount-content small { color: #c4b389; letter-spacing: .1em; }.mount-content h3 { margin: 8px 0 14px; font-size: 1.3rem; }.mount-content p { line-height: 1.55; margin-bottom: 12px; }
 .mount-content button { padding: 10px 16px; background: #d3b77a; border: 1px solid #f1da9d; color: #18251e; cursor: pointer; font-weight: 700; }.mount-content button:disabled { opacity: .55; cursor: not-allowed; }
 @media (max-width: 570px) { .mount-content { grid-template-columns: 1fr; }.mount-content img { max-height: 210px; } }
+
+/* V1.0.5 collection and technique book: parchment, dark jade and clean pixel art. */
+.v105-panel { position: absolute; z-index: 120; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(850px, calc(100vw - 28px)); max-height: min(88dvh, 730px); overflow: hidden;
+  padding: 20px; color: #e9e6d5; background: #19251f; border: 1px solid #a89365;
+  box-shadow: 0 20px 55px #030807bf; display: flex; flex-direction: column; }
+.v105-panel header { display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  border-bottom: 1px solid #69715b; padding-bottom: 10px; }
+.v105-panel header small { color: #c9ae73; letter-spacing: .14em; font-size: .7rem; }
+.v105-panel h2, .v105-panel h3 { font-family: var(--font-serif); color: #f1d8a4; margin: 3px 0; }
+.v105-panel header button { color: #eee4cc; background: transparent; border: 1px solid #837956; padding: 7px 12px; cursor: pointer; }
+.mount-layout, .skill-layout { min-height: 0; display: grid; grid-template-columns: minmax(225px, 310px) minmax(0, 1fr); gap: 16px; padding-top: 15px; }
+.mount-list, .skill-list { overflow-y: auto; min-height: 0; max-height: 62dvh; display: flex; flex-direction: column; gap: 6px; padding-right: 5px; }
+.mount-list button, .skill-list button { display: flex; gap: 10px; align-items: center; width: 100%; text-align: left;
+  padding: 7px; background: #26382d; border: 1px solid #5b6852; color: #e5e5d6; cursor: pointer; }
+.mount-list button.selected, .skill-list button.selected { border-color: #d8b878; background: #354535; }
+.mount-list button:hover, .skill-list button:hover { border-color: #dec894; }
+.mount-list img { width: 76px; height: 57px; object-fit: contain; flex: none; image-rendering: pixelated; }
+.skill-list img { width: 42px; height: 42px; object-fit: contain; flex: none; image-rendering: pixelated; }
+.mount-list span, .skill-list span { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.mount-list strong, .skill-list strong { font-weight: 700; line-height: 1.25; }
+.mount-list small, .skill-list small { color: #c1bc9d; font-size: .74rem; }
+.mount-detail, .skill-detail { overflow-y: auto; min-height: 0; max-height: 62dvh; padding: 4px 6px 5px 2px; }
+.mount-portrait { display: block; width: min(256px, 100%); height: 165px; margin: 0 auto 8px; object-fit: contain; image-rendering: pixelated; }
+.mount-detail p, .skill-detail p { line-height: 1.5; color: #d9dac8; }
+.mount-facts, .skill-facts { display: grid; gap: 7px; margin: 14px 0; }
+.mount-facts span, .skill-facts span { display: flex; justify-content: space-between; gap: 10px; padding-bottom: 6px; border-bottom: 1px solid #4a5a48; color: #aebcae; }
+.mount-facts strong, .skill-facts strong { color: #ecd39d; text-align: right; }
+.mount-detail progress { width: 100%; accent-color: #b69b65; }
+.mount-detail > button, .skill-detail > button { width: 100%; padding: 10px 14px; margin: 9px 0; background: #c7ab70;
+  color: #18251d; border: 1px solid #f1d49a; font-weight: 700; cursor: pointer; }
+.mount-detail > button:disabled, .skill-detail > button:disabled { opacity: .57; cursor: not-allowed; }
+.mount-detail > small { display: block; color: #b9bea9; line-height: 1.4; }
+.skill-intro { margin: 12px 0 0; color: #c1c6b2; line-height: 1.4; }
+.skill-portrait { display: block; width: 72px; height: 72px; margin: 3px 0 11px; image-rendering: pixelated; }
+.skill-slots { margin-top: 15px; }
+.skill-slots > div { display: flex; gap: 8px; margin-top: 9px; }
+.skill-slots button { min-width: 43px; padding: 9px; background: #2a3c30; color: #e9e5d4; border: 1px solid #788663; cursor: pointer; }
+.skill-slots button.selected { background: #ac915e; color: #102016; border-color: #e7cf99; }
+.craft-tabs { display: flex; gap: 7px; padding-top: 12px; }
+.craft-tabs button { flex: 1; padding: 9px; cursor: pointer; color: #dedbc9; background: #28382c; border: 1px solid #64705b; }
+.craft-tabs button[aria-pressed="true"] { background: #ad9464; color: #15241b; border-color: #ddc58e; font-weight: 700; }
+.craft-layout { display: grid; grid-template-columns: minmax(225px, 310px) minmax(0, 1fr); gap: 16px; min-height: 0; padding-top: 13px; }
+.craft-list { overflow-y: auto; min-height: 0; max-height: 60dvh; display: flex; flex-direction: column; gap: 6px; padding-right: 5px; }
+.craft-list button { display: flex; align-items: center; gap: 9px; width: 100%; text-align: left; color: #e7e4d4;
+  background: #28382c; border: 1px solid #5b6852; padding: 7px; cursor: pointer; }
+.craft-list button.selected, .craft-list button:hover { background: #344735; border-color: #d8b878; }
+.craft-list img { width: 44px; height: 44px; object-fit: contain; image-rendering: pixelated; }
+.craft-list span { display: flex; flex-direction: column; gap: 4px; }
+.craft-list small { color: #bdc3ad; }
+.craft-detail { overflow-y: auto; max-height: 60dvh; min-height: 0; padding-right: 6px; }
+.craft-portrait { display: block; width: 92px; height: 92px; object-fit: contain; image-rendering: pixelated; margin: 0 auto 8px; }
+.craft-detail p { color: #d5d9c9; line-height: 1.45; }
+.craft-detail h4 { margin-bottom: 8px; color: #edd2a0; }
+.craft-stats { display: flex; flex-wrap: wrap; gap: 6px; }
+.craft-stats span { padding: 4px 7px; background: #384b38; color: #e5d4a9; border: 1px solid #667359; font-size: .78rem; }
+.craft-materials { display: grid; gap: 5px; }
+.craft-materials div { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #485849; }
+.craft-materials .enough { color: #afd4a2; }.craft-materials .missing { color: #e4a29a; }
+.craft-source { font-size: .82rem; }
+.craft-detail label { display: flex; gap: 10px; align-items: center; margin: 13px 0; }
+.craft-detail input { width: 74px; color: #eee9d4; background: #27372b; border: 1px solid #778166; padding: 6px; }
+.craft-detail > button { width: 100%; padding: 10px; margin-top: 12px; border: 1px solid #e6c98e;
+  background: #c6a96e; color: #17251c; font-weight: 700; cursor: pointer; }
+.craft-detail > button:disabled { opacity: .57; cursor: not-allowed; }
+@media (max-width: 620px) {
+  .v105-panel { padding: 12px; max-height: 92dvh; }
+  .mount-layout, .skill-layout { grid-template-columns: 1fr; overflow-y: auto; }
+  .mount-list, .skill-list { max-height: 28dvh; }
+  .mount-detail, .skill-detail { max-height: none; overflow: visible; }
+  .mount-portrait { height: 110px; width: 160px; }
+  .craft-layout { grid-template-columns: 1fr; overflow-y: auto; }
+  .craft-list { max-height: 25dvh; }
+  .craft-detail { max-height: none; overflow: visible; }
+}

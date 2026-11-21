@@ -86,7 +86,7 @@ export class AiLogExporter {
 
       // 2. manifest.json
       const manifest = {
-        manifestVersion: '1.0.4',
+        manifestVersion: '1.0.5',
         gameTitle: 'VẠN ĐẠO TRƯỜNG SINH (萬道長生)',
         launcherVersion: status.launcherVersion,
         gameVersion: status.gameVersion,

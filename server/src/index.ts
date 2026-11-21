@@ -14,6 +14,7 @@ import { PrismaClient } from '@prisma/client';
 import { authRoutes } from './modules/auth/routes';
 import { eventRoutes } from './modules/events/routes';
 import { mountRoutes } from './modules/mount/routes';
+import { skillRoutes } from './modules/skills/routes';
 import { characterRoutes } from './modules/character/routes';
 import { inventoryRoutes } from './modules/inventory/routes';
 import { combatRoutes } from './modules/combat/routes';
@@ -96,6 +97,7 @@ async function buildServer() {
       await api.register(authRoutes, { prefix: '/auth', prisma });
       await api.register(eventRoutes, { prefix: '/game', prisma });
       await api.register(mountRoutes, { prefix: '/game', prisma });
+      await api.register(skillRoutes, { prefix: '/game', prisma });
       await api.register(characterRoutes, { prefix: '/game', prisma });
       await api.register(inventoryRoutes, { prefix: '/game', prisma });
       await api.register(combatRoutes, { prefix: '/game', prisma });

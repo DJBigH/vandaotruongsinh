@@ -157,10 +157,12 @@ model CharacterSkill {
   skillId     String   @db.VarChar(100)
   level       Int      @default(1)
   isEquipped  Boolean  @default(false)
+  equipSlot   Int?
 
   character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
 
   @@unique([characterId, skillId])
+  @@unique([characterId, equipSlot])
   @@index([characterId])
   @@map("character_skills")
 }

@@ -166,6 +166,9 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
         return reply.status(400).send({ success: false, error: 'Khoảng cách quá xa, không thể tương tác!' });
       }
 
+      if (target.type === 'MOUNT') return reply.status(400).send({ success: false,
+        error: 'Hãy dùng chức năng thu phục linh thú' });
+
       if (target.type === 'CHEST') {
         const eventKey = `chest_${target.id}`;
         const isRare = target.lootTableId === 'loot_forest_rare';

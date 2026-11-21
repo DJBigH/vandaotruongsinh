@@ -15,7 +15,7 @@ interface Asset {
   key: string;
   file: string;
   type: 'image' | 'spritesheet' | 'audio';
-  provenance: 'original-M1' | 'legacy' | 'v104-derived';
+  provenance: 'original-M1' | 'legacy' | 'v104-derived' | 'v105-original';
 }
 export interface SpritesheetAsset extends Asset {
   type: 'spritesheet';
@@ -116,6 +116,11 @@ const heroPoseMetadata: Record<string, { columns: number; duration: number; repe
 };
 for (const key of ['mount_crane', 'mount_shadow_wolf']) {
   assets.push({ key, file: `assets/v104/${key}.png`, type: 'image', provenance: 'v104-derived' });
+}
+for (const key of ['mount_crane', 'mount_shadow_wolf', 'mount_fox', 'mount_turtle', 'mount_stag', 'mount_underworld_horse']) {
+  assets.push({ key: `${key}_ride`, file: `assets/v105/${key}_ride.png`, type: 'spritesheet',
+    frameWidth: 128, frameHeight: 96, provenance: 'v105-original',
+    animations: [{ key: `${key}_ride_walk`, frameStart: 0, frameEnd: 3, duration: 480, repeat: -1 }] });
 }
 for (const path of ['sword', 'spell', 'body']) for (const gender of ['male', 'female'])
   for (const alignment of ['immortal', 'demonic']) for (let rank = 0; rank <= 3; rank++)

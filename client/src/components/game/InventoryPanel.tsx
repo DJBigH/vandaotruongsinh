@@ -11,14 +11,13 @@ import {
   ItemQuality,
   type InventoryItem,
 } from '@shared/index';
+import { weaponArt } from '../../game/assets/weaponArt';
 
 function getItemIcon(item: InventoryItem): string {
   const name = item.name?.toLowerCase() || '';
 
   if (item.type === 'WEAPON') {
-    if (name.includes('trượng') || name.includes('pháp')) return '/assets/vnext/icon_item_staff.png';
-    if (name.includes('quyền') || name.includes('sáo') || name.includes('giáp thủ')) return '/assets/vnext/icon_item_fist.png';
-    return '/assets/vnext/icon_item_sword.png';
+    return weaponArt(item.templateId, item.name);
   }
   if (item.type === 'ARMOR') {
     if (name.includes('bào') || name.includes('y')) return '/assets/vnext/icon_item_robe.png';
@@ -45,8 +44,7 @@ function getItemIcon(item: InventoryItem): string {
 
 function getEquipmentArt(item: InventoryItem): string | null {
   if (item.type === 'ARMOR' || item.type === 'SHOES') return '/assets/v104/equipment_armor.png';
-  if (item.type === 'WEAPON') return item.name.toLowerCase().includes('trượng') || item.name.toLowerCase().includes('pháp')
-    ? '/assets/v104/equipment_staff.png' : '/assets/v104/equipment_sword.png';
+  if (item.type === 'WEAPON') return weaponArt(item.templateId, item.name);
   return null;
 }
 

@@ -36,12 +36,26 @@ export async function claimMeditation(): Promise<ApiResponse<{ cultivationExp: n
   return res.data;
 }
 
-export interface MountInfo { id: 'mount_crane' | 'mount_shadow_wolf'; name: string; description: string; speedBonus: number }
-export async function getMounts(): Promise<ApiResponse<{ mount: MountInfo; unlocked: boolean; activeMount: string | null }>> {
+export interface MountInfo { id: string; name: string; description: string; speedBonus: number; alignment: 'IMMORTAL' | 'DEMONIC' | 'BOTH'; realmIndex: number; mapId: string; mapName: string; preyId: string; preyName: string; requiredKills: number; denPosition: { x: number; y: number }; huntProgress: number; realmReady: boolean; owned: boolean }
+export async function getMounts(): Promise<ApiResponse<{ mounts: MountInfo[]; activeMount: string | null }>> {
   const res = await apiClient.get('/game/mounts'); return res.data;
+}
+export async function tameMount(mountId: string): Promise<ApiResponse<{ mountId: string; name: string }>> {
+  const res = await apiClient.post('/game/mounts/tame', { mountId }); return res.data;
 }
 export async function equipMount(mountId: string | null): Promise<ApiResponse<{ activeMount: string | null }>> {
   const res = await apiClient.post('/game/mounts/equip', { mountId }); return res.data;
+}
+
+export interface SkillInfo { id: string; name: string; description: string; path: 'SWORD' | 'SPELL' | 'BODY'; mpCost: number; cooldown: number; damageMultiplier: number; unlockRealmIndex: number; unlockRealmTier: number; cost: number; eligible: boolean; learned: boolean; level: number; equipSlot: number | null }
+export async function getSkills(): Promise<ApiResponse<{ skills: SkillInfo[]; gold: number }>> {
+  const res = await apiClient.get('/game/skills'); return res.data;
+}
+export async function learnSkill(skillId: string): Promise<ApiResponse<{ skillId: string; equipSlot: number | null; gold: number }>> {
+  const res = await apiClient.post('/game/skills/learn', { skillId }); return res.data;
+}
+export async function equipSkill(skillId: string | null, slot: number): Promise<ApiResponse<{ skillId: string | null; slot: number }>> {
+  const res = await apiClient.post('/game/skills/equip', { skillId, slot }); return res.data;
 }
 
 export async function createCharacter(data: CreateCharacterRequest): Promise<ApiResponse<CharacterSummary>> {
@@ -148,7 +162,9 @@ export interface CraftingRecipe {
   id: string;
   name: string;
   ingredients: { itemTemplateId: string; name: string; quantity: number }[];
-  result: { itemTemplateId: string; name: string; quality: string; quantity: number };
+  result: { itemTemplateId: string; name: string; quality: string; quantity: number; stats?: Record<string, number>; description?: string };
+  minRealmIndex?: number;
+  sourceHint?: string;
 }
 
 export async function getRecipes(): Promise<ApiResponse<CraftingRecipe[]>> {
