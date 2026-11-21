@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { REALM_NAMES } from '@shared';
+import { realmName } from '@shared';
 import { equipMount, getMounts, type MountInfo } from '../../api/game';
 import { useGameStore } from '../../stores/gameStore';
 
@@ -59,7 +59,7 @@ export default function MountPanel() {
         <div className="mount-facts"><span>Địa điểm <strong>{mount.mapName}</strong></span>
           <span>Truy dấu <strong>{mount.preyName} · {Math.min(mount.huntProgress, mount.requiredKills)}/{mount.requiredKills}</strong></span>
           <span>Hang thú <strong>Tọa độ {mount.denPosition.x}, {mount.denPosition.y}</strong></span>
-          <span>Cảnh giới <strong>{REALM_NAMES[mount.realmIndex]} trở lên</strong></span>
+          <span>Cảnh giới <strong>{realmName(mount.realmIndex, character?.alignment)} trở lên</strong></span>
           <span>Khi cưỡi <strong>+{mount.speedBonus} tốc độ</strong></span></div>
         {!mount.owned && <p>Cơ hội thu phục lần này: <strong>{Math.round(mount.tameChance * 100)}%</strong>. Sau hai lần chưa thành, lần kế tiếp chắc chắn thành công.</p>}
         <progress max={mount.requiredKills} value={Math.min(mount.huntProgress, mount.requiredKills)}

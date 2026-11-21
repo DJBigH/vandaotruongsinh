@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { AccountRole } from '@shared/index';
 import type { Cooldowns } from '../../game/exploration/actions';
 import { eventBridge } from '../../game/EventBridge';
-import { heroVariantKey } from '../../game/assets/hero-variants';
+import { heroAvatarUrl } from '../../game/assets/hero-variants';
 import { getSkills, type SkillInfo } from '../../api/game';
 import { skillIcon } from '../../game/assets/skillIcon';
 import GameMenu from './GameMenu';
@@ -84,8 +84,8 @@ export default function HUD() {
 
   const hpRatio = maxHp > 0 ? (curHp / maxHp) * 100 : 0;
   const mpRatio = maxMp > 0 ? (curMp / maxMp) * 100 : 0;
-  const heroPreview = character ? `/assets/v104/${heroVariantKey(character.cultivationPath,
-    character.gender ?? 'MALE', character.alignment ?? 'IMMORTAL', character.realmIndex)}_preview.png` : null;
+  const heroPreview = character ? heroAvatarUrl(character.cultivationPath,
+    character.gender ?? 'MALE', character.alignment ?? 'IMMORTAL', character.realmIndex) : null;
 
   return (
     <div className="game-hud" style={{ pointerEvents: 'none', position: 'absolute', inset: 0, overflow: 'hidden' }}>

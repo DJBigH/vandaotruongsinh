@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { REALM_NAMES, REALM_TIERS } from '@shared/index';
+import { REALM_TIERS, realmName } from '@shared/index';
 import { equipSkill, getSkills, learnSkill, type SkillInfo } from '../../api/game';
 import { useGameStore } from '../../stores/gameStore';
 import { eventBridge } from '../../game/EventBridge';
@@ -45,13 +45,13 @@ export default function SkillPanel() {
           onClick={() => setSelectedId(skill.id)} aria-current={selectedId === skill.id ? 'true' : undefined}>
           <img src={skillIcon(skill.id)} alt="" /><span><strong>{skill.name}</strong><small>
             {skill.learned ? skill.equipSlot ? `Đã học · Phím ${skill.equipSlot}` : 'Đã học · Chưa đặt ô'
-              : skill.eligible ? `${skill.cost} linh thạch` : `${REALM_NAMES[skill.unlockRealmIndex]} · ${REALM_TIERS[skill.unlockRealmTier]}`}
+              : skill.eligible ? `${skill.cost} linh thạch` : `${realmName(skill.unlockRealmIndex, character?.alignment)} · ${REALM_TIERS[skill.unlockRealmTier]}`}
           </small></span></button>)}
       </div>
       <div className="skill-detail">{selected ? <>
         <img src={skillIcon(selected.id)} alt="" className="skill-portrait" />
         <h3>{selected.name}</h3><p>{selected.description}</p>
-        <div className="skill-facts"><span>Yêu cầu <strong>{REALM_NAMES[selected.unlockRealmIndex]} · {REALM_TIERS[selected.unlockRealmTier]}</strong></span>
+        <div className="skill-facts"><span>Yêu cầu <strong>{realmName(selected.unlockRealmIndex, character?.alignment)} · {REALM_TIERS[selected.unlockRealmTier]}</strong></span>
           <span>Linh lực <strong>{selected.mpCost}</strong></span><span>Hồi chiêu <strong>{selected.cooldown}</strong></span>
           <span>Linh thạch <strong>{gold}</strong></span></div>
         {!selected.learned ? <button type="button" disabled={busy || !selected.eligible || gold < selected.cost}

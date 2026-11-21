@@ -18,7 +18,7 @@ import { usePresentationSettings } from '../exploration/settings';
 import type { HeroPose } from '../assets/AssetManifest';
 import { heroVariantKey } from '../assets/hero-variants';
 import { MapLoad } from '../exploration/mapLoad';
-import { mapAssets } from '../assets/loadPlan';
+import { heroAssets, mapAssets } from '../assets/loadPlan';
 import { loadSceneAssets } from '../assets/sceneAssetLoader';
 import { cameraFollowLerp, predictPosition } from '../exploration/prediction';
 import { panelForShortcut } from '../../components/game/menuShortcuts';
@@ -45,6 +45,8 @@ export default class ExplorationScene extends Phaser.Scene {
   private pointerAttack: Aim | null = null;
   private currentFacing: FacingDirection = 'down';
   private appearanceSignature = '';
+  private loadingHeroKey = '';
+  private failedHeroKey = '';
 
   private worldRenderer: WorldRenderer | null = null;
   private feedback!: CombatFeedback;
@@ -689,6 +691,24 @@ export default class ExplorationScene extends Phaser.Scene {
     const key = this.heroBaseKey();
     const signature = `${character.id}:${key}:${character.realmTier}`;
     if (signature === this.appearanceSignature) return;
+    if (!this.textures.exists(`${key}_idle`)) {
+      if (this.loadingHeroKey === key || this.failedHeroKey === key) return;
+      this.loadingHeroKey = key;
+      void loadSceneAssets(this, heroAssets(key), `Đang tải đạo thân ${character.realmName}`)
+        .then(() => {
+          if (!this.sys.isActive()) return;
+          AnimationManager.registerAll(this);
+          this.appearanceSignature = '';
+          this.updatePlayerAppearance();
+          eventBridge.emit('gameLoadReady');
+        })
+        .catch((error: unknown) => {
+          this.failedHeroKey = key;
+          eventBridge.emit('gameLoadFailed', error instanceof Error ? error.message : 'Không tải được hình cảnh giới.');
+        })
+        .finally(() => { if (this.loadingHeroKey === key) this.loadingHeroKey = ''; });
+      return;
+    }
     if (this.player.texture.key !== `${key}_idle` && this.textures.exists(`${key}_idle`)) {
       this.player.anims.stop();
       this.player.setTexture(`${key}_idle`);

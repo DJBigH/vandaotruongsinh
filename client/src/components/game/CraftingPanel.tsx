@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { REALM_NAMES } from '@shared/index';
+import { realmName } from '@shared/index';
 import { useGameStore } from '../../stores/gameStore';
 import { craftItem, getRecipes, type CraftingRecipe } from '../../api/game';
 import { weaponArt } from '../../game/assets/weaponArt';
@@ -45,13 +45,13 @@ export default function CraftingPanel() {
           <img src={weapons(recipe) ? weaponArt(recipe.result.itemTemplateId, recipe.result.name)
             : '/assets/vnext/icon_item_pill_gold.png'} alt="" />
           <span><strong>{recipe.result.name}</strong><small>{recipe.minRealmIndex
-            ? `${REALM_NAMES[recipe.minRealmIndex]} trở lên` : 'Luyện Khí trở lên'}</small></span></button>)}
+            ? `${realmName(recipe.minRealmIndex, character?.alignment)} trở lên` : `${realmName(0, character?.alignment)} trở lên`}</small></span></button>)}
       </div>
       <div className="craft-detail">{selected ? <>
         <img className="craft-portrait" src={isWeapon ? weaponArt(selected.result.itemTemplateId, selected.result.name)
           : '/assets/vnext/icon_item_pill_gold.png'} alt={selected.result.name} />
         <h3>{selected.result.name}</h3><p>{selected.result.description}</p>
-        <p><strong>Phẩm cấp:</strong> {selected.result.quality} · <strong>Cảnh giới:</strong> {REALM_NAMES[selected.minRealmIndex ?? 0]}</p>
+        <p><strong>Phẩm cấp:</strong> {selected.result.quality} · <strong>Cảnh giới:</strong> {realmName(selected.minRealmIndex ?? 0, character?.alignment)}</p>
         {selected.result.stats && <div className="craft-stats">{Object.entries(selected.result.stats).map(([stat, value]) =>
           <span key={stat}>{stat.toUpperCase()} +{value}</span>)}</div>}
         <h4>Nguyên liệu</h4><div className="craft-materials">{selected.ingredients.map((ingredient) => {

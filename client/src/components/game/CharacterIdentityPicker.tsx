@@ -33,7 +33,7 @@ export default function CharacterIdentityPicker({ path, gender, alignment, onPat
         <button type="button" aria-pressed={alignment === DaoAlignment.IMMORTAL} onClick={() => onAlignment(DaoAlignment.IMMORTAL)}>Tu Tiên · giữ tâm</button>
         <button type="button" aria-pressed={alignment === DaoAlignment.DEMONIC} onClick={() => onAlignment(DaoAlignment.DEMONIC)}>Tu Ma · phá giới</button>
       </div></fieldset>
-      <p className="identity-note">Hai con đường dùng chung chính tuyến Thiên Khế, khác diện mạo và dấu ấn tu luyện. Ba hướng chiến đấu giữ kỹ năng riêng.</p>
+      <p className="identity-note">Tiên đạo qua 12 cảnh giới tới Tiên Nhân; Ma đạo qua 12 cảnh giới tới Ma Tôn. Mỗi bậc đổi đạo bào, chân dung, huy hiệu và hiệu ứng đột phá. Ba hướng chiến đấu giữ kỹ năng riêng.</p>
     </div>
   </div>;
 }

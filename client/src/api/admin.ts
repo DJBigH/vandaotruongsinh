@@ -12,6 +12,7 @@ export async function applyGmCheat(command: { godMode?: boolean; gold?: number; 
 export interface GmCharacter { id: string; name: string; username: string; isActive: boolean }
 export interface GmCatalog {
   realms: Record<string, string>;
+  demonicRealms: Record<string, string>;
   items: { id: string; name: string; slot: string | null }[];
   skills: { id: string; name: string; path: string }[];
   mounts: { id: string; name: string; alignment: string }[];

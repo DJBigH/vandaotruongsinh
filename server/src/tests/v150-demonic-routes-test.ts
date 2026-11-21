@@ -39,4 +39,12 @@ test('a Ma character sees Ma realm names in summary, preview and successful brea
   await prisma.character.update({ where: { id: character.id }, data: { realmIndex: 8, realmTier: 3 } });
   const oldSave = await app.inject({ url: '/api/game/character', headers });
   assert.equal(oldSave.json().data.realmName, 'Ma Kiếp - Đại Viên Mãn');
+  await prisma.character.update({ where: { id: character.id }, data: { realmIndex: 11, realmTier: 3 } });
+  const finalPreview = await app.inject({ url: '/api/game/character/breakthrough-info', headers });
+  assert.equal(finalPreview.json().data.currentRealmName, 'Ma Tôn - Đại Viên Mãn');
+  assert.equal(finalPreview.json().data.canBreakthrough, false);
+  assert.equal(finalPreview.json().data.requiredLevel, 0);
+  const finalAttempt = await app.inject({ method: 'POST', url: '/api/game/character/breakthrough', headers,
+    payload: { characterId: character.id, realmIndex: 11, realmTier: 3, requestId: randomUUID() } });
+  assert.equal(finalAttempt.statusCode, 400);
 });

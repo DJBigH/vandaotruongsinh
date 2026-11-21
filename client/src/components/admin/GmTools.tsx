@@ -50,6 +50,7 @@ export default function GmTools() {
   const selectedSkill = skills.find((entry) => entry.id === skillId)?.id ?? skills[0]?.id ?? '';
   const selectedMount = mounts.find((entry) => entry.id === mountId)?.id ?? mounts[0]?.id ?? '';
   const selectedItem = catalog?.items.find((entry) => entry.id === itemId);
+  const realmNames = character?.alignment === 'DEMONIC' ? catalog?.demonicRealms : catalog?.realms;
 
   const apply = async (command: GmCommand, label: string) => {
     if (!characterId || busy) return;
@@ -82,7 +83,7 @@ export default function GmTools() {
     {message && <p role="status" className="gm-v110-notice">{message}</p>}
     {character && <>
       <div className="gm-v110-summary"><strong>{character.name}</strong>
-        <span>{catalog?.realms[String(character.realmIndex)]} · bậc {character.realmTier + 1}</span>
+        <span>{realmNames?.[String(character.realmIndex)]} · bậc {character.realmTier + 1}</span>
         <span>{character.gold.toLocaleString('vi-VN')} linh thạch</span>
         <span>Tu vi {Number(character.cultivationExp).toLocaleString('vi-VN')}</span>
         <span>{catalog?.maps.find((map) => map.id === character.currentMapId)?.name ?? character.currentMapId}</span></div>
@@ -97,7 +98,7 @@ export default function GmTools() {
           <button disabled={busy} onClick={() => void apply({ kind: 'resources', gold, exp, cultivationExp }, 'Tài nguyên')}>Cộng tài nguyên</button></article>
         <article><h3>Cảnh giới</h3><p>Đặt cảnh giới để thử ngoại hình, chiêu và đột phá.</p>
           <div className="gm-v110-fields"><label>Cảnh giới<select value={realmIndex} onChange={(e) => setRealmIndex(Number(e.target.value))}>
-            {Object.entries(catalog?.realms ?? {}).map(([index, name]) => <option key={index} value={index}>{name}</option>)}</select></label>
+            {Object.entries(realmNames ?? {}).map(([index, name]) => <option key={index} value={index}>{name}</option>)}</select></label>
             <label>Bậc<select value={realmTier} onChange={(e) => setRealmTier(Number(e.target.value))}>
               {['Sơ kỳ', 'Trung kỳ', 'Hậu kỳ', 'Đại viên mãn'].map((name, index) => <option key={name} value={index}>{name}</option>)}</select></label></div>
           <button disabled={busy} onClick={() => void apply({ kind: 'realm', realmIndex, realmTier }, 'Cảnh giới')}>Đặt cảnh giới</button></article>

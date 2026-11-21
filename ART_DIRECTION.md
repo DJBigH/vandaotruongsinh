@@ -90,6 +90,8 @@ Bản 1.2.0 dùng `art/pack-v120.py` đóng gói tranh đã duyệt từ `art/fu
 
 Bản 1.3.0 mở hình trang bị, phụ kiện và sáu loại vũ khí từ +6 đến +10. Mỗi cấp mới có icon 64 × 64 và avatar vật phẩm 192 × 192; cấp cao có chi tiết khảm vàng/ngọc trên vật thể, không dùng quầng mờ để phân biệt. Ba hành động cường hóa, thu phục thú và đột phá có dải bốn khung thành công/thất bại riêng 96 × 96, giữ neo cố định và chỉ phát khi máy chủ trả kết quả. Hiệu ứng thuần túy dùng avatar vật phẩm, thú hoặc nhân vật đã có. Nguồn, bản bị loại, ảnh xem trước và validator ở `art/upgrade-v130/`.
 
+Bản 1.5.0 thêm 12 cảnh giới Tiên và 12 cảnh giới Ma. Mỗi mốc có huy hiệu 64 × 64 và hiệu ứng đột phá bốn khung 96 × 96, hai nhánh dùng hình tượng riêng. Mỗi tổ hợp Kiếm/Pháp/Thể, nam/nữ, Tiên/Ma có chân dung 192 × 192 ở cả 12 mốc; sprite 64 × 64 giữ bốn hướng, tám tư thế và neo chân (32, 56). Phân biệt mốc bằng trang phục, vương miện và huy hiệu, không dùng quầng sáng thường trực. Nguồn vẽ, ảnh xem trước, manifest và kiểm tra ảnh ở `art/realm-v150/`; game dùng `client/public/assets/v150/`. Khi vẽ thêm bất kỳ NPC, boss hay đạo thân có thể tương tác, phải tạo avatar riêng cùng danh tính hình ảnh với sprite.
+
 Thú cưỡi v1.0.5 dùng bốn khung bước chân trên một hàng `128 × 96`, riêng cho sáu loài. Khung cuối trở về tư thế đầu để vòng đi không hiện hình bị cắt cạnh. Sheet được hiển thị khoảng `105 × 79` pixel, nhân vật cưỡi dùng dáng rút thấp và lớp yên phía trước chân. Icon vũ khí là 64 × 64 alpha, giữ nét pixel rõ khi hiện trong Túi và Lò Rèn. Nguồn tạo ảnh, script đóng gói và thành phẩm nằm tại `art/v105/` và `assets/v105/`.
 
 ---

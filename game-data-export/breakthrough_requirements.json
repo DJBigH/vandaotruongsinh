@@ -310,5 +310,77 @@
       }
     ],
     "statBonusPercent": 350
+  },
+  {
+    "realmIndex": 9,
+    "tier": 0,
+    "cultivationExp": 1550000,
+    "statBonusPercent": 380
+  },
+  {
+    "realmIndex": 9,
+    "tier": 1,
+    "cultivationExp": 1700000,
+    "statBonusPercent": 410
+  },
+  {
+    "realmIndex": 9,
+    "tier": 2,
+    "cultivationExp": 1850000,
+    "statBonusPercent": 440
+  },
+  {
+    "realmIndex": 9,
+    "tier": 3,
+    "cultivationExp": 2000000,
+    "statBonusPercent": 480
+  },
+  {
+    "realmIndex": 10,
+    "tier": 0,
+    "cultivationExp": 2150000,
+    "statBonusPercent": 520
+  },
+  {
+    "realmIndex": 10,
+    "tier": 1,
+    "cultivationExp": 2300000,
+    "statBonusPercent": 560
+  },
+  {
+    "realmIndex": 10,
+    "tier": 2,
+    "cultivationExp": 2450000,
+    "statBonusPercent": 600
+  },
+  {
+    "realmIndex": 10,
+    "tier": 3,
+    "cultivationExp": 2600000,
+    "requiredItems": [
+      {
+        "itemId": "item_074",
+        "quantity": 10
+      }
+    ],
+    "statBonusPercent": 650
+  },
+  {
+    "realmIndex": 11,
+    "tier": 0,
+    "cultivationExp": 2750000,
+    "statBonusPercent": 700
+  },
+  {
+    "realmIndex": 11,
+    "tier": 1,
+    "cultivationExp": 2900000,
+    "statBonusPercent": 750
+  },
+  {
+    "realmIndex": 11,
+    "tier": 2,
+    "cultivationExp": 3050000,
+    "statBonusPercent": 800
   }
 ]

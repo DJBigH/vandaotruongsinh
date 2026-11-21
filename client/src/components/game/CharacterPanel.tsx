@@ -5,7 +5,8 @@
 import React, { useEffect, useState } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import * as gameApi from '../../api/game';
-import { CultivationPath, CULTIVATION_PATH_NAMES } from '@shared/index';
+import { CULTIVATION_PATH_NAMES, MAX_REALM_INDEX, realmName } from '@shared/index';
+import { heroAvatarUrl, realmArtUrl } from '../../game/assets/hero-variants';
 import UpgradeOutcome from './UpgradeOutcome';
 
 export default function CharacterPanel() {
@@ -13,7 +14,7 @@ export default function CharacterPanel() {
   const [breakthroughLoading, setBreakthroughLoading] = useState(false);
   const [breakthroughInfo, setBreakthroughInfo] = useState<gameApi.BreakthroughInfo | null>(null);
   const [remainingCooldown, setRemainingCooldown] = useState(0);
-  const [breakthroughScene, setBreakthroughScene] = useState<{ success: boolean; message: string } | null>(null);
+  const [breakthroughScene, setBreakthroughScene] = useState<{ success: boolean; message: string; realmIndex: number } | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -49,7 +50,9 @@ export default function CharacterPanel() {
     try {
       const res = await gameApi.attemptBreakthrough(character);
       if (res.success && res.data) {
-        setBreakthroughScene({ success: res.data.success, message: res.data.message });
+        setBreakthroughScene({ success: res.data.success, message: res.data.message,
+          realmIndex: res.data.success && character.realmTier === 3
+            ? Math.min(MAX_REALM_INDEX, character.realmIndex + 1) : character.realmIndex });
         addNotification(res.data.message, res.data.success ? 'success' : 'warning');
         await loadCharacter();
         const next = await gameApi.getBreakthroughInfo();
@@ -87,11 +90,9 @@ export default function CharacterPanel() {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <img
-            src={character.cultivationPath === CultivationPath.SWORD ? '/assets/vnext/icon_item_sword.png' : character.cultivationPath === CultivationPath.SPELL ? '/assets/vnext/icon_item_staff.png' : '/assets/vnext/icon_item_fist.png'}
-            alt="Đạo Thân"
-            style={{ width: '40px', height: '40px', imageRendering: 'pixelated', background: '#1e293b', border: '1px solid #ffd700', borderRadius: '6px', padding: '3px' }}
-          />
+          <img src={heroAvatarUrl(character.cultivationPath, character.gender, character.alignment, character.realmIndex)}
+            alt={`Chân dung ${character.name}`}
+            style={{ width: '64px', height: '64px', objectFit: 'contain', imageRendering: 'pixelated', background: '#1e293b', border: '1px solid #b8a06a', borderRadius: '6px' }} />
           <div>
             <h2 style={{ margin: 0, color: '#ffd700', fontSize: '1.4rem' }}>🧘 TU VI & ĐẠO THÂN</h2>
             <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>
@@ -147,6 +148,17 @@ export default function CharacterPanel() {
         <div style={{ background: '#0f172a', padding: '16px', borderRadius: '8px', border: '1px solid #334155', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div>
             <h3 style={{ margin: '0 0 12px 0', color: '#c5a059', fontSize: '1rem' }}>Tiến Cảnh Tu Luyện</h3>
+            <div className="realm-current-art">
+              <img src={realmArtUrl(character.alignment, character.realmIndex, 'crest')} alt="" width="64" height="64" />
+              <span>{realmName(character.realmIndex, character.alignment)}<small>{character.alignment === 'DEMONIC' ? 'Ma đạo' : 'Tiên đạo'} · {character.realmTier + 1}/4 tầng</small></span>
+            </div>
+            <div className="realm-ladder" aria-label={`Mười hai cảnh giới ${character.alignment === 'DEMONIC' ? 'Ma' : 'Tiên'}`}>
+              {Array.from({ length: MAX_REALM_INDEX + 1 }, (_, index) => <div key={index}
+                className={index === character.realmIndex ? 'current' : index < character.realmIndex ? 'reached' : ''}>
+                <img src={realmArtUrl(character.alignment, index, 'crest')} alt="" width="36" height="36" loading="lazy" />
+                <span>{realmName(index, character.alignment)}</span>
+              </div>)}
+            </div>
             <p style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.5, marginBottom: '16px' }}>
               Chiến đấu và làm nhiệm vụ để tăng cấp. Tích lũy tu vi và linh thạch để đột phá; mỗi lần thử đều có thể thất bại.
             </p>
@@ -230,6 +242,9 @@ export default function CharacterPanel() {
     </div>
     {breakthroughScene && <UpgradeOutcome subject="realm" success={breakthroughScene.success}
       title={breakthroughScene.success ? 'Đột phá thành công' : 'Tâm mạch dao động'}
-      message={breakthroughScene.message} onClose={() => setBreakthroughScene(null)} />}
+      message={breakthroughScene.message}
+      avatar={heroAvatarUrl(character.cultivationPath, character.gender, character.alignment, breakthroughScene.realmIndex)}
+      effectUrl={realmArtUrl(character.alignment, breakthroughScene.realmIndex, 'breakthrough')}
+      onClose={() => setBreakthroughScene(null)} />}
   </>;
 }

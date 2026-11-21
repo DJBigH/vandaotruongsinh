@@ -415,6 +415,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
           id: char ? char.id : null,
           name: char?.name,
           cultivationPath: char?.cultivationPath,
+          gender: char?.gender,
           alignment: char?.alignment,
           realmIndex: char?.realmIndex,
           realmTier: char?.realmTier,

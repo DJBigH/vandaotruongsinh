@@ -1,0 +1,65 @@
+{
+  "names": {
+    "immortal": [
+      "Luyện Khí",
+      "Trúc Cơ",
+      "Kim Đan",
+      "Nguyên Anh",
+      "Hóa Thần",
+      "Luyện Hư",
+      "Hợp Thể",
+      "Đại Thừa",
+      "Độ Kiếp",
+      "Tán Tiên",
+      "Chân Tiên",
+      "Tiên Nhân"
+    ],
+    "demonic": [
+      "Luyện Ma",
+      "Tụ Ma",
+      "Ma Đan",
+      "Ma Anh",
+      "Hóa Ma",
+      "Phá Hư",
+      "Ma Thể",
+      "Đại Ma",
+      "Ma Kiếp",
+      "Ma Quân",
+      "Thiên Ma",
+      "Ma Tôn"
+    ]
+  },
+  "palettes": {
+    "immortal": [
+      "#b7c6b0",
+      "#6dbaad",
+      "#d8bd72",
+      "#8bc6d8",
+      "#d7a47e",
+      "#a7a0cc",
+      "#74c4a8",
+      "#d9ad72",
+      "#86a9d5",
+      "#c9d3ae",
+      "#e1c381",
+      "#f2d6a4"
+    ],
+    "demonic": [
+      "#ad655e",
+      "#b57254",
+      "#bf675d",
+      "#aa76a0",
+      "#d16f61",
+      "#9071aa",
+      "#6aa89d",
+      "#c08b66",
+      "#bb6f81",
+      "#ad706a",
+      "#ae82a8",
+      "#cb8b67"
+    ]
+  },
+  "sourceHero": "client/public/assets/vnext",
+  "sourcePortraits": "client/public/assets/v120/avatar_hero_*.png",
+  "artDirection": "ART_DIRECTION.md"
+}

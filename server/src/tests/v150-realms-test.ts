@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import * as shared from '@shared';
 import { BREAKTHROUGH_REQUIREMENTS } from '../data/game-content';
 import { MAX_CHARACTER_LEVEL, experienceForLevel, levelForExperience } from '../engine/character-level';
@@ -28,4 +30,12 @@ test('forty-seven transitions lead to the two final realms and stop there', () =
   const final = checkBreakthroughEligibility(11, 3, 10_000_000n, [], 48, 1_000_000);
   assert.equal(final.canBreakthrough, false);
   assert.equal(final.requiredGold, 0);
+});
+
+test('exported realm data matches the playable rules', () => {
+  const names = JSON.parse(readFileSync(resolve('../game-data-export/realms_and_stats.json'), 'utf8'));
+  const requirements = JSON.parse(readFileSync(resolve('../game-data-export/breakthrough_requirements.json'), 'utf8'));
+  assert.deepEqual(names.REALM_NAMES, shared.REALM_NAMES);
+  assert.deepEqual(names.DEMONIC_REALM_NAMES, shared.DEMONIC_REALM_NAMES);
+  assert.deepEqual(requirements, BREAKTHROUGH_REQUIREMENTS);
 });

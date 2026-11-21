@@ -20,7 +20,7 @@ export default class BootScene extends Phaser.Scene {
     this.failed = [];
     const character = useGameStore.getState().character;
     const identity = character ? heroVariantKey(character.cultivationPath, character.gender,
-      character.alignment, 0).replace(/_0$/, '_') : 'hero_sword_male_immortal_';
+      character.alignment, character.realmIndex) : 'hero_sword_male_immortal_0';
     eventBridge.emit('gameLoadProgress', { label: 'Đang tải hình nhân vật và kỹ năng', progress: 0 });
     this.load.on(Phaser.Loader.Events.PROGRESS, (progress: number) =>
       eventBridge.emit('gameLoadProgress', { label: 'Đang tải hình nhân vật và kỹ năng', progress: Math.round(progress * 100) }));

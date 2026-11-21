@@ -4,8 +4,9 @@
 
 import React, { useState, useEffect } from 'react';
 import * as gameApi from '../../api/game';
-import { CharacterGender, CultivationPath, DaoAlignment, CULTIVATION_PATH_NAMES, REALM_NAMES, REALM_TIERS } from '@shared/index';
+import { CharacterGender, CultivationPath, DaoAlignment, CULTIVATION_PATH_NAMES, REALM_TIERS, realmName } from '@shared/index';
 import CharacterIdentityPicker from './CharacterIdentityPicker';
+import { heroAvatarUrl } from '../../game/assets/hero-variants';
 
 interface SlotData {
   slot: number;
@@ -14,6 +15,8 @@ interface SlotData {
   cultivationPath?: CultivationPath;
   realmIndex?: number;
   realmTier?: number;
+  alignment?: DaoAlignment;
+  gender?: CharacterGender;
   level?: number;
   spiritStones?: number;
   isActive?: boolean;
@@ -177,9 +180,10 @@ export default function CharacterSlotsModal({ onClose }: Props) {
                     }}>
                       {isOccupied ? (
                         <img
-                          src={s.cultivationPath === CultivationPath.SWORD ? '/assets/vnext/icon_item_sword.png' : s.cultivationPath === CultivationPath.SPELL ? '/assets/vnext/icon_item_staff.png' : '/assets/vnext/icon_item_fist.png'}
-                          alt="Hệ Tu Luyện"
-                          style={{ width: '32px', height: '32px', imageRendering: 'pixelated' }}
+                          src={heroAvatarUrl(s.cultivationPath ?? CultivationPath.SWORD, s.gender ?? CharacterGender.MALE,
+                            s.alignment ?? DaoAlignment.IMMORTAL, s.realmIndex ?? 0)}
+                          alt={`Chân dung ${s.name}`}
+                          style={{ width: '42px', height: '42px', objectFit: 'contain', imageRendering: 'pixelated' }}
                         />
                       ) : (
                         <span style={{ fontSize: '1.2rem', color: '#64748b' }}>➕</span>
@@ -202,7 +206,7 @@ export default function CharacterSlotsModal({ onClose }: Props) {
                         <div style={{ fontSize: '0.85rem', color: '#90a4ae', marginTop: '4px' }}>
                           <span>Hệ: {s.cultivationPath ? CULTIVATION_PATH_NAMES[s.cultivationPath] : 'Kiếm Tu'}</span>
                           <span style={{ margin: '0 8px' }}>•</span>
-                          <span>Cảnh giới: {REALM_NAMES[s.realmIndex ?? 0]} - {REALM_TIERS[s.realmTier ?? 0]}</span>
+                          <span>Cảnh giới: {realmName(s.realmIndex ?? 0, s.alignment)} - {REALM_TIERS[s.realmTier ?? 0]}</span>
                           <span style={{ margin: '0 8px' }}>•</span>
                           <span style={{ color: '#ffd700' }}>💎 {s.spiritStones ?? 0} Linh Thạch</span>
                         </div>

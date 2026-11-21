@@ -838,10 +838,13 @@ export interface CharacterSlotSummary {
   id: string | null;
   name?: string;
   cultivationPath?: CultivationPath;
-  realm?: number;
-  tier?: number;
+  gender?: CharacterGender;
+  alignment?: DaoAlignment;
+  realmIndex?: number;
+  realmTier?: number;
   level?: number;
   spiritStones?: number;
+  isActive?: boolean;
   updatedAt?: string;
 }
 

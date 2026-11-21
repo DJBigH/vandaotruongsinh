@@ -15,7 +15,7 @@ interface Asset {
   key: string;
   file: string;
   type: 'image' | 'spritesheet' | 'audio';
-  provenance: 'original-M1' | 'legacy' | 'v104-derived' | 'v105-original' | 'v110-original' | 'v120-original' | 'v130-original';
+  provenance: 'original-M1' | 'legacy' | 'v104-derived' | 'v105-original' | 'v110-original' | 'v120-original' | 'v130-original' | 'v150-original';
 }
 export interface SpritesheetAsset extends Asset {
   type: 'spritesheet';
@@ -196,6 +196,22 @@ for (const path of ['sword', 'spell', 'body']) for (const gender of ['male', 'fe
       assets.push({ key, file: `assets/v104/${key}.png`, type: 'spritesheet', frameWidth: 64, frameHeight: 64,
         provenance: 'v104-derived', animations: directional(prefix, meta.columns, meta.duration, meta.repeat) });
     }
+
+for (const path of ['sword', 'spell', 'body']) for (const gender of ['male', 'female'])
+  for (const alignment of ['immortal', 'demonic']) for (let rank = 4; rank <= 11; rank++)
+    for (const [pose, meta] of Object.entries(heroPoseMetadata)) {
+      const key = `hero_${path}_${gender}_${alignment}_${rank}_${pose}`;
+      const prefix = pose === 'slash' ? key.replace(/_slash$/, '_attack') : key;
+      assets.push({ key, file: `assets/v150/${key}.png`, type: 'spritesheet', frameWidth: 64, frameHeight: 64,
+        provenance: 'v150-original', animations: directional(prefix, meta.columns, meta.duration, meta.repeat) });
+    }
+for (const alignment of ['immortal', 'demonic']) for (let rank = 0; rank <= 11; rank++) {
+  const stem = `realm_${alignment}_${String(rank).padStart(2, '0')}`;
+  assets.push({ key: `${stem}_crest`, file: `assets/v150/${stem}_crest.png`, type: 'image', provenance: 'v150-original' });
+  assets.push({ key: `${stem}_breakthrough`, file: `assets/v150/${stem}_breakthrough.png`, type: 'spritesheet',
+    frameWidth: 96, frameHeight: 96, provenance: 'v150-original',
+    animations: [{ key: `${stem}_breakthrough_play`, frameStart: 0, frameEnd: 3, duration: 880, repeat: 0 }] });
+}
 
 for (const key of ['tile_grass', 'tile_grass_flower', 'tile_path', 'tile_water', 'tile_dirt',
   'prop_crystal_cluster', 'prop_portal', 'prop_bagua_array', 'vfx_sword_slash', 'vfx_sword_beam', 'vfx_shield',

@@ -7,9 +7,14 @@ type Asset = typeof ASSET_MANIFEST.assets[number];
 const byKey = new Map(ASSET_MANIFEST.assets.map(asset => [asset.key, asset]));
 const bossStates = ['actions', 'move', 'phase', 'death'] as const;
 
-export function bootAssets(heroPrefix: string): Asset[] {
+export function heroAssets(heroKey: string): Asset[] {
+  return ASSET_MANIFEST.assets.filter(asset => asset.key.startsWith(`${heroKey}_`));
+}
+
+export function bootAssets(heroKey: string): Asset[] {
+  const selectedHero = heroKey.endsWith('_') ? `${heroKey}0` : heroKey;
   return ASSET_MANIFEST.assets.filter(asset => {
-    if (asset.key.startsWith('hero_')) return asset.key.startsWith(heroPrefix);
+    if (asset.key.startsWith('hero_')) return asset.key.startsWith(`${selectedHero}_`);
     if (asset.provenance === 'original-M1' || asset.provenance === 'legacy' ||
         asset.provenance === 'v105-original') return true;
     if (asset.provenance === 'v104-derived') return asset.key.startsWith('mount_');

@@ -8,7 +8,24 @@
     "5": "Luyện Hư",
     "6": "Hợp Thể",
     "7": "Đại Thừa",
-    "8": "Độ Kiếp"
+    "8": "Độ Kiếp",
+    "9": "Tán Tiên",
+    "10": "Chân Tiên",
+    "11": "Tiên Nhân"
+  },
+  "DEMONIC_REALM_NAMES": {
+    "0": "Luyện Ma",
+    "1": "Tụ Ma",
+    "2": "Ma Đan",
+    "3": "Ma Anh",
+    "4": "Hóa Ma",
+    "5": "Phá Hư",
+    "6": "Ma Thể",
+    "7": "Đại Ma",
+    "8": "Ma Kiếp",
+    "9": "Ma Quân",
+    "10": "Thiên Ma",
+    "11": "Ma Tôn"
   },
   "REALM_TIERS": [
     "Sơ Kỳ",
@@ -25,7 +42,10 @@
     "5": 5.5,
     "6": 7,
     "7": 9,
-    "8": 12
+    "8": 12,
+    "9": 15,
+    "10": 18,
+    "11": 22
   },
   "BASE_STATS": {
     "SWORD": {
@@ -64,30 +84,5 @@
       "critDmg": 50,
       "resist": 12
     }
-  },
-  "DEFAULT_DODGE_CONFIG": {
-    "distance": 140,
-    "durationSec": 0.22,
-    "iframeSec": 0.22,
-    "cooldownSec": 1.2,
-    "mpCost": 5
-  },
-  "QUALITY_NAMES": {
-    "COMMON": "Phàm",
-    "SPIRITUAL": "Linh",
-    "MYSTIC": "Huyền",
-    "EARTH": "Địa",
-    "HEAVEN": "Thiên",
-    "IMMORTAL": "Tiên",
-    "DIVINE": "Thần"
-  },
-  "QUALITY_COLORS": {
-    "COMMON": "#aaaaaa",
-    "SPIRITUAL": "#4fc3f7",
-    "MYSTIC": "#ab47bc",
-    "EARTH": "#ffa726",
-    "HEAVEN": "#ef5350",
-    "IMMORTAL": "#ffd700",
-    "DIVINE": "#ff1744"
   }
 }
