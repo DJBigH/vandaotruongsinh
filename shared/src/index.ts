@@ -23,6 +23,9 @@ export enum RealmIndex {
   HOP_THE = 6,      // Hợp Thể
   DAI_THUA = 7,     // Đại Thừa
   DO_KIEP = 8,      // Độ Kiếp
+  TAN_TIEN = 9,     // Tán Tiên / Ma Quân
+  CHAN_TIEN = 10,   // Chân Tiên / Thiên Ma
+  TIEN_NHAN = 11,   // Tiên Nhân / Ma Tôn
 }
 
 export const REALM_NAMES: Record<number, string> = {
@@ -35,7 +38,26 @@ export const REALM_NAMES: Record<number, string> = {
   [RealmIndex.HOP_THE]: 'Hợp Thể',
   [RealmIndex.DAI_THUA]: 'Đại Thừa',
   [RealmIndex.DO_KIEP]: 'Độ Kiếp',
+  [RealmIndex.TAN_TIEN]: 'Tán Tiên',
+  [RealmIndex.CHAN_TIEN]: 'Chân Tiên',
+  [RealmIndex.TIEN_NHAN]: 'Tiên Nhân',
 };
+
+export const DEMONIC_REALM_NAMES: Record<number, string> = {
+  0: 'Luyện Ma', 1: 'Tụ Ma', 2: 'Ma Đan', 3: 'Ma Anh',
+  4: 'Hóa Ma', 5: 'Phá Hư', 6: 'Ma Thể', 7: 'Đại Ma',
+  8: 'Ma Kiếp', 9: 'Ma Quân', 10: 'Thiên Ma', 11: 'Ma Tôn',
+};
+
+export const MAX_REALM_INDEX = RealmIndex.TIEN_NHAN;
+
+export function realmName(index: number, alignment: DaoAlignment = DaoAlignment.IMMORTAL): string {
+  return (alignment === DaoAlignment.DEMONIC ? DEMONIC_REALM_NAMES : REALM_NAMES)[index] ?? 'Cảnh Giới Vô Danh';
+}
+
+export function realmTitle(index: number, tier: number, alignment: DaoAlignment = DaoAlignment.IMMORTAL): string {
+  return `${realmName(index, alignment)} - ${REALM_TIERS[tier] ?? 'Vô Danh'}`;
+}
 
 export const REALM_TIERS = ['Sơ Kỳ', 'Trung Kỳ', 'Hậu Kỳ', 'Đại Viên Mãn'] as const;
 export const MAX_REALM_TIER = 3; // 0-3
@@ -600,6 +622,9 @@ export const REALM_STAT_MULTIPLIERS: Record<number, number> = {
   6: 7.0,   // Hợp Thể
   7: 9.0,   // Đại Thừa
   8: 12.0,  // Độ Kiếp
+  9: 15.0,  // Tán Tiên / Ma Quân
+  10: 18.0, // Chân Tiên / Thiên Ma
+  11: 22.0, // Tiên Nhân / Ma Tôn
 };
 
 export const TIER_STAT_BONUS = 0.1; // +10% per tier within realm

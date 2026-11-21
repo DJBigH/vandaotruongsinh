@@ -28,9 +28,9 @@ test('breakthrough requires EXP, level, spirit stones and any required items', (
   assert.equal(checkBreakthroughEligibility(1, 0, 2000n, [], 6, 1080).canBreakthrough, false);
 });
 
-test('Độ Kiếp Đại Viên Mãn is the cap, never an undefined tenth realm', () => {
-  assert.equal(BREAKTHROUGH_REQUIREMENTS.length, 35);
-  const final = checkBreakthroughEligibility(8, 3, 9_999_999n, [], 36, 1_000_000);
+test('the final realm has no transition to an undefined next realm', () => {
+  assert.equal(BREAKTHROUGH_REQUIREMENTS.length, 47);
+  const final = checkBreakthroughEligibility(11, 3, 9_999_999n, [], 48, 1_000_000);
   assert.equal(final.canBreakthrough, false);
   assert.equal(final.requiredLevel, 0);
   assert.equal(final.requiredGold, 0);

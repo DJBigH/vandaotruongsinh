@@ -77,15 +77,15 @@ test('EXP level and spirit stones gate breakthrough; attempts debit once and fin
   await prisma.character.update({ where: { id: char.id }, data: { isActive: false } });
   const finalChar = await prisma.character.create({ data: {
     accountId: account.id, name: `v140_final_${suffix}`, slot: 1, isActive: true,
-    cultivationPath: CultivationPath.SWORD, realmIndex: 8, realmTier: 3,
+    cultivationPath: CultivationPath.SWORD, realmIndex: 11, realmTier: 3,
     cultivationExp: 10_000_000n, exp: 1_000_000n, gold: 1_000_000,
-    stats: { ...computeCharacterStats(CultivationPath.SWORD, 8, 3) },
+    stats: { ...computeCharacterStats(CultivationPath.SWORD, 11, 3) },
   } });
   t.after(() => ArpgSessionManager.getInstance().removeSession(finalChar.id));
   preview = (await get('/character/breakthrough-info')).json().data;
   assert.equal(preview.canBreakthrough, false);
   assert.equal(preview.requiredLevel, 0);
-  assert.equal((await attempt(finalChar.id, 8, 3)).statusCode, 400);
+  assert.equal((await attempt(finalChar.id, 11, 3)).statusCode, 400);
   assert.equal((await prisma.character.findUniqueOrThrow({ where: { id: finalChar.id } })).gold, 1_000_000);
 });
 

@@ -1,6 +1,6 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import type { PrismaClient } from '@prisma/client';
-import { AccountRole, MAX_REALM_TIER, REALM_NAMES, type CultivationPath } from '@shared';
+import { AccountRole, MAX_REALM_TIER, REALM_NAMES, DEMONIC_REALM_NAMES, type CultivationPath } from '@shared';
 import { z } from 'zod';
 import { requireRole } from '../../middleware/auth';
 import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
@@ -33,6 +33,7 @@ export async function gmRoutes(fastify: FastifyInstance, { prisma }: { prisma: P
 
   fastify.get('/gm/catalog', ownerOnly, async (_request, reply) => reply.send({ success: true, data: {
     realms: REALM_NAMES,
+    demonicRealms: DEMONIC_REALM_NAMES,
     items: Object.values(ITEM_TEMPLATES).map(({ id, name, slot }) => ({ id, name, slot: slot ?? null })),
     skills: Object.values(SKILL_TEMPLATES).map(({ id, name, path }) => ({ id, name, path })),
     mounts: Object.values(MOUNTS).map(({ id, name, alignment }) => ({ id, name, alignment })),

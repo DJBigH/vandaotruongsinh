@@ -1,6 +1,7 @@
 import type { Character, Prisma } from '@prisma/client';
+import { MAX_REALM_INDEX, MAX_REALM_TIER } from '@shared';
 
-export const MAX_CHARACTER_LEVEL = 36;
+export const MAX_CHARACTER_LEVEL = (MAX_REALM_INDEX + 1) * (MAX_REALM_TIER + 1);
 
 export function experienceForLevel(level: number): bigint {
   if (!Number.isInteger(level) || level < 1 || level > MAX_CHARACTER_LEVEL)

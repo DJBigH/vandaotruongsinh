@@ -82,7 +82,7 @@ async function runPhase3Tests() {
   assert(endingCount === 3, `Đầy đủ 3 đại kết cục: Duy Trì, Phá Bỏ hoặc Viết Lại Thiên Khế`);
 
   // 2. Thiết Lập Nhân Vật Đạt Cảnh Giới Cao Cấp
-  console.log('\n--- 2. Kiểm Thử Đột Phá Toàn Diện 9 Cảnh Giới ---');
+  console.log('\n--- 2. Kiểm Thử Đột Phá Toàn Diện 12 Cảnh Giới ---');
   const passwordHash = await bcrypt.hash('Phase3Pass@2026', 10);
   const account = await prisma.account.create({
     data: {
@@ -111,9 +111,9 @@ async function runPhase3Tests() {
   });
   assert(Boolean(character.id), 'Tạo nhân vật thử nghiệm Độ Kiếp Đại Viên Mãn thành công');
 
-  // Verify breakthrough requirement table has all 9 realms covered
+  // Verify breakthrough requirement table has all 12 realms covered
   const coveredRealms = new Set(BREAKTHROUGH_REQUIREMENTS.map((r) => r.realmIndex));
-  assert(coveredRealms.size === 9, 'Quy tắc đột phá bao quát đầy đủ 9 cảnh giới (Luyện Khí -> Độ Kiếp)');
+  assert(coveredRealms.size === 12, 'Quy tắc đột phá bao quát đầy đủ 12 cảnh giới (Luyện Khí -> Tiên Nhân)');
 
   // 3. Tiến Trình Cốt Truyện & Sử Ký (Story & Journal)
   console.log('\n--- 3. Kiểm Thử Tiến Trình Cốt Truyện & 3 Kết Cục ---');

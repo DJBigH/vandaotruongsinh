@@ -4,7 +4,7 @@
 
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { PrismaClient } from '@prisma/client';
-import { AccountRole, REALM_NAMES } from '@shared';
+import { AccountRole, DaoAlignment, REALM_NAMES, DEMONIC_REALM_NAMES, realmName } from '@shared';
 import { requireRole } from '../../middleware/auth';
 import { logAdminAction } from './audit';
 import { disconnectAccountSockets } from '../arpg/ws-handler';
@@ -81,16 +81,17 @@ export async function adminRoutes(fastify: FastifyInstance, options: { prisma: P
 
       // Realm distribution
       const characters = await prisma.character.findMany({
-        select: { realmIndex: true },
+        select: { realmIndex: true, alignment: true },
       });
 
       const realmDistribution: Record<string, number> = {};
       for (const [, name] of Object.entries(REALM_NAMES)) {
         realmDistribution[name] = 0;
       }
+      for (const name of Object.values(DEMONIC_REALM_NAMES)) realmDistribution[name] = 0;
       for (const c of characters) {
-        const realmName = REALM_NAMES[c.realmIndex] || 'Khác';
-        realmDistribution[realmName] = (realmDistribution[realmName] || 0) + 1;
+        const name = realmName(c.realmIndex, c.alignment as DaoAlignment);
+        realmDistribution[name] = (realmDistribution[name] || 0) + 1;
       }
 
       // Boss kills

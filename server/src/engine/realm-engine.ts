@@ -4,10 +4,10 @@
 
 import {
   RealmIndex,
-  REALM_NAMES,
-  REALM_TIERS,
+  realmTitle,
   MAX_REALM_TIER,
   CultivationPath,
+  DaoAlignment,
 } from '@shared';
 import { BREAKTHROUGH_REQUIREMENTS, SKILL_TEMPLATES } from '../data/game-content';
 
@@ -26,7 +26,7 @@ export interface BreakthroughStatus {
 }
 
 export function getBreakthroughRequirement(realmIndex: number, realmTier: number) {
-  if (realmIndex === RealmIndex.DO_KIEP && realmTier === MAX_REALM_TIER) return undefined;
+  if (realmIndex === RealmIndex.TIEN_NHAN && realmTier === MAX_REALM_TIER) return undefined;
   return BREAKTHROUGH_REQUIREMENTS.find(
     (r) => r.realmIndex === realmIndex && r.tier === realmTier,
   );
@@ -45,10 +45,11 @@ export function checkBreakthroughEligibility(
   inventoryItems: { templateId: string; quantity: number }[],
   level: number,
   gold: number,
+  alignment: DaoAlignment = DaoAlignment.IMMORTAL,
 ): BreakthroughStatus {
   const req = getBreakthroughRequirement(realmIndex, realmTier);
   const currentExp = Number(cultivationExp);
-  const currentRealmName = `${REALM_NAMES[realmIndex]} - ${REALM_TIERS[realmTier]}`;
+  const currentRealmName = realmTitle(realmIndex, realmTier, alignment);
 
   if (!req) {
     return {
@@ -73,7 +74,7 @@ export function checkBreakthroughEligibility(
     nextRealm += 1;
     nextTier = 0;
   }
-  const nextRealmName = `${REALM_NAMES[nextRealm] || 'Đại Viên Mãn'} - ${REALM_TIERS[nextTier] || 'Sơ Kỳ'}`;
+  const nextRealmName = realmTitle(nextRealm, nextTier, alignment);
 
   // Check required items
   const missingItems: { itemId: string; name: string; quantity: number }[] = [];

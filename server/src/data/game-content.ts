@@ -44,7 +44,7 @@ export const STARTER_SKILLS: Record<CultivationPath, string[]> = {
   [CultivationPath.BODY]: ['skill_body_01'],
 };
 
-// === Realm Breakthrough Requirements (Across All 9 Realms) ===
+// === Realm Breakthrough Requirements (47 transitions across 12 realms) ===
 
 export interface BreakthroughRequirement {
   realmIndex: number;
@@ -107,6 +107,24 @@ export const BREAKTHROUGH_REQUIREMENTS: BreakthroughRequirement[] = [
   { realmIndex: 8, tier: 0, cultivationExp: 920000, requiredItems: [{ itemId: 'item_073', quantity: 1 }], statBonusPercent: 250 },
   { realmIndex: 8, tier: 1, cultivationExp: 1060000, statBonusPercent: 275 },
   { realmIndex: 8, tier: 2, cultivationExp: 1220000, statBonusPercent: 300 },
+  { realmIndex: 8, tier: 3, cultivationExp: 1400000, requiredItems: [{ itemId: 'item_074', quantity: 5 }], statBonusPercent: 350 },
+
+  // 9. Tán Tiên / Ma Quân
+  { realmIndex: 9, tier: 0, cultivationExp: 1550000, statBonusPercent: 380 },
+  { realmIndex: 9, tier: 1, cultivationExp: 1700000, statBonusPercent: 410 },
+  { realmIndex: 9, tier: 2, cultivationExp: 1850000, statBonusPercent: 440 },
+  { realmIndex: 9, tier: 3, cultivationExp: 2000000, statBonusPercent: 480 },
+
+  // 10. Chân Tiên / Thiên Ma
+  { realmIndex: 10, tier: 0, cultivationExp: 2150000, statBonusPercent: 520 },
+  { realmIndex: 10, tier: 1, cultivationExp: 2300000, statBonusPercent: 560 },
+  { realmIndex: 10, tier: 2, cultivationExp: 2450000, statBonusPercent: 600 },
+  { realmIndex: 10, tier: 3, cultivationExp: 2600000, requiredItems: [{ itemId: 'item_074', quantity: 10 }], statBonusPercent: 650 },
+
+  // 11. Tiên Nhân / Ma Tôn
+  { realmIndex: 11, tier: 0, cultivationExp: 2750000, statBonusPercent: 700 },
+  { realmIndex: 11, tier: 1, cultivationExp: 2900000, statBonusPercent: 750 },
+  { realmIndex: 11, tier: 2, cultivationExp: 3050000, statBonusPercent: 800 },
 ];
 
 // === 3 Môn Phái (Sects) ===

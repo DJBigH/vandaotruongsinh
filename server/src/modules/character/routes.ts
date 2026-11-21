@@ -14,6 +14,7 @@ import {
   MAX_REALM_TIER,
   REALM_NAMES,
   REALM_TIERS,
+  realmTitle,
 } from '@shared';
 import { retireOtherSlots, withAccountSlot } from '../arpg/ws-handler';
 import { authenticate } from '../../middleware/auth';
@@ -66,7 +67,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
     const requirement = getBreakthroughRequirement(char.realmIndex, char.realmTier);
     const progress = levelProgress(char.exp);
     const status = checkBreakthroughEligibility(char.realmIndex, char.realmTier, char.cultivationExp, items,
-      progress.level, char.gold);
+      progress.level, char.gold, char.alignment as DaoAlignment);
     return reply.send({ success: true, data: {
       ...status,
       levelExperience: progress.current,
@@ -126,7 +127,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         activeMount: character.activeMount,
         realmIndex: character.realmIndex,
         realmTier: character.realmTier,
-        realmName: `${REALM_NAMES[character.realmIndex]} - ${REALM_TIERS[character.realmTier]}`,
+        realmName: realmTitle(character.realmIndex, character.realmTier, character.alignment as DaoAlignment),
         level: levelForExperience(character.exp),
         exp: Number(character.exp),
         stats: effectiveStats,
@@ -268,7 +269,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         activeMount: newChar.activeMount,
         realmIndex: newChar.realmIndex,
         realmTier: newChar.realmTier,
-        realmName: `${REALM_NAMES[newChar.realmIndex]} - ${REALM_TIERS[newChar.realmTier]}`,
+        realmName: realmTitle(newChar.realmIndex, newChar.realmTier, newChar.alignment as DaoAlignment),
         level: newChar.level,
         exp: Number(newChar.exp),
         stats: initialStats,
@@ -329,7 +330,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
 
         const check = checkBreakthroughEligibility(
           character.realmIndex, character.realmTier, character.cultivationExp, character.inventory,
-          levelForExperience(character.exp), character.gold,
+          levelForExperience(character.exp), character.gold, character.alignment as DaoAlignment,
         );
         if (!check.canBreakthrough) {
           return { success: false as const, status: 400, error: check.message, data: check };
@@ -379,7 +380,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         return reply.status(result.status).send({ success: false, error: result.error, data: result.data });
       }
 
-      const newRealmName = `${REALM_NAMES[result.nextRealm]} - ${REALM_TIERS[result.nextTier]}`;
+      const newRealmName = realmTitle(result.nextRealm, result.nextTier, activeCharacter.alignment as DaoAlignment);
       return reply.send({
         success: true,
         data: {
@@ -414,6 +415,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
           id: char ? char.id : null,
           name: char?.name,
           cultivationPath: char?.cultivationPath,
+          alignment: char?.alignment,
           realmIndex: char?.realmIndex,
           realmTier: char?.realmTier,
           level: char ? levelForExperience(char.exp) : undefined,
