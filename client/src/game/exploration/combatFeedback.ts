@@ -85,6 +85,32 @@ export class CombatFeedback {
     }
   }
 
+  skill(player: Phaser.GameObjects.Sprite, angle: number, skillId: string) {
+    if (usePresentationSettings.getState().reducedEffects) return;
+    const key = `vfx_${skillId}`;
+    if (!this.scene.textures.exists(key)) { this.cast(player); return; }
+    const defensive = /^skill_body_(?:01|03|05|07|08|10|11|12)$/.test(skillId) ||
+      /^skill_spell_(?:02|07|09|12)$/.test(skillId);
+    const sword = skillId.startsWith('skill_sword_');
+    const distance = defensive ? 0 : sword ? 44 : 31;
+    const x = player.x + Math.cos(angle) * distance;
+    const y = player.y - 18 + Math.sin(angle) * distance;
+    const effect = this.scene.add.sprite(x, y, key).setDepth(player.y + 3)
+      .setScale(0.34).setAlpha(0.95);
+    if (sword && !/_(?:03|08|10|12)$/.test(skillId)) effect.setRotation(angle);
+    this.pieces.add(effect);
+    const distanceTravel = defensive ? 0 : sword ? 26 : 15;
+    this.scene.tweens.add({ targets: effect,
+      x: x + Math.cos(angle) * distanceTravel, y: y + Math.sin(angle) * distanceTravel,
+      scale: defensive ? 1.12 : 0.95, alpha: 0,
+      duration: defensive ? 520 : 370, ease: 'Cubic.Out',
+      onComplete: () => { this.pieces.delete(effect); effect.destroy(); } });
+    const color = sword ? 0x88d4dc : skillId.startsWith('skill_spell_') ? 0xc2a0db : 0xd5aa7b;
+    const ring = this.scene.add.circle(x, y, defensive ? 19 : 11)
+      .setStrokeStyle(defensive ? 2 : 1, color, 0.8).setDepth(player.y + 2);
+    this.fade(ring, defensive ? 450 : 280, defensive ? 2.2 : 1.7);
+  }
+
   trail(player: Phaser.GameObjects.Sprite) {
     if (usePresentationSettings.getState().reducedEffects) return;
     const ghost = this.scene.add.sprite(player.x, player.y, player.texture.key, player.frame.name)

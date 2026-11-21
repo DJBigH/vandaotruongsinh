@@ -9,6 +9,43 @@ export async function applyGmCheat(command: { godMode?: boolean; gold?: number; 
   const res = await apiClient.post('/admin/cheats', command); return res.data;
 }
 
+export interface GmCharacter { id: string; name: string; username: string; isActive: boolean }
+export interface GmCatalog {
+  realms: Record<string, string>;
+  items: { id: string; name: string; slot: string | null }[];
+  skills: { id: string; name: string; path: string }[];
+  mounts: { id: string; name: string; alignment: string }[];
+  maps: { id: string; name: string }[];
+}
+export interface GmCharacterState {
+  id: string; name: string; cultivationPath: string; alignment: string; gold: number;
+  exp: string; cultivationExp: string; realmIndex: number; realmTier: number; level: number;
+  godMode: boolean; currentMapId: string; activeMount: string | null;
+  inventory: { id: string; templateId: string; quantity: number; enhanceLevel: number }[];
+  skills: { skillId: string; level: number }[]; mountIds: string[];
+}
+export type GmCommand =
+  | { kind: 'godMode'; value: boolean }
+  | { kind: 'resources'; gold: number; exp: number; cultivationExp: number }
+  | { kind: 'realm'; realmIndex: number; realmTier: number }
+  | { kind: 'item'; templateId: string; quantity: number; enhanceLevel: number }
+  | { kind: 'skill'; skillId: string; level: number }
+  | { kind: 'mount'; mountId: string }
+  | { kind: 'teleport'; mapId: string }
+  | { kind: 'heal' };
+export async function getGmCatalog(): Promise<ApiResponse<GmCatalog>> {
+  return (await apiClient.get('/admin/gm/catalog')).data;
+}
+export async function getGmCharacters(search = ''): Promise<ApiResponse<GmCharacter[]>> {
+  return (await apiClient.get('/admin/gm/characters', { params: { search } })).data;
+}
+export async function getGmCharacterState(characterId: string): Promise<ApiResponse<GmCharacterState>> {
+  return (await apiClient.get(`/admin/gm/state/${characterId}`)).data;
+}
+export async function applyGmCommand(characterId: string, command: GmCommand): Promise<ApiResponse<{ applied: string }>> {
+  return (await apiClient.post('/admin/gm/apply', { characterId, command })).data;
+}
+
 // === Dashboard ===
 export async function getDashboard(): Promise<ApiResponse<AdminDashboard>> {
   const res = await apiClient.get('/admin/dashboard');

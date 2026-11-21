@@ -404,7 +404,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     spawnPoint: { x: 12, y: 18 },
     npcs: [
       { id: 'npc_mentor', name: 'Đạo Sĩ Tiêu Dao', position: { x: 16, y: 8 }, dialogueId: 'dlg_mentor_01', spriteKey: 'npc_mentor' },
-      { id: 'npc_sect_master', name: 'Chưởng Môn Thanh Vân', position: { x: 16, y: 4 }, dialogueId: 'dlg_sect_master', spriteKey: 'npc_elder' },
+      { id: 'npc_sect_master', name: 'Chưởng Môn Thanh Vân', position: { x: 16, y: 4 }, dialogueId: 'dlg_sect_master', spriteKey: 'npc_sect_master' },
     ],
     monsters: [
       { id: 'spawn_puppet_1', monsterId: 'mon_006', position: { x: 6, y: 10 }, respawnTime: 20, level: 6 },
@@ -436,7 +436,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     ],
     spawnPoint: { x: 2, y: 12 },
     npcs: [
-      { id: 'npc_dan_ton', name: 'Đan Tôn Liễu Nhược Vân', position: { x: 15, y: 5 }, dialogueId: 'dlg_dan_ton', spriteKey: 'npc_healer' },
+      { id: 'npc_dan_ton', name: 'Đan Tôn Liễu Nhược Vân', position: { x: 15, y: 5 }, dialogueId: 'dlg_dan_ton', spriteKey: 'npc_dan_ton' },
     ],
     monsters: [
       { id: 'spawn_dan_fire_1', monsterId: 'mon_011', position: { x: 10, y: 10 }, respawnTime: 20, level: 11 },
@@ -468,7 +468,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     ],
     spawnPoint: { x: 2, y: 12 },
     npcs: [
-      { id: 'npc_sword_spirit', name: 'Kiếm Hồn Viễn Cổ', position: { x: 16, y: 6 }, dialogueId: 'dlg_sword_spirit', spriteKey: 'npc_mentor' },
+      { id: 'npc_sword_spirit', name: 'Kiếm Hồn Viễn Cổ', position: { x: 16, y: 6 }, dialogueId: 'dlg_sword_spirit', spriteKey: 'npc_sword_spirit' },
     ],
     monsters: [
       { id: 'spawn_ancient_sword_1', monsterId: 'mon_016', position: { x: 8, y: 10 }, respawnTime: 25, level: 16 },
@@ -500,7 +500,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     ],
     spawnPoint: { x: 2, y: 12 },
     npcs: [
-      { id: 'npc_rebel_cultivator', name: 'U Minh Giáo Chủ', position: { x: 16, y: 5 }, dialogueId: 'dlg_nether_rebel', spriteKey: 'npc_elder' },
+      { id: 'npc_rebel_cultivator', name: 'U Minh Giáo Chủ', position: { x: 16, y: 5 }, dialogueId: 'dlg_nether_rebel', spriteKey: 'npc_rebel_cultivator' },
     ],
     monsters: [
       { id: 'spawn_ghost_soldier_1', monsterId: 'mon_021', position: { x: 10, y: 10 }, respawnTime: 25, level: 21 },
@@ -534,7 +534,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     ],
     spawnPoint: { x: 2, y: 12 },
     npcs: [
-      { id: 'npc_inner_voice', name: 'Tiếng Vọng Ký Ức', position: { x: 15, y: 5 }, dialogueId: 'dlg_inner_voice', spriteKey: 'npc_mentor' },
+      { id: 'npc_inner_voice', name: 'Tiếng Vọng Ký Ức', position: { x: 15, y: 5 }, dialogueId: 'dlg_inner_voice', spriteKey: 'npc_inner_voice' },
     ],
     monsters: [
       { id: 'spawn_shadow_1', monsterId: 'mon_026', position: { x: 10, y: 10 }, respawnTime: 25, level: 26 },
@@ -565,7 +565,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     ],
     spawnPoint: { x: 2, y: 12 },
     npcs: [
-      { id: 'npc_mountain_god', name: 'Sơn Thần Thiên Sơn', position: { x: 16, y: 6 }, dialogueId: 'dlg_mountain_god', spriteKey: 'npc_elder' },
+      { id: 'npc_mountain_god', name: 'Sơn Thần Thiên Sơn', position: { x: 16, y: 6 }, dialogueId: 'dlg_mountain_god', spriteKey: 'npc_mountain_god' },
     ],
     monsters: [
       { id: 'spawn_snow_bird_1', monsterId: 'mon_031', position: { x: 10, y: 8 }, respawnTime: 30, level: 31 },
@@ -597,7 +597,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     ],
     spawnPoint: { x: 2, y: 14 },
     npcs: [
-      { id: 'npc_covenant_arbiter', name: 'Chấp Pháp Giả Thần Tượng', position: { x: 17, y: 5 }, dialogueId: 'dlg_covenant_final', spriteKey: 'npc_elder' },
+      { id: 'npc_covenant_arbiter', name: 'Chấp Pháp Giả Thần Tượng', position: { x: 17, y: 5 }, dialogueId: 'dlg_covenant_final', spriteKey: 'npc_covenant_arbiter' },
     ],
     monsters: [
       { id: 'spawn_covenant_guard_1', monsterId: 'mon_036', position: { x: 10, y: 10 }, respawnTime: 30, level: 36 },
@@ -628,7 +628,7 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
     ],
     spawnPoint: { x: 15, y: 20 },
     npcs: [
-      { id: 'npc_tower_keeper', name: 'Tháp Linh Vạn Cổ', position: { x: 15, y: 5 }, dialogueId: 'dlg_tower_keeper', spriteKey: 'npc_mentor' },
+      { id: 'npc_tower_keeper', name: 'Tháp Linh Vạn Cổ', position: { x: 15, y: 5 }, dialogueId: 'dlg_tower_keeper', spriteKey: 'npc_tower_keeper' },
     ],
     monsters: [
       { id: 'spawn_endgame_boss_1', monsterId: 'boss_015', position: { x: 6, y: 8 }, respawnTime: 180, level: 45 },

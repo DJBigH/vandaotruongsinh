@@ -15,7 +15,7 @@ interface Asset {
   key: string;
   file: string;
   type: 'image' | 'spritesheet' | 'audio';
-  provenance: 'original-M1' | 'legacy' | 'v104-derived' | 'v105-original';
+  provenance: 'original-M1' | 'legacy' | 'v104-derived' | 'v105-original' | 'v110-original';
 }
 export interface SpritesheetAsset extends Asset {
   type: 'spritesheet';
@@ -121,6 +121,27 @@ for (const key of ['mount_crane', 'mount_shadow_wolf', 'mount_fox', 'mount_turtl
   assets.push({ key: `${key}_ride`, file: `assets/v105/${key}_ride.png`, type: 'spritesheet',
     frameWidth: 128, frameHeight: 96, provenance: 'v105-original',
     animations: [{ key: `${key}_ride_walk`, frameStart: 0, frameEnd: 3, duration: 480, repeat: -1 }] });
+}
+for (let index = 1; index <= 20; index++) {
+  const key = `boss_${String(index).padStart(3, '0')}`;
+  assets.push({ key, file: `assets/v110/${key}.png`, type: 'image', provenance: 'v110-original' });
+}
+for (const name of ['sect_master', 'sword_spirit', 'rebel_cultivator', 'mountain_god',
+  'dan_ton', 'inner_voice', 'covenant_arbiter', 'tower_keeper']) {
+  const key = `npc_${name}`;
+  assets.push({ key, file: `assets/v110/${key}.png`, type: 'image', provenance: 'v110-original' });
+}
+for (const name of ['bamboo', 'pavilion', 'bridge', 'ghost_tree', 'spirit_lantern', 'jade_crystal']) {
+  const key = `prop_${name}`;
+  assets.push({ key, file: `assets/v110/${key}.png`, type: 'image', provenance: 'v110-original' });
+}
+for (const path of ['sword', 'spell', 'body']) for (let index = 1; index <= 12; index++) {
+  const key = `vfx_skill_${path}_${String(index).padStart(2, '0')}`;
+  assets.push({ key, file: `assets/v110/${key}.png`, type: 'image', provenance: 'v110-original' });
+}
+for (const weapon of ['sword', 'staff', 'fists', 'spear', 'bow', 'axe']) for (let level = 0; level <= 5; level++) {
+  const key = `weapon_${weapon}_${level}`;
+  assets.push({ key, file: `assets/v110/${key}.png`, type: 'image', provenance: 'v110-original' });
 }
 for (const path of ['sword', 'spell', 'body']) for (const gender of ['male', 'female'])
   for (const alignment of ['immortal', 'demonic']) for (let rank = 0; rank <= 3; rank++)

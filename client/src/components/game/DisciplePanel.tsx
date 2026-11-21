@@ -32,7 +32,7 @@ export default function DisciplePanel() {
     return () => {
       mounted = false;
       window.removeEventListener('keydown', closeOnEscape);
-      document.getElementById('disciple-menu-button')?.focus();
+      (document.getElementById('disciple-menu-button') ?? document.getElementById('game-menu-toggle'))?.focus();
     };
   }, [character?.id]);
 

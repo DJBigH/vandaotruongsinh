@@ -1,7 +1,7 @@
 # VẠN ĐẠO TRƯỜNG SINH (萬道長生)
 
 > **Tác giả:** BigK  
-> **Phiên bản:** 1.0.5
+> **Phiên bản:** 1.1.0
 > **Kho lưu trữ mã nguồn:** [DJBigH/vandaotruongsinh](https://github.com/DJBigH/vandaotruongsinh)
 > **Hướng dẫn cài đặt:** [HUONG_DAN_CAI_DAT.md](HUONG_DAN_CAI_DAT.md)
 > **Hướng dẫn Launcher:** [LAUNCHER_GUIDE.md](LAUNCHER_GUIDE.md)
@@ -168,7 +168,7 @@ Mở trình duyệt truy cập: `http://localhost:5173`.
 
 ## 4. Chạy Bộ Kiểm Thử Tự Động (Test Suite)
 
-Dự án có các bộ kiểm thử ARPG, nội dung, bảo mật và launcher. Chạy `npm run test:all`, `npm run test:v102`, `npm run test:v103`, `npm run test:v104` và `npm run test:v105` ở thư mục gốc. Bản 1.0.5 thêm sáu linh thú có thể truy dấu và thu phục trên bản đồ, chuyển động cưỡi, Bí Kíp học và gán bốn chiêu chiến đấu, 15 công thức rèn vũ khí có hình minh họa, và hướng dẫn vào game cập nhật. Xem [ghi chú phát hành](docs/checkpoints/1.0.5-release.md).
+Dự án có các bộ kiểm thử ARPG, nội dung, bảo mật và launcher. Chạy `npm run test:all`, `npm run test:v102`, `npm run test:v103`, `npm run test:v104` và `npm run test:v105` ở thư mục gốc. Bản 1.1.0 bổ sung menu nhóm có phím tắt, bảng GM đầy đủ để thử nhân vật và bản đồ, hình riêng cho 20 boss và 8 NPC cốt truyện, 36 hiệu ứng bí kíp và cấp hình ảnh vũ khí +0 đến +5. Xem [ghi chú phát hành](docs/checkpoints/1.1.0-release.md) và [quy ước phiên bản](docs/VERSIONING.md).
 
 ```bash
 cd server

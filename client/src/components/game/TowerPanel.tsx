@@ -135,7 +135,7 @@ export default function TowerPanel() {
                     flexShrink: 0,
                   }}>
                     <img
-                      src={fl.bossId === 'boss_017' ? '/assets/vnext/boss_turtle.png' : fl.bossId === 'boss_013' ? '/assets/vnext/monster_snake.png' : fl.bossId === 'boss_014' ? '/assets/vnext/monster_fox.png' : fl.bossId === 'boss_016' ? '/assets/vnext/monster_ghost.png' : fl.bossId === 'boss_019' ? '/assets/vnext/npc_mentor.png' : fl.bossId === 'boss_020' || fl.bossId === 'boss_012' ? '/assets/vnext/npc_elder.png' : '/assets/vnext/boss_lang_vuong.png'}
+                      src={`/assets/v110/${fl.bossId}.png`}
                       alt={fl.bossName}
                       style={{ width: '42px', height: '42px', objectFit: 'cover', objectPosition: '0 0', imageRendering: 'pixelated' }}
                     />

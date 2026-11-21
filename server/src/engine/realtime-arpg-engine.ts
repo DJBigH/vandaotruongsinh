@@ -1267,6 +1267,7 @@ export class ArpgGameSession {
         dodgeRemainingSec: Number(dodgeRemSec.toFixed(1)),
         attackRemainingSec: Number(attackRemSec.toFixed(1)),
         skillsRemainingSec: skillsRemSec,
+        equippedSkillIds: [...this.player.equippedSkillIds],
       },
     };
   }

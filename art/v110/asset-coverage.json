@@ -1,0 +1,648 @@
+{
+  "version": "1.1.0",
+  "counts": {
+    "bosses": 20,
+    "npcs": 8,
+    "props": 6,
+    "skillVfx": 36,
+    "weaponStages": 36
+  },
+  "assets": [
+    {
+      "file": "boss_001.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "1e91f80562c61eda466416b334f19466c738a56fef3b616abe8a7e0f8f665e3a"
+    },
+    {
+      "file": "boss_002.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "d56c33c03503e2f62169f48883b2a5714db73bdfe169a5a028d509032b222434"
+    },
+    {
+      "file": "boss_003.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "44ff0f1b634b639ab8198caa2a183ea3001ded03d0943024191462a55f7265d9"
+    },
+    {
+      "file": "boss_004.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "82e3cc43d120241d09c35f5ba4225373d722fd7fed6639b3b73e308cc9e691b3"
+    },
+    {
+      "file": "boss_005.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "c8a0a9bbacd6dfebc7bbf48a976f3d17b045488ab29ae22f72c3ba146d306ec0"
+    },
+    {
+      "file": "boss_006.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "c9eeb219c05c571f2ee8b5a45ba13cb678c78b19c1588a040cef959c6f625cd8"
+    },
+    {
+      "file": "boss_007.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "6c65f3626dd3c5a57c0b1cc3fa110b578a184b9622200c1768aea0da8163d4ec"
+    },
+    {
+      "file": "boss_008.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "1e1e2565720175d04e6cfe4c799baa3aebd1a26196446ab8e78eddbb5fd75a73"
+    },
+    {
+      "file": "boss_009.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "ad4f5e4aeb2c886813a9c1f22799c2b2ce4da2ca54fc2edf26fa7fd8846026b6"
+    },
+    {
+      "file": "boss_010.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "9815f7cc387c4577cf15f65fb70087f9add63b81e6b2f0a3e2996c95e26ee78e"
+    },
+    {
+      "file": "boss_011.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "b8a7b33402d61efc500466bc9d572be93e9094a46cf83b2e2b8d0c1d70b14628"
+    },
+    {
+      "file": "boss_012.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "3c2a22c3d5b1db58e6cf221ebfa9d69deb0533f6eeaf6ec055a4c948a6ad576a"
+    },
+    {
+      "file": "boss_013.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "ae8902ee5b94fe07103623b4dfdd502d83bbb444f1abcda2b57ebd8457519a53"
+    },
+    {
+      "file": "boss_014.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "53ebce4f1dc0286c823719ec3965eb1e774f0fddf775751a78cb244d5cff914d"
+    },
+    {
+      "file": "boss_015.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "b69c43650d85a3e97e821d489ffda04fd73996baef5a041ada661777f4a768b2"
+    },
+    {
+      "file": "boss_016.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "0f48234e84310526314e9ec3a60952117ca6dc3c19402c84bf09d90d18f0494a"
+    },
+    {
+      "file": "boss_017.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "128065913c212cb2d6fdcb94ed9ab399812aeddeb185bf15d54b97c63da01f31"
+    },
+    {
+      "file": "boss_018.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "984337092a1f95c24b8844d7d19281018a957aa14d14bd530f53d74363731c30"
+    },
+    {
+      "file": "boss_019.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "91a35bd533eaa746e8c5dd37ed8f4855bc87510cdd3b9c8bc24e75365bf5b200"
+    },
+    {
+      "file": "boss_020.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "a8ce27ede06f3c077f3be65f4cb98c71b91e8538520ac0d5681734c5984d4c9f"
+    },
+    {
+      "file": "npc_sect_master.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "58f5ca9c50c4edf8d2c07028671e2ea3c47bcbe54f4b120a30506694d8de9721"
+    },
+    {
+      "file": "npc_sword_spirit.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "9204b6ec8a69e463a75a564f53390fdc0d22d322a05c9ab85fcd641fbf6e9ba3"
+    },
+    {
+      "file": "npc_rebel_cultivator.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "9d2268a4193703ce1141ccce73ef8f8d1ab208ac97aa6f502b8a8b893e383f51"
+    },
+    {
+      "file": "npc_mountain_god.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "3e2cbfaab5871cb6d30a2d1028a72d68f6a811a91ad2c8b5a0eb41a91f213f73"
+    },
+    {
+      "file": "npc_dan_ton.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "c20797fc8a5d64698669858ec02410b96779932b0382ed0bebba21394101b9e0"
+    },
+    {
+      "file": "npc_inner_voice.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "bf1d28fd26b660a4fe687fa7e9889e50c6247ab6884fe4a98d10bef9c5b26244"
+    },
+    {
+      "file": "npc_covenant_arbiter.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "16bd7dce17c30e63bda9376429220a57a40fc32a93b9795b50cfc6e2ac5f0757"
+    },
+    {
+      "file": "npc_tower_keeper.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "6a601cbb004a0137c599cc30cb5e7385f76958eb5fad96e53a4d3df30b9d2d19"
+    },
+    {
+      "file": "prop_bamboo.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "3495ed5ab578ba909c61028aeee3b066a21aee5776f74719c77c263b3edd87b4"
+    },
+    {
+      "file": "prop_pavilion.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "133237d110457980584979b55af6e4a03f505f57e38985119547f1ddc574611b"
+    },
+    {
+      "file": "prop_bridge.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "85041db9c2e4a32cc829a423ca027489964d7eacf799ba275d01e7bf9d51e9e0"
+    },
+    {
+      "file": "prop_ghost_tree.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "d67cb82e94241e051bd53edc3176ec56c2f91b929d6f945057356639a59f234f"
+    },
+    {
+      "file": "prop_spirit_lantern.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "06dd2d7860b0d04488b462f804fc84538a1592fd2899680465f1b18a852d6ec6"
+    },
+    {
+      "file": "prop_jade_crystal.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "dd49696ad1fddb9e0b3e0d6ace17e0b0ff27ea4e72d2fa24f1664a7cd2777b5b"
+    },
+    {
+      "file": "vfx_skill_sword_01.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "5c912a95156f5e35038db6b46cf9b37e304f254079f79571e172b6c514ceaa94"
+    },
+    {
+      "file": "vfx_skill_sword_02.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "904fda19f12d9220fcb5ffe38b741d8114f5c3d78367d83dd8410f1f6ef48412"
+    },
+    {
+      "file": "vfx_skill_sword_03.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "10f72b4bc59389b371eef27d8b815adb310b93e6f98404e0705253e8dabcf382"
+    },
+    {
+      "file": "vfx_skill_sword_04.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "b8f00fba825e7a07455175aaab42ff625f216bfefec21881c7baebc96fc6cf84"
+    },
+    {
+      "file": "vfx_skill_sword_05.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "7317ca9e28f1746ee4e33035449876979c44a37ceda431eb208288c76941fec5"
+    },
+    {
+      "file": "vfx_skill_sword_06.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "469bc34e94c0539c9e4791bae0828c06c844b44336ddd1897f7267f453616d9e"
+    },
+    {
+      "file": "vfx_skill_sword_07.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "07e505ab0a8dde8ceded1f001ae549083056ebf45ea3dd4143f9fb63001e8dc6"
+    },
+    {
+      "file": "vfx_skill_sword_08.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "87e4cb8d4bf6bd91306c53446b75018041180926a424698e736ae44aac6616a7"
+    },
+    {
+      "file": "vfx_skill_sword_09.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "f26d05369c70439e08279cb8c67798929ea0c318da7634bb65ff06c4599bb91e"
+    },
+    {
+      "file": "vfx_skill_sword_10.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "1042fc096dedf6944c6b96daba982bfe387c1ec2a96f3442251c18b163912e35"
+    },
+    {
+      "file": "vfx_skill_sword_11.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "138e267a0d03df261a33d472ff3c0beb76c0571a7e6fb4a4ed4c05b835f787ef"
+    },
+    {
+      "file": "vfx_skill_sword_12.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "b7e3bf8d86f4fce3c6b8c64348abf5fda9c3c53534fc9c62aefee1619b8dad94"
+    },
+    {
+      "file": "vfx_skill_spell_01.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "7c5500a5660a37ce52eaf0b68564c6954c6c63ba12b0d3d09b5dee43021233f0"
+    },
+    {
+      "file": "vfx_skill_spell_02.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "63cdb45b53dadd365540f50ace8f2ac3c9f7213ef8cc4e224f342a2d896451de"
+    },
+    {
+      "file": "vfx_skill_spell_03.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "816dc9c2e664c39b67fab6df1992690977a484244caf2a06a68e5ca36ea195b3"
+    },
+    {
+      "file": "vfx_skill_spell_04.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "e29f6c395ae522cae1cae4a4a42a3cf9c716997cd60c590fb0c38c686d594e29"
+    },
+    {
+      "file": "vfx_skill_spell_05.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "553fbfe4511619a826bd07e2d55ac3ff33e04501d8264d7e81a93ea6fc73ed9b"
+    },
+    {
+      "file": "vfx_skill_spell_06.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "cd8e18a6820c9323842a2e556d7fd79c62d1be4ccf7f1e1b0060910fb081b3a8"
+    },
+    {
+      "file": "vfx_skill_spell_07.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "4b09f0a0bd91bcc6c7b7990c6124a452d23c74631b3cc2a84f05c82771ff309e"
+    },
+    {
+      "file": "vfx_skill_spell_08.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "7206ed186ede02db1562c73b4b19c02c9ba6124580247c2d42e1153b76925c25"
+    },
+    {
+      "file": "vfx_skill_spell_09.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "4c3b87070bc7df7f7b4bba549c99a26ddf9edf9fb233b5014ce5144757dd6699"
+    },
+    {
+      "file": "vfx_skill_spell_10.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "e0cb458d0c5a64b29da1c04861bd99c3abf10f3a5be10da2dd57321f18f6e360"
+    },
+    {
+      "file": "vfx_skill_spell_11.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "6431bf535bf20655e0dc3519b342c5aa9dc309671405e03aa815a7f11bb1b1af"
+    },
+    {
+      "file": "vfx_skill_spell_12.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "ac1dd9c7b6d649e079719f805554c36ff46dcea3aae6df8a0e636107f71e293a"
+    },
+    {
+      "file": "vfx_skill_body_01.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "d72f177d1bfae4f48e7af2811ddc0592cc35768f5306250e73f4b5b193efdcde"
+    },
+    {
+      "file": "vfx_skill_body_02.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "306c911e5fd8844e24f63390593677f247d2566296a681325aa18f2d4a023591"
+    },
+    {
+      "file": "vfx_skill_body_03.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "c2cdb09fac34ed40ab48aa6735e54fc67cefb433d7e0febb43fd5d84cb129ec4"
+    },
+    {
+      "file": "vfx_skill_body_04.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "2324c614f38fd7f6dc5c1d926a1cc48291f3d5adc6fd687117abcce2faf6caab"
+    },
+    {
+      "file": "vfx_skill_body_05.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "e1ae7d2c4bd49602c36dd70a517c7fa3f95e8c3cddb2416cc81e44b489a2bd39"
+    },
+    {
+      "file": "vfx_skill_body_06.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "48ff1982d0ace23f956a2261ababbb961e1025f137cefb6fce5b12cdac0acc65"
+    },
+    {
+      "file": "vfx_skill_body_07.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "7dfe3da9fcd5056c88633943e9ca723ed4e2963caf504c39a10232d9af789446"
+    },
+    {
+      "file": "vfx_skill_body_08.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "b5d813b43aa4efc0134df3eea9efda4e620812c680a57d64eb6fb43fcbc0fd85"
+    },
+    {
+      "file": "vfx_skill_body_09.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "4b1bd2edcc8e3460cfc045821657a8942b19e28ab0b045c3bb8a8be127e3bf30"
+    },
+    {
+      "file": "vfx_skill_body_10.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "877605edc3e8b9f702beee10e4ebfb5c7266feb5b0b5305be80b06d7162b96b0"
+    },
+    {
+      "file": "vfx_skill_body_11.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "a7f1f23bd2ae7a5df8af929e7ea756c05afc6dbe06aaf7d7756a573072826412"
+    },
+    {
+      "file": "vfx_skill_body_12.png",
+      "width": 96,
+      "height": 96,
+      "sha256": "8335e40e29c8c8ad13b1bcba0bd444a057225c06ea54f9f25ba14f3a5e46c9a7"
+    },
+    {
+      "file": "weapon_sword_0.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "4a83cf5a56344d242e78fdd5701c41796a42c471b2bff463df01b3463bc2a7f0"
+    },
+    {
+      "file": "weapon_sword_1.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "841ed2510a200d6ffaf6d8a497d0adede44dcc16d5804a9dcedf6e2a10ab17e3"
+    },
+    {
+      "file": "weapon_sword_2.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "07fd0febcf056bde0aef2e534930a8c46dc2faf1f76b1653d7ea504348a4d393"
+    },
+    {
+      "file": "weapon_sword_3.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "be6d6a4c6db17b799addf8c8d07e01bd5f950969e7f697a9d0378caf5cd482ac"
+    },
+    {
+      "file": "weapon_sword_4.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "3cefc966b6c6ea4f63ac85d4fc7e530a54335085fdccd6e3de5822f5bebf484a"
+    },
+    {
+      "file": "weapon_sword_5.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "044ab01756eb80508fb3b35cc4ea66f1403145a2183fb6a94370c81f92926a03"
+    },
+    {
+      "file": "weapon_staff_0.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "c451b888b5e8bc026605df191870e6cc04afd20beebd267fe2b25bbb42816c02"
+    },
+    {
+      "file": "weapon_staff_1.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "73806172fd9ff2101d8f398b0d14a9743397b014626c76a5ebbcc557954eadff"
+    },
+    {
+      "file": "weapon_staff_2.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "918953e8b8eae7b47dd4d2c25b7e13fe64bb186604a12432e3e9e301674448a3"
+    },
+    {
+      "file": "weapon_staff_3.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "89d39817e182d03337006b917b61f832acadd1baa3a3c50b9a3fb00878728036"
+    },
+    {
+      "file": "weapon_staff_4.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "490461e411a05f530a948e2cc4e2ab90bffab066cb5f97e6721e6c62dfa7d7ba"
+    },
+    {
+      "file": "weapon_staff_5.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "33a21ddb1af2f57fd6bdc0a83e6361c83aba1e61da3c58a0eb692c5ba1e80b8b"
+    },
+    {
+      "file": "weapon_fists_0.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "311375640f2340e30a5551d665b03716a6fbd62f214ceae1dca155b466934275"
+    },
+    {
+      "file": "weapon_fists_1.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "7c5f50fe27d54c76605f4d9ce07241f8bea71c88cd768010835ee9e6084210f6"
+    },
+    {
+      "file": "weapon_fists_2.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "b5992e31e56dcab10a3cbd9b264f58708a598d8b910bffb2ceccf21e3cde062c"
+    },
+    {
+      "file": "weapon_fists_3.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "fd000585899c3286c0baa6abdca2b3b56f1cfb96d0ec97a22656715837721aeb"
+    },
+    {
+      "file": "weapon_fists_4.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "cd8a9e60b69cdca5131abe3d0d65e060d688a118470b311eec0a2176efb88aa5"
+    },
+    {
+      "file": "weapon_fists_5.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "920f3c0b42ccde3dac748cafd4b30d2e629e9f236483ad3dd25b814cbb9c667e"
+    },
+    {
+      "file": "weapon_spear_0.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "3e692be84298dd324d32eb47b3022fd88a55a000912e454273e38a0855dec3d5"
+    },
+    {
+      "file": "weapon_spear_1.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "8b0fb055102cea03a92b00704711fb6655ecdd86309a7acd3110ce75c79a7f20"
+    },
+    {
+      "file": "weapon_spear_2.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "7f620fe5943b087b50692ec60abf24b3db1251534663c7bfc545000655c5f6a8"
+    },
+    {
+      "file": "weapon_spear_3.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "351fb7e1389d829feb64c493e8f3f63d546e01ee89421c7e66703e29a757f0dd"
+    },
+    {
+      "file": "weapon_spear_4.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "353447821568b3054311915a8c79e79a70a323eed05c4251f04156199b7abe56"
+    },
+    {
+      "file": "weapon_spear_5.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "d70ea624610ae77c37f943caf56f1a2c108534fd5813420bd7cda461b9f4a2dd"
+    },
+    {
+      "file": "weapon_bow_0.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "4947c7a407527979e02766c095f77c76c143cb74d499fb312464633d677524ae"
+    },
+    {
+      "file": "weapon_bow_1.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "79d1ecf2d30ca41fd2a9988159b8f83d57b0369db23dcac915dc2bf335acdec2"
+    },
+    {
+      "file": "weapon_bow_2.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "b9714b95fc80ea27fa44fe30dfee1d3238d517c54fb211a1dde20421c6ac4a41"
+    },
+    {
+      "file": "weapon_bow_3.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "d9309301b0faae20775114adf8fa0927954ded4593197208a1e0c16e219ebb68"
+    },
+    {
+      "file": "weapon_bow_4.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "72f8c04c3935a031c232058de18f0e033ab844862c0d325226a80645398dde1f"
+    },
+    {
+      "file": "weapon_bow_5.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "2e8ce6637285c86cb9cb4fadce69c53b074469871dc9a1a2c2434d6d0113ded2"
+    },
+    {
+      "file": "weapon_axe_0.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "811bd3e240bc8781e056639eec22388c4f53224e7e7d2f93396d80b2481cefb8"
+    },
+    {
+      "file": "weapon_axe_1.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "6f32a927c136eb224c38c7ddb55e50581244db76800026aeb51a9931f3908c1b"
+    },
+    {
+      "file": "weapon_axe_2.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "fcc1e61e594f8e0deffe654ac1522b5fc4b86ba401ed0a2c8a63be98503abc62"
+    },
+    {
+      "file": "weapon_axe_3.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "9caba36f817724c9d8bc49f0cf5e2b0a0bed0fa317e7bd336934f3a197923444"
+    },
+    {
+      "file": "weapon_axe_4.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "e4c5f38f1e13f6f5d0efc09fb1cc1747c40511f7eb0b11f90904c3af367593ae"
+    },
+    {
+      "file": "weapon_axe_5.png",
+      "width": 64,
+      "height": 64,
+      "sha256": "a32a9f554dbe47f6681ac83d6170141bf4ab082d11b461da0f3098e0c54bb7f5"
+    }
+  ]
+}

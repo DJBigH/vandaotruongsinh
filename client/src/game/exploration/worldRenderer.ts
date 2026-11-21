@@ -1,6 +1,7 @@
 import type Phaser from 'phaser';
 import type { MapCollisionZone, MapData, Position } from '@shared/index';
 import { buildingScale, buildingTexture, isForest, isSect, isVillage, isWater, worldTrails } from './worldLayout';
+import { worldDetails } from './v110WorldProps';
 
 type Occluder = {
   sprite: Phaser.GameObjects.Sprite;
@@ -55,7 +56,7 @@ export class WorldRenderer {
     const size = map.tileSize;
     const occupied = new Set([...map.interactables, ...map.portals].map(o => o.position.x + ',' + o.position.y));
     const placed = new Set<string>();
-    for (const prop of map.decorativeProps ?? []) {
+    for (const prop of [...(map.decorativeProps ?? []), ...(worldDetails[map.id] ?? [])]) {
       const location = prop.x + ',' + prop.y;
       const id = prop.key + ':' + location;
       if (placed.has(id) || !scene.textures.exists(prop.key)) continue;

@@ -43,6 +43,8 @@ interface GameState {
   // UI Panel states
   activePanel: 'inventory' | 'character' | 'quest' | 'map' | 'crafting' | 'settings' | 'sect' | 'cave' | 'pets' | 'disciple' | 'offline' | 'story' | 'tower' | 'guide' | 'events' | 'mount' | 'skills' | null;
   setActivePanel: (panel: GameState['activePanel']) => void;
+  menuOpen: boolean;
+  setMenuOpen: (open: boolean) => void;
   characterSlotsOpen: boolean;
   setCharacterSlotsOpen: (open: boolean) => void;
 
@@ -51,6 +53,8 @@ interface GameState {
   addNotification: (message: string, type?: 'info' | 'success' | 'warning' | 'error') => void;
   removeNotification: (id: number) => void;
 }
+
+export type GamePanel = GameState['activePanel'];
 
 let notifId = 0;
 let dialogueRequest = 0;
@@ -65,6 +69,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   dialogueState: null,
   dialogueLoading: false,
   activePanel: null,
+  menuOpen: false,
   characterSlotsOpen: false,
   notifications: [],
 
@@ -186,6 +191,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const current = get().activePanel;
     set({ activePanel: current === panel ? null : panel });
   },
+  setMenuOpen: (open) => set({ menuOpen: open }),
 
   setCharacterSlotsOpen: (open) => set({ characterSlotsOpen: open }),
 

@@ -29,6 +29,15 @@ const PORTRAITS: Record<PortraitRole, { image: string; size: string; position: s
 };
 
 export default function NpcPortrait({ speaker, spriteKey, size = 104 }: { speaker: string; spriteKey?: string; size?: number }) {
+  if (spriteKey && ['npc_sect_master', 'npc_sword_spirit', 'npc_rebel_cultivator', 'npc_mountain_god',
+    'npc_dan_ton', 'npc_inner_voice', 'npc_covenant_arbiter', 'npc_tower_keeper'].includes(spriteKey)) {
+    return <div role="img" aria-label={`Chân dung ${speaker}`} style={{
+      width: size, height: size, flexShrink: 0, boxSizing: 'border-box',
+      background: `#26372d url(/assets/v110/${spriteKey}.png) center / contain no-repeat`,
+      border: '2px solid #aa9163', borderRadius: 4, imageRendering: 'pixelated',
+      boxShadow: 'inset 0 0 18px #0008, 0 4px 14px #0007',
+    }} />;
+  }
   const portrait = PORTRAITS[portraitRole(speaker, spriteKey)];
   return <div role="img" aria-label={`Chân dung ${speaker}`} style={{
     width: size, height: size, flexShrink: 0, border: '2px solid #aa9163', borderRadius: 4,

@@ -12,10 +12,12 @@ import { CultivationPath } from '@shared';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-test('version 1.0.x advances once, then crosses to 2.0.0', () => {
+test('game version follows patch, minor and major intent', () => {
   assert.equal(nextGameVersion('1.0.3'), '1.0.4');
   assert.equal(nextGameVersion('1.0.8'), '1.0.9');
-  assert.equal(nextGameVersion('1.0.9'), '2.0.0');
+  assert.equal(nextGameVersion('1.0.9'), '1.0.10');
+  assert.equal(nextGameVersion('1.0.9', 'minor'), '1.1.0');
+  assert.equal(nextGameVersion('1.0.9', 'major'), '2.0.0');
 });
 
 test('breakthrough has bounded transparent failure and success', () => {

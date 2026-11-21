@@ -19,6 +19,7 @@ import type { HeroPose } from '../assets/AssetManifest';
 import { heroVariantKey } from '../assets/hero-variants';
 import { MapLoad } from '../exploration/mapLoad';
 import { cameraFollowLerp, predictPosition } from '../exploration/prediction';
+import { panelForShortcut } from '../../components/game/menuShortcuts';
 import {
   type MapData,
   type Position,
@@ -167,9 +168,22 @@ export default class ExplorationScene extends Phaser.Scene {
         this.backgrounded || this.hasEditableFocus(event.target)) return;
 
       const state = useGameStore.getState();
-      const isPanelShortcut = event.code === 'KeyI' || event.code === 'KeyM';
-      if (isPanelShortcut && !state.characterSlotsOpen && !state.dialogueLoading && !state.dialogueState) {
-        if (!event.repeat) state.setActivePanel(event.code === 'KeyI' ? 'inventory' : 'map');
+      if (event.code === 'Escape' && !state.characterSlotsOpen && !state.dialogueLoading && !state.dialogueState) {
+        if (!event.repeat) {
+          if (state.activePanel) state.setActivePanel(null);
+          else eventBridge.emit('menuClose');
+        }
+        event.preventDefault();
+        return;
+      }
+      const panelShortcut = panelForShortcut(event.code);
+      if (panelShortcut && !state.characterSlotsOpen && !state.dialogueLoading && !state.dialogueState) {
+        if (!event.repeat) state.setActivePanel(panelShortcut);
+        event.preventDefault();
+        return;
+      }
+      if (event.code === 'KeyQ' && !state.characterSlotsOpen && !state.dialogueLoading && !state.dialogueState && !state.activePanel) {
+        if (!event.repeat) eventBridge.emit('menuToggle');
         event.preventDefault();
         return;
       }
@@ -205,7 +219,7 @@ export default class ExplorationScene extends Phaser.Scene {
   }
 
   private hasBlockingUI(state: ReturnType<typeof useGameStore.getState>): boolean {
-    return Boolean(state.activePanel || state.dialogueLoading || state.dialogueState || state.characterSlotsOpen);
+    return Boolean(state.activePanel || state.menuOpen || state.dialogueLoading || state.dialogueState || state.characterSlotsOpen);
   }
 
   private isControlBlocked(): boolean {
@@ -309,7 +323,10 @@ export default class ExplorationScene extends Phaser.Scene {
       if (message.cooldowns) {
         const confirmed = this.actionConfirmation.update(message.cooldowns, now, this.latestServerPlayer?.facingAngle ?? 0);
         if (this.player && this.latestServerPlayer?.state !== 'DEAD') {
-          for (const { action, angle } of confirmed) this.renderConfirmedAction(action, angle);
+          for (const { action, angle } of confirmed) {
+            const slot = action.startsWith('SKILL_') ? Number(action.slice(-1)) - 1 : -1;
+            this.renderConfirmedAction(action, angle, slot >= 0 ? message.cooldowns.equippedSkillIds?.[slot] : undefined);
+          }
         }
         eventBridge.emit('cooldownsUpdate', message.cooldowns);
       }
@@ -467,6 +484,10 @@ export default class ExplorationScene extends Phaser.Scene {
 
       if (this.anims.exists(animKey)) {
         sprite.play(animKey);
+      } else if (!usePresentationSettings.getState().reducedEffects) {
+        this.ambientTweens.push(this.tweens.add({ targets: sprite, y: sprite.y - 2,
+          duration: 1200 + (npc.position.x % 4) * 130, yoyo: true, repeat: -1,
+          ease: 'Sine.easeInOut' }));
       }
 
       // Tên NPC
@@ -710,7 +731,7 @@ export default class ExplorationScene extends Phaser.Scene {
     AnimationManager.playAction(this, this.player, this.actorAction, key, this.anims.get(key).duration + 100);
   }
 
-  private renderConfirmedAction(action: GameAction, angle: number) {
+  private renderConfirmedAction(action: GameAction, angle: number, skillId?: string) {
     const player = this.player;
     if (!player) return;
     const dodge = action === 'DODGE';
@@ -724,6 +745,7 @@ export default class ExplorationScene extends Phaser.Scene {
     this.feedback.sound(dodge ? 'dodge' : attack ? 'sword' : 'cast');
     if (attack) this.feedback.slash(player, angle, this.playerPath());
     else if (dodge) this.feedback.trail(player);
+    else if (skillId) this.feedback.skill(player, angle, skillId);
     else this.feedback.cast(player, this.playerPath());
   }
 
@@ -775,7 +797,7 @@ export default class ExplorationScene extends Phaser.Scene {
         container.setData('templateId', ent.templateId);
 
         // Name text
-        const barY = isDisciple ? -49 : look.walk === 'wolf_walk' ? -39 : isBoss ? -70 : -54;
+        const barY = isDisciple ? -49 : isBoss ? -118 : look.walk === 'wolf_walk' ? -39 : -54;
         container.setData('barY', barY);
         const nameOffsetY = barY - 12;
         const nameText = this.add.text(0, nameOffsetY, ent.name, {
@@ -806,6 +828,19 @@ export default class ExplorationScene extends Phaser.Scene {
       // Update Sprite Animation & Flip Direction
       const sprite = container.getData('monsterSprite') as Phaser.GameObjects.Sprite;
       if (sprite) {
+        if (ent.type === 'BOSS' && /^boss_\d{3}$/.test(ent.templateId ?? '')) {
+          const reduced = usePresentationSettings.getState().reducedEffects;
+          const breath = reduced ? 0 : Math.sin(performance.now() / 230) * 0.013;
+          const facing = Math.cos(ent.facingAngle) >= 0 ? 1 : -1;
+          sprite.setFlipX(facing < 0);
+          sprite.setPosition(ent.state === 'ATTACK' && !reduced ? facing * 13 : 0,
+            ent.state === 'IDLE' ? breath * 90 : ent.state === 'WINDUP' ? 5 : 0);
+          sprite.setScale(ent.state === 'ATTACK' ? 1.11 : ent.state === 'WINDUP' ? 0.94 : 1 + breath,
+            ent.state === 'WINDUP' ? 0.9 : ent.state === 'ATTACK' ? 1.05 : 1 - breath);
+          sprite.setAngle(ent.state === 'ATTACK' && !reduced ? facing * 5 : 0);
+          if (ent.state === 'HURT') sprite.setTint(0xffd9c1);
+          else sprite.clearTint();
+        }
         if (ent.type === 'DISCIPLE') {
           const dx = Math.cos(ent.facingAngle);
           const facing: FacingDirection = Math.abs(Math.sin(ent.facingAngle)) > Math.abs(dx)

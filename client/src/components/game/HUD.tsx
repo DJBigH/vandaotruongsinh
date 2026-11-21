@@ -12,6 +12,7 @@ import { eventBridge } from '../../game/EventBridge';
 import { heroVariantKey } from '../../game/assets/hero-variants';
 import { getSkills, type SkillInfo } from '../../api/game';
 import { skillIcon } from '../../game/assets/skillIcon';
+import GameMenu from './GameMenu';
 type Vitals = { hp: number; maxHp: number; mp: number; maxMp: number };
 
 const emptyCooldowns: Cooldowns = { dodgeRemainingSec: 0, attackRemainingSec: 0, skillsRemainingSec: [] };
@@ -23,14 +24,10 @@ export default function HUD() {
     character,
     quests,
     activeQuestId,
-    activePanel,
-    dialogueState,
-    setActivePanel,
     setCharacterSlotsOpen,
     notifications,
   } = useGameStore();
 
-  const [menuCollapsed, setMenuCollapsed] = useState(false);
   const [vitals, setVitals] = useState<Vitals | null>(null);
   const [cooldowns, setCooldowns] = useState<Cooldowns>(emptyCooldowns);
   const [prompt, setPrompt] = useState('');
@@ -430,99 +427,7 @@ export default function HUD() {
         })}
       </div>
 
-      {/* System Navigation Dock (Đặt phía trên thanh kỹ năng ở góc phải, đảm bảo không bao giờ che thanh kỹ năng ở màn hình 1366x768) */}
-      <div style={{
-        pointerEvents: 'auto',
-        position: 'absolute',
-        bottom: 84,
-        right: 16,
-        zIndex: 50,
-        display: dialogueState?.isOpen ? 'none' : 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        gap: '6px',
-      }}>
-        {/* Toggle Collapse/Expand Button */}
-        <button
-          onClick={() => setMenuCollapsed(collapsed => !collapsed)}
-          aria-expanded={!menuCollapsed}
-          aria-controls="game-system-menu"
-          style={{
-            background: 'rgba(13, 19, 29, 0.92)',
-            border: '1px solid #aa9163',
-            borderRadius: '20px',
-            color: '#dfc38a',
-            padding: '4px 12px',
-            fontSize: '0.75rem',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-          }}
-        >
-          <span>{menuCollapsed ? '📜 Mở Menu Hệ Thống' : '🔽 Thu Gọn Menu'}</span>
-        </button>
-
-        {/* Menu Items Container (Bố cục 4 cột gọn gàng, bề ngang chỉ 310px, hoàn toàn thoáng đãng) */}
-        {!menuCollapsed && (
-          <div id="game-system-menu" style={{
-            background: 'rgba(13, 19, 29, 0.94)',
-            border: '1px solid #37474f',
-            borderRadius: '5px',
-            padding: '8px 10px',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
-            gap: '6px',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.6)',
-            width: '344px',
-            maxWidth: 'calc(100vw - 32px)',
-            maxHeight: 'min(200px, calc(100vh - 130px))',
-            overflowY: 'auto',
-          }}>
-            {[
-              { key: 'inventory', label: '🎒 Túi' },
-              { key: 'character', label: '🧘 Tu Vi' },
-              { key: 'quest', label: '📜 N.Vụ' },
-              { key: 'crafting', label: '🔥 Luyện' },
-              { key: 'sect', label: '⚔️ Tông' },
-              { key: 'cave', label: '🏡 Động' },
-              { key: 'pets', label: '🐉 Thú' },
-              { key: 'disciple', label: '👥 Đệ Tử' },
-              { key: 'offline', label: '⏳ Bế Quan' },
-              { key: 'story', label: '📖 Sử Ký' },
-              { key: 'tower', label: '🗼 Tháp' },
-              { key: 'map', label: '🗺️ Bản Đồ' },
-              { key: 'events', label: '☼ Sự Kiện' },
-              { key: 'mount', label: '♞ Thú Cưỡi' },
-              { key: 'skills', label: '✦ Bí Kíp' },
-              { key: 'settings', label: '⚙️ Cài Đặt' },
-              { key: 'guide', label: '❔ Hướng Dẫn' },
-            ].map((btn) => (
-              <button
-                id={btn.key === 'disciple' ? 'disciple-menu-button' : undefined}
-                key={btn.key}
-                onClick={() => setActivePanel(activePanel === btn.key ? null : (btn.key as any))}
-                style={{
-                  background: activePanel === btn.key ? '#aa9163' : '#26362f',
-                  color: activePanel === btn.key ? '#000' : '#cfd8dc',
-                  border: '1px solid #4f5d52',
-                  padding: '6px 4px',
-                  borderRadius: '3px',
-                  cursor: 'pointer',
-                  fontWeight: 600,
-                  fontSize: '0.78rem',
-                  minWidth: 0,
-                  transition: 'all 0.15s',
-                }}
-              >
-                {btn.label}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
+      <GameMenu />
 
       {prompt && (
         <div role="status" style={{

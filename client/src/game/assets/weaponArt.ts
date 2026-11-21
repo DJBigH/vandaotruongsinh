@@ -9,12 +9,13 @@ const weaponById: Record<string, string> = {
   item_019: 'spear', item_022: 'spear', item_105: 'spear',
 };
 
-export function weaponArt(templateId: string, name = '') {
+export function weaponArt(templateId: string, name = '', enhanceLevel = 0) {
   const kind = weaponById[templateId] ??
     (/trượng|xích|thụ/.test(name.toLowerCase()) ? 'staff' :
       /quyền|sáo|khải|bổng/.test(name.toLowerCase()) ? 'fists' :
         /thương|kích|đao/.test(name.toLowerCase()) ? 'spear' :
           /cung/.test(name.toLowerCase()) ? 'bow' :
             /phủ|rìu/.test(name.toLowerCase()) ? 'axe' : 'sword');
-  return `/assets/v105/weapon_${kind}.png`;
+  const stage = Math.max(0, Math.min(5, Math.trunc(enhanceLevel || 0)));
+  return `/assets/v110/weapon_${kind}_${stage}.png`;
 }

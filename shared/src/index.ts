@@ -795,6 +795,7 @@ export interface WsServerMessage {
     dodgeRemainingSec: number;
     attackRemainingSec: number;
     skillsRemainingSec: number[];
+    equippedSkillIds?: string[];
   };
   rewards?: {
     exp: number;

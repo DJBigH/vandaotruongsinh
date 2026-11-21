@@ -15,6 +15,8 @@ export function healthReaction(before: HealthSample | null, after: HealthSample)
 }
 
 export function creatureAppearance(ent: EntitySnapshot) {
+  if (ent.type === 'BOSS' && /^boss_0(?:0[1-9]|1\d|20)$/.test(ent.templateId ?? ''))
+    return { texture: ent.templateId!, walk: '', scale: 1 };
   switch (ent.templateId) {
     // === CHƯƠNG 1: RỪNG THANH KHÊ ===
     case 'mon_001': return { texture: 'monster_wolf', walk: 'wolf_walk', scale: 1.0 };

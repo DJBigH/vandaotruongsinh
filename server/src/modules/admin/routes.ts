@@ -10,6 +10,7 @@ import { logAdminAction } from './audit';
 import { disconnectAccountSockets } from '../arpg/ws-handler';
 import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
 import { z } from 'zod';
+import { gmRoutes } from './gm-routes';
 import {
   ITEM_TEMPLATES,
   MONSTER_TEMPLATES,
@@ -19,6 +20,7 @@ import {
 
 export async function adminRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
   const { prisma } = options;
+  await gmRoutes(fastify, options);
 
   const cheatSchema = z.object({
     godMode: z.boolean().optional(),
