@@ -39,4 +39,4 @@
 ## Task 4: Release
 
 - [x] Update version/docs, run builds and focused/regression tests. Runtime browser inspection was blocked by the environment's automatic approval policy.
-- [ ] Commit, push `version-1`, sync local checkout and confirm `main` unchanged.
+- [x] Commit, push `version-1`, sync local checkout and confirm `main` unchanged.
