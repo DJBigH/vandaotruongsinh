@@ -1,0 +1,214 @@
+[
+  {
+    "key": "event_boss_001_covenant",
+    "state": "actions",
+    "kind": "strip",
+    "file": "event_boss_001_covenant_actions.png",
+    "source": "event-boss-actions-v2.png",
+    "frames": 4,
+    "frame_size": [
+      128,
+      128
+    ],
+    "size": [
+      512,
+      128
+    ]
+  },
+  {
+    "key": "event_boss_001_covenant",
+    "state": "move",
+    "kind": "strip",
+    "file": "event_boss_001_covenant_move.png",
+    "source": "event-boss-actions-v2.png",
+    "frames": 4,
+    "frame_size": [
+      128,
+      128
+    ],
+    "size": [
+      512,
+      128
+    ]
+  },
+  {
+    "key": "event_boss_001_covenant",
+    "state": "phase",
+    "kind": "strip",
+    "file": "event_boss_001_covenant_phase.png",
+    "source": "event-boss-phase-death.png",
+    "frames": 4,
+    "frame_size": [
+      128,
+      128
+    ],
+    "size": [
+      512,
+      128
+    ]
+  },
+  {
+    "key": "event_boss_001_covenant",
+    "state": "death",
+    "kind": "strip",
+    "file": "event_boss_001_covenant_death.png",
+    "source": "event-boss-phase-death.png",
+    "frames": 4,
+    "frame_size": [
+      128,
+      128
+    ],
+    "size": [
+      512,
+      128
+    ]
+  },
+  {
+    "key": "event_boss_001_covenant",
+    "kind": "avatar",
+    "file": "avatar_event_boss_001_covenant.png",
+    "source": "event-boss-avatar.png",
+    "size": [
+      192,
+      192
+    ]
+  },
+  {
+    "key": "event_noon_basin",
+    "state": "ambient",
+    "kind": "strip",
+    "file": "event_noon_basin_ambient.png",
+    "source": "event-noon-basin.png",
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "size": [
+      768,
+      192
+    ]
+  },
+  {
+    "key": "event_noon_basin",
+    "kind": "avatar",
+    "file": "avatar_event_noon_basin.png",
+    "source": "event-noon-basin.png",
+    "size": [
+      192,
+      192
+    ]
+  },
+  {
+    "key": "event_noon_basin",
+    "kind": "icon",
+    "file": "icon_event_noon_basin.png",
+    "source": "event-noon-basin.png",
+    "size": [
+      64,
+      64
+    ]
+  },
+  {
+    "key": "event_wolf_standard",
+    "state": "ambient",
+    "kind": "strip",
+    "file": "event_wolf_standard_ambient.png",
+    "source": "event-wolf-standard.png",
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "size": [
+      768,
+      192
+    ]
+  },
+  {
+    "key": "event_wolf_standard",
+    "kind": "avatar",
+    "file": "avatar_event_wolf_standard.png",
+    "source": "event-wolf-standard.png",
+    "size": [
+      192,
+      192
+    ]
+  },
+  {
+    "key": "event_wolf_standard",
+    "kind": "icon",
+    "file": "icon_event_wolf_standard.png",
+    "source": "event-wolf-standard.png",
+    "size": [
+      64,
+      64
+    ]
+  },
+  {
+    "key": "event_night_beacon",
+    "state": "ambient",
+    "kind": "strip",
+    "file": "event_night_beacon_ambient.png",
+    "source": "event-night-beacon-v2.png",
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "size": [
+      768,
+      192
+    ]
+  },
+  {
+    "key": "event_night_beacon",
+    "kind": "avatar",
+    "file": "avatar_event_night_beacon.png",
+    "source": "event-night-beacon-v2.png",
+    "size": [
+      192,
+      192
+    ]
+  },
+  {
+    "key": "event_night_beacon",
+    "kind": "icon",
+    "file": "icon_event_night_beacon.png",
+    "source": "event-night-beacon-v2.png",
+    "size": [
+      64,
+      64
+    ]
+  },
+  {
+    "key": "noon-meditation",
+    "kind": "card",
+    "file": "card_noon-meditation.png",
+    "source": "card-noon.png",
+    "size": [
+      640,
+      256
+    ]
+  },
+  {
+    "key": "world-boss",
+    "kind": "card",
+    "file": "card_world-boss.png",
+    "source": "card-wolf.png",
+    "size": [
+      640,
+      256
+    ]
+  },
+  {
+    "key": "night-hunt",
+    "kind": "card",
+    "file": "card_night-hunt.png",
+    "source": "card-night.png",
+    "size": [
+      640,
+      256
+    ]
+  }
+]
