@@ -20,8 +20,8 @@ test('every boss has a unique registered visual rather than a reused NPC or mons
   assert.equal(bosses.length, 20);
   for (const boss of bosses) {
     const look = creatureAppearance({ templateId: boss.id, type: 'BOSS' } as any);
-    assert.equal(look.texture, boss.id, boss.name);
-    assert.ok(keys.has(boss.id), boss.name);
+    assert.equal(look.texture, `${boss.id}_actions`, boss.name);
+    assert.ok(keys.has(`${boss.id}_actions`), boss.name);
   }
 });
 

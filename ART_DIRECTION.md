@@ -86,6 +86,8 @@ Pháp Tu và Thể Tu có sheet riêng cho toàn bộ trạng thái hành độn
 
 Bản 1.1.0 bổ sung 20 boss riêng, 8 NPC cốt truyện riêng, 6 đạo cụ môi trường, 36 hiệu ứng bí kíp và 36 biểu tượng vũ khí theo 6 cấp cường hóa. Ảnh chạy game nằm trong `client/public/assets/v110/`, nguồn và quy trình đóng gói nằm trong `art/v110/`. Boss và NPC mới dùng khung trong suốt 128×128 hoặc 64×64, chân neo ổn định; các trạng thái boss và hiệu ứng chiêu chuyển động bằng Phaser trên ảnh gốc riêng của từng đối tượng.
 
+Bản 1.2.0 dùng `art/pack-v120.py` đóng gói tranh đã duyệt từ `art/future-library`, `art/event-vision` và `art/motion-library` vào `client/public/assets/v120/`. NPC/đệ tử phải có avatar cận mặt; thú chưa thu phục dùng sheet không yên và có avatar hoang, thú đã thu phục dùng avatar bonded. Trang bị có icon và tranh chi tiết riêng ở từng mức +0 đến +5. Mỗi boss có sheet hành động theo trạng thái server, sheet chuyển pha và chết phát một lần; 36 bí kíp và đột phá có bốn khung hiệu ứng. Mốc vùng chỉ là trang trí, không thêm collision.
+
 Thú cưỡi v1.0.5 dùng bốn khung bước chân trên một hàng `128 × 96`, riêng cho sáu loài. Khung cuối trở về tư thế đầu để vòng đi không hiện hình bị cắt cạnh. Sheet được hiển thị khoảng `105 × 79` pixel, nhân vật cưỡi dùng dáng rút thấp và lớp yên phía trước chân. Icon vũ khí là 64 × 64 alpha, giữ nét pixel rõ khi hiện trong Túi và Lò Rèn. Nguồn tạo ảnh, script đóng gói và thành phẩm nằm tại `art/v105/` và `assets/v105/`.
 
 ---

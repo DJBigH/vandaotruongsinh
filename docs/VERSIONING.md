@@ -7,3 +7,5 @@ Game dùng `major.minor.patch`.
 - **Major** (`1.x.y` → `2.0.0`): thay đổi thiết kế hoặc định dạng save không tương thích; cần kế hoạch chuyển dữ liệu riêng.
 
 Không tự động nhảy sang `2.0.0` khi số patch tới 9. Script `nextGameVersion(current, kind)` yêu cầu chọn ý nghĩa bản phát hành; mặc định là patch. 1.1.0 là bản nâng menu, GM và hệ mỹ thuật chiến đấu/môi trường.
+
+**1.2.0** là bản minor lớn về trải nghiệm hình ảnh: gắn kho tranh mới vào NPC, thú chưa thu phục, trang bị +0 đến +5, mốc tám vùng, menu, lịch sự kiện, 20 boss, 36 bí kíp, đột phá và biến thể Lang Vương Thiên Khế. Luật chiến đấu và dữ liệu lưu vẫn tương thích.

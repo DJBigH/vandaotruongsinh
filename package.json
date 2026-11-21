@@ -1,6 +1,6 @@
 {
   "name": "van-dao-truong-sinh",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Game Tu Tiên 2D Đồ Họa Cổ Phong Chơi Trực Tiếp Trên Web",
   "type": "module",
   "scripts": {
@@ -22,6 +22,7 @@
     "test:v104": "cd server && npx tsx src/tests/v104-rules-test.ts && npx tsx src/tests/v104-routes-test.ts",
     "test:v105": "cd server && npx tsx src/tests/v105-progression-test.ts && npx tsx src/tests/world-movement-test.ts && npx tsx src/tests/world-session-routes-test.ts",
     "test:v110": "cd server && npx tsx src/tests/v110-coverage-test.ts && npx tsx src/tests/v110-gm-routes-test.ts",
+    "test:v120": "cd server && npx tsx src/tests/v120-art-integration-test.ts && cd .. && python art/future-library/validate.py && python art/event-vision/validate.py && python art/motion-library/validate_sheets.py",
     "test:all": "cd server && npx tsx src/tests/arpg-test.ts && npx tsx src/tests/security-test.ts && npx tsx src/tests/phase3-test.ts && cd .. && npm run test:launcher"
   },
   "keywords": [

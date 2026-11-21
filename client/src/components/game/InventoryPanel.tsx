@@ -12,6 +12,7 @@ import {
   type InventoryItem,
 } from '@shared/index';
 import { weaponArt } from '../../game/assets/weaponArt';
+import { equipmentArt } from '../../game/assets/equipmentArt';
 
 function getItemIcon(item: InventoryItem): string {
   const name = item.name?.toLowerCase() || '';
@@ -20,11 +21,10 @@ function getItemIcon(item: InventoryItem): string {
     return weaponArt(item.templateId, item.name, item.enhanceLevel);
   }
   if (item.type === 'ARMOR') {
-    if (name.includes('bào') || name.includes('y')) return '/assets/vnext/icon_item_robe.png';
-    return '/assets/vnext/icon_item_armor.png';
+    return equipmentArt(item.type, item.name, item.enhanceLevel, 'icon')!;
   }
-  if (item.type === 'SHOES') return '/assets/vnext/icon_item_boots.png';
-  if (item.type === 'ACCESSORY') return '/assets/vnext/icon_item_ring.png';
+  if (item.type === 'SHOES' || item.type === 'ACCESSORY')
+    return equipmentArt(item.type, item.name, item.enhanceLevel, 'icon')!;
   if (item.type === 'CONSUMABLE') {
     if (name.includes('khí') || name.includes('lam')) return '/assets/vnext/icon_item_pill_blue.png';
     if (name.includes('trúc cơ') || name.includes('kim')) return '/assets/vnext/icon_item_pill_gold.png';
@@ -43,7 +43,8 @@ function getItemIcon(item: InventoryItem): string {
 }
 
 function getEquipmentArt(item: InventoryItem): string | null {
-  if (item.type === 'ARMOR' || item.type === 'SHOES') return '/assets/v104/equipment_armor.png';
+  const equipment = equipmentArt(item.type, item.name, item.enhanceLevel, 'avatar');
+  if (equipment) return equipment;
   if (item.type === 'WEAPON') return weaponArt(item.templateId, item.name, item.enhanceLevel);
   return null;
 }

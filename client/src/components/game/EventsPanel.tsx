@@ -8,6 +8,7 @@ const detail: Record<TimedEvent['id'], string> = {
   'world-boss': 'Tới Rừng Thanh Khê hạ Xích Nha Lang Vương · Thiên Khế. Trong khung giờ boss có gấp đôi sinh lực và đòn mạnh hơn; lần đầu hạ gục nhận thêm 500 linh thạch và 600 tu vi.',
   'night-hunt': 'Săn một yêu thú tại Rừng Thanh Khê. Lần đầu trong khung giờ nhận thêm 120 linh thạch và 150 tu vi.',
 };
+const card = (id: TimedEvent['id']) => `/assets/v120/card_${id}.png`;
 
 export default function EventsPanel() {
   const { setActivePanel, loadCharacter, addNotification } = useGameStore();
@@ -33,7 +34,8 @@ export default function EventsPanel() {
       <button type="button" onClick={() => setActivePanel(null)} aria-label="Đóng sự kiện">✕</button></header>
     {!data ? <p>Đang tải lịch sự kiện…</p> : <>
       <p className="event-now">Giờ máy chủ: {clock.format(new Date(data.serverTime))}</p>
-      {data.active ? <article className="event-active"><strong>ĐANG DIỄN RA · {data.active.title}</strong>
+      {data.active ? <article className="event-active"><img className="event-card-art" src={card(data.active.id)} width="640" height="256" alt="" />
+        <strong>ĐANG DIỄN RA · {data.active.title}</strong>
         <span>{clock.format(new Date(data.active.startAt))}–{clock.format(new Date(data.active.endAt))}</span>
         <p>{detail[data.active.id]}</p>
         {data.active.claimed && <em>Đã nhận thưởng khung giờ này</em>}
@@ -42,6 +44,7 @@ export default function EventsPanel() {
       </article> : <p className="event-idle">Hiện không có sự kiện. Hãy chuẩn bị trang bị, đan dược và đường tới rừng.</p>}
       <h3>Lịch tiếp theo</h3>
       <ol>{data.upcoming.map((entry) => <li key={entry.startAt}>
+        <img src={card(entry.id)} width="640" height="256" loading="lazy" alt="" />
         <strong>{entry.title}</strong><time dateTime={entry.startAt}>{clock.format(new Date(entry.startAt))}–{clock.format(new Date(entry.endAt))}</time>
         <span>{detail[entry.id]}</span>
       </li>)}</ol>

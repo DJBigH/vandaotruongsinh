@@ -88,22 +88,25 @@ export class CombatFeedback {
   skill(player: Phaser.GameObjects.Sprite, angle: number, skillId: string) {
     if (usePresentationSettings.getState().reducedEffects) return;
     const key = `vfx_${skillId}`;
-    if (!this.scene.textures.exists(key)) { this.cast(player); return; }
+    const motionKey = `${key}_motion`;
+    const animated = this.scene.textures.exists(motionKey) && this.scene.anims.exists(`${motionKey}_play`);
+    if (!animated && !this.scene.textures.exists(key)) { this.cast(player); return; }
     const defensive = /^skill_body_(?:01|03|05|07|08|10|11|12)$/.test(skillId) ||
       /^skill_spell_(?:02|07|09|12)$/.test(skillId);
     const sword = skillId.startsWith('skill_sword_');
     const distance = defensive ? 0 : sword ? 44 : 31;
     const x = player.x + Math.cos(angle) * distance;
     const y = player.y - 18 + Math.sin(angle) * distance;
-    const effect = this.scene.add.sprite(x, y, key).setDepth(player.y + 3)
+    const effect = this.scene.add.sprite(x, y, animated ? motionKey : key).setDepth(player.y + 3)
       .setScale(0.34).setAlpha(0.95);
+    if (animated) effect.play(`${motionKey}_play`);
     if (sword && !/_(?:03|08|10|12)$/.test(skillId)) effect.setRotation(angle);
     this.pieces.add(effect);
     const distanceTravel = defensive ? 0 : sword ? 26 : 15;
     this.scene.tweens.add({ targets: effect,
       x: x + Math.cos(angle) * distanceTravel, y: y + Math.sin(angle) * distanceTravel,
       scale: defensive ? 1.12 : 0.95, alpha: 0,
-      duration: defensive ? 520 : 370, ease: 'Cubic.Out',
+      duration: defensive ? 520 : 430, ease: 'Cubic.Out',
       onComplete: () => { this.pieces.delete(effect); effect.destroy(); } });
     const color = sword ? 0x88d4dc : skillId.startsWith('skill_spell_') ? 0xc2a0db : 0xd5aa7b;
     const ring = this.scene.add.circle(x, y, defensive ? 19 : 11)

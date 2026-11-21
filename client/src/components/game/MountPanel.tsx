@@ -41,12 +41,13 @@ export default function MountPanel() {
       <div className="mount-list" aria-label="Danh sách linh thú">
         {state.mounts.map((entry) => <button key={entry.id} type="button" className={entry.id === selected ? 'selected' : ''}
           onClick={() => setSelected(entry.id)} aria-current={entry.id === selected ? 'true' : undefined}>
-          <img src={`/assets/v105/${entry.id}_card.png`} alt="" />
+          <img src={`/assets/v120/avatar_${entry.id}_${entry.owned ? 'bonded' : 'wild'}.png`} alt="" width="192" height="192" />
           <span><strong>{entry.name}</strong><small>{entry.owned ? 'ĐÃ THU PHỤC' : `${Math.min(entry.huntProgress, entry.requiredKills)}/${entry.requiredKills} dấu vết`}</small></span>
         </button>)}
       </div>
       {mount && <div className="mount-detail">
-        <img className="mount-portrait" src={`/assets/v105/${mount.id}_card.png`} alt={mount.name} />
+        <img className="mount-portrait" src={`/assets/v120/avatar_${mount.id}_${mount.owned ? 'bonded' : 'wild'}.png`}
+          alt={mount.name} width="192" height="192" />
         <h3>{mount.name}</h3><p>{mount.description}</p>
         <div className="mount-facts"><span>Địa điểm <strong>{mount.mapName}</strong></span>
           <span>Truy dấu <strong>{mount.preyName} · {Math.min(mount.huntProgress, mount.requiredKills)}/{mount.requiredKills}</strong></span>

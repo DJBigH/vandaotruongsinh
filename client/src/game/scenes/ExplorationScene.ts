@@ -459,7 +459,9 @@ export default class ExplorationScene extends Phaser.Scene {
 
     // 6. Spawn NPCs với Chibi / Anime Spritesheets & Visual Clarity
     for (const npc of map.npcs) {
-      const spriteKey = this.textures.exists(npc.spriteKey) ? npc.spriteKey : 'npc_elder';
+      const gestures = `${npc.spriteKey}_gestures`;
+      const hasGestures = this.textures.exists(gestures);
+      const spriteKey = hasGestures ? gestures : this.textures.exists(npc.spriteKey) ? npc.spriteKey : 'npc_elder';
       const animKey = `${spriteKey}_idle`;
 
       const sprite = this.npcsGroup.create(npc.position.x * tileSize, npc.position.y * tileSize, spriteKey) as Phaser.Physics.Arcade.Sprite;
@@ -475,6 +477,11 @@ export default class ExplorationScene extends Phaser.Scene {
           if (!this.player) return;
           const dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, sprite.x, sprite.y);
           if (dist <= 115) {
+            if (hasGestures && !sprite.anims.isPlaying && !usePresentationSettings.getState().reducedEffects) {
+              const greet = `${npc.spriteKey}_greet`;
+              sprite.play(greet);
+              sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE_KEY + greet, () => sprite.setFrame(0));
+            }
             this.openNpcDialogue(npc);
           } else {
             this.spawnFloatingText(sprite.x, sprite.y - 70, '💬 Hãy lại gần hơn!', '#ffd700');
@@ -484,7 +491,7 @@ export default class ExplorationScene extends Phaser.Scene {
 
       if (this.anims.exists(animKey)) {
         sprite.play(animKey);
-      } else if (!usePresentationSettings.getState().reducedEffects) {
+      } else if (!hasGestures && !usePresentationSettings.getState().reducedEffects) {
         this.ambientTweens.push(this.tweens.add({ targets: sprite, y: sprite.y - 2,
           duration: 1200 + (npc.position.x % 4) * 130, yoyo: true, repeat: -1,
           ease: 'Sine.easeInOut' }));
@@ -534,7 +541,7 @@ export default class ExplorationScene extends Phaser.Scene {
         label = 'Linh Miếu';
         originY = 0.88;
       } else if (item.type === 'MOUNT' && item.mountId) {
-        texture = `${item.mountId}_ride`;
+        texture = `${item.mountId}_wild`;
         label = 'Linh Thú Chờ Thu Phục';
         originY = 0.88;
       }
@@ -545,7 +552,7 @@ export default class ExplorationScene extends Phaser.Scene {
       sprite.setDepth(sprite.y);
       if (item.type === 'MOUNT') {
         sprite.setScale(0.72);
-        const walk = `${item.mountId}_ride_walk`;
+        const walk = `${item.mountId}_wild_walk`;
         if (this.anims.exists(walk) && !usePresentationSettings.getState().reducedEffects) sprite.play(walk);
       }
 
@@ -776,6 +783,13 @@ export default class ExplorationScene extends Phaser.Scene {
     for (const ent of this.latestEntities) {
       activeIds.add(ent.id);
       let container = this.entitySprites.get(ent.id);
+      const motionBoss = ent.type === 'BOSS' && /^boss_\d{3}$/.test(ent.templateId ?? '');
+      const eventWolf = motionBoss && ent.templateId === 'boss_001' && ent.name.includes('Thiên Khế');
+      if (container && Boolean(container.getData('eventWolf')) !== eventWolf) {
+        container.destroy();
+        this.entitySprites.delete(ent.id);
+        container = undefined;
+      }
 
       if (!container) {
         container = this.add.container(ent.x, ent.y);
@@ -795,6 +809,7 @@ export default class ExplorationScene extends Phaser.Scene {
         container.setData('monsterSprite', sprite);
         container.setData('walk', look.walk);
         container.setData('templateId', ent.templateId);
+        container.setData('eventWolf', eventWolf);
 
         // Name text
         const barY = isDisciple ? -49 : isBoss ? -118 : look.walk === 'wolf_walk' ? -39 : -54;
@@ -823,12 +838,12 @@ export default class ExplorationScene extends Phaser.Scene {
       container.y = Phaser.Math.Linear(container.y, ent.y + ent.vy * snapshotAgeSec, weight);
       container.setDepth(container.y);
 
-      container.setVisible(ent.state !== 'DEAD');
+      container.setVisible(ent.state !== 'DEAD' || (motionBoss && !container.getData('bossDeathDone')));
 
       // Update Sprite Animation & Flip Direction
       const sprite = container.getData('monsterSprite') as Phaser.GameObjects.Sprite;
       if (sprite) {
-        if (ent.type === 'BOSS' && /^boss_\d{3}$/.test(ent.templateId ?? '')) {
+        if (motionBoss) {
           const reduced = usePresentationSettings.getState().reducedEffects;
           const breath = reduced ? 0 : Math.sin(performance.now() / 230) * 0.013;
           const facing = Math.cos(ent.facingAngle) >= 0 ? 1 : -1;
@@ -854,21 +869,45 @@ export default class ExplorationScene extends Phaser.Scene {
           } else if (this.anims.exists('disciple_lieu_muoi_idle_down')) sprite.play('disciple_lieu_muoi_idle_down', true);
           continue;
         }
-        const walk = container.getData('walk') as string;
-        if (walk === 'ghost_float') {
-          sprite.play(walk, true);
-        } else if (walk) {
-          const horizontal = Math.cos(ent.facingAngle);
-          if (Math.abs(horizontal) > 0.1) sprite.setFlipX(horizontal > 0);
-          const is6Frame = ['turtle_walk', 'puppet_walk', 'boss_wolf_walk', 'wolf_walk', 'snake_walk', 'fox_walk', 'treant_walk'].includes(walk);
-          const frame = is6Frame
-            ? (ent.state === 'WINDUP' ? 4 : ent.state === 'ATTACK' ? 5 : ent.state === 'IDLE' ? 0 : null)
-            : (ent.state === 'IDLE' ? 0 : null);
-          if (frame !== null) {
-            if (sprite.anims.isPlaying) sprite.stop();
-            sprite.setFrame(frame);
+        if (ent.type === 'BOSS' && /^boss_\d{3}$/.test(ent.templateId ?? '')) {
+          const prefix = eventWolf ? 'event_boss_001_covenant_' : `${ent.templateId}_`;
+          const current = sprite.anims.currentAnim?.key;
+          if (ent.state === 'DEAD') {
+            if (!container.getData('bossDeathStarted')) {
+              container.setData('bossDeathStarted', true);
+              sprite.play(`${prefix}death_play`);
+              sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE_KEY + `${prefix}death_play`, () =>
+                container!.setData('bossDeathDone', true));
+            }
+          } else if (ent.state === 'ENRAGED' && !container.getData('bossPhasePlayed')) {
+            container.setData('bossPhasePlayed', true);
+            sprite.play(`${prefix}phase_play`);
+          } else if (sprite.anims.isPlaying && current === `${prefix}phase_play`) {
+            // Let the one-shot transformation finish even if the server advances state.
+          } else if (ent.state === 'MOVING' || ent.state === 'CHASE' || ent.state === 'RETURN') {
+            sprite.play(`${prefix}move_walk`, true);
           } else {
+            if (sprite.anims.isPlaying) sprite.stop();
+            sprite.setTexture(`${prefix}actions`, ent.state === 'WINDUP' ? 1
+              : ent.state === 'ATTACK' ? 2 : ent.state === 'HURT' ? 3 : 0);
+          }
+        } else {
+          const walk = container.getData('walk') as string;
+          if (walk === 'ghost_float') {
             sprite.play(walk, true);
+          } else if (walk) {
+            const horizontal = Math.cos(ent.facingAngle);
+            if (Math.abs(horizontal) > 0.1) sprite.setFlipX(horizontal > 0);
+            const is6Frame = ['turtle_walk', 'puppet_walk', 'boss_wolf_walk', 'wolf_walk', 'snake_walk', 'fox_walk', 'treant_walk'].includes(walk);
+            const frame = is6Frame
+              ? (ent.state === 'WINDUP' ? 4 : ent.state === 'ATTACK' ? 5 : ent.state === 'IDLE' ? 0 : null)
+              : (ent.state === 'IDLE' ? 0 : null);
+            if (frame !== null) {
+              if (sprite.anims.isPlaying) sprite.stop();
+              sprite.setFrame(frame);
+            } else {
+              sprite.play(walk, true);
+            }
           }
         }
       }

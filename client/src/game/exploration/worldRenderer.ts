@@ -2,6 +2,7 @@ import type Phaser from 'phaser';
 import type { MapCollisionZone, MapData, Position } from '@shared/index';
 import { buildingScale, buildingTexture, isForest, isSect, isVillage, isWater, worldTrails } from './worldLayout';
 import { worldDetails } from './v110WorldProps';
+import { usePresentationSettings } from './settings';
 
 type Occluder = {
   sprite: Phaser.GameObjects.Sprite;
@@ -62,7 +63,9 @@ export class WorldRenderer {
       if (placed.has(id) || !scene.textures.exists(prop.key)) continue;
       placed.add(id);
       if (occupied.has(location) && ['prop_portal', 'prop_shrine', 'prop_chest', 'prop_herb', 'prop_ore'].includes(prop.key)) continue;
-      const sprite = scene.add.sprite(prop.x * size, prop.y * size, prop.key)
+      const ambient = `${prop.key}_loop`;
+      const texture = scene.textures.exists(ambient) ? ambient : prop.key;
+      const sprite = scene.add.sprite(prop.x * size, prop.y * size, texture)
         .setOrigin(0.5, prop.originY ?? 0.9).setScale(prop.scale ?? 1)
         .setDepth(prop.depth ?? prop.y * size).setAlpha(prop.alpha ?? 1);
       if (prop.key === 'prop_sect_gate') {
@@ -72,6 +75,7 @@ export class WorldRenderer {
         this.gate = sprite;
       }
       if (prop.tint !== undefined) sprite.setTint(prop.tint);
+      if (scene.anims.exists(texture) && !usePresentationSettings.getState().reducedEffects) sprite.play(texture);
       if (prop.spin) this.rotating.push(scene.tweens.add({ targets: sprite, angle: 360, duration: 36000, repeat: -1 }));
       if (prop.depth === undefined && sprite.displayHeight >= 44) this.track(sprite);
     }

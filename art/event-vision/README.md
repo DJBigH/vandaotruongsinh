@@ -1,6 +1,6 @@
 # Hướng mỹ thuật sự kiện theo nội dung 1.0.4
 
-Đây là **kho tranh chuẩn bị**, không phải một lần phát hành game. Ghi chú `docs/checkpoints/1.0.4-release.md` cho thấy 1.0.4 đã từng phát hành; `docs/VERSIONING.md` hiện mô tả dòng 1.1.0. Tên 1.0.4 ở đây chỉ định **chủ đề sự kiện mà người dùng yêu cầu tiếp tục vẽ**. Việc đặt số cho bản phát hành kế tiếp cần theo trạng thái code tại lúc tích hợp. Không có tệp nào trong `client/`, `server/` hoặc version runtime được sửa.
+Kho tranh này được vẽ theo chủ đề sự kiện mà người dùng yêu cầu sau 1.0.4. Bản phát hành game tích hợp là **1.2.0** theo lựa chọn của người dùng: thẻ sự kiện xuất hiện trong bảng lịch, Lang Vương Thiên Khế dùng chuyển động chạy, lấy đà, tấn công, chuyển pha và chết. Mốc cảnh sự kiện còn là tranh dự phòng, vì hiện chưa có đối tượng tương tác tương ứng trên bản đồ.
 
 ## Thành phẩm
 
@@ -28,13 +28,13 @@ Tổng cộng **17 ảnh thành phẩm**: 7 dải chuyển động (28 khung), 4
 - **Dạ Hành:** cọc đèn tuần tra, giấy trấn yêu và đường tre xanh đêm; vẫn đọc được lối đi và điểm tương tác. Tranh thẻ tránh đặt quái lạ vào nền để không tạo ra nhân vật thiếu avatar. Hiện phần thưởng săn quái gắn với Rừng Thanh Khê.
 - Ba tranh thẻ **không có chữ** để UI tự đặt giờ, tên và trạng thái bằng văn bản sắc nét. Nhận diện sự kiện phải đọc được trước khi đọc chữ: vàng/ngọc ban ngày, đỏ đất hoàng hôn, lam tối và đèn cyan ban đêm.
 
-## Quy ước cho đợt tích hợp sau
+## Quy ước tích hợp và sử dụng tiếp
 
 - Mỗi mốc cảnh có `<ID>_ambient.png` gồm 4 frame `192 × 192`, `avatar_<ID>.png` `192 × 192`, `icon_<ID>.png` `64 × 64`. Mốc neo phần đế gần y = 184. Vùng va chạm chỉ bao chân đế, không chặn toàn bộ mái/cờ/tán.
 - Lang Vương có 4 dải `128 × 128`, 4 frame mỗi dải. `actions`: đứng gồng → lấy đà → vồ → trúng đòn, là key pose theo trạng thái chứ không phát lặp như đi bộ. `move` lặp; `phase` và `death` phát một lần. Chân neo gần y = 120; dùng cùng tỉ lệ qua cả 16 khung.
 - Avatar boss là tranh cận mặt và giáp vai, không lấy khung 128 phóng to. Cả ba mốc tương tác đều có avatar cùng ID theo `ART_DIRECTION.md`.
 - `card_<event-id>.png` là ảnh RGBA 640 × 256 có nền cảnh chủ ý, không phải sprite trong suốt. Bảng lịch có thể phủ chữ HTML riêng lên card; cần kiểm tra tương phản ở 1366 × 768 khi tích hợp.
-- Những tranh này chưa được nối vào game. Tần số phát, hitbox, thứ tự lớp và trạng thái sự kiện phải kiểm tra bằng phiên chơi thật trước khi thay asset chạy.
+- Bản 1.2.0 nối tranh thẻ và boss theo trạng thái server; các mốc cảnh vẫn để dành cho bản đồ sự kiện sau. Cần kiểm tra nhịp hiển thị trong phiên chơi thật ở cả ba khung giờ trước khi công bố ngoài môi trường thử nghiệm.
 
 ## Cách kiểm tra và dựng lại
 

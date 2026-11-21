@@ -15,7 +15,7 @@ interface Asset {
   key: string;
   file: string;
   type: 'image' | 'spritesheet' | 'audio';
-  provenance: 'original-M1' | 'legacy' | 'v104-derived' | 'v105-original' | 'v110-original';
+  provenance: 'original-M1' | 'legacy' | 'v104-derived' | 'v105-original' | 'v110-original' | 'v120-original';
 }
 export interface SpritesheetAsset extends Asset {
   type: 'spritesheet';
@@ -121,23 +121,61 @@ for (const key of ['mount_crane', 'mount_shadow_wolf', 'mount_fox', 'mount_turtl
   assets.push({ key: `${key}_ride`, file: `assets/v105/${key}_ride.png`, type: 'spritesheet',
     frameWidth: 128, frameHeight: 96, provenance: 'v105-original',
     animations: [{ key: `${key}_ride_walk`, frameStart: 0, frameEnd: 3, duration: 480, repeat: -1 }] });
+  assets.push({ key: `${key}_wild`, file: `assets/v120/${key}_wild.png`, type: 'spritesheet',
+    frameWidth: 128, frameHeight: 96, provenance: 'v120-original',
+    animations: [{ key: `${key}_wild_walk`, frameStart: 0, frameEnd: 3, duration: 640, repeat: -1 }] });
+}
+for (const key of ['region_thanh_van_sword_stele', 'region_dan_ha_cauldron',
+  'region_ancient_sword_altar', 'region_underworld_lantern', 'region_memory_mirror',
+  'region_dragon_vein_pillar', 'region_covenant_tablet', 'region_demon_sealing_bell']) {
+  assets.push({ key: `${key}_ambient`, file: `assets/v120/${key}_ambient.png`, type: 'spritesheet',
+    frameWidth: 192, frameHeight: 192, provenance: 'v120-original',
+    animations: [{ key: `${key}_ambient`, frameStart: 0, frameEnd: 3, duration: 1100, repeat: -1 }] });
+}
+for (const state of ['actions', 'move', 'phase', 'death']) {
+  const key = `event_boss_001_covenant_${state}`;
+  assets.push({ key, file: `assets/v120/${key}.png`, type: 'spritesheet',
+    frameWidth: 128, frameHeight: 128, provenance: 'v120-original',
+    animations: state === 'actions' ? [] : [{ key: `${key}_${state === 'move' ? 'walk' : 'play'}`,
+      frameStart: 0, frameEnd: 3, duration: state === 'death' ? 760 : 600, repeat: state === 'move' ? -1 : 0 }] });
 }
 for (let index = 1; index <= 20; index++) {
   const key = `boss_${String(index).padStart(3, '0')}`;
   assets.push({ key, file: `assets/v110/${key}.png`, type: 'image', provenance: 'v110-original' });
+  for (const state of ['actions', 'move', 'phase', 'death']) {
+    const motionKey = `${key}_${state}`;
+    const file = state === 'actions' ? `${key}_idle_windup_attack_hurt.png` : `${key}_${state}.png`;
+    assets.push({ key: motionKey, file: `assets/v120/${file}`, type: 'spritesheet',
+      frameWidth: 128, frameHeight: 128, provenance: 'v120-original',
+      animations: state === 'actions' ? [] : [{ key: `${motionKey}_${state === 'move' ? 'walk' : 'play'}`,
+        frameStart: 0, frameEnd: 3, duration: state === 'death' ? 760 : 600, repeat: state === 'move' ? -1 : 0 }] });
+  }
 }
 for (const name of ['sect_master', 'sword_spirit', 'rebel_cultivator', 'mountain_god',
   'dan_ton', 'inner_voice', 'covenant_arbiter', 'tower_keeper']) {
   const key = `npc_${name}`;
   assets.push({ key, file: `assets/v110/${key}.png`, type: 'image', provenance: 'v110-original' });
+  assets.push({ key: `${key}_gestures`, file: `assets/v120/${key}_idle_greet_speak_react.png`,
+    type: 'spritesheet', frameWidth: 64, frameHeight: 64, provenance: 'v120-original',
+    animations: [{ key: `${key}_greet`, frameStart: 0, frameEnd: 2, duration: 450, repeat: 0 }] });
 }
 for (const name of ['bamboo', 'pavilion', 'bridge', 'ghost_tree', 'spirit_lantern', 'jade_crystal']) {
   const key = `prop_${name}`;
   assets.push({ key, file: `assets/v110/${key}.png`, type: 'image', provenance: 'v110-original' });
 }
+for (const name of ['bamboo', 'ghost_tree', 'jade_crystal', 'spirit_lantern']) {
+  const key = `prop_${name}_loop`;
+  assets.push({ key, file: `assets/v120/${key}.png`, type: 'spritesheet',
+    frameWidth: 128, frameHeight: 128, provenance: 'v120-original',
+    animations: [{ key, frameStart: 0, frameEnd: 3, duration: name === 'spirit_lantern' ? 650 : 1200, repeat: -1 }] });
+}
 for (const path of ['sword', 'spell', 'body']) for (let index = 1; index <= 12; index++) {
   const key = `vfx_skill_${path}_${String(index).padStart(2, '0')}`;
   assets.push({ key, file: `assets/v110/${key}.png`, type: 'image', provenance: 'v110-original' });
+  const motionKey = `${key}_motion`;
+  assets.push({ key: motionKey, file: `assets/v120/${key}_build_peak_release_fade.png`,
+    type: 'spritesheet', frameWidth: 96, frameHeight: 96, provenance: 'v120-original',
+    animations: [{ key: `${motionKey}_play`, frameStart: 0, frameEnd: 3, duration: 380, repeat: 0 }] });
 }
 for (const weapon of ['sword', 'staff', 'fists', 'spear', 'bow', 'axe']) for (let level = 0; level <= 5; level++) {
   const key = `weapon_${weapon}_${level}`;

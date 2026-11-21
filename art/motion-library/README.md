@@ -1,6 +1,6 @@
 # Thư viện hoạt ảnh để duyệt mỹ thuật
 
-Bộ này chỉ chứa tranh nguồn, sprite sheet và ảnh xem trước. Chưa nối vào mã game, chưa thay asset đang chạy và không đổi phiên bản.
+Bộ này giữ tranh nguồn, sprite sheet và ảnh xem trước. Bản 1.2.0 đã đóng gói toàn bộ sheet vào `client/public/assets/v120/` và nối chuyển động 20 boss, 8 NPC khi chào, bốn đạo cụ, 36 bí kíp cùng hiệu ứng đột phá vào game.
 
 ## Đã vẽ
 
@@ -29,7 +29,7 @@ Tổng cộng 130 sheet, 520 khung; riêng boss là 320 khung. Ảnh nguồn tro
 
 Xem từng hệ: [Kiếm](previews/gallery-vfx-sword.png) · [Pháp](previews/gallery-vfx-spell.png) · [Thể](previews/gallery-vfx-body.png) · [Đột phá](previews/gallery-vfx-breakthrough.png).
 
-## Quy ước khi nối vào game sau này
+## Quy ước tích hợp và tiếp tục sử dụng
 
 - Boss: mỗi khung 128 × 128; chân/đế ở gần tâm ngang, y = 116. Bốn dải riêng cho mỗi boss: `idle_windup_attack_hurt`, `move`, `death`, `phase`. Dải `move` lặp bốn nhịp; `death` phát một lần và giữ khung cuối; `phase` phát một lần và giữ khung cuối tới khi đổi trạng thái. Các khung là key pose, chưa đủ để phát chuyển động 60 FPS mượt liên tục. Mười hai khung mới của một boss cùng một tỉ lệ để tránh phóng to thi thể khi ngã.
 - NPC: mỗi khung 64 × 64; gót chân ở y = 56 theo `ART_DIRECTION.md`. Giữ cử chỉ nói chuyện tách khỏi lối đi, tránh trượt chân.
@@ -41,7 +41,7 @@ Xem từng hệ: [Kiếm](previews/gallery-vfx-sword.png) · [Pháp](previews/ga
 
 ## Khoảng trống mỹ thuật cho đợt tiếp
 
-- 36 hiệu ứng kỹ năng đã có bốn pha trong thư viện này; cần duyệt thời gian phát và vị trí va chạm trong game khi tích hợp.
+- 36 hiệu ứng kỹ năng đã phát bốn pha khi server xác nhận; cần duyệt thời gian phát và vị trí va chạm trong phiên chơi thật.
 - Các cảnh cầu và đình là cấu trúc tĩnh nên không cần lắc toàn bộ; nên tách cờ, lá, ánh nước hoặc đèn thành lớp riêng nếu muốn thêm chuyển động.
 - Nhân vật chính và thú cưỡi đã có sprite sheet ở `v104`/`v105`; cần duyệt ở kích thước game trước khi thay đổi để tránh vẽ lặp và lệch vị trí yên/cưỡi.
 

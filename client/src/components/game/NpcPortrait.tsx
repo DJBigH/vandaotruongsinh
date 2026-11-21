@@ -3,6 +3,7 @@ import villageNpcs from '../../../../art/vnext/source/thanh-khe-npcs-v1.png';
 import swordCultivator from '../../../../art/vnext/source/kiem-tu-reference.png';
 import spellCultivator from '../../../../art/vnext/source/phap-tu-reference-v102.png';
 import bodyCultivator from '../../../../art/vnext/source/the-tu-reference-v102.png';
+import { npcAvatar } from '../../game/assets/npcAvatar';
 
 type PortraitRole = 'elder' | 'healer' | 'guard' | 'sword' | 'spell' | 'body';
 
@@ -29,11 +30,12 @@ const PORTRAITS: Record<PortraitRole, { image: string; size: string; position: s
 };
 
 export default function NpcPortrait({ speaker, spriteKey, size = 104 }: { speaker: string; spriteKey?: string; size?: number }) {
-  if (spriteKey && ['npc_sect_master', 'npc_sword_spirit', 'npc_rebel_cultivator', 'npc_mountain_god',
-    'npc_dan_ton', 'npc_inner_voice', 'npc_covenant_arbiter', 'npc_tower_keeper'].includes(spriteKey)) {
+  const avatar = /Liễu Muội|Liễu Nhược Vân/.test(speaker)
+    ? '/assets/v120/avatar_disciple_lieu_muoi.png' : npcAvatar(spriteKey);
+  if (avatar) {
     return <div role="img" aria-label={`Chân dung ${speaker}`} style={{
       width: size, height: size, flexShrink: 0, boxSizing: 'border-box',
-      background: `#26372d url(/assets/v110/${spriteKey}.png) center / contain no-repeat`,
+      background: `#26372d url(${avatar}) center / contain no-repeat`,
       border: '2px solid #aa9163', borderRadius: 4, imageRendering: 'pixelated',
       boxShadow: 'inset 0 0 18px #0008, 0 4px 14px #0007',
     }} />;

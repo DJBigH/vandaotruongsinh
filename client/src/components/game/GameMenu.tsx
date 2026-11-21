@@ -50,7 +50,8 @@ export default function GameMenu() {
                     aria-current={activePanel === entry.panel ? 'page' : undefined}
                     onClick={() => openPanel(entry.panel)}
                   >
-                    <span>{entry.label}</span><kbd>{entry.key}</kbd>
+                    <span className="game-menu-entry-label"><img src={`/assets/v120/icon_menu_${entry.panel}.png`}
+                      width="32" height="32" alt="" loading="lazy" />{entry.label}</span><kbd>{entry.key}</kbd>
                   </button>
                 ))}
               </section>
@@ -64,7 +65,8 @@ export default function GameMenu() {
           const entry = MENU_ENTRIES.find((item) => item.panel === panel)!;
           return <button key={panel} type="button" aria-label={`${entry.label} (${entry.key})`}
             title={`${entry.label} · ${entry.key}`} aria-pressed={activePanel === panel}
-            onClick={() => openPanel(panel)}><span>{entry.label}</span><kbd>{entry.key}</kbd></button>;
+            onClick={() => openPanel(panel)}><img src={`/assets/v120/icon_menu_${panel}.png`} width="28" height="28" alt="" />
+              <span>{entry.label}</span><kbd>{entry.key}</kbd></button>;
         })}
         <button id="game-menu-toggle" className="game-menu-toggle" type="button" aria-expanded={expanded}
           aria-controls="game-system-menu" aria-label={expanded ? 'Đóng menu' : 'Mở menu'}
