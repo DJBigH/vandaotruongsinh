@@ -23,21 +23,34 @@ def required_avatar_keys() -> set[str]:
     keys.add('disciple_lieu_muoi')
     keys.update(path.stem.removesuffix('_card') + '_wild'
                 for path in (assets / 'v105').glob('mount_*_card.png'))
+    keys.update(('region_thanh_van_sword_stele', 'region_dan_ha_cauldron',
+                 'region_ancient_sword_altar', 'region_underworld_lantern',
+                 'region_memory_mirror', 'region_dragon_vein_pillar',
+                 'region_covenant_tablet', 'region_demon_sealing_bell'))
     return keys
 
 
 def validate() -> None:
     records = json.loads(MANIFEST.read_text(encoding='utf-8'))
-    assert len(records) == 130, len(records)
+    assert len(records) == 194, len(records)
     assert len({(record['key'], record['kind']) for record in records}) == len(records), 'duplicate key/state'
     assert len({record['file'] for record in records}) == len(records), 'duplicate files'
     assert {path.name for path in SHEETS.glob('*.png')} == {record['file'] for record in records}
     counts = Counter(record['kind'] for record in records)
-    assert counts == {'avatar': 88, 'wild': 6, 'tame': 6, 'walk': 8, 'ambient': 4, 'icon': 18}, counts
+    assert counts == {'avatar': 120, 'wild': 6, 'tame': 6, 'walk': 8, 'ambient': 12, 'icon': 42}, counts
     avatar_keys = {record['key'] for record in records if record['kind'] == 'avatar'}
     missing = required_avatar_keys() - avatar_keys
     assert not missing, ('missing avatars', sorted(missing))
     assert len([key for key in avatar_keys if key.startswith('boss_') and key.endswith('_phase')]) == 20
+    for family in ('armor', 'robe', 'boots', 'ring'):
+        tier_images = []
+        for tier in range(6):
+            key = f'equipment_{family}_{tier}'
+            assert key in avatar_keys, ('missing item avatar', key)
+            assert any(record['key'] == key and record['kind'] == 'icon' for record in records), (
+                'missing item icon', key)
+            tier_images.append(Image.open(SHEETS / f'icon_{key}.png').tobytes())
+        assert len(set(tier_images)) == 6, ('repeated item tier', family)
     for record in records:
         source = ROOT / 'source' / record['source']
         assert source.is_file(), source
@@ -58,7 +71,7 @@ def validate() -> None:
         assert len(signatures) == 4, (record, 'repeated frame')
         assert (ROOT / 'previews' / f'{record["key"]}_{record["kind"]}.gif').is_file()
     print('PASS:', ', '.join(f'{kind}={count}' for kind, count in sorted(counts.items())),
-          f'| {len(required_avatar_keys())} current roster identities covered')
+          f'| {len(required_avatar_keys())} required avatar IDs covered')
 
 
 if __name__ == '__main__':

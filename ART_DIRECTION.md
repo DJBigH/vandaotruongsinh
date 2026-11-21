@@ -115,9 +115,10 @@ Nhà, cây, đá, NPC, nhân vật và quái dùng vị trí chân để xếp l
 
 ## 6. Quy tắc avatar cho tài nguyên mới
 
-**Mọi đối tượng mới có thể xuất hiện với tên, hội thoại, bảng thông tin hoặc thao tác tương tác phải được vẽ kèm avatar riêng trong cùng đợt mỹ thuật.** Quy tắc này bao gồm nhân vật người chơi và biến thể lựa chọn, NPC, đệ tử, quái, boss, thú cưỡi và địa điểm/đạo cụ tương tác. Không đánh dấu một bộ art là hoàn thành khi sprite đã có nhưng avatar chưa có. Hiệu ứng thuần túy dùng avatar của đối tượng sở hữu; biểu tượng menu là icon riêng, không thay cho avatar nhân vật.
+**Mọi đối tượng mới có thể xuất hiện với tên, hội thoại, bảng thông tin hoặc thao tác tương tác phải được vẽ kèm avatar riêng trong cùng đợt mỹ thuật.** Quy tắc này bao gồm nhân vật người chơi và biến thể lựa chọn, NPC, đệ tử, quái, boss, thú cưỡi, trang bị và địa điểm/đạo cụ tương tác. Không đánh dấu một bộ art là hoàn thành khi sprite đã có nhưng avatar chưa có. Hiệu ứng thuần túy dùng avatar của đối tượng sở hữu; biểu tượng menu là icon riêng, không thay cho avatar nhân vật.
 
 - Avatar lưu dạng PNG RGBA trong suốt, khung chuẩn **192 × 192**, tên `avatar_<entity-id>.png`. Với boss có chuyển pha làm đổi nhận diện, chuẩn bị thêm `avatar_<entity-id>_phase.png`; thú có thể dùng avatar hoang và avatar đã thu phục.
 - Avatar phải giữ cùng khuôn mặt, màu áo/giáp, phụ kiện, loài và dấu hiệu nhận diện với sprite. Vẽ cận mặt và thân trên để mắt và nét mặt còn đọc được khi thu xuống **96 × 96**. Không dùng sprite toàn thân 64 px phóng to để thay avatar.
 - Mỗi điểm tương tác cảnh được vẽ mới cần một ảnh đại diện cùng ID. Giữ lối vào nhìn thấy rõ, phần nền xung quanh alpha trong suốt; không dùng nền giả xám/trắng hoặc viền mờ bẩn.
+- Trang bị có icon nhỏ và ảnh chi tiết 192 × 192 cùng ID cho từng cấp hình ảnh. Ảnh chi tiết tập trung vào chính vật thể, không phóng icon 64 px lên; phân biệt cấp bằng hoa văn/chất liệu bám trên món đồ thay vì quầng mờ ngoài viền.
 - Tài nguyên mỹ thuật chuẩn bị trước để duyệt đặt trong `art/`; chỉ đưa sang `client/public/assets/` khi có đợt tích hợp game riêng. Manifest mỹ thuật phải ghép từng sprite, avatar, trạng thái và ảnh nguồn bằng cùng ID để tránh nhầm nhân vật.

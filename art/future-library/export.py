@@ -52,12 +52,20 @@ LANDMARKS = {
     'landmarks-01-v2.png': ('landmark_realm_gate', 'landmark_spirit_spring'),
     'landmarks-02.png': ('landmark_forge', 'landmark_cave_entrance'),
 }
+REGION_LANDMARKS = {
+    'region-landmarks-01.png': ('region_thanh_van_sword_stele', 'region_dan_ha_cauldron'),
+    'region-landmarks-02-v2.png': ('region_ancient_sword_altar', 'region_underworld_lantern'),
+    'region-landmarks-03.png': ('region_memory_mirror', 'region_dragon_vein_pillar'),
+    'region-landmarks-04-v3.png': ('region_covenant_tablet', 'region_demon_sealing_bell'),
+}
 ICON_ATLASES = {
     'menu-icons-a.png': ('quest', 'map', 'story', 'events', 'tower', 'character',
                          'skills', 'crafting', 'offline'),
     'menu-icons-b.png': ('disciple', 'pets', 'mount', 'sect', 'cave', 'inventory',
                          'settings', 'guide', 'admin'),
 }
+EQUIPMENT_FAMILIES = ('armor', 'robe', 'boots', 'ring')
+EQUIPMENT_TIERS = range(6)
 
 
 def atlas_cells(path: Path, columns: int, rows: int) -> list[Image.Image]:
@@ -165,6 +173,9 @@ def gallery(name: str, keys: list[str], cell_size: tuple[int, int], columns: int
             tile = source.resize((tile_width, tile_height), Image.Resampling.NEAREST)
         output.paste(tile, (x, y), tile)
         label = key.removeprefix('avatar_').removeprefix('icon_menu_').replace('.png', '')
+        if key.startswith(('avatar_equipment_', 'icon_equipment_')):
+            parts = key.removesuffix('.png').split('_')
+            label = f'{parts[2]} +{parts[3]}'
         draw.text((x, y - 14), label, fill='#e9d3a1', font=font)
     output.save(PREVIEWS / f'gallery-{name}.png')
 
@@ -200,18 +211,35 @@ def export() -> None:
                 row_cells = atlas_cells(SOURCE / row_source, 4, 1)
             save_scene_strip(row_cells, key, 'walk', row_source, 64, 4, 56, records)
 
-    for filename, keys in LANDMARKS.items():
-        cells = atlas_cells(SOURCE / filename, 4, 2)
-        for row, key in enumerate(keys):
-            row_cells = cells[row * 4:(row + 1) * 4]
-            save_scene_strip(row_cells, key, 'ambient', filename, 192, 8, 184, records)
-            save_avatar(row_cells[0], key, filename, records)
+    for atlases in (LANDMARKS, REGION_LANDMARKS):
+        for filename, keys in atlases.items():
+            cells = atlas_cells(SOURCE / filename, 4, 2)
+            for row, key in enumerate(keys):
+                row_cells = cells[row * 4:(row + 1) * 4]
+                save_scene_strip(row_cells, key, 'ambient', filename, 192, 8, 184, records)
+                save_avatar(row_cells[0], key, filename, records)
 
     for filename, keys in ICON_ATLASES.items():
         for key, source in zip(keys, atlas_cells(SOURCE / filename, 3, 3), strict=True):
             output_name = f'icon_menu_{key}.png'
             fit(source, (64, 64), 4, 60).save(SHEETS / output_name)
             records.append({'key': f'menu_{key}', 'file': output_name, 'source': filename,
+                            'size': [64, 64], 'kind': 'icon'})
+
+    for family in EQUIPMENT_FAMILIES:
+        for tier in EQUIPMENT_TIERS:
+            filename = f'equipment-{family}-{tier}.png'
+            source = Image.open(SOURCE / filename).convert('RGBA')
+            alpha = source.getchannel('A').point(lambda value: value if value > 64 else 0)
+            bounds = alpha.getbbox()
+            assert bounds, (filename, 'empty item')
+            source.putalpha(alpha)
+            source = source.crop(bounds)
+            key = f'equipment_{family}_{tier}'
+            save_avatar(source, key, filename, records)
+            output_name = f'icon_{key}.png'
+            fit(source, (64, 64), 4, 60).save(SHEETS / output_name)
+            records.append({'key': key, 'file': output_name, 'source': filename,
                             'size': [64, 64], 'kind': 'icon'})
 
     (ROOT / 'manifest.json').write_text(json.dumps(records, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
@@ -224,11 +252,21 @@ def export() -> None:
         gallery(f'mount-{kind}', [f'mount_{mount}_{kind}.png' for mount in MOUNTS], (256, 96), 2)
     gallery('npc-walk', [f'{key}_walk.png' for keys in NPC_WALKS.values() for key in keys], (128, 64), 4)
     gallery('landmarks', [f'{key}_ambient.png' for keys in LANDMARKS.values() for key in keys], (384, 192), 2)
+    gallery('region-landmarks', [f'{key}_ambient.png' for keys in REGION_LANDMARKS.values() for key in keys],
+            (384, 192), 2)
+    gallery('avatars-regions', [f'avatar_{key}.png' for keys in REGION_LANDMARKS.values() for key in keys],
+            (128, 128), 4)
     gallery('menu-icons', [f'icon_menu_{key}.png' for keys in ICON_ATLASES.values() for key in keys],
             (64, 64), 9)
+    gallery('equipment-icons', [f'icon_equipment_{family}_{tier}.png'
+                                for family in EQUIPMENT_FAMILIES for tier in EQUIPMENT_TIERS],
+            (96, 96), 6)
+    gallery('equipment-avatars', [f'avatar_equipment_{family}_{tier}.png'
+                                  for family in EQUIPMENT_FAMILIES for tier in EQUIPMENT_TIERS],
+            (128, 128), 6)
     print(f'Exported {sum(item["kind"] == "avatar" for item in records)} avatars and '
           f'{sum(item["kind"] in ("wild", "tame", "walk", "ambient") for item in records)} '
-          f'animation strips and {sum(item["kind"] == "icon" for item in records)} menu icons')
+          f'animation strips and {sum(item["kind"] == "icon" for item in records)} icons')
 
 
 if __name__ == '__main__':

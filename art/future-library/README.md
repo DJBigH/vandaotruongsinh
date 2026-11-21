@@ -6,15 +6,39 @@ Bộ này là **tranh nguồn, ảnh đại diện, sheet và ảnh xem trước
 
 | Nhóm | Thành phẩm | Cỡ ảnh | Mục đích |
 | --- | ---: | ---: | --- |
-| Avatar | 88 | 192 × 192 | 12 nhân vật người chơi, 13 NPC/đệ tử, 22 boss, 5 quái, 6 thú với hai trạng thái, 4 địa điểm tương tác; 20 boss lớn có thêm avatar chuyển pha |
+| Avatar / ảnh chi tiết | 120 | 192 × 192 | 12 nhân vật người chơi, 13 NPC/đệ tử, 22 boss, 5 quái, 6 thú với hai trạng thái, 12 địa điểm tương tác và 24 cấp trang bị; 20 boss lớn có thêm avatar chuyển pha |
 | Thú hoang và thu phục | 12 dải / 48 khung | 4 × (128 × 96) | Sáu loài, tách khỏi hình cưỡi có yên cũ |
 | NPC truyện di chuyển | 8 dải / 32 khung | 4 × (64 × 64) | Bước đi hoặc lơ lửng theo nhận diện riêng |
-| Địa điểm tương tác | 4 dải / 16 khung | 4 × (192 × 192) | Cổng cổ, suối linh, lò rèn, cửa hang; mỗi nơi có avatar |
+| Địa điểm tương tác | 12 dải / 48 khung | 4 × (192 × 192) | Cổng cổ, suối linh, lò rèn, cửa hang và tám mốc đặc trưng vùng; mỗi nơi có avatar |
 | Icon menu | 18 | 64 × 64 | Toàn bộ mục menu hiện có và GM, cùng nét đồng/ngọc/giấy |
+| Icon trang bị | 24 | 64 × 64 | Giáp, đạo bào, giày, nhẫn; mỗi món có +0 đến +5 |
 
 Tất cả nguồn được vẽ dựa trên asset của dự án. Các atlas trong `source/` là ảnh gốc; `export.py` chỉ cắt ô, làm sạch alpha ngưỡng thấp, đặt vào khung cố định và thu bằng nearest-neighbor. `sheets/` là thành phẩm dùng để lập trình sau này. `manifest.json` ghép ID, tên file, nguồn, số khung và kích thước. `previews/` có GIF và bảng so sánh ở cỡ gần với game. Các bản ngựa U Minh và cổng/suối bị dính nền đã loại sang `drafts/`; bản `-v2` là bản được xuất.
 
-Các điểm khó chịu đã xử lý trong bộ tranh này: avatar hội thoại trước đây lấy sprite toàn thân nhỏ nên mắt/mặt khó đọc; thú ở trạng thái chưa thu phục vẫn mang yên; NPC truyện thiếu dáng đi; biểu tượng menu không cùng một phong cách; cổng/suối trong bản phác đầu bị nền xám. Bản ngựa U Minh, cổng/suối và dáng Kiếm Hồn đã được vẽ lại khi kiểm tra nguồn. Thành phẩm vẫn cần xem trong game ở đợt tích hợp riêng để chốt nhịp chuyển động và độ tương phản trên từng nền bản đồ.
+Các điểm khó chịu đã xử lý trong bộ tranh này: avatar hội thoại trước đây lấy sprite toàn thân nhỏ nên mắt/mặt khó đọc; thú ở trạng thái chưa thu phục vẫn mang yên; NPC truyện thiếu dáng đi; biểu tượng menu không cùng một phong cách; cổng/suối trong bản phác đầu bị nền xám. Bản ngựa U Minh, cổng/suối và dáng Kiếm Hồn đã được vẽ lại khi kiểm tra nguồn. Tám vùng về sau hiện dùng một số nền chung; bộ mốc mới tạo hình nhận diện riêng cho từng nơi. Thành phẩm vẫn cần xem trong game ở đợt tích hợp riêng để chốt nhịp chuyển động và độ tương phản trên từng nền bản đồ.
+
+### Mốc vùng để tích hợp sau
+
+| Map hiện có | ID tranh | Dấu hiệu hình ảnh |
+| --- | --- | --- |
+| `map_thanh_van` | `region_thanh_van_sword_stele` | Kiếm ngọc trong sân tông môn |
+| `map_dan_ha` | `region_dan_ha_cauldron` | Đan lô và dược thảo trên đá đỏ |
+| `map_co_kiem_di_tich` | `region_ancient_sword_altar` | Cự kiếm gãy, kiếm khí xanh |
+| `map_u_minh_vuc` | `region_underworld_lantern` | Đèn hồn tím và đá U Minh |
+| `map_kinh_tam_canh` | `region_memory_mirror` | Gương ký ức bạc |
+| `map_long_mach_thien_son` | `region_dragon_vein_pillar` | Cột ngọc long mạch |
+| `map_thien_khe_dai` | `region_covenant_tablet` | Bia khế ước trắng vàng |
+| `map_tran_yeu_thap` | `region_demon_sealing_bell` | Chuông phong yêu trên nền đá tối |
+
+Mỗi ID có `avatar_<ID>.png` và `<ID>_ambient.png`; bốn khung ambient cùng chân đế để không rung vị trí. Đây là mốc tương tác/khám phá, không phải tile nền. Khi đặt vào map, collision chỉ nên bao lấy chân đế, còn NPC có thể đứng ở lối lên bậc. Các atlas nguyên bản `region-landmarks-*.png` nằm trong `source/`; các bản phác đã bỏ nằm ở `drafts/`.
+
+### Cấp hình ảnh cho trang bị
+
+Bốn bộ `equipment_armor`, `equipment_robe`, `equipment_boots`, `equipment_ring` có đủ cấp `0` đến `5`. Mỗi cấp có `avatar_equipment_<món>_<cấp>.png` để xem chi tiết và `icon_equipment_<món>_<cấp>.png` để dùng trong túi đồ sau này. Nguồn đơn lẻ `source/equipment-<món>-<cấp>.png` giữ alpha trong suốt; bản phác bảng cấp có nền tối được giữ ở `drafts/` chỉ để đối chiếu tiến trình vẽ. Cấp cao có thêm vàng, ngọc và hoa văn **trên vật thể**; không dựa vào quầng mờ ngoài vật thể để phân biệt cấp.
+
+![Icon các cấp trang bị](previews/gallery-equipment-icons.png)
+
+![Ảnh chi tiết trang bị](previews/gallery-equipment-avatars.png)
 
 ![Avatar nhân vật](previews/gallery-avatars-hero.png)
 
@@ -27,6 +51,10 @@ Các điểm khó chịu đã xử lý trong bộ tranh này: avatar hội tho�
 ![Thú hoang](previews/gallery-mount-wild.png)
 
 ![Địa điểm](previews/gallery-landmarks.png)
+
+![Mốc tám vùng](previews/gallery-region-landmarks.png)
+
+![Avatar mốc vùng](previews/gallery-avatars-regions.png)
 
 ![Icon menu](previews/gallery-menu-icons.png)
 

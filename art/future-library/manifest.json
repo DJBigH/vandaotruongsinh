@@ -1240,6 +1240,206 @@
     "kind": "avatar"
   },
   {
+    "key": "region_thanh_van_sword_stele",
+    "file": "region_thanh_van_sword_stele_ambient.png",
+    "source": "region-landmarks-01.png",
+    "size": [
+      768,
+      192
+    ],
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "kind": "ambient"
+  },
+  {
+    "key": "region_thanh_van_sword_stele",
+    "file": "avatar_region_thanh_van_sword_stele.png",
+    "source": "region-landmarks-01.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "region_dan_ha_cauldron",
+    "file": "region_dan_ha_cauldron_ambient.png",
+    "source": "region-landmarks-01.png",
+    "size": [
+      768,
+      192
+    ],
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "kind": "ambient"
+  },
+  {
+    "key": "region_dan_ha_cauldron",
+    "file": "avatar_region_dan_ha_cauldron.png",
+    "source": "region-landmarks-01.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "region_ancient_sword_altar",
+    "file": "region_ancient_sword_altar_ambient.png",
+    "source": "region-landmarks-02-v2.png",
+    "size": [
+      768,
+      192
+    ],
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "kind": "ambient"
+  },
+  {
+    "key": "region_ancient_sword_altar",
+    "file": "avatar_region_ancient_sword_altar.png",
+    "source": "region-landmarks-02-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "region_underworld_lantern",
+    "file": "region_underworld_lantern_ambient.png",
+    "source": "region-landmarks-02-v2.png",
+    "size": [
+      768,
+      192
+    ],
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "kind": "ambient"
+  },
+  {
+    "key": "region_underworld_lantern",
+    "file": "avatar_region_underworld_lantern.png",
+    "source": "region-landmarks-02-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "region_memory_mirror",
+    "file": "region_memory_mirror_ambient.png",
+    "source": "region-landmarks-03.png",
+    "size": [
+      768,
+      192
+    ],
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "kind": "ambient"
+  },
+  {
+    "key": "region_memory_mirror",
+    "file": "avatar_region_memory_mirror.png",
+    "source": "region-landmarks-03.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "region_dragon_vein_pillar",
+    "file": "region_dragon_vein_pillar_ambient.png",
+    "source": "region-landmarks-03.png",
+    "size": [
+      768,
+      192
+    ],
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "kind": "ambient"
+  },
+  {
+    "key": "region_dragon_vein_pillar",
+    "file": "avatar_region_dragon_vein_pillar.png",
+    "source": "region-landmarks-03.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "region_covenant_tablet",
+    "file": "region_covenant_tablet_ambient.png",
+    "source": "region-landmarks-04-v3.png",
+    "size": [
+      768,
+      192
+    ],
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "kind": "ambient"
+  },
+  {
+    "key": "region_covenant_tablet",
+    "file": "avatar_region_covenant_tablet.png",
+    "source": "region-landmarks-04-v3.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "region_demon_sealing_bell",
+    "file": "region_demon_sealing_bell_ambient.png",
+    "source": "region-landmarks-04-v3.png",
+    "size": [
+      768,
+      192
+    ],
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "kind": "ambient"
+  },
+  {
+    "key": "region_demon_sealing_bell",
+    "file": "avatar_region_demon_sealing_bell.png",
+    "source": "region-landmarks-04-v3.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
     "key": "menu_quest",
     "file": "icon_menu_quest.png",
     "source": "menu-icons-a.png",
@@ -1413,6 +1613,486 @@
     "key": "menu_admin",
     "file": "icon_menu_admin.png",
     "source": "menu-icons-b.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_armor_0",
+    "file": "avatar_equipment_armor_0.png",
+    "source": "equipment-armor-0.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_armor_0",
+    "file": "icon_equipment_armor_0.png",
+    "source": "equipment-armor-0.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_armor_1",
+    "file": "avatar_equipment_armor_1.png",
+    "source": "equipment-armor-1.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_armor_1",
+    "file": "icon_equipment_armor_1.png",
+    "source": "equipment-armor-1.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_armor_2",
+    "file": "avatar_equipment_armor_2.png",
+    "source": "equipment-armor-2.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_armor_2",
+    "file": "icon_equipment_armor_2.png",
+    "source": "equipment-armor-2.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_armor_3",
+    "file": "avatar_equipment_armor_3.png",
+    "source": "equipment-armor-3.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_armor_3",
+    "file": "icon_equipment_armor_3.png",
+    "source": "equipment-armor-3.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_armor_4",
+    "file": "avatar_equipment_armor_4.png",
+    "source": "equipment-armor-4.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_armor_4",
+    "file": "icon_equipment_armor_4.png",
+    "source": "equipment-armor-4.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_armor_5",
+    "file": "avatar_equipment_armor_5.png",
+    "source": "equipment-armor-5.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_armor_5",
+    "file": "icon_equipment_armor_5.png",
+    "source": "equipment-armor-5.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_robe_0",
+    "file": "avatar_equipment_robe_0.png",
+    "source": "equipment-robe-0.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_robe_0",
+    "file": "icon_equipment_robe_0.png",
+    "source": "equipment-robe-0.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_robe_1",
+    "file": "avatar_equipment_robe_1.png",
+    "source": "equipment-robe-1.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_robe_1",
+    "file": "icon_equipment_robe_1.png",
+    "source": "equipment-robe-1.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_robe_2",
+    "file": "avatar_equipment_robe_2.png",
+    "source": "equipment-robe-2.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_robe_2",
+    "file": "icon_equipment_robe_2.png",
+    "source": "equipment-robe-2.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_robe_3",
+    "file": "avatar_equipment_robe_3.png",
+    "source": "equipment-robe-3.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_robe_3",
+    "file": "icon_equipment_robe_3.png",
+    "source": "equipment-robe-3.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_robe_4",
+    "file": "avatar_equipment_robe_4.png",
+    "source": "equipment-robe-4.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_robe_4",
+    "file": "icon_equipment_robe_4.png",
+    "source": "equipment-robe-4.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_robe_5",
+    "file": "avatar_equipment_robe_5.png",
+    "source": "equipment-robe-5.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_robe_5",
+    "file": "icon_equipment_robe_5.png",
+    "source": "equipment-robe-5.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_boots_0",
+    "file": "avatar_equipment_boots_0.png",
+    "source": "equipment-boots-0.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_boots_0",
+    "file": "icon_equipment_boots_0.png",
+    "source": "equipment-boots-0.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_boots_1",
+    "file": "avatar_equipment_boots_1.png",
+    "source": "equipment-boots-1.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_boots_1",
+    "file": "icon_equipment_boots_1.png",
+    "source": "equipment-boots-1.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_boots_2",
+    "file": "avatar_equipment_boots_2.png",
+    "source": "equipment-boots-2.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_boots_2",
+    "file": "icon_equipment_boots_2.png",
+    "source": "equipment-boots-2.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_boots_3",
+    "file": "avatar_equipment_boots_3.png",
+    "source": "equipment-boots-3.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_boots_3",
+    "file": "icon_equipment_boots_3.png",
+    "source": "equipment-boots-3.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_boots_4",
+    "file": "avatar_equipment_boots_4.png",
+    "source": "equipment-boots-4.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_boots_4",
+    "file": "icon_equipment_boots_4.png",
+    "source": "equipment-boots-4.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_boots_5",
+    "file": "avatar_equipment_boots_5.png",
+    "source": "equipment-boots-5.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_boots_5",
+    "file": "icon_equipment_boots_5.png",
+    "source": "equipment-boots-5.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_ring_0",
+    "file": "avatar_equipment_ring_0.png",
+    "source": "equipment-ring-0.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_ring_0",
+    "file": "icon_equipment_ring_0.png",
+    "source": "equipment-ring-0.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_ring_1",
+    "file": "avatar_equipment_ring_1.png",
+    "source": "equipment-ring-1.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_ring_1",
+    "file": "icon_equipment_ring_1.png",
+    "source": "equipment-ring-1.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_ring_2",
+    "file": "avatar_equipment_ring_2.png",
+    "source": "equipment-ring-2.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_ring_2",
+    "file": "icon_equipment_ring_2.png",
+    "source": "equipment-ring-2.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_ring_3",
+    "file": "avatar_equipment_ring_3.png",
+    "source": "equipment-ring-3.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_ring_3",
+    "file": "icon_equipment_ring_3.png",
+    "source": "equipment-ring-3.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_ring_4",
+    "file": "avatar_equipment_ring_4.png",
+    "source": "equipment-ring-4.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_ring_4",
+    "file": "icon_equipment_ring_4.png",
+    "source": "equipment-ring-4.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "equipment_ring_5",
+    "file": "avatar_equipment_ring_5.png",
+    "source": "equipment-ring-5.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "equipment_ring_5",
+    "file": "icon_equipment_ring_5.png",
+    "source": "equipment-ring-5.png",
     "size": [
       64,
       64
