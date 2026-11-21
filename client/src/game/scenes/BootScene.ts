@@ -3,33 +3,36 @@
 // ============================================================
 
 import Phaser from 'phaser';
-import { ASSET_MANIFEST } from '../assets/AssetManifest';
+import { bootAssets } from '../assets/loadPlan';
+import { queueAsset } from '../assets/sceneAssetLoader';
 import { useGameStore } from '../../stores/gameStore';
 import { AnimationManager } from '../animations/AnimationManager';
 import { heroVariantKey } from '../assets/hero-variants';
+import { eventBridge } from '../EventBridge';
 
 export default class BootScene extends Phaser.Scene {
+  private failed: string[] = [];
   constructor() {
     super({ key: 'BootScene' });
   }
 
   preload() {
+    this.failed = [];
     const character = useGameStore.getState().character;
     const identity = character ? heroVariantKey(character.cultivationPath, character.gender,
       character.alignment, 0).replace(/_0$/, '_') : 'hero_sword_male_immortal_';
-    for (const asset of ASSET_MANIFEST.assets) {
-      if (asset.key.startsWith('hero_') && !asset.key.startsWith(identity)) continue;
-      if (asset.type === 'spritesheet') {
-        this.load.spritesheet(asset.key, asset.file, { frameWidth: asset.frameWidth, frameHeight: asset.frameHeight });
-      } else if (asset.type === 'audio') {
-        this.load.audio(asset.key, asset.file);
-      } else {
-        this.load.image(asset.key, asset.file);
-      }
-    }
+    eventBridge.emit('gameLoadProgress', { label: 'Đang tải hình nhân vật và kỹ năng', progress: 0 });
+    this.load.on(Phaser.Loader.Events.PROGRESS, (progress: number) =>
+      eventBridge.emit('gameLoadProgress', { label: 'Đang tải hình nhân vật và kỹ năng', progress: Math.round(progress * 100) }));
+    this.load.on(Phaser.Loader.Events.FILE_LOAD_ERROR, (file: Phaser.Loader.File) => this.failed.push(file.key));
+    for (const asset of bootAssets(identity)) queueAsset(this, asset);
   }
 
   create() {
+    if (this.failed.length) {
+      eventBridge.emit('gameLoadFailed', `Không tải được hình: ${this.failed.slice(0, 3).join(', ')}`);
+      return;
+    }
     // 1. Đăng ký toàn bộ Animations vào hệ thống Phaser
     AnimationManager.registerAll(this);
 

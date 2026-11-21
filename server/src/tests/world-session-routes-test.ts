@@ -16,6 +16,7 @@ import { getSkillRealtimeData, SKILL_TEMPLATES } from '../data/skills';
 import { initQuestObjectives } from '../modules/quest/quest-engine';
 import { computeCharacterStats } from '../modules/character/stats';
 import { breakthroughRng } from '../engine/breakthrough-chance';
+import { activeWorldEvent, eventKillReward } from '../modules/events/schedule';
 
 let app: Awaited<ReturnType<typeof buildServer>>;
 const manager = ArpgSessionManager.getInstance();
@@ -942,6 +943,8 @@ test('an earned kill settling across handover credits only the prior slot', asyn
   const game = await setup(t);
   const { session } = await game.connect();
   const wolf = session.monsters.find(m => m.templateId === 'mon_001')!;
+  const event = activeWorldEvent();
+  const timedReward = event ? eventKillReward(event, forest.id, wolf.templateId) : null;
   const transaction = prisma.$transaction.bind(prisma);
   let release!: () => void;
   const gate = new Promise<void>(resolve => { release = resolve; });
@@ -969,7 +972,9 @@ test('an earned kill settling across handover credits only the prior slot', asyn
   }
   const former = await game.read();
   const replacement = await prisma.character.findUniqueOrThrow({ where: { id: activeId } });
-  assert.deepEqual([former.gold, former.cultivationExp], [50 + wolf.template.goldReward, BigInt(wolf.template.cultivationExpReward)]);
+  assert.deepEqual([former.gold, former.cultivationExp],
+    [50 + wolf.template.goldReward + (timedReward?.gold ?? 0),
+      BigInt(wolf.template.cultivationExpReward + (timedReward?.cultivationExp ?? 0))]);
   assert.deepEqual([replacement.gold, replacement.cultivationExp], [50, 0n]);
 });
 

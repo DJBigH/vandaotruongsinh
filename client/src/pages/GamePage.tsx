@@ -33,6 +33,8 @@ import SkillPanel from '../components/game/SkillPanel';
 export default function GamePage() {
   const navigate = useNavigate();
   const [endedSession, setEndedSession] = useState('');
+  const [loading, setLoading] = useState<{ label: string; progress?: number; error?: string }>(
+    { label: 'Đang kiểm tra nhân vật…' });
   const gameContainerRef = useRef<HTMLDivElement>(null);
   const phaserGameRef = useRef<Phaser.Game | null>(null);
 
@@ -57,20 +59,38 @@ export default function GamePage() {
   }, [character?.id, currentMap?.id, activePanel]);
 
   useEffect(() => {
+    if (!loading.label || loading.error) return;
+    const timeout = window.setTimeout(() => setLoading(previous => previous.label
+      ? { label: '', error: 'Tải game quá lâu. Hãy kiểm tra kết nối rồi thử lại.' } : previous), 30000);
+    return () => window.clearTimeout(timeout);
+  }, [loading.label, loading.progress, loading.error]);
+
+  useEffect(() => {
     let isMounted = true;
 
     async function initGameData() {
-      await loadCharacter();
+      const characterResult = await loadCharacter();
       if (!isMounted) return;
-      if (!useGameStore.getState().character) {
+      if (characterResult.kind === 'error') {
+        setLoading({ label: '', error: 'Không kết nối được máy chủ để tải nhân vật.' });
+        return;
+      }
+      if (characterResult.kind === 'missing') {
         navigate('/create-character');
         return;
       }
 
-      await Promise.all([loadInventory(), loadQuests()]);
+      setLoading({ label: 'Đang tải hành trang và nhiệm vụ…' });
+      const [inventoryReady, questsReady] = await Promise.all([loadInventory(), loadQuests()]);
+      if (!isMounted) return;
+      if (!inventoryReady || !questsReady) {
+        setLoading({ label: '', error: 'Không tải được dữ liệu nhân vật. Hãy kiểm tra kết nối.' });
+        return;
+      }
 
       // Initialize Phaser canvas
       if (isMounted && gameContainerRef.current && !phaserGameRef.current) {
+        setLoading({ label: 'Đang tải hình nhân vật và kỹ năng…', progress: 0 });
         phaserGameRef.current = createPhaserGame(gameContainerRef.current.id);
       }
     }
@@ -117,6 +137,13 @@ export default function GamePage() {
     eventBridge.on('notification', handleNotification);
     eventBridge.on('combatEnded', refreshProgress);
     eventBridge.on('worldProgressCommitted', refreshProgress);
+    const handleLoadProgress = (value: { label: string; progress: number }) =>
+      setLoading(previous => previous.error ? previous : { label: value.label, progress: value.progress });
+    const handleLoadFailed = (message: string) => setLoading({ label: '', error: message });
+    const handleLoadReady = () => setLoading({ label: '' });
+    eventBridge.on('gameLoadProgress', handleLoadProgress);
+    eventBridge.on('gameLoadFailed', handleLoadFailed);
+    eventBridge.on('gameLoadReady', handleLoadReady);
 
     return () => {
       isMounted = false;
@@ -126,6 +153,9 @@ export default function GamePage() {
       eventBridge.off('notification', handleNotification);
       eventBridge.off('combatEnded', refreshProgress);
       eventBridge.off('worldProgressCommitted', refreshProgress);
+      eventBridge.off('gameLoadProgress', handleLoadProgress);
+      eventBridge.off('gameLoadFailed', handleLoadFailed);
+      eventBridge.off('gameLoadReady', handleLoadReady);
 
       if (phaserGameRef.current) {
         phaserGameRef.current.destroy(true);
@@ -194,6 +224,19 @@ export default function GamePage() {
           {activePanel === 'mount' && <MountPanel />}
           {activePanel === 'skills' && <SkillPanel />}
         </>
+      )}
+      {!endedSession && (loading.label || loading.error) && (
+        <section role={loading.error ? 'alert' : 'status'} aria-live="polite" aria-label="Trạng thái tải trò chơi" style={{
+          position: 'absolute', inset: 0, zIndex: 10000, display: 'grid', placeContent: 'center',
+          justifyItems: 'center', gap: 14, padding: 24, textAlign: 'center',
+          background: 'rgba(8, 16, 21, 0.96)', color: '#f4ead8',
+        }}>
+          <h2 style={{ margin: 0, color: '#dfbd72' }}>Vạn Đạo Trường Sinh</h2>
+          <p style={{ margin: 0 }}>{loading.error || loading.label}</p>
+          {!loading.error && loading.progress !== undefined &&
+            <progress value={loading.progress} max="100" aria-label="Tiến độ tải hình" style={{ width: 260 }} />}
+          {loading.error && <button type="button" onClick={() => window.location.reload()}>Thử lại</button>}
+        </section>
       )}
     </div>
   );

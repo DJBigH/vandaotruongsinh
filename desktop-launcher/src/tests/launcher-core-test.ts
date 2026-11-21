@@ -216,10 +216,13 @@ async function runTests(dir: string) {
   fs.writeFileSync(path.join(projectDir, '.env'),
     `DATABASE_URL=postgresql://fixture@127.0.0.1:${dbPort}/fixture\nJWT_SECRET=fixture_only\n`);
   let respondsLikeGame = false;
+  let degradedGame = false;
   const foreignHttp = http.createServer((req, res) => {
     if (req.url === '/api/health') {
       res.setHeader('content-type', 'application/json');
-      res.end(JSON.stringify({ status: 'ok', game: respondsLikeGame ? 'Vạn Đạo Trường Sinh' : 'another app' }));
+      if (degradedGame) res.statusCode = 503;
+      res.end(JSON.stringify({ status: degradedGame ? 'degraded' : 'ok',
+        game: respondsLikeGame ? 'Vạn Đạo Trường Sinh' : 'another app' }));
     } else if (req.url === '/') {
       res.setHeader('content-type', 'text/html');
       res.end(respondsLikeGame ? fs.readFileSync(path.resolve(__dirname, '../../../client/index.html')) : '<title>Another app</title>');
@@ -275,6 +278,12 @@ async function runTests(dir: string) {
     const afterWatchdog = supervisor.getStatusSnapshot().services;
     assert(afterWatchdog.client.state === 'STOPPED' && afterWatchdog.server.state === 'STOPPED',
       'Watchdog withdraws external game status when both identities disappear');
+    respondsLikeGame = true;
+    degradedGame = true;
+    const degraded = await supervisor.startService('server');
+    assert(!degraded.success && degraded.message.includes('cơ sở dữ liệu'),
+      'A degraded game server reports its database problem instead of a foreign port');
+    degradedGame = false;
     assert((await fetch(address)).status === 401, 'Wrong listeners survive watchdog reclassification');
   } finally {
     await closeLocal(foreignHttp);

@@ -1,20 +1,21 @@
 import { create } from 'zustand';
 import * as gameApi from '../api/game';
 import type { CharacterSummary, InventoryItem, QuestInfo, CombatState, MapData, DialogueLine } from '@shared/index';
+import { getStartupCharacter, type CharacterLoadResult } from './startupCharacter';
 
 interface GameState {
   // Character
   character: CharacterSummary | null;
-  loadCharacter: () => Promise<void>;
+  loadCharacter: () => Promise<CharacterLoadResult>;
 
   // Inventory
   inventory: InventoryItem[];
-  loadInventory: () => Promise<void>;
+  loadInventory: () => Promise<boolean>;
 
   // Quests
   quests: QuestInfo[];
   activeQuestId: string | null;
-  loadQuests: () => Promise<void>;
+  loadQuests: () => Promise<boolean>;
   setActiveQuest: (id: string | null) => void;
 
   // Combat
@@ -74,14 +75,9 @@ export const useGameStore = create<GameState>((set, get) => ({
   notifications: [],
 
   loadCharacter: async () => {
-    try {
-      const res = await gameApi.getCharacter();
-      if (res.success) {
-        set({ character: res.data ?? null });
-      }
-    } catch (err) {
-      console.error('Failed to load character:', err);
-    }
+    const result = await getStartupCharacter(gameApi.getCharacter);
+    if (result.kind !== 'error') set({ character: result.kind === 'loaded' ? result.character : null });
+    return result;
   },
 
   loadInventory: async () => {
@@ -89,10 +85,12 @@ export const useGameStore = create<GameState>((set, get) => ({
       const res = await gameApi.getInventory();
       if (res.success && res.data) {
         set({ inventory: res.data });
+        return true;
       }
     } catch (err) {
       console.error('Failed to load inventory:', err);
     }
+    return false;
   },
 
   loadQuests: async () => {
@@ -100,10 +98,12 @@ export const useGameStore = create<GameState>((set, get) => ({
       const res = await gameApi.getQuests();
       if (res.success && res.data) {
         set({ quests: res.data });
+        return true;
       }
     } catch (err) {
       console.error('Failed to load quests:', err);
     }
+    return false;
   },
 
   setActiveQuest: (id) => set({ activeQuestId: id }),

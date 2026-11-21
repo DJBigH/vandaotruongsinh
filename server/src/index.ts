@@ -33,7 +33,7 @@ import { arpgWebSocketRoutes } from './modules/arpg/ws-handler';
 
 const prisma = new PrismaClient();
 
-async function buildServer() {
+async function buildServer(options: { databaseProbe?: () => Promise<unknown> } = {}) {
   const fastify = Fastify({
     logger: {
       level: config.server.nodeEnv === 'development' ? 'info' : 'warn',
@@ -83,8 +83,14 @@ async function buildServer() {
   });
 
   // Health check
-  fastify.get('/api/health', async () => {
-    return { status: 'ok', time: new Date().toISOString(), game: 'Vạn Đạo Trường Sinh' };
+  fastify.get('/api/health', async (_request, reply) => {
+    try {
+      await (options.databaseProbe ?? (() => prisma.$queryRaw`SELECT 1`))();
+      return { status: 'ok', time: new Date().toISOString(), game: 'Vạn Đạo Trường Sinh' };
+    } catch {
+      reply.code(503);
+      return { status: 'degraded', time: new Date().toISOString(), game: 'Vạn Đạo Trường Sinh' };
+    }
   });
 
   // WebSocket for Real-time ARPG

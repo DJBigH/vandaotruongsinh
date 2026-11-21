@@ -1,7 +1,7 @@
 import http from 'node:http';
 import type { ServiceName } from '../shared/types';
 
-type Readiness = 'identified' | 'unidentified' | 'unavailable';
+type Readiness = 'identified' | 'degraded' | 'unidentified' | 'unavailable';
 
 export function probeGameService(service: ServiceName, port: number): Promise<Readiness> {
   const endpoint = service === 'server' ? '/api/health' : '/';
@@ -9,7 +9,7 @@ export function probeGameService(service: ServiceName, port: number): Promise<Re
     const request = http.get({ hostname: '127.0.0.1', port, path: endpoint }, (res) => {
       const mime = res.headers['content-type']?.split(';')[0].trim().toLowerCase();
       const expected = service === 'server' ? 'application/json' : 'text/html';
-      if (res.statusCode !== 200 || mime !== expected) {
+      if ((res.statusCode !== 200 && !(service === 'server' && res.statusCode === 503)) || mime !== expected) {
         resolve('unidentified');
         res.destroy();
         return;
@@ -30,7 +30,9 @@ export function probeGameService(service: ServiceName, port: number): Promise<Re
         }
         try {
           const health = JSON.parse(body);
-          resolve(health?.status === 'ok' && health.game === 'Vạn Đạo Trường Sinh' ? 'identified' : 'unidentified');
+          resolve(health?.game === 'Vạn Đạo Trường Sinh' && health.status === 'ok' && res.statusCode === 200
+            ? 'identified' : health?.game === 'Vạn Đạo Trường Sinh' && health.status === 'degraded' && res.statusCode === 503
+              ? 'degraded' : 'unidentified');
         } catch { resolve('unidentified'); }
       });
     });

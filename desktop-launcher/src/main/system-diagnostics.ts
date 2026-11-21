@@ -237,9 +237,11 @@ export class SystemDiagnostics {
     const readiness = await probeGameService('server', serverPort);
     return {
       id: 'diag_api', name: 'API Vạn Đạo Trường Sinh', category: 'API',
-      status: readiness === 'unidentified' ? 'WARN' : 'PASS',
+      status: readiness === 'unidentified' || readiness === 'degraded' ? 'WARN' : 'PASS',
       message: readiness === 'identified' ? `Đã nhận diện máy chủ game tại cổng ${serverPort}.` :
-        readiness === 'unavailable' ? 'Backend hiện chưa bật.' : 'Cổng đang mở nhưng chưa nhận diện được máy chủ game.',
+        readiness === 'unavailable' ? 'Backend hiện chưa bật.' :
+          readiness === 'degraded' ? 'Máy chủ game đang chạy nhưng chưa kết nối được cơ sở dữ liệu.' :
+            'Cổng đang mở nhưng chưa nhận diện được máy chủ game.',
     };
   }
 }

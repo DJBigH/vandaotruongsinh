@@ -232,8 +232,8 @@ export class ProcessSupervisor {
 
   public getStatusSnapshot(): SystemStatusSnapshot {
     return {
-      launcherVersion: '1.3.0',
-      gameVersion: '1.3.0',
+      launcherVersion: '1.3.1',
+      gameVersion: '1.3.1',
       isPackaged: app?.isPackaged ?? false,
       osInfo: {
         platform: process.platform,
@@ -268,8 +268,8 @@ export class ProcessSupervisor {
     const isPortOpen = await this.probePort(port);
     if (isPortOpen) {
       // Kiểm tra xem có phải server game của mình đang chạy ngoài launcher không
-      const isOurServer = await this.probeServerReadiness(port);
-      if (isOurServer) {
+      const readiness = await probeGameService('server', port);
+      if (readiness === 'identified') {
         if (this.serverProc && this.serverInfo.isManagedByLauncher) {
           this.serverInfo.state = 'READY';
           return { success: true, message: 'Dịch vụ đang chạy dưới quyền quản lý của launcher.' };
@@ -280,6 +280,11 @@ export class ProcessSupervisor {
         this.broadcastStatus();
         this.logger.info('server', `Máy chủ game đã được phát hiện đang chạy bên ngoài launcher tại cổng ${port}.`);
         return { success: true, message: 'Máy chủ đang chạy sẵn bên ngoài launcher.' };
+      } else if (readiness === 'degraded') {
+        this.serverInfo.state = 'ERROR';
+        this.serverInfo.lastError = 'Máy chủ game đang chạy nhưng chưa kết nối được cơ sở dữ liệu.';
+        this.broadcastStatus();
+        return { success: false, message: this.serverInfo.lastError };
       } else {
         this.serverInfo.state = 'ERROR';
         this.serverInfo.lastError = `Cổng ${port} đã bị chiếm bởi một ứng dụng khác!`;

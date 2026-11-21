@@ -18,6 +18,8 @@ import { usePresentationSettings } from '../exploration/settings';
 import type { HeroPose } from '../assets/AssetManifest';
 import { heroVariantKey } from '../assets/hero-variants';
 import { MapLoad } from '../exploration/mapLoad';
+import { mapAssets } from '../assets/loadPlan';
+import { loadSceneAssets } from '../assets/sceneAssetLoader';
 import { cameraFollowLerp, predictPosition } from '../exploration/prediction';
 import { panelForShortcut } from '../../components/game/menuShortcuts';
 import {
@@ -111,6 +113,8 @@ export default class ExplorationScene extends Phaser.Scene {
     const mapLoader = new MapLoad(async (mapId: string) => {
       const res = await gameApi.getMap(mapId);
       if (!res.success || res.data?.id !== mapId) throw new Error('Lỗi khi tải bản đồ');
+      await loadSceneAssets(this, mapAssets(res.data, this.latestEntities), `Đang tải cảnh ${res.data.name}`);
+      AnimationManager.registerAll(this);
       return res.data;
     });
     this.mapLoader = mapLoader;
@@ -362,10 +366,11 @@ export default class ExplorationScene extends Phaser.Scene {
       this.renderWorld(this.latestServerPlayer);
       useGameStore.setState({ currentMap: map });
       eventBridge.emit('worldStatusUpdate', '');
+      eventBridge.emit('gameLoadReady');
     }, () => {
       this.mapLoading = false;
-      this.mapRetryAt = performance.now() + 1000;
-      eventBridge.emit('worldStatusUpdate', 'Đang thử tải lại bản đồ…');
+      this.mapRetryAt = Infinity;
+      eventBridge.emit('gameLoadFailed', 'Không tải được bản đồ hoặc hình ảnh. Kiểm tra kết nối rồi thử lại.');
     });
   }
 
