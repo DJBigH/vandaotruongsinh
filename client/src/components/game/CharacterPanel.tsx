@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import * as gameApi from '../../api/game';
 import { CultivationPath, CULTIVATION_PATH_NAMES } from '@shared/index';
+import UpgradeOutcome from './UpgradeOutcome';
 
 export default function CharacterPanel() {
   const { character, loadCharacter, setActivePanel, addNotification } = useGameStore();
@@ -188,14 +189,8 @@ export default function CharacterPanel() {
         </div>
       </div>
     </div>
-    {breakthroughScene && <div className={`breakthrough-overlay ${breakthroughScene.success ? 'success' : 'failed'}`}
-      role="dialog" aria-modal="true" aria-label="Kết quả đột phá">
-      <div className="breakthrough-orbit" aria-hidden="true"><div className="breakthrough-sprite" style={{
-        backgroundImage: `url(/assets/v120/vfx_breakthrough_${breakthroughScene.success ? 'success' : 'failure'}_build_peak_release_fade.png)`,
-      }} /></div>
-      <h2>{breakthroughScene.success ? 'Đột phá thành công' : 'Tâm mạch dao động'}</h2>
-      <p>{breakthroughScene.message}</p>
-      <button type="button" onClick={() => setBreakthroughScene(null)}>Tiếp tục hành trình</button>
-    </div>}
+    {breakthroughScene && <UpgradeOutcome subject="realm" success={breakthroughScene.success}
+      title={breakthroughScene.success ? 'Đột phá thành công' : 'Tâm mạch dao động'}
+      message={breakthroughScene.message} onClose={() => setBreakthroughScene(null)} />}
   </>;
 }

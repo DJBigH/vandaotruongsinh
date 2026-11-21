@@ -36,11 +36,11 @@ export async function claimMeditation(): Promise<ApiResponse<{ cultivationExp: n
   return res.data;
 }
 
-export interface MountInfo { id: string; name: string; description: string; speedBonus: number; alignment: 'IMMORTAL' | 'DEMONIC' | 'BOTH'; realmIndex: number; mapId: string; mapName: string; preyId: string; preyName: string; requiredKills: number; denPosition: { x: number; y: number }; huntProgress: number; realmReady: boolean; owned: boolean }
+export interface MountInfo { id: string; name: string; description: string; speedBonus: number; alignment: 'IMMORTAL' | 'DEMONIC' | 'BOTH'; realmIndex: number; mapId: string; mapName: string; preyId: string; preyName: string; requiredKills: number; denPosition: { x: number; y: number }; huntProgress: number; realmReady: boolean; owned: boolean; tameChance: number }
 export async function getMounts(): Promise<ApiResponse<{ mounts: MountInfo[]; activeMount: string | null }>> {
   const res = await apiClient.get('/game/mounts'); return res.data;
 }
-export async function tameMount(mountId: string): Promise<ApiResponse<{ mountId: string; name: string }>> {
+export async function tameMount(mountId: string): Promise<ApiResponse<{ success: boolean; mountId: string; name: string; chance: number; nextChance: number }>> {
   const res = await apiClient.post('/game/mounts/tame', { mountId }); return res.data;
 }
 export async function equipMount(mountId: string | null): Promise<ApiResponse<{ activeMount: string | null }>> {
@@ -105,7 +105,7 @@ export async function unequipItem(itemId: string): Promise<ApiResponse<Character
   return res.data;
 }
 
-export async function enhanceItem(itemId: string): Promise<ApiResponse<{ enhanceLevel: number; goldSpent: number; oreSpent: number }>> {
+export async function enhanceItem(itemId: string): Promise<ApiResponse<{ success: boolean; enhanceLevel: number; chance: number; goldSpent: number; oreSpent: number }>> {
   const res = await apiClient.post(`/game/inventory/${itemId}/enhance`);
   return res.data;
 }

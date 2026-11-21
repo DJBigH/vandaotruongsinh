@@ -14,7 +14,8 @@ import { ITEM_TEMPLATES } from '../../data/game-content';
 import { computeCharacterStats } from '../character/stats';
 import { getActiveCharacter } from '../character/helpers';
 import { ArpgSessionManager, RestorationConflict } from '../../engine/realtime-arpg-engine';
-import { enhancementCost, enhancedStat, ENHANCEMENT_ORE_ID, ENCHANTMENTS, ENCHANT_GOLD, ENCHANT_ORE, enchantBonus } from './enhancement';
+import { enhancementCost, enhancementOutcome, enhancementRng, MAX_ENHANCEMENT,
+  enhancedStat, ENHANCEMENT_ORE_ID, ENCHANTMENTS, ENCHANT_GOLD, ENCHANT_ORE, enchantBonus } from './enhancement';
 import { z } from 'zod';
 
 type ConsumableSelection = { inventoryItemId: string } | { templateId: string };
@@ -201,7 +202,7 @@ export async function inventoryRoutes(fastify: FastifyInstance, options: { prism
         const template = ITEM_TEMPLATES[item.templateId];
         if (!template?.slot) return { success: false as const, status: 400, error: 'Chỉ trang bị mới có thể cường hóa' };
         const cost = enhancementCost(item.enhanceLevel);
-        if (!cost) return { success: false as const, status: 400, error: 'Trang bị đã đạt cường hóa tối đa +5' };
+        if (!cost) return { success: false as const, status: 400, error: `Trang bị đã đạt cường hóa tối đa +${MAX_ENHANCEMENT}` };
         if (character.gold < cost.gold) {
           return { success: false as const, status: 400, error: `Cần ${cost.gold} linh thạch để cường hóa +${cost.nextLevel}` };
         }
@@ -210,6 +211,7 @@ export async function inventoryRoutes(fastify: FastifyInstance, options: { prism
           return { success: false as const, status: 400, error: `Cần ${cost.ore} Thiết Khoáng để cường hóa +${cost.nextLevel}` };
         }
 
+        const outcome = enhancementOutcome(item.enhanceLevel, enhancementRng.roll());
         let remaining = cost.ore;
         for (const stack of oreStacks) {
           const taken = Math.min(remaining, stack.quantity);
@@ -218,6 +220,13 @@ export async function inventoryRoutes(fastify: FastifyInstance, options: { prism
           remaining -= taken;
           if (!remaining) break;
         }
+        await tx.character.update({ where: { id: char.id }, data: { gold: { decrement: cost.gold } } });
+        if (!outcome.success) {
+          return { success: true as const,
+            data: { success: false, enhanceLevel: item.enhanceLevel, chance: outcome.chance,
+              goldSpent: cost.gold, oreSpent: cost.ore },
+            message: `${template.name} cường hóa thất bại; vẫn giữ +${item.enhanceLevel}` };
+        }
         if (item.quantity > 1) {
           await tx.inventoryItem.create({ data: {
             characterId: char.id, templateId: item.templateId, quantity: item.quantity - 1,
@@ -225,12 +234,12 @@ export async function inventoryRoutes(fastify: FastifyInstance, options: { prism
           } });
         }
         await tx.inventoryItem.update({ where: { id: item.id }, data: { quantity: 1, enhanceLevel: cost.nextLevel } });
-        await tx.character.update({ where: { id: char.id }, data: { gold: { decrement: cost.gold } } });
         const equipped = await tx.inventoryItem.findMany({ where: { characterId: char.id, isEquipped: true } });
         const stats = computeCharacterStats(character.cultivationPath as CultivationPath,
           character.realmIndex, character.realmTier, equipped, character.sectId);
         await tx.character.update({ where: { id: char.id }, data: { stats: { ...stats } } });
-        return { success: true as const, data: { enhanceLevel: cost.nextLevel, goldSpent: cost.gold, oreSpent: cost.ore },
+        return { success: true as const, data: { success: true, enhanceLevel: cost.nextLevel,
+            chance: outcome.chance, goldSpent: cost.gold, oreSpent: cost.ore },
           message: `${template.name} đã cường hóa +${cost.nextLevel}` };
       });
       if (!result.success) return reply.status(result.status).send({ success: false, error: result.error });

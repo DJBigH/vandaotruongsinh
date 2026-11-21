@@ -1,0 +1,1192 @@
+[
+  {
+    "key": "equipment_armor_6",
+    "file": "avatar_equipment_armor_6.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 6
+  },
+  {
+    "key": "equipment_armor_6",
+    "file": "icon_equipment_armor_6.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 6
+  },
+  {
+    "key": "equipment_armor_7",
+    "file": "avatar_equipment_armor_7.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 7
+  },
+  {
+    "key": "equipment_armor_7",
+    "file": "icon_equipment_armor_7.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 7
+  },
+  {
+    "key": "equipment_armor_8",
+    "file": "avatar_equipment_armor_8.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 8
+  },
+  {
+    "key": "equipment_armor_8",
+    "file": "icon_equipment_armor_8.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 8
+  },
+  {
+    "key": "equipment_armor_9",
+    "file": "avatar_equipment_armor_9.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 9
+  },
+  {
+    "key": "equipment_armor_9",
+    "file": "icon_equipment_armor_9.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 9
+  },
+  {
+    "key": "equipment_armor_10",
+    "file": "avatar_equipment_armor_10.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 10
+  },
+  {
+    "key": "equipment_armor_10",
+    "file": "icon_equipment_armor_10.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 10
+  },
+  {
+    "key": "equipment_robe_6",
+    "file": "avatar_equipment_robe_6.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 6
+  },
+  {
+    "key": "equipment_robe_6",
+    "file": "icon_equipment_robe_6.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 6
+  },
+  {
+    "key": "equipment_robe_7",
+    "file": "avatar_equipment_robe_7.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 7
+  },
+  {
+    "key": "equipment_robe_7",
+    "file": "icon_equipment_robe_7.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 7
+  },
+  {
+    "key": "equipment_robe_8",
+    "file": "avatar_equipment_robe_8.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 8
+  },
+  {
+    "key": "equipment_robe_8",
+    "file": "icon_equipment_robe_8.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 8
+  },
+  {
+    "key": "equipment_robe_9",
+    "file": "avatar_equipment_robe_9.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 9
+  },
+  {
+    "key": "equipment_robe_9",
+    "file": "icon_equipment_robe_9.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 9
+  },
+  {
+    "key": "equipment_robe_10",
+    "file": "avatar_equipment_robe_10.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 10
+  },
+  {
+    "key": "equipment_robe_10",
+    "file": "icon_equipment_robe_10.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 10
+  },
+  {
+    "key": "equipment_boots_6",
+    "file": "avatar_equipment_boots_6.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 6
+  },
+  {
+    "key": "equipment_boots_6",
+    "file": "icon_equipment_boots_6.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 6
+  },
+  {
+    "key": "equipment_boots_7",
+    "file": "avatar_equipment_boots_7.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 7
+  },
+  {
+    "key": "equipment_boots_7",
+    "file": "icon_equipment_boots_7.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 7
+  },
+  {
+    "key": "equipment_boots_8",
+    "file": "avatar_equipment_boots_8.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 8
+  },
+  {
+    "key": "equipment_boots_8",
+    "file": "icon_equipment_boots_8.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 8
+  },
+  {
+    "key": "equipment_boots_9",
+    "file": "avatar_equipment_boots_9.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 9
+  },
+  {
+    "key": "equipment_boots_9",
+    "file": "icon_equipment_boots_9.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 9
+  },
+  {
+    "key": "equipment_boots_10",
+    "file": "avatar_equipment_boots_10.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 10
+  },
+  {
+    "key": "equipment_boots_10",
+    "file": "icon_equipment_boots_10.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 10
+  },
+  {
+    "key": "equipment_ring_6",
+    "file": "avatar_equipment_ring_6.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 6
+  },
+  {
+    "key": "equipment_ring_6",
+    "file": "icon_equipment_ring_6.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 6
+  },
+  {
+    "key": "equipment_ring_7",
+    "file": "avatar_equipment_ring_7.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 7
+  },
+  {
+    "key": "equipment_ring_7",
+    "file": "icon_equipment_ring_7.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 7
+  },
+  {
+    "key": "equipment_ring_8",
+    "file": "avatar_equipment_ring_8.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 8
+  },
+  {
+    "key": "equipment_ring_8",
+    "file": "icon_equipment_ring_8.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 8
+  },
+  {
+    "key": "equipment_ring_9",
+    "file": "avatar_equipment_ring_9.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 9
+  },
+  {
+    "key": "equipment_ring_9",
+    "file": "icon_equipment_ring_9.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 9
+  },
+  {
+    "key": "equipment_ring_10",
+    "file": "avatar_equipment_ring_10.png",
+    "kind": "avatar",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 10
+  },
+  {
+    "key": "equipment_ring_10",
+    "file": "icon_equipment_ring_10.png",
+    "kind": "icon",
+    "source": "equipment-tiers-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 10
+  },
+  {
+    "key": "weapon_sword_6",
+    "file": "avatar_weapon_sword_6.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 6
+  },
+  {
+    "key": "weapon_sword_6",
+    "file": "weapon_sword_6.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 6
+  },
+  {
+    "key": "weapon_sword_7",
+    "file": "avatar_weapon_sword_7.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 7
+  },
+  {
+    "key": "weapon_sword_7",
+    "file": "weapon_sword_7.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 7
+  },
+  {
+    "key": "weapon_sword_8",
+    "file": "avatar_weapon_sword_8.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 8
+  },
+  {
+    "key": "weapon_sword_8",
+    "file": "weapon_sword_8.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 8
+  },
+  {
+    "key": "weapon_sword_9",
+    "file": "avatar_weapon_sword_9.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 9
+  },
+  {
+    "key": "weapon_sword_9",
+    "file": "weapon_sword_9.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 9
+  },
+  {
+    "key": "weapon_sword_10",
+    "file": "avatar_weapon_sword_10.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 10
+  },
+  {
+    "key": "weapon_sword_10",
+    "file": "weapon_sword_10.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 10
+  },
+  {
+    "key": "weapon_staff_6",
+    "file": "avatar_weapon_staff_6.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 6
+  },
+  {
+    "key": "weapon_staff_6",
+    "file": "weapon_staff_6.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 6
+  },
+  {
+    "key": "weapon_staff_7",
+    "file": "avatar_weapon_staff_7.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 7
+  },
+  {
+    "key": "weapon_staff_7",
+    "file": "weapon_staff_7.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 7
+  },
+  {
+    "key": "weapon_staff_8",
+    "file": "avatar_weapon_staff_8.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 8
+  },
+  {
+    "key": "weapon_staff_8",
+    "file": "weapon_staff_8.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 8
+  },
+  {
+    "key": "weapon_staff_9",
+    "file": "avatar_weapon_staff_9.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 9
+  },
+  {
+    "key": "weapon_staff_9",
+    "file": "weapon_staff_9.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 9
+  },
+  {
+    "key": "weapon_staff_10",
+    "file": "avatar_weapon_staff_10.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 10
+  },
+  {
+    "key": "weapon_staff_10",
+    "file": "weapon_staff_10.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 10
+  },
+  {
+    "key": "weapon_fists_6",
+    "file": "avatar_weapon_fists_6.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 6
+  },
+  {
+    "key": "weapon_fists_6",
+    "file": "weapon_fists_6.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 6
+  },
+  {
+    "key": "weapon_fists_7",
+    "file": "avatar_weapon_fists_7.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 7
+  },
+  {
+    "key": "weapon_fists_7",
+    "file": "weapon_fists_7.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 7
+  },
+  {
+    "key": "weapon_fists_8",
+    "file": "avatar_weapon_fists_8.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 8
+  },
+  {
+    "key": "weapon_fists_8",
+    "file": "weapon_fists_8.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 8
+  },
+  {
+    "key": "weapon_fists_9",
+    "file": "avatar_weapon_fists_9.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 9
+  },
+  {
+    "key": "weapon_fists_9",
+    "file": "weapon_fists_9.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 9
+  },
+  {
+    "key": "weapon_fists_10",
+    "file": "avatar_weapon_fists_10.png",
+    "kind": "avatar",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 10
+  },
+  {
+    "key": "weapon_fists_10",
+    "file": "weapon_fists_10.png",
+    "kind": "icon",
+    "source": "weapon-sword-staff-fists-6-10.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 10
+  },
+  {
+    "key": "weapon_spear_6",
+    "file": "avatar_weapon_spear_6.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 6
+  },
+  {
+    "key": "weapon_spear_6",
+    "file": "weapon_spear_6.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 6
+  },
+  {
+    "key": "weapon_spear_7",
+    "file": "avatar_weapon_spear_7.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 7
+  },
+  {
+    "key": "weapon_spear_7",
+    "file": "weapon_spear_7.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 7
+  },
+  {
+    "key": "weapon_spear_8",
+    "file": "avatar_weapon_spear_8.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 8
+  },
+  {
+    "key": "weapon_spear_8",
+    "file": "weapon_spear_8.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 8
+  },
+  {
+    "key": "weapon_spear_9",
+    "file": "avatar_weapon_spear_9.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 9
+  },
+  {
+    "key": "weapon_spear_9",
+    "file": "weapon_spear_9.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 9
+  },
+  {
+    "key": "weapon_spear_10",
+    "file": "avatar_weapon_spear_10.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 10
+  },
+  {
+    "key": "weapon_spear_10",
+    "file": "weapon_spear_10.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 10
+  },
+  {
+    "key": "weapon_bow_6",
+    "file": "avatar_weapon_bow_6.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 6
+  },
+  {
+    "key": "weapon_bow_6",
+    "file": "weapon_bow_6.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 6
+  },
+  {
+    "key": "weapon_bow_7",
+    "file": "avatar_weapon_bow_7.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 7
+  },
+  {
+    "key": "weapon_bow_7",
+    "file": "weapon_bow_7.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 7
+  },
+  {
+    "key": "weapon_bow_8",
+    "file": "avatar_weapon_bow_8.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 8
+  },
+  {
+    "key": "weapon_bow_8",
+    "file": "weapon_bow_8.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 8
+  },
+  {
+    "key": "weapon_bow_9",
+    "file": "avatar_weapon_bow_9.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 9
+  },
+  {
+    "key": "weapon_bow_9",
+    "file": "weapon_bow_9.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 9
+  },
+  {
+    "key": "weapon_bow_10",
+    "file": "avatar_weapon_bow_10.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 10
+  },
+  {
+    "key": "weapon_bow_10",
+    "file": "weapon_bow_10.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 10
+  },
+  {
+    "key": "weapon_axe_6",
+    "file": "avatar_weapon_axe_6.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 6
+  },
+  {
+    "key": "weapon_axe_6",
+    "file": "weapon_axe_6.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 6
+  },
+  {
+    "key": "weapon_axe_7",
+    "file": "avatar_weapon_axe_7.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 7
+  },
+  {
+    "key": "weapon_axe_7",
+    "file": "weapon_axe_7.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 7
+  },
+  {
+    "key": "weapon_axe_8",
+    "file": "avatar_weapon_axe_8.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 8
+  },
+  {
+    "key": "weapon_axe_8",
+    "file": "weapon_axe_8.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 8
+  },
+  {
+    "key": "weapon_axe_9",
+    "file": "avatar_weapon_axe_9.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 9
+  },
+  {
+    "key": "weapon_axe_9",
+    "file": "weapon_axe_9.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 9
+  },
+  {
+    "key": "weapon_axe_10",
+    "file": "avatar_weapon_axe_10.png",
+    "kind": "avatar",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "tier": 10
+  },
+  {
+    "key": "weapon_axe_10",
+    "file": "weapon_axe_10.png",
+    "kind": "icon",
+    "source": "weapon-spear-bow-axe-6-10-v2.png",
+    "size": [
+      64,
+      64
+    ],
+    "tier": 10
+  },
+  {
+    "key": "upgrade_equipment_success",
+    "file": "vfx_upgrade_equipment_success.png",
+    "kind": "strip",
+    "source": "vfx-equipment-outcomes.png",
+    "size": [
+      384,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      96,
+      96
+    ]
+  },
+  {
+    "key": "upgrade_equipment_failure",
+    "file": "vfx_upgrade_equipment_failure.png",
+    "kind": "strip",
+    "source": "vfx-equipment-outcomes.png",
+    "size": [
+      384,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      96,
+      96
+    ]
+  },
+  {
+    "key": "upgrade_mount_success",
+    "file": "vfx_upgrade_mount_success.png",
+    "kind": "strip",
+    "source": "vfx-mount-outcomes.png",
+    "size": [
+      384,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      96,
+      96
+    ]
+  },
+  {
+    "key": "upgrade_mount_failure",
+    "file": "vfx_upgrade_mount_failure.png",
+    "kind": "strip",
+    "source": "vfx-mount-outcomes.png",
+    "size": [
+      384,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      96,
+      96
+    ]
+  },
+  {
+    "key": "upgrade_realm_success",
+    "file": "vfx_upgrade_realm_success.png",
+    "kind": "strip",
+    "source": "vfx-realm-outcomes.png",
+    "size": [
+      384,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      96,
+      96
+    ]
+  },
+  {
+    "key": "upgrade_realm_failure",
+    "file": "vfx_upgrade_realm_failure.png",
+    "kind": "strip",
+    "source": "vfx-realm-outcomes.png",
+    "size": [
+      384,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      96,
+      96
+    ]
+  }
+]

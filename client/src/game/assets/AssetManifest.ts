@@ -15,7 +15,7 @@ interface Asset {
   key: string;
   file: string;
   type: 'image' | 'spritesheet' | 'audio';
-  provenance: 'original-M1' | 'legacy' | 'v104-derived' | 'v105-original' | 'v110-original' | 'v120-original';
+  provenance: 'original-M1' | 'legacy' | 'v104-derived' | 'v105-original' | 'v110-original' | 'v120-original' | 'v130-original';
 }
 export interface SpritesheetAsset extends Asset {
   type: 'spritesheet';
@@ -177,9 +177,16 @@ for (const path of ['sword', 'spell', 'body']) for (let index = 1; index <= 12; 
     type: 'spritesheet', frameWidth: 96, frameHeight: 96, provenance: 'v120-original',
     animations: [{ key: `${motionKey}_play`, frameStart: 0, frameEnd: 3, duration: 380, repeat: 0 }] });
 }
-for (const weapon of ['sword', 'staff', 'fists', 'spear', 'bow', 'axe']) for (let level = 0; level <= 5; level++) {
+for (const subject of ['equipment', 'mount', 'realm']) for (const outcome of ['success', 'failure']) {
+  const key = `vfx_upgrade_${subject}_${outcome}`;
+  assets.push({ key, file: `assets/v130/${key}.png`, type: 'spritesheet',
+    frameWidth: 96, frameHeight: 96, provenance: 'v130-original',
+    animations: [{ key: `${key}_play`, frameStart: 0, frameEnd: 3, duration: 880, repeat: 0 }] });
+}
+for (const weapon of ['sword', 'staff', 'fists', 'spear', 'bow', 'axe']) for (let level = 0; level <= 10; level++) {
   const key = `weapon_${weapon}_${level}`;
-  assets.push({ key, file: `assets/v110/${key}.png`, type: 'image', provenance: 'v110-original' });
+  assets.push({ key, file: `assets/${level <= 5 ? 'v110' : 'v130'}/${key}.png`, type: 'image',
+    provenance: level <= 5 ? 'v110-original' : 'v130-original' });
 }
 for (const path of ['sword', 'spell', 'body']) for (const gender of ['male', 'female'])
   for (const alignment of ['immortal', 'demonic']) for (let rank = 0; rank <= 3; rank++)

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { REALM_NAMES } from '@shared';
 import { equipMount, getMounts, tameMount, type MountInfo } from '../../api/game';
 import { useGameStore } from '../../stores/gameStore';
+import UpgradeOutcome from './UpgradeOutcome';
 
 type MountState = { mounts: MountInfo[]; activeMount: string | null };
 
@@ -10,6 +11,7 @@ export default function MountPanel() {
   const [state, setState] = useState<MountState | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [outcome, setOutcome] = useState<{ success: boolean; name: string; message: string; avatar: string; sequence: number } | null>(null);
   const refresh = async () => {
     const result = await getMounts();
     if (result.success && result.data) {
@@ -29,7 +31,14 @@ export default function MountPanel() {
       if (!result.success) return addNotification(result.error || 'Không thể gọi linh thú', 'warning');
       await refresh();
       await loadCharacter();
-      addNotification(mode === 'tame' ? `Đã thu phục ${mount.name}` : 'Đã đổi thú cưỡi', 'success');
+      if (mode === 'tame') {
+        const tameData = result.data as Awaited<ReturnType<typeof tameMount>>['data'];
+        const succeeded = Boolean(tameData?.success);
+        setOutcome({ success: succeeded, name: mount.name, message: result.message || '',
+          avatar: `/assets/v120/avatar_${mount.id}_${succeeded ? 'bonded' : 'wild'}.png`, sequence: Date.now() });
+        addNotification(result.message || (succeeded ? 'Thu phục thành công' : 'Thu phục chưa thành'),
+          succeeded ? 'success' : 'warning');
+      } else addNotification('Đã đổi thú cưỡi', 'success');
     } catch (error: any) {
       addNotification(error.response?.data?.error || 'Không thể gọi linh thú', 'warning');
     } finally { setBusy(false); }
@@ -54,6 +63,7 @@ export default function MountPanel() {
           <span>Hang thú <strong>Tọa độ {mount.denPosition.x}, {mount.denPosition.y}</strong></span>
           <span>Cảnh giới <strong>{REALM_NAMES[mount.realmIndex]} trở lên</strong></span>
           <span>Khi cưỡi <strong>+{mount.speedBonus} tốc độ</strong></span></div>
+        {!mount.owned && <p>Cơ hội thu phục lần này: <strong>{Math.round(mount.tameChance * 100)}%</strong>. Sau hai lần chưa thành, lần kế tiếp chắc chắn thành công.</p>}
         <progress max={mount.requiredKills} value={Math.min(mount.huntProgress, mount.requiredKills)}
           aria-label={`Dấu vết ${mount.name}`} />
         {mount.owned ? <button type="button" disabled={busy} onClick={() => void act('equip')}>
@@ -65,5 +75,8 @@ export default function MountPanel() {
         <small>Hạ mục tiêu để tìm dấu vết, đến gần linh thú tại tọa độ trên rồi nhấn E để thu phục. Sau khi thu phục sẽ tự cưỡi.</small>
       </div>}
     </div>}
+    {outcome && <UpgradeOutcome key={outcome.sequence} subject="mount" success={outcome.success}
+      avatar={outcome.avatar} title={outcome.success ? `Đã thu phục ${outcome.name}` : 'Khế ước chưa thành'}
+      message={outcome.message} onClose={() => setOutcome(null)} />}
   </section>;
 }

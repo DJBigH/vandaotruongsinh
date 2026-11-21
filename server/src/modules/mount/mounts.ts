@@ -1,3 +1,19 @@
+import { randomInt } from 'node:crypto';
+
+export const mountTameRng = { roll: () => randomInt(1_000_000) / 1_000_000 };
+
+export function tamingChance(previousFailures: number): number {
+  if (!Number.isInteger(previousFailures) || previousFailures < 0) throw new RangeError('Invalid taming history');
+  return previousFailures >= 2 ? 1 : previousFailures === 1 ? 0.85 : 0.7;
+}
+
+export function tamingOutcome(previousFailures: number, roll: number) {
+  if (!Number.isFinite(roll) || roll < 0 || roll >= 1) throw new RangeError('Invalid taming roll');
+  const chance = tamingChance(previousFailures);
+  const success = roll < chance;
+  return { success, failures: success ? 0 : previousFailures + 1, chance };
+}
+
 export interface MountDefinition {
   id: string;
   name: string;
@@ -24,6 +40,7 @@ export const MOUNTS: Record<string, MountDefinition> = {
 
 export const mountHuntKey = (id: string) => `MOUNT_HUNT_${id}`;
 export const mountOwnedKey = (id: string) => `MOUNT_OWNED_${id}`;
+export const mountTameFailureKey = (id: string) => `MOUNT_TAME_FAILURE_${id}`;
 
 export function mountForAlignment(alignment: 'IMMORTAL' | 'DEMONIC') {
   return alignment === 'DEMONIC' ? MOUNTS.mount_shadow_wolf : MOUNTS.mount_crane;

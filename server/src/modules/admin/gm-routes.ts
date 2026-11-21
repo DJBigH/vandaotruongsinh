@@ -19,7 +19,7 @@ const commandSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('realm'), realmIndex: z.number().int().min(0).max(Math.max(...Object.keys(REALM_NAMES).map(Number))),
     realmTier: z.number().int().min(0).max(MAX_REALM_TIER) }),
   z.object({ kind: z.literal('item'), templateId: z.string().min(1).max(100),
-    quantity: z.number().int().min(1).max(99), enhanceLevel: z.number().int().min(0).max(5) }),
+    quantity: z.number().int().min(1).max(99), enhanceLevel: z.number().int().min(0).max(10) }),
   z.object({ kind: z.literal('skill'), skillId: z.string().min(1).max(100), level: z.number().int().min(1).max(10) }),
   z.object({ kind: z.literal('mount'), mountId: z.string().min(1).max(40) }),
   z.object({ kind: z.literal('teleport'), mapId: z.string().min(1).max(100) }),

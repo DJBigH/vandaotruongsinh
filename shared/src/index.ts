@@ -826,3 +826,4 @@ export interface AccountCharactersResponse {
 
 
 export { isWorldPositionWalkable, resolveWorldMovement } from './world-collision';
+export { MAX_ENHANCEMENT, enhancementChance } from './enhancement';

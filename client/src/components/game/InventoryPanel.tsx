@@ -9,10 +9,13 @@ import {
   QUALITY_COLORS,
   QUALITY_NAMES,
   ItemQuality,
+  MAX_ENHANCEMENT,
+  enhancementChance,
   type InventoryItem,
 } from '@shared/index';
-import { weaponArt } from '../../game/assets/weaponArt';
+import { weaponArt, weaponPortrait } from '../../game/assets/weaponArt';
 import { equipmentArt } from '../../game/assets/equipmentArt';
+import UpgradeOutcome from './UpgradeOutcome';
 
 function getItemIcon(item: InventoryItem): string {
   const name = item.name?.toLowerCase() || '';
@@ -45,7 +48,7 @@ function getItemIcon(item: InventoryItem): string {
 function getEquipmentArt(item: InventoryItem): string | null {
   const equipment = equipmentArt(item.type, item.name, item.enhanceLevel, 'avatar');
   if (equipment) return equipment;
-  if (item.type === 'WEAPON') return weaponArt(item.templateId, item.name, item.enhanceLevel);
+  if (item.type === 'WEAPON') return weaponPortrait(item.templateId, item.name, item.enhanceLevel);
   return null;
 }
 
@@ -54,9 +57,12 @@ export default function InventoryPanel() {
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const [filterType, setFilterType] = useState<string>('ALL');
   const [enhancing, setEnhancing] = useState(false);
+  const [enhanceOutcome, setEnhanceOutcome] = useState<{
+    success: boolean; level: number; name: string; avatar: string | null; message: string; sequence: number;
+  } | null>(null);
   const [enchanting, setEnchanting] = useState(false);
   const oreCount = inventory.filter((item) => item.templateId === 'item_013').reduce((total, item) => total + item.quantity, 0);
-  const nextLevel = selectedItem && selectedItem.enhanceLevel < 5 ? selectedItem.enhanceLevel + 1 : null;
+  const nextLevel = selectedItem && selectedItem.enhanceLevel < MAX_ENHANCEMENT ? selectedItem.enhanceLevel + 1 : null;
   const enhanceGold = nextLevel ? 40 * nextLevel * nextLevel : 0;
 
   useEffect(() => {
@@ -68,8 +74,14 @@ export default function InventoryPanel() {
     setEnhancing(true);
     try {
       const res = await gameApi.enhanceItem(item.id);
-      if (res.success) {
-        addNotification(`${item.name} đã cường hóa +${res.data?.enhanceLevel}`, 'success');
+      if (res.success && res.data) {
+        const success = res.data.success;
+        setEnhanceOutcome({ success, level: res.data.enhanceLevel, name: item.name,
+          avatar: getEquipmentArt({ ...item, enhanceLevel: res.data.enhanceLevel }),
+          message: res.message || (success ? `Đã đạt +${res.data.enhanceLevel}` : `Vẫn giữ +${item.enhanceLevel}`),
+          sequence: Date.now() });
+        addNotification(res.message || (success ? 'Cường hóa thành công' : 'Cường hóa thất bại'),
+          success ? 'success' : 'warning');
         await Promise.all([loadInventory(), loadCharacter()]);
       }
     } catch (err: any) {
@@ -369,10 +381,11 @@ export default function InventoryPanel() {
 
               {selectedItem.slot && (
                 <div style={{ background: '#162333', border: '1px solid #546b6b', borderRadius: 6, padding: 10, fontSize: '0.82rem', lineHeight: 1.5 }}>
-                  <strong style={{ color: '#f5d47b' }}>Cường hóa {selectedItem.enhanceLevel}/5</strong>
+                  <strong style={{ color: '#f5d47b' }}>Cường hóa {selectedItem.enhanceLevel}/{MAX_ENHANCEMENT}</strong>
                   {nextLevel ? (
                     <>
                       <div>+{nextLevel}: {enhanceGold} linh thạch · {nextLevel} Thiết Khoáng</div>
+                      <div>Tỉ lệ thành công: {Math.round(enhancementChance(nextLevel) * 100)}%. Thất bại mất nguyên liệu, giữ nguyên cấp và trang bị.</div>
                       <div style={{ color: '#9fb0ba' }}>Hiện có: {character?.gold ?? 0} linh thạch · {oreCount} Thiết Khoáng. Thu khoáng khi khám phá và làm nhiệm vụ.</div>
                       <button type="button" onClick={() => handleEnhance(selectedItem)}
                         disabled={enhancing || (character?.gold ?? 0) < enhanceGold || oreCount < nextLevel}
@@ -475,6 +488,10 @@ export default function InventoryPanel() {
           )}
         </div>
       </div>
+      {enhanceOutcome && <UpgradeOutcome key={enhanceOutcome.sequence} subject="equipment"
+        success={enhanceOutcome.success} avatar={enhanceOutcome.avatar ?? undefined}
+        title={enhanceOutcome.success ? `${enhanceOutcome.name} +${enhanceOutcome.level}` : 'Cường hóa chưa thành'}
+        message={enhanceOutcome.message} onClose={() => setEnhanceOutcome(null)} />}
     </div>
   );
 }

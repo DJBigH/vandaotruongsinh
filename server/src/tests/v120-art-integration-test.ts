@@ -77,7 +77,7 @@ test('every named NPC portrait and equipment tier has a distinct readable asset'
     }
     assert.equal(seen.size, 6);
   }
-  assert.equal(equipmentArt('ARMOR', 'Thanh vân đạo bào', 9, 'avatar'), '/assets/v120/avatar_equipment_robe_5.png');
+  assert.equal(equipmentArt('ARMOR', 'Thanh vân đạo bào', 9, 'avatar'), '/assets/v130/avatar_equipment_robe_9.png');
 });
 
 test('event wolf and region landmarks use the new visual identity without collision zones', () => {
