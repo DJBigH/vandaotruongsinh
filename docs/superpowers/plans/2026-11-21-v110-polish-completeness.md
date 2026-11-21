@@ -53,4 +53,4 @@
 ### 5. Release
 
 - [x] Run builds, server tests, asset coverage audit, browser playthrough and visual screenshots.
-- [ ] Back up the live DB, integrate locally, migrate safely, verify live game and tag 1.1.0.
+- [x] Back up the live DB, integrate locally, migrate safely, verify live game and tag 1.1.0.
