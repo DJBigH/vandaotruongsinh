@@ -202,8 +202,13 @@ export async function getWorldMaps(): Promise<ApiResponse<{ id: string; name: st
   return res.data;
 }
 
-export async function teleport(targetMapId: string, portalId?: string): Promise<ApiResponse<{ mapId: string; position: { x: number; y: number } }>> {
-  const res = await apiClient.post('/game/maps/teleport', { targetMapId, portalId });
+export async function beginTeleport(targetMapId: string, portalId?: string): Promise<ApiResponse<{ token: string; durationMs: number }>> {
+  const res = await apiClient.post('/game/maps/teleport/begin', { targetMapId, portalId });
+  return res.data;
+}
+
+export async function teleport(targetMapId: string, portalId?: string, castToken?: string): Promise<ApiResponse<{ mapId: string; position: { x: number; y: number } }>> {
+  const res = await apiClient.post('/game/maps/teleport', { targetMapId, portalId, castToken });
   return res.data;
 }
 

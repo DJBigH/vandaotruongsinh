@@ -1,4 +1,5 @@
 import { randomInt } from 'node:crypto';
+import { canonicalMapId } from '@shared';
 
 export const mountTameRng = { roll: () => randomInt(1_000_000) / 1_000_000 };
 
@@ -52,6 +53,6 @@ export function canEquipMount(id: string, alignment: 'IMMORTAL' | 'DEMONIC', rea
 }
 
 export function mountsForKill(mapId: string, preyId: string, alignment: 'IMMORTAL' | 'DEMONIC') {
-  return Object.values(MOUNTS).filter((mount) => mount.mapId === mapId && mount.preyId === preyId &&
+  return Object.values(MOUNTS).filter((mount) => mount.mapId === canonicalMapId(mapId) && mount.preyId === preyId &&
     (mount.alignment === 'BOTH' || mount.alignment === alignment));
 }

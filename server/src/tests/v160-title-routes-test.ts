@@ -28,7 +28,7 @@ test('new Tiên and Ma births equip only unlocked titles on their own character'
   assert.equal(second.json().data.equippedTitleId,'heir');
   const secondId=second.json().data.id as string;
   t.after(()=>ArpgSessionManager.getInstance().removeSession(secondId));
-  const maForest=await app.inject({url:'/api/game/maps/map_thanh_khe_rung',headers});
+  const maForest=await app.inject({url:'/api/game/maps/map_u_lam',headers});
   assert.equal(maForest.statusCode,200,maForest.body);
   assert.deepEqual(maForest.json().data.portals.map((portal:{targetMapId:string})=>portal.targetMapId),['map_huyen_u_khe']);
   const wrongBirthplace=await app.inject({method:'POST',url:'/api/game/maps/teleport',headers,

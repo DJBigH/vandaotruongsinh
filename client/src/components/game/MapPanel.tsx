@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import * as gameApi from '../../api/game';
 import { alignmentSlug } from '../../game/assets/lineage';
+import { canonicalMapId, lineageMapId } from '@shared/index';
 
 interface MapMeta {
   desc: string;
@@ -80,15 +81,30 @@ const MAP_METADATA: Record<string, MapMeta> = {
   },
 };
 
+const MA_DESCRIPTIONS: Record<string,string> = {
+  map_u_lam: 'U Lâm phủ huyết vụ, linh thú canh giữ đường tới Huyền Ma Tông.',
+  map_huyen_ma_tong: 'Ma tông dựng bên vách đá. Hộ pháp, ma sư và kiếm hồn truyền thừa ma đạo.',
+  map_huyet_dan_coc: 'Huyết Đan Cốc nung linh dược bằng địa hỏa, ẩn chứa cấm thuật luyện đan.',
+  map_huyet_kiem_di_tich: 'Mộ kiếm nhuốm huyết khí, nơi tàn hồn cổ kiếm chờ người kế thừa.',
+  map_cuu_u_vuc: 'Cửu U Vực mở vào âm giới, ma vật và oan hồn tranh đoạt sinh cơ.',
+  map_vong_tam_canh: 'Vọng Tâm Cảnh soi ra chấp niệm sâu nhất của người mang huyết mạch Ma Tôn.',
+  map_huyet_mach_thien_son: 'Huyết mạch cổ long ngủ dưới băng sơn, ma khí len qua từng mạch đá.',
+  map_huyet_khe_dai: 'Huyết Khế Đài giữ lời thề của Ma Tôn trước thiên đạo.',
+  map_tran_hon_thap: 'Trấn Hồn Tháp giam giữ các cổ hồn hung hiểm, cửa ải cuối hành trình ma đạo.',
+};
+
 export default function MapPanel() {
   const { character, currentMap, setActivePanel, addNotification } = useGameStore();
   const teleporting = useRef(false);
+  const mounted = useRef(true);
   const [isTeleporting, setIsTeleporting] = useState(false);
+  const [castRemainingMs, setCastRemainingMs] = useState(0);
   const [maps, setMaps] = useState<WorldMapOverview[]>([]);
   const visitedCount = maps.filter((map) => map.discovered).length;
   const clueCount = maps.filter((map) => map.clueFound).length;
 
   useEffect(() => {
+    mounted.current = true;
     async function fetchMaps() {
       try {
         const res = await gameApi.getWorldMaps();
@@ -100,6 +116,7 @@ export default function MapPanel() {
       }
     }
     fetchMaps();
+    return () => { mounted.current = false; };
   }, []);
 
   const handleTeleport = async (mapId: string, name: string) => {
@@ -107,16 +124,29 @@ export default function MapPanel() {
     teleporting.current = true;
     setIsTeleporting(true);
     try {
-      const res = await gameApi.teleport(mapId);
+      const prepared = await gameApi.beginTeleport(mapId);
+      if (!prepared.success || !prepared.data) throw new Error('Không thể khai mở pháp trận');
+      const { token, durationMs } = prepared.data;
+      if (durationMs > 0) {
+        const started = performance.now();
+        setCastRemainingMs(durationMs);
+        const interval = window.setInterval(() => {
+          if (mounted.current) setCastRemainingMs(Math.max(0, durationMs - (performance.now() - started)));
+        }, 60);
+        try { await new Promise(resolve => window.setTimeout(resolve, durationMs + 60)); }
+        finally { window.clearInterval(interval); }
+      }
+      if (!mounted.current) return;
+      const res = await gameApi.teleport(mapId, undefined, token);
       if (res.success) {
         addNotification(`Đã dịch chuyển tới ${name}!`, 'success');
         if (useGameStore.getState().activePanel === 'map') setActivePanel(null);
       }
     } catch (err: any) {
-      addNotification(err.response?.data?.error || 'Không thể dịch chuyển', 'error');
+      addNotification(err.response?.data?.error || err.message || 'Không thể dịch chuyển', 'error');
     } finally {
       teleporting.current = false;
-      setIsTeleporting(false);
+      if (mounted.current) { setIsTeleporting(false); setCastRemainingMs(0); }
     }
   };
 
@@ -156,10 +186,26 @@ export default function MapPanel() {
         </button>
       </div>
 
+      {isTeleporting && <div role="status" aria-live="polite" style={{
+        display: 'flex', alignItems: 'center', gap: 12, padding: '7px 10px', marginBottom: 10,
+        border: '1px solid #80684e', borderRadius: 8, background: 'rgba(68,50,43,.38)',
+      }}>
+        <div className="teleport-ritual-sprite" aria-hidden="true" style={{
+          backgroundImage: `url(/assets/v170/vfx_teleport_${alignmentSlug(character?.alignment)}.png)`,
+        }} />
+        <div style={{ flex: 1, minWidth: 0, color: '#e8cf99', fontSize: 13 }}>
+          <div>{castRemainingMs > 0 ? `Đang niệm pháp quyết · ${(castRemainingMs / 1000).toFixed(1)} giây` : 'Pháp trận đã khai mở…'}</div>
+          <div style={{ height: 3, background: '#392d2d', marginTop: 7 }}>
+            <div style={{ height: '100%', width: `${Math.max(0, 100 - castRemainingMs / 25)}%`, background: '#caa977' }} />
+          </div>
+        </div>
+      </div>}
+
       <div style={{ display: 'grid', gap: '10px', minHeight: 0, overflowY: 'auto', overscrollBehavior: 'contain', paddingRight: '4px' }}>
         {maps.map((m) => {
-          const isCurrent = (currentMap?.id ?? character?.currentMapId) === m.id;
-          const meta = MAP_METADATA[m.id] || {
+          const isCurrent = lineageMapId(currentMap?.id ?? character?.currentMapId ?? '', character?.alignment === 'DEMONIC' ? 'DEMONIC' : 'IMMORTAL') === m.id;
+          const baseMeta = MAP_METADATA[m.id] ?? MAP_METADATA[canonicalMapId(m.id)];
+          const meta = baseMeta ? { ...baseMeta, desc: MA_DESCRIPTIONS[m.id] ?? baseMeta.desc } : {
             desc: 'Vùng đất linh khí u ẩn, chờ đạo hữu đến khám phá.',
             realm: 'Trúc Cơ Kỳ',
             icon: '/assets/vnext/prop_ancient_rock.png',
@@ -194,7 +240,7 @@ export default function MapPanel() {
                   flexShrink: 0,
                 }}>
                   <img
-                    src={`/assets/v160/avatar_${m.id}_${alignmentSlug(character?.alignment)}.png`}
+                    src={`/assets/${character?.alignment === 'DEMONIC' ? 'v170' : 'v160'}/avatar_${m.id}_${alignmentSlug(character?.alignment)}.png`}
                     alt={m.name}
                     style={{
                       height: '44px',

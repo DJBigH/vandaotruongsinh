@@ -4,7 +4,8 @@
 
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import type { Character, Prisma, PrismaClient } from '@prisma/client';
-import { DialogueLine, isWorldPositionWalkable, type CharacterStats, type MapData, type Position } from '@shared';
+import { DialogueLine, isWorldPositionWalkable, isLineageMap, lineageMapId, canonicalMapId,
+  type CharacterStats, type MapData, type Position } from '@shared';
 import { authenticate } from '../../middleware/auth';
 import {
   MAP_DATA,
@@ -17,6 +18,7 @@ import { ArpgSessionManager, RestorationConflict } from '../../engine/realtime-a
 import { resolvePortalTravel } from './portal-travel';
 import { discoveryKey, discoveryReward } from './discoveries';
 import { mapForAlignment } from '../../data/maps';
+import { TeleportCastRegistry, INSTANT_TRAVEL_REALM_INDEX } from './teleport-cast';
 
 type CharacterLocation = Pick<Character, 'id' | 'alignment' | 'currentMapId' | 'positionX' | 'positionY'>;
 
@@ -36,6 +38,7 @@ async function grantCollectedItem(tx: Prisma.TransactionClient, characterId: str
 export async function worldRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
   const { prisma } = options;
   const sessions = ArpgSessionManager.getInstance();
+  const casts = new TeleportCastRegistry();
 
   async function getCharacter(userId: string) {
     return getActiveCharacter(prisma, userId);
@@ -67,13 +70,15 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
       OR: [{ eventKey: { startsWith: 'visit_map_' } }, { eventKey: { startsWith: 'discover_map_' } }],
     }, select: { eventKey: true } });
     const claimed = new Set(claims.map((entry) => entry.eventKey));
-    const maps = Object.values(MAP_DATA).map((m) => ({
+    const maps = Object.values(MAP_DATA).filter(m => isLineageMap(m.id, char.alignment)).map((m) => ({
       id: m.id,
       name: m.name,
-      discovered: m.id === (char.alignment === 'DEMONIC' ? 'map_huyen_u_khe' : 'map_thanh_khe') ||
-        m.id === char.currentMapId || claimed.has(`visit_${m.id}`),
-      clueFound: claimed.has(discoveryKey(m.id)),
-      clue: claimed.has(discoveryKey(m.id)) ? discoveryReward(m.id)?.clue : undefined,
+      discovered: m.id === lineageMapId('map_thanh_khe', char.alignment) ||
+        m.id === lineageMapId(char.currentMapId, char.alignment) ||
+        claimed.has(`visit_${m.id}`) || claimed.has(`visit_${canonicalMapId(m.id)}`),
+      clueFound: claimed.has(discoveryKey(m.id)) || claimed.has(discoveryKey(canonicalMapId(m.id))),
+      clue: claimed.has(discoveryKey(m.id)) || claimed.has(discoveryKey(canonicalMapId(m.id)))
+        ? discoveryReward(m.id)?.clue : undefined,
       clueSite: m.interactables.find((entry) => entry.type === 'SHRINE')?.position,
     }));
     return reply.send({ success: true, data: maps });
@@ -85,8 +90,8 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
     const user = (request as any).user;
     const char = await getCharacter(user.userId);
     if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
-    const map = mapForAlignment(id, char.alignment) ||
-      mapForAlignment(char.alignment === 'DEMONIC' ? 'map_huyen_u_khe' : 'map_thanh_khe', char.alignment);
+    const map = mapForAlignment(id, char.alignment);
+    if (!map) return reply.status(404).send({ success: false, error: 'Bản đồ không thuộc đạo mạch này' });
     return reply.send({ success: true, data: map });
   });
 
@@ -112,6 +117,36 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
     }
   });
 
+  async function travelContext(char: Character, targetMapId: unknown, portalId: unknown) {
+    if (typeof targetMapId !== 'string' || !isLineageMap(targetMapId, char.alignment)) return null;
+    const targetMap = mapForAlignment(targetMapId, char.alignment);
+    const location = getLocation(char);
+    if (!targetMap || !location.map || !location.canInteract || targetMap.id === location.map.id) return null;
+    let arrival: Position | undefined;
+    if (portalId !== undefined) {
+      if (typeof portalId !== 'string') return null;
+      const travel = resolvePortalTravel(location.map, location.position, portalId, targetMapId);
+      if (!travel) return null;
+      arrival = travel.position;
+    } else {
+      const claims = await prisma.rewardClaim.count({ where: { characterId: char.id,
+        eventKey: { in: [`visit_${targetMapId}`, `visit_${canonicalMapId(targetMapId)}`] } } });
+      if (!claims && targetMapId !== lineageMapId('map_thanh_khe', char.alignment)) return null;
+    }
+    return { targetMap, location, arrival };
+  }
+
+  fastify.post('/maps/teleport/begin', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
+    const user = (request as any).user;
+    const char = await getCharacter(user.userId);
+    if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
+    const { targetMapId, portalId } = (request.body as any) || {};
+    const context = await travelContext(char, targetMapId, portalId);
+    if (!context) return reply.status(400).send({ success: false, error: 'Cần mở khóa bản đồ hoặc đến gần cổng hợp lệ' });
+    return reply.send({ success: true, data: casts.begin(char.id, context.location.map!.id,
+      context.targetMap.id, portalId, context.location.position, char.realmIndex) });
+  });
+
   // POST /api/game/maps/teleport
   fastify.post('/maps/teleport', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
     try {
@@ -119,27 +154,26 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
       const char = await getCharacter(user.userId);
       if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
 
-      const { targetMapId, portalId } = (request.body as any) || {};
-      if ((targetMapId === 'map_thanh_khe' && char.alignment === 'DEMONIC') ||
-          (targetMapId === 'map_huyen_u_khe' && char.alignment === 'IMMORTAL')) {
+      const { targetMapId, portalId, castToken } = (request.body as any) || {};
+      if (typeof targetMapId !== 'string' || !isLineageMap(targetMapId, char.alignment)) {
         return reply.status(403).send({ success: false, error: 'Không thể vào nơi khởi sinh của đạo mạch đối lập' });
       }
-      const targetMap = typeof targetMapId === 'string' && Object.hasOwn(MAP_DATA, targetMapId)
-        ? mapForAlignment(targetMapId, char.alignment) : undefined;
-      if (!targetMap) return reply.status(404).send({ success: false, error: 'Bản đồ đích không tồn tại' });
-      let arrival: Position | undefined;
-      if (portalId !== undefined) {
-        const location = getLocation(char);
-        const travel = location.map && location.canInteract && typeof portalId === 'string'
-          ? resolvePortalTravel(location.map, location.position, portalId, targetMapId)
-          : null;
-        if (!travel) return reply.status(400).send({ success: false, error: 'Cần đến gần cổng dịch chuyển hợp lệ' });
-        arrival = travel.position;
+      const active = getLocation(char);
+      if (portalId === undefined && active.map?.id === targetMapId && active.canInteract) {
+        return reply.send({ success: true, data: { mapId: targetMapId,
+          position: { x: active.position.x, y: active.position.y } } });
       }
-
-      const position = await sessions.teleportCharacter(char.id, targetMap, arrival);
+      const context = await travelContext(char, targetMapId, portalId);
+      if (!context) return reply.status(400).send({ success: false, error: 'Cần mở khóa bản đồ hoặc đến gần cổng hợp lệ' });
+      if (char.realmIndex < INSTANT_TRAVEL_REALM_INDEX &&
+          (typeof castToken !== 'string' || !casts.finish(char.id, castToken, context.location.map!.id,
+            context.targetMap.id, portalId, context.location.position))) {
+        return reply.status(409).send({ success: false, error: 'Niệm chú chưa hoàn tất hoặc đã rời pháp trận' });
+      }
+      const position = await sessions.teleportCharacter(char.id, context.targetMap, context.arrival);
       await prisma.rewardClaim.createMany({
-        data: [{ characterId: char.id, eventKey: `visit_${targetMapId}` }], skipDuplicates: true,
+        data: [context.location.map!.id, targetMapId].map(mapId => ({ characterId: char.id, eventKey: `visit_${mapId}` })),
+        skipDuplicates: true,
       });
 
       return reply.send({

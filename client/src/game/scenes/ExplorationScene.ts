@@ -45,6 +45,7 @@ export default class ExplorationScene extends Phaser.Scene {
   private titleBanner: Phaser.GameObjects.Sprite | null = null;
   private titleLabel: Phaser.GameObjects.Text | null = null;
   private displayedTitleId: string | null = null;
+  private hasEnteredWorld = false;
   private readonly controls = new GameControls();
   private actorAction = new ActionAnimationLock();
   private readonly actionConfirmation = new ActionConfirmation();
@@ -99,6 +100,7 @@ export default class ExplorationScene extends Phaser.Scene {
   }
 
   init(data?: { mapId?: string }) {
+    this.hasEnteredWorld = false;
     const viewed = useGameStore.getState().character;
     this.viewedCharacterId = viewed?.id;
     this.savedMapId = data?.mapId ?? viewed?.currentMapId;
@@ -603,8 +605,8 @@ export default class ExplorationScene extends Phaser.Scene {
       const sign = this.worldRenderer.portalSign(sprite.x, sprite.y);
       this.add.text(sign.x, sign.y, portal.label, {
         fontSize: '12px',
-        color: '#00e5ff',
-        backgroundColor: 'rgba(15, 23, 42, 0.8)',
+        color: useGameStore.getState().character?.alignment === 'DEMONIC' ? '#e1ad91' : '#e8d7a6',
+        backgroundColor: 'rgba(34, 31, 31, 0.82)',
         padding: { x: 6, y: 2 },
       }).setOrigin(sign.originX, 0.5).setDepth(sprite.y + 10);
     }
@@ -617,6 +619,15 @@ export default class ExplorationScene extends Phaser.Scene {
     this.worldRenderer.setReducedMotion(reduced);
     if (reduced) for (const tween of this.ambientTweens) tween.pause();
     this.player.setDepth(initialPlayer.y);
+    if (this.hasEnteredWorld) {
+      const key = `vfx_teleport_${alignmentSlug(useGameStore.getState().character?.alignment)}`;
+      if (this.textures.exists(key)) {
+        const effect = this.add.sprite(initialPlayer.x, initialPlayer.y - 25, key).setDepth(initialPlayer.y + 25);
+        if (!reduced && this.anims.exists(`${key}_play`)) effect.play(`${key}_play`);
+        this.time.delayedCall(reduced ? 350 : 700, () => effect.destroy());
+      }
+    }
+    this.hasEnteredWorld = true;
     this.syncTitle();
     this.currentFacing = 'down';
     this.playLocomotion(this.player, { x: 0, y: 0 });
@@ -782,17 +793,17 @@ export default class ExplorationScene extends Phaser.Scene {
       if (id && character) {
         const key = `title_${alignmentSlug(character.alignment)}_${id}_banner`;
         if (this.textures.exists(key)) {
-          this.titleBanner = this.add.sprite(0,0,key).setScale(.82);
+          this.titleBanner = this.add.sprite(0,0,key).setScale(.49);
           if (!usePresentationSettings.getState().reducedEffects && this.anims.exists(`${key}_play`))
             this.titleBanner.play(`${key}_play`);
           this.titleLabel = this.add.text(0,0,titleName(id,character.alignment),{
-            fontFamily:'serif',fontSize:'13px',fontStyle:'bold',color:'#f8eaca',
+            fontFamily:'serif',fontSize:'10px',fontStyle:'bold',color:'#f8eaca',
             stroke:'#14121b',strokeThickness:2,
           }).setOrigin(.5);
         }
       }
     }
-    const y = this.player.y - (character?.activeMount ? 125 : 88);
+    const y = this.player.y - (character?.activeMount ? 99 : 67);
     this.titleBanner?.setPosition(this.player.x,y).setDepth(this.player.y+5);
     this.titleLabel?.setPosition(this.player.x,y).setDepth(this.player.y+6);
   }
@@ -866,7 +877,7 @@ export default class ExplorationScene extends Phaser.Scene {
         const isDisciple = ent.type === 'DISCIPLE';
         const look = isDisciple
           ? { texture: 'disciple_lieu_muoi_idle', walk: '', scale: 1 }
-          : creatureAppearance(ent);
+          : creatureAppearance(ent, useGameStore.getState().character?.alignment);
         const fallback = isBoss ? 'boss_lang_vuong' : 'monster_wolf';
         const bossVariant = motionBoss && !eventWolf
           ? lineageKey(`${ent.templateId}_actions`, useGameStore.getState().character?.alignment) : '';
@@ -970,7 +981,8 @@ export default class ExplorationScene extends Phaser.Scene {
           } else if (walk) {
             const horizontal = Math.cos(ent.facingAngle);
             if (Math.abs(horizontal) > 0.1) sprite.setFlipX(horizontal > 0);
-            const is6Frame = ['turtle_walk', 'puppet_walk', 'boss_wolf_walk', 'wolf_walk', 'snake_walk', 'fox_walk', 'treant_walk'].includes(walk);
+            const is6Frame = /^mon_\d{3}(?:_elite)?_(?:immortal|demonic)_walk$/.test(walk) ||
+              ['turtle_walk', 'puppet_walk', 'boss_wolf_walk', 'wolf_walk', 'snake_walk', 'fox_walk', 'treant_walk'].includes(walk);
             const frame = is6Frame
               ? (ent.state === 'WINDUP' ? 4 : ent.state === 'ATTACK' ? 5 : ent.state === 'IDLE' ? 0 : null)
               : (ent.state === 'IDLE' ? 0 : null);
@@ -1232,7 +1244,23 @@ export default class ExplorationScene extends Phaser.Scene {
       if (type === 'PORTAL') {
         // The server moves this same session. The next TICK announces the committed map and spawn.
         const portal = target as MapPortal;
-        await gameApi.teleport(portal.targetMapId, portal.id);
+        const prepared = await gameApi.beginTeleport(portal.targetMapId, portal.id);
+        if (!prepared.success || !prepared.data) throw new Error('Không thể khai mở pháp trận');
+        const { token, durationMs } = prepared.data;
+        if (durationMs > 0) {
+          const alignment = alignmentSlug(useGameStore.getState().character?.alignment);
+          const ritualKey = `vfx_teleport_${alignment}`;
+          const ritual = this.textures.exists(ritualKey) && this.player
+            ? this.add.sprite(this.player.x, this.player.y - 25, ritualKey).setDepth(this.player.y + 20)
+            : null;
+          if (ritual && !usePresentationSettings.getState().reducedEffects) ritual.play(`${ritualKey}_play`);
+          this.setInteractionPrompt('Đang niệm pháp quyết dịch chuyển…');
+          this.feedback.sound('cast');
+          await new Promise(resolve => setTimeout(resolve, durationMs + 60));
+          ritual?.destroy();
+          if (this.sceneListeners !== lifetime || this.currentMapId !== mapId) return;
+        }
+        await gameApi.teleport(portal.targetMapId, portal.id, token);
       } else if ((target as MapInteractable).type === 'MOUNT') {
         const mountId = (target as MapInteractable).mountId;
         if (!mountId) return;

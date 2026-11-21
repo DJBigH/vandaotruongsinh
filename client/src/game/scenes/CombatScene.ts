@@ -98,7 +98,9 @@ export default class CombatScene extends Phaser.Scene {
       const y = 260 + (index * 50);
 
       const isBoss = enemy.id.startsWith('boss');
-      const app = creatureAppearance({ id: enemy.id, monsterId: enemy.id, type: isBoss ? 'BOSS' : 'NORMAL' } as any);
+      const app = creatureAppearance({ id: enemy.id, monsterId: enemy.id, templateId: enemy.id,
+        name: enemy.name, type: isBoss ? 'BOSS' : 'NORMAL' } as any,
+        useGameStore.getState().character?.alignment);
       const sprite = this.add.sprite(x, y, app.texture).setScale((app.scale || 1.0) * 1.5);
       if (app.tint) sprite.setTint(app.tint);
       if (app.walk && this.anims.exists(app.walk)) {

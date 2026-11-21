@@ -233,4 +233,32 @@ export const DIALOGUE_DATA: Record<string, any[]> = {
   dlg_tower_keeper: [
     { speaker: 'Tháp Linh Vạn Cổ', text: 'Cốt truyện đã khép, hành trình tu luyện vẫn tiếp. Trấn Yêu Tháp đang chờ người muốn thử sức và đổi cách chiến đấu.' },
   ],
+  dlg_mentor_01_ma: [
+    { speaker: 'Ma Sư Vô Trần', text: 'Huyền Ma Tông không xét huyết thống. Kiếm, Pháp và Thể tu đều phải tự giữ bản tâm khi huyết khí trỗi dậy.' },
+  ],
+  dlg_sect_master_ma: [
+    { speaker: 'Huyền Ma Tông Chủ', text: 'Mỗi lần vượt cảnh, tên một môn đồ lại biến mất khỏi huyết bạ. Hãy lưu lời chứng trước khi Thiên Khế xóa nốt dấu mực.' },
+  ],
+  dlg_dan_ton_ma: [
+    { speaker: 'Huyết Đan Tôn', text: 'Trong huyết lô còn cặn cấm đan đổi ký ức lấy tu vi. Ta niêm phong một phần để người mang huyết ngọc đối chứng với Thiên Thư.' },
+  ],
+  dlg_sword_spirit_ma: [
+    { speaker: 'Huyết Kiếm Tàn Hồn', text: 'Bia chiến trường chỉ khắc tên kẻ thắng. Lưỡi kiếm ta giữ cả tên Tiên lẫn Ma đã ngã xuống trong cùng một đêm.' },
+  ],
+  dlg_nether_rebel_ma: [
+    { speaker: 'Cửu U Hộ Pháp', text: 'Người đời gọi chúng ta là tà. Lò rèn Cửu U giữ chân danh của những người bị tước ký ức; hãy mang lời họ ra khỏi vực.' },
+  ],
+  dlg_inner_voice_ma: [
+    { speaker: 'Hồn Kính Chi Ảnh', text: 'Hồn kính chiếu ra điều huyết ngọc không thể kể. Hãy nhìn thật kỹ trước khi chạm vào long mạch.' },
+  ],
+  dlg_mountain_god_ma: [
+    { speaker: 'Huyết Mạch Sơn Linh', text: 'Thiên Khế hút cả tiên linh lẫn ma khí từ núi. Phá trụ rồi vẫn phải chữa mạch đất, nếu không các đời sau sẽ gánh nạn.' },
+  ],
+  dlg_covenant_final_ma: [
+    { speaker: 'Ma Khế Chấp Pháp', text: 'Huyết mạch Ma Tôn không miễn cái giá của lựa chọn. Đọc ba con đường trong Thiên Thư, rồi quyết định điều gì đáng giữ.' },
+    { speaker: 'Ma Khế Chấp Pháp', text: 'Ngươi cần lời chứng và hàn ngọc để cứu người khác. Thiếu chúng, hãy quay lại những vùng đã đi qua.' },
+  ],
+  dlg_tower_keeper_ma: [
+    { speaker: 'Trấn Hồn Tháp Linh', text: 'Câu chuyện đã khép, nhưng Trấn Hồn Tháp vẫn thử lòng người tu ma. Vào tháp để mài giũa chiêu thức và giữ tên các cổ hồn.' },
+  ],
 };

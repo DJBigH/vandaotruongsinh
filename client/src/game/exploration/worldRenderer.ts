@@ -5,6 +5,7 @@ import { worldDetails } from './v110WorldProps';
 import { usePresentationSettings } from './settings';
 import { useGameStore } from '../../stores/gameStore';
 import { alignmentSlug, lineageKey } from '../assets/lineage';
+import { canonicalMapId } from '@shared/index';
 
 type Occluder = {
   sprite: Phaser.GameObjects.Sprite;
@@ -64,10 +65,10 @@ export class WorldRenderer {
     const size = map.tileSize;
     const occupied = new Set([...map.interactables, ...map.portals].map(o => o.position.x + ',' + o.position.y));
     const placed = new Set<string>();
-    for (const prop of [...(map.decorativeProps ?? []), ...(worldDetails[map.id] ?? [])]) {
+    for (const prop of [...(map.decorativeProps ?? []), ...(worldDetails[canonicalMapId(map.id)] ?? [])]) {
       const location = prop.x + ',' + prop.y;
       const id = prop.key + ':' + location;
-      if (placed.has(id) || !scene.textures.exists(prop.key)) continue;
+      if (placed.has(id) || !scene.textures.exists(this.variant(prop.key))) continue;
       placed.add(id);
       if (occupied.has(location) && ['prop_portal', 'prop_shrine', 'prop_chest', 'prop_herb', 'prop_ore'].includes(prop.key)) continue;
       const ambient = `${prop.key}_loop`;
@@ -183,12 +184,14 @@ export class WorldRenderer {
         }
         return ctx.createPattern(tile, 'repeat')!;
       };
-      const isStoneMap = sect || ['map_co_kiem_di_tich', 'map_u_minh_vuc', 'map_kinh_tam_canh', 'map_thien_khe_dai', 'map_tran_yeu_thap', 'map_long_mach_thien_son'].includes(map.id);
-      const isDirtMap = map.id === 'map_dan_ha';
+      const originalMapId = canonicalMapId(map.id);
+      const demonic = this.alignment === 'DEMONIC';
+      const isStoneMap = sect || ['map_co_kiem_di_tich', 'map_u_minh_vuc', 'map_kinh_tam_canh', 'map_thien_khe_dai', 'map_tran_yeu_thap', 'map_long_mach_thien_son'].includes(originalMapId);
+      const isDirtMap = originalMapId === 'map_dan_ha';
 
-      const grass = material('grass', forest ? '#475540' : '#747b58', forest ? 0.35 : 0.39, 154);
-      const dirt = material('dirt', forest ? '#837459' : '#a89a78', 0.53, 142);
-      const stoneTone = sect ? '#4b5563' : map.id === 'map_u_minh_vuc' ? '#2e1065' : map.id === 'map_long_mach_thien_son' ? '#475569' : '#64748b';
+      const grass = material('grass', demonic ? '#554849' : forest ? '#475540' : '#747b58', forest ? 0.35 : 0.39, 154);
+      const dirt = material('dirt', demonic ? '#76615e' : forest ? '#837459' : '#a89a78', 0.53, 142);
+      const stoneTone = demonic ? '#514450' : sect ? '#4b5563' : originalMapId === 'map_u_minh_vuc' ? '#2e1065' : originalMapId === 'map_long_mach_thien_son' ? '#475569' : '#64748b';
       const stone = material('stone', stoneTone, 0.68, 174);
       const water = material('water', '#3c6868', 0.63, 126);
       const lineageGround = `mapground_${map.id}_${alignmentSlug(this.alignment)}`;
@@ -200,8 +203,8 @@ export class WorldRenderer {
       for (let i = 0; i < 26; i++) {
         const x = ((i * 839 + 310) % w), y = ((i * 461 + 170) % h), radius = 115 + (i * 47 % 130);
         const shade = ctx.createRadialGradient(x, y, 2, x, y, radius);
-        shade.addColorStop(0, i % 2 ? 'rgba(32,66,55,.23)' : 'rgba(195,178,114,.21)');
-        shade.addColorStop(1, 'rgba(90,100,72,0)');
+        shade.addColorStop(0, demonic ? (i % 2 ? 'rgba(82,32,55,.23)' : 'rgba(170,101,83,.18)') : i % 2 ? 'rgba(32,66,55,.23)' : 'rgba(195,178,114,.21)');
+        shade.addColorStop(1, demonic ? 'rgba(91,50,70,0)' : 'rgba(90,100,72,0)');
         ctx.fillStyle = shade;
         ctx.fillRect(x - radius, y - radius, 2 * radius, 2 * radius);
       }
@@ -214,9 +217,9 @@ export class WorldRenderer {
           ctx.translate(x * s, y * s);
           ctx.scale(rx * s, ry * s);
           const verge = ctx.createRadialGradient(0, 0, 0.18, 0, 0, 1);
-          verge.addColorStop(0, 'rgba(170,147,95,.58)');
-          verge.addColorStop(0.74, 'rgba(167,149,99,.32)');
-          verge.addColorStop(1, 'rgba(167,149,99,0)');
+          verge.addColorStop(0, demonic ? 'rgba(128,76,72,.54)' : 'rgba(170,147,95,.58)');
+          verge.addColorStop(0.74, demonic ? 'rgba(113,73,78,.32)' : 'rgba(167,149,99,.32)');
+          verge.addColorStop(1, demonic ? 'rgba(113,73,78,0)' : 'rgba(167,149,99,0)');
           ctx.fillStyle = verge;
           ctx.fillRect(-1, -1, 2, 2);
           ctx.restore();

@@ -17,3 +17,5 @@ Không tự động nhảy sang `2.0.0` khi số patch tới 9. Script `nextGame
 **1.5.0** mở cả Tiên đạo và Ma đạo lên 12 cảnh giới, 48 tầng, cấp tối đa 48. Tiên kết ở Tiên Nhân, Ma kết ở Ma Tôn; tên gọi, huy hiệu, hiệu ứng và chân dung tách theo từng nhánh. Giữ chỉ số cảnh giới trong save cũ và toàn bộ giá đột phá đã phát hành. Đây là minor update vì có nội dung tiến trình mới nhưng tương thích save.
 
 **1.6.0** là minor update về mỹ thuật và mở đầu: huy hiệu cảnh giới vẽ lại, có bộ tài nguyên Tiên/Ma riêng cho NPC, thú, boss, vũ khí và môi trường; người tạo nhân vật Ma xuất sinh ở Huyền U Khê. Thêm danh hiệu có ảnh động, điều kiện mở từ cấp và cảnh giới, đoạn kể nguồn gốc có nhạc và nút bỏ qua. Không đổi schema hay làm mất save cũ.
+
+**1.7.0** mở tuyến thế giới thành 10 bản đồ Tiên và 10 bản đồ Ma, mỗi nhánh có cổng và NPC riêng; save Ma cũ tự được phân giải sang vùng tương ứng. Bổ sung tranh quái thường/tinh anh theo từng nhánh, chân dung, cổng đá và hiệu ứng dịch chuyển. Dưới Nguyên Anh/Ma Anh niệm chú 2,5 giây; từ đó trở lên đi ngay. Đây là minor vì thế giới và luật dịch chuyển đổi nhưng không đổi schema/save.

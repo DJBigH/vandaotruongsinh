@@ -15,6 +15,7 @@ import { QUEST_TEMPLATES, ITEM_TEMPLATES, getQuestRewards, reconcileQuestObjecti
 import { initQuestObjectives, areObjectivesComplete, getQuestPrerequisites } from './quest-engine';
 import { getActiveCharacter } from '../character/helpers';
 import { syncCharacterLevel } from '../../engine/character-level';
+import { localizeLineageText } from './lineage-text';
 
 export async function questRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
   const { prisma } = options;
@@ -43,12 +44,13 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
           const status = cq ? (cq.status as QuestStatus) : QuestStatus.AVAILABLE;
           return {
             id: tmpl.id,
-            name: tmpl.name,
-            description: tmpl.description,
+            name: localizeLineageText(tmpl.name,char.alignment),
+            description: localizeLineageText(tmpl.description,char.alignment),
             type: tmpl.type,
             chapter: tmpl.chapter,
             status,
-            objectives: cq ? (cq.status === 'ACTIVE' ? reconcileQuestObjectives(tmpl, cq.progress) : cq.progress as unknown as QuestObjective[]) : initQuestObjectives(tmpl),
+            objectives: (cq ? (cq.status === 'ACTIVE' ? reconcileQuestObjectives(tmpl, cq.progress) : cq.progress as unknown as QuestObjective[]) : initQuestObjectives(tmpl))
+              .map(objective => ({ ...objective, description: localizeLineageText(objective.description,char.alignment) })),
             rewards: getQuestRewards(tmpl, char.cultivationPath as CultivationPath),
           };
         });
@@ -101,19 +103,20 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
         responseQuests.push({
           id: cq ? cq.id : tmplId,
           templateId: tmpl.id,
-          name: char.alignment === 'DEMONIC' && tmplId === 'quest_main_01'
-            ? 'Huyết Ngọc Huyền U: Tiếng Gọi U Lâm' : tmpl.name,
-          description: char.alignment === 'DEMONIC' && tmplId === 'quest_main_01'
+          name: localizeLineageText(char.alignment === 'DEMONIC' && tmplId === 'quest_main_01'
+            ? 'Huyết Ngọc Huyền U: Tiếng Gọi U Lâm' : tmpl.name,char.alignment),
+          description: localizeLineageText(char.alignment === 'DEMONIC' && tmplId === 'quest_main_01'
             ? 'Di vật Ma Tôn thức giấc khi U Lâm dị biến. Tìm người đã nuôi mình và điều tra dấu vết trong rừng.'
-            : tmpl.description,
+            : tmpl.description,char.alignment),
           type: tmpl.type,
           chapter: tmpl.chapter,
           status,
-          objectives: char.alignment === 'DEMONIC' && tmplId === 'quest_main_01'
+          objectives: (char.alignment === 'DEMONIC' && tmplId === 'quest_main_01'
             ? objectives.map(objective => ({ ...objective, description:
               objective.id === 'obj_talk_elder' ? 'Hỏi Huyền U Lão Giả về huyết ngọc'
               : objective.id === 'obj_shrine_village' ? 'Xem phong ấn tại linh miếu Huyền U Khê'
-              : 'Tiêu diệt 3 Sói Xám ở U Lâm' })) : objectives,
+              : 'Tiêu diệt 3 Sói Xám ở U Lâm' })) : objectives)
+            .map(objective => ({ ...objective, description: localizeLineageText(objective.description,char.alignment) })),
           rewards: {
             exp: tmpl.rewards.exp,
             gold: tmpl.rewards.gold,

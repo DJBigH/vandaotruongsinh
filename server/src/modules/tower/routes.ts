@@ -11,6 +11,7 @@ import { TOWER_FLOORS } from '../../data/tower';
 import { MAP_TEMPLATES } from '../../data/maps';
 import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
 import { syncCharacterLevel } from '../../engine/character-level';
+import { canonicalMapId, lineageMapId } from '@shared';
 export { TOWER_FLOORS } from '../../data/tower';
 
 export async function towerRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
@@ -48,7 +49,7 @@ export async function towerRoutes(fastify: FastifyInstance, options: { prisma: P
           isCleared: clearedFloors.has(tf.floor),
           isClaimed: claimedFloors.has(tf.floor),
           isUnlocked: tf.floor === 1 || clearedFloors.has(tf.floor - 1),
-          isActive: activeFloor === tf.floor && char.currentMapId === 'map_tran_yeu_thap',
+          isActive: activeFloor === tf.floor && canonicalMapId(char.currentMapId) === 'map_tran_yeu_thap',
           rewards: {
             ...tf.firstClearRewards,
             items: tf.firstClearRewards.items.map((i) => ({
@@ -85,9 +86,10 @@ export async function towerRoutes(fastify: FastifyInstance, options: { prisma: P
       });
       const manager = ArpgSessionManager.getInstance();
       manager.getSession(char.id)?.setTowerFloor(floor);
-      const position = await manager.teleportCharacter(char.id, MAP_TEMPLATES.map_tran_yeu_thap);
+      const towerMapId = lineageMapId('map_tran_yeu_thap', char.alignment);
+      const position = await manager.teleportCharacter(char.id, MAP_TEMPLATES[towerMapId]);
       await manager.persistPosition(char.id);
-      return reply.send({ success: true, data: { floor, bossId: config.bossId, mapId: 'map_tran_yeu_thap', position },
+      return reply.send({ success: true, data: { floor, bossId: config.bossId, mapId: towerMapId, position },
         message: `Đã vào ${config.name}. Hãy hạ ${BOSS_TEMPLATES[config.bossId]?.name ?? 'boss trấn tầng'} trên bản đồ!` });
     } catch (err: any) {
       fastify.log.error(err);

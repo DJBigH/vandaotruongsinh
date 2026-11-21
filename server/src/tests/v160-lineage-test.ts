@@ -5,6 +5,7 @@ import { test } from 'node:test';
 import { MAP_TEMPLATES, mapForAlignment } from '../data/maps';
 import { resolvePortalTravel } from '../modules/world/portal-travel';
 import { isWorldPositionWalkable } from '@shared';
+import { lineageMapIds } from '@shared';
 import { bootAssets, mapAssets } from '../../../client/src/game/assets/loadPlan';
 import { ORIGIN_STORY, originAsset, markOriginCinematic, hasOriginCinematic,
   clearOriginCinematic } from '../../../client/src/game/originCinematic';
@@ -15,8 +16,9 @@ test('both birth settlements and the forest return portal remain walkable', () =
     const start={ x:32*map.tileSize,y:40*map.tileSize };
     assert.ok(isWorldPositionWalkable(map,start),id);
     const portal=map.portals.find(entry=>entry.id==='portal_to_forest')!;
+    const destination=id==='map_huyen_u_khe'?'map_u_lam':'map_thanh_khe_rung';
     assert.equal(resolvePortalTravel(map,{x:portal.position.x*32,y:portal.position.y*32},
-      portal.id,'map_thanh_khe_rung')?.map.id,'map_thanh_khe_rung');
+      portal.id,destination)?.map.id,destination);
     assert.ok(map.npcs.some(npc=>npc.id==='npc_elder' && npc.questIds?.includes('quest_main_01')));
   }
   for (const [alignment, village] of [['IMMORTAL','map_thanh_khe'],['DEMONIC','map_huyen_u_khe']] as const) {
@@ -30,8 +32,8 @@ test('both birth settlements and the forest return portal remain walkable', () =
 });
 
 test('the art loader chooses distinct Tiên/Ma art for every map without queueing both paths', () => {
-  const allMaps=Object.values(MAP_TEMPLATES);
-  for (const map of allMaps) for (const alignment of ['IMMORTAL','DEMONIC']) {
+  for (const alignment of ['IMMORTAL','DEMONIC'] as const) for (const mapId of lineageMapIds(alignment)) {
+    const map=MAP_TEMPLATES[mapId];
     const chosen=alignment==='IMMORTAL'?'immortal':'demonic';
     const opposite=alignment==='IMMORTAL'?'demonic':'immortal';
     const assets=mapAssets(map,[],alignment);

@@ -14,7 +14,12 @@ export function healthReaction(before: HealthSample | null, after: HealthSample)
   return null;
 }
 
-export function creatureAppearance(ent: EntitySnapshot) {
+export function creatureAppearance(ent: EntitySnapshot, alignment?: string) {
+  if (alignment && /^mon_\d{3}$/.test(ent.templateId ?? '')) {
+    const elite = /Tinh Anh|Elite/i.test(ent.name ?? '') ? '_elite' : '';
+    const key = `${ent.templateId}${elite}_${alignment === 'DEMONIC' ? 'demonic' : 'immortal'}`;
+    return { texture: key, walk: `${key}_walk`, scale: 1 };
+  }
   if (ent.type === 'BOSS' && ent.templateId === 'boss_001' && ent.name?.includes('Thiên Khế'))
     return { texture: 'event_boss_001_covenant_actions', walk: 'event_boss_001_covenant_move_walk', scale: 1 };
   if (ent.type === 'BOSS' && /^boss_0(?:0[1-9]|1\d|20)$/.test(ent.templateId ?? ''))

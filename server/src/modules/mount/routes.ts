@@ -1,6 +1,7 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import type { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
+import { DEMONIC_MAPS, canonicalMapId, lineageMapId } from '@shared';
 import { authenticate } from '../../middleware/auth';
 import { getActiveCharacter } from '../character/helpers';
 import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
@@ -23,6 +24,8 @@ export async function mountRoutes(fastify: FastifyInstance, options: { prisma: P
     }
     const mounts = Object.values(MOUNTS).filter((mount) => mount.alignment === 'BOTH' || mount.alignment === character.alignment)
       .map((mount) => ({ ...mount,
+        mapId: lineageMapId(mount.mapId, character.alignment),
+        mapName: character.alignment === 'DEMONIC' ? DEMONIC_MAPS[mount.mapId]?.name ?? mount.mapName : mount.mapName,
         owned: character.activeMount === mount.id || character.storyFlags.some((flag) => flag.flagKey === mountOwnedKey(mount.id)),
         huntProgress: Number(character.storyFlags.find((flag) => flag.flagKey === mountHuntKey(mount.id))?.flagValue ?? 0),
         realmReady: character.realmIndex >= mount.realmIndex,
@@ -41,8 +44,9 @@ export async function mountRoutes(fastify: FastifyInstance, options: { prisma: P
       const mount = MOUNTS[parsed.data.mountId];
       if (!mount || !canEquipMount(mount.id, current.alignment, current.realmIndex))
         return { success: false as const, status: 403, error: 'Chưa đủ cảnh giới hoặc không hợp đạo để thu phục' };
-      if ((session?.mapId ?? current.currentMapId) !== mount.mapId)
-        return { success: false as const, status: 403, error: `Hãy đến ${mount.mapName} để thu phục` };
+      const huntRegion = current.alignment === 'DEMONIC' ? DEMONIC_MAPS[mount.mapId]?.name ?? mount.mapName : mount.mapName;
+      if (canonicalMapId(session?.mapId ?? current.currentMapId) !== mount.mapId)
+        return { success: false as const, status: 403, error: `Hãy đến ${huntRegion} để thu phục` };
       const position = session?.player ?? { x: current.positionX, y: current.positionY, hp: 1 };
       if (position.hp <= 0 || Math.hypot(position.x - mount.denPosition.x * 32,
         position.y - mount.denPosition.y * 32) > 100)
@@ -56,7 +60,7 @@ export async function mountRoutes(fastify: FastifyInstance, options: { prisma: P
         characterId: current.id, flagKey: mountHuntKey(mount.id),
       } } });
       if (Number(hunt?.flagValue ?? 0) < mount.requiredKills)
-        return { success: false as const, status: 403, error: `Cần đánh bại ${mount.requiredKills} ${mount.preyName} ở ${mount.mapName}` };
+        return { success: false as const, status: 403, error: `Cần đánh bại ${mount.requiredKills} ${mount.preyName} ở ${huntRegion}` };
       const failureKey = mountTameFailureKey(mount.id);
       const failureFlag = await tx.storyFlag.findUnique({ where: { characterId_flagKey: {
         characterId: current.id, flagKey: failureKey,

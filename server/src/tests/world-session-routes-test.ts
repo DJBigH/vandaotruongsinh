@@ -81,8 +81,18 @@ async function setup(t: TestContext, position = forestSpawn) {
 
   const token = app.jwt.sign({ userId: account.id, username, role: AccountRole.PLAYER });
   const headers = { authorization: `Bearer ${token}` };
-  const post = (path: string, payload: Record<string, unknown> = {}) =>
+  const rawPost = (path: string, payload: Record<string, unknown> = {}) =>
     app.inject({ method: 'POST', url: `/api/game${path}`, headers, payload });
+  const post = async (path: string, payload: Record<string, unknown> = {}) => {
+    if (path !== '/maps/teleport' || typeof payload.targetMapId !== 'string') return rawPost(path, payload);
+    const activeMap = manager.getSession(character.id)?.mapId ?? (await read()).currentMapId;
+    if (activeMap === payload.targetMapId && payload.portalId === undefined) return rawPost(path, payload);
+    const prepared = await rawPost('/maps/teleport/begin', payload);
+    if (prepared.statusCode !== 200) return prepared;
+    const { token, durationMs } = prepared.json().data;
+    if (durationMs) await delay(durationMs + 60);
+    return rawPost(path, { ...payload, castToken: token });
+  };
   const get = (path: string) => app.inject({ method: 'GET', url: `/api/game${path}`, headers });
   const read = () => prisma.character.findUniqueOrThrow({ where: { id: character.id } });
   const readQuest = (questId: string) => prisma.characterQuest.findUniqueOrThrow({
@@ -185,7 +195,8 @@ test('HTTP teleport rebuilds the active map and old socket close cannot restore 
   assert.equal(response.statusCode, 200);
   assert.equal(session.mapId, village.id);
   assert.deepEqual([session.monsters.length, session.projectiles.length, session.telegraphs.length], [0, 0, 0]);
-  assert.deepEqual([session.player.hp, session.player.mp, session.player.maxHp, session.player.maxMp], [hp, mp, maxHp, maxMp]);
+  assert.deepEqual([session.player.hp, session.player.maxHp, session.player.maxMp], [hp, maxHp, maxMp]);
+  assert.ok(session.player.mp >= mp && session.player.mp <= maxMp, 'mana can regenerate during the 2.5-second cast');
   assert.deepEqual(session.player.equippedSkillIds, equippedSkillIds);
   assert.equal(session.player.skillCooldowns.get(equippedSkillIds[0]), readyAt);
   assert.deepEqual([session.player.x, session.player.y], [1024, 1280]);
@@ -234,6 +245,7 @@ test('retrying a teleport preserves the active destination position and encounte
 test('portal travel requires proximity and uses the configured arrival rather than map spawn', async (t) => {
   const game = await setup(t);
   const { session } = await game.connect();
+  await prisma.rewardClaim.create({ data: { characterId: game.character.id, eventKey: 'visit_map_thanh_van' } });
   assert.equal((await game.post('/maps/teleport', { targetMapId: 'map_thanh_van' })).statusCode, 200);
   const portal = { targetMapId: village.id, portalId: 'portal_back_village' };
   assert.equal((await game.post('/maps/teleport', portal)).statusCode, 400);
@@ -448,7 +460,10 @@ test('linh miếu ghi manh mối và thưởng một lần, kể cả khi tham b
   const maps = await app.inject({ method: 'GET', url: '/api/game/maps', headers: game.headers });
   assert.equal(maps.json().data.find((entry: { id: string }) => entry.id === village.id).clueFound, true);
   assert.equal(maps.json().data.find((entry: { id: string }) => entry.id === forest.id).discovered, false);
-  assert.equal((await game.post('/maps/teleport', { targetMapId: forest.id })).statusCode, 200);
+  await prisma.character.update({ where: { id: game.character.id }, data: {
+    positionX: 32 * 32, positionY: 41 * 32,
+  } });
+  assert.equal((await game.post('/maps/teleport', { targetMapId: forest.id, portalId: 'portal_to_forest' })).statusCode, 200);
   const arrived = await app.inject({ method: 'GET', url: '/api/game/maps', headers: game.headers });
   assert.equal(arrived.json().data.find((entry: { id: string }) => entry.id === forest.id).discovered, true);
 });

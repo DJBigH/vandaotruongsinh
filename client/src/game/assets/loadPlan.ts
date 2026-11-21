@@ -3,6 +3,7 @@ import { ASSET_MANIFEST } from './AssetManifest';
 import { worldDetails } from '../exploration/v110WorldProps';
 import { buildingTexture } from '../exploration/worldLayout';
 import { alignmentSlug, lineageKey } from './lineage';
+import { canonicalMapId } from '@shared/index';
 
 type Asset = typeof ASSET_MANIFEST.assets[number];
 const byKey = new Map(ASSET_MANIFEST.assets.map(asset => [asset.key, asset]));
@@ -25,6 +26,8 @@ export function bootAssets(heroKey: string, alignment = heroKey.includes('_demon
     if (asset.provenance === 'v160-original') return (
       (asset.key.startsWith('mount_') && asset.key.endsWith(`_ride_${branch}`)) ||
       (asset.key.startsWith(`title_${branch}_`) && asset.key.endsWith('_banner')));
+    if (asset.provenance === 'v170-original') return /^mon_\d{3}_(immortal|demonic)$/.test(asset.key) &&
+      asset.key.endsWith(`_${branch}`);
     return false;
   });
 }
@@ -42,6 +45,10 @@ export function mapAssets(map: MapData, entities: EntitySnapshot[] = [], alignme
   }
   for (const spawn of map.monsters) {
     if (/^boss_\d{3}$/.test(spawn.monsterId)) addBoss(spawn.monsterId);
+    if (/^mon_\d{3}$/.test(spawn.monsterId)) {
+      add(lineageKey(spawn.monsterId, alignment));
+      add(lineageKey(`${spawn.monsterId}_elite`, alignment));
+    }
   }
   for (const entity of entities) {
     if (entity.type === 'BOSS' && /^boss_\d{3}$/.test(entity.templateId ?? '')) {
@@ -49,9 +56,9 @@ export function mapAssets(map: MapData, entities: EntitySnapshot[] = [], alignme
       if (entity.templateId === 'boss_001' && entity.name?.includes('Thiên Khế')) addBoss('event_boss_001_covenant');
     }
   }
-  if (map.id === 'map_thanh_khe_rung') addBoss('event_boss_001_covenant');
+  if (canonicalMapId(map.id) === 'map_thanh_khe_rung') addBoss('event_boss_001_covenant');
   for (const item of map.interactables) if (item.type === 'MOUNT') add(lineageKey(`${item.mountId}_wild`, alignment));
-  for (const prop of [...(map.decorativeProps ?? []), ...(worldDetails[map.id] ?? [])]) {
+  for (const prop of [...(map.decorativeProps ?? []), ...(worldDetails[canonicalMapId(map.id)] ?? [])]) {
     add(lineageKey(prop.key, alignment));
     add(prop.key);
     add(`${prop.key}_loop`);
@@ -62,6 +69,7 @@ export function mapAssets(map: MapData, entities: EntitySnapshot[] = [], alignme
   }
   for (const key of ['prop_pine_tree', 'prop_broadleaf_tree', 'prop_ancient_rock', 'prop_shrine', 'prop_portal'])
     add(lineageKey(key, alignment));
+  add(`vfx_teleport_${alignmentSlug(alignment)}`);
   add(`mapground_${map.id}_${alignmentSlug(alignment)}`);
   return [...keys].map(key => byKey.get(key)!);
 }

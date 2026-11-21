@@ -1,7 +1,7 @@
 # VẠN ĐẠO TRƯỜNG SINH (萬道長生)
 
 > **Tác giả:** BigK  
-> **Phiên bản:** 1.6.0
+> **Phiên bản:** 1.7.0
 > **Kho lưu trữ mã nguồn:** [DJBigH/vandaotruongsinh](https://github.com/DJBigH/vandaotruongsinh)
 > **Hướng dẫn cài đặt:** [HUONG_DAN_CAI_DAT.md](HUONG_DAN_CAI_DAT.md)
 > **Hướng dẫn Launcher:** [LAUNCHER_GUIDE.md](LAUNCHER_GUIDE.md)
@@ -168,7 +168,7 @@ Mở trình duyệt truy cập: `http://localhost:5173`.
 
 ## 4. Chạy Bộ Kiểm Thử Tự Động (Test Suite)
 
-Dự án có các bộ kiểm thử ARPG, nội dung, bảo mật và launcher. Chạy `npm run test:all`, `npm run test:v150` và `npm run test:v160` ở thư mục gốc. Bản 1.6.0 có hai quê quán xuất sinh, đoạn mở đầu có nhạc và nút bỏ qua, danh hiệu chuyển động, bộ tranh NPC, boss, thú cưỡi, vũ khí và bản đồ riêng cho Tiên/Ma. Bản 1.5.0 đã mở 12 cảnh giới mỗi nhánh, 48 tầng; đích cuối là Tiên Nhân/Ma Tôn. Xem [ghi chú phát hành](docs/checkpoints/1.6.0-release.md) và [quy ước phiên bản](docs/VERSIONING.md).
+Dự án có các bộ kiểm thử ARPG, nội dung, bảo mật và launcher. Chạy `npm run test:all`, `npm run test:v160` và `npm run test:v170` ở thư mục gốc. Bản 1.7.0 tách 10 vùng Tiên và 10 vùng Ma, làm mới NPC và quái mỗi nhánh, vẽ lại cổng dịch chuyển và thêm nghi thức dịch chuyển 2,5 giây dưới Nguyên Anh/Ma Anh. Bản 1.5.0 đã mở 12 cảnh giới mỗi nhánh, 48 tầng; đích cuối là Tiên Nhân/Ma Tôn. Xem [ghi chú phát hành](docs/checkpoints/1.7.0-release.md) và [quy ước phiên bản](docs/VERSIONING.md).
 
 ```bash
 cd server

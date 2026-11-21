@@ -1,9 +1,10 @@
 import type { MapCollisionZone, MapData, Position } from '@shared/index';
 import { isWorldPathWalkable } from '../../../../shared/src/world-collision';
+import { canonicalMapId } from '@shared/index';
 
-export const isVillage = (map: MapData) => map.id === 'map_thanh_khe' || map.id === 'map_huyen_u_khe';
-export const isForest = (map: MapData) => map.id === 'map_thanh_khe_rung';
-export const isSect = (map: MapData) => map.id === 'map_thanh_van';
+export const isVillage = (map: MapData) => canonicalMapId(map.id) === 'map_thanh_khe';
+export const isForest = (map: MapData) => canonicalMapId(map.id) === 'map_thanh_khe_rung';
+export const isSect = (map: MapData) => canonicalMapId(map.id) === 'map_thanh_van';
 export const isWater = (zone: MapCollisionZone) => /suối|hồ/iu.test(zone.label ?? '');
 
 export function buildingTexture(zone: MapCollisionZone): string | undefined {

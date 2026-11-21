@@ -1,3 +1,5 @@
+import { canonicalMapId } from '@shared';
+
 export interface WorldEventWindow {
   id: 'noon-meditation' | 'world-boss' | 'night-hunt';
   title: string;
@@ -38,10 +40,10 @@ export function eventClaimKey(event: WorldEventWindow): string {
 }
 
 export function eventKillReward(event: WorldEventWindow, mapId: string, monsterId: string) {
-  if (event.id === 'world-boss' && mapId === 'map_thanh_khe_rung' && monsterId === 'boss_001') {
+  if (event.id === 'world-boss' && canonicalMapId(mapId) === 'map_thanh_khe_rung' && monsterId === 'boss_001') {
     return { gold: 500, cultivationExp: 600 };
   }
-  if (event.id === 'night-hunt' && mapId === 'map_thanh_khe_rung' && monsterId.startsWith('mon_')) {
+  if (event.id === 'night-hunt' && canonicalMapId(mapId) === 'map_thanh_khe_rung' && monsterId.startsWith('mon_')) {
     return { gold: 120, cultivationExp: 150 };
   }
   return null;

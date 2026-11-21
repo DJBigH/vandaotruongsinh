@@ -859,3 +859,4 @@ export { isWorldPositionWalkable, resolveWorldMovement } from './world-collision
 export { MAX_ENHANCEMENT, enhancementChance } from './enhancement';
 export { TITLE_CATALOG, titleName } from './titles';
 export type { TitleId } from './titles';
+export { DEMONIC_MAPS, canonicalMapId, lineageMapId, lineageMapIds, isLineageMap } from './lineage-maps';

@@ -16,11 +16,13 @@ import {
   SkillTargetType,
   isWorldPositionWalkable,
   resolveWorldMovement,
+  canonicalMapId,
+  isLineageMap,
   type MapData,
 } from '@shared';
 import { isWorldPathWalkable } from '@shared/world-collision';
 import type { Character, CharacterDisciple, InventoryItem, Prisma } from '@prisma/client';
-import { MAP_TEMPLATES } from '../data/maps';
+import { MAP_TEMPLATES, mapForAlignment } from '../data/maps';
 import { MONSTER_TEMPLATES, MonsterTemplate } from '../data/monsters';
 import { BOSS_TEMPLATES, BossTemplate } from '../data/bosses';
 import { SKILL_TEMPLATES, getSkillRealtimeData } from '../data/skills';
@@ -41,6 +43,7 @@ interface SessionCharacter {
   godMode?: boolean;
   realmIndex: number;
   realmTier: number;
+  alignment?: 'IMMORTAL' | 'DEMONIC';
   sectId?: string | null;
   currentMapId?: string;
   positionX?: number;
@@ -51,8 +54,9 @@ interface SessionCharacter {
   storyFlags?: { flagKey: string; flagValue: string }[];
 }
 
-function getMapTemplate(mapId: string) {
-  return Object.hasOwn(MAP_TEMPLATES, mapId) ? MAP_TEMPLATES[mapId] : MAP_TEMPLATES.map_thanh_khe;
+function getMapTemplate(mapId: string, alignment?: 'IMMORTAL' | 'DEMONIC') {
+  const branch = alignment ?? (isLineageMap(mapId, 'DEMONIC') ? 'DEMONIC' : 'IMMORTAL');
+  return mapForAlignment(mapId, branch) ?? MAP_TEMPLATES[branch === 'DEMONIC' ? 'map_huyen_u_khe' : 'map_thanh_khe'];
 }
 
 function getMapSpawn(map: MapData) {
@@ -81,7 +85,8 @@ function selectSpawn(map: MapData, position?: { x: number; y: number }) {
 
 function getSavedPosition(character: SessionCharacter, map: MapData) {
   const { currentMapId, positionX, positionY } = character;
-  if (currentMapId === map.id && positionX !== undefined && positionY !== undefined) {
+  if (currentMapId && canonicalMapId(currentMapId) === canonicalMapId(map.id) &&
+      positionX !== undefined && positionY !== undefined) {
     return { x: positionX, y: positionY };
   }
 }
@@ -247,7 +252,7 @@ export class ArpgGameSession {
     this.characterId = character.id;
     this.godMode = Boolean(character.godMode);
     this.activeTowerFloor = Number(character.storyFlags?.find((flag) => flag.flagKey === 'TOWER_ACTIVE_FLOOR')?.flagValue) || 1;
-    const map = getMapTemplate(mapId);
+    const map = getMapTemplate(mapId, character.alignment);
     this.mapId = map.id;
     const { path, stats, skills } = getCombatConfiguration(character);
     const position = selectSpawn(map, getSavedPosition(character, map));
@@ -346,7 +351,7 @@ export class ArpgGameSession {
   public setTowerFloor(floor: number) {
     if (!TOWER_FLOORS.some((entry) => entry.floor === floor) || this.activeTowerFloor === floor) return;
     this.activeTowerFloor = floor;
-    if (this.mapId === 'map_tran_yeu_thap') this.transitionToMap(getMapTemplate(this.mapId));
+    if (canonicalMapId(this.mapId) === 'map_tran_yeu_thap') this.transitionToMap(getMapTemplate(this.mapId));
   }
 
   public refreshDisciple(record?: Pick<CharacterDisciple, 'id' | 'level' | 'isActive'> | null) {
@@ -456,7 +461,7 @@ export class ArpgGameSession {
     if (!map.monsters || map.monsters.length === 0) return;
 
     for (const spawn of map.monsters) {
-      if (map.id === 'map_tran_yeu_thap' && spawn.monsterId !== TOWER_FLOORS[this.activeTowerFloor - 1]?.bossId) continue;
+      if (canonicalMapId(map.id) === 'map_tran_yeu_thap' && spawn.monsterId !== TOWER_FLOORS[this.activeTowerFloor - 1]?.bossId) continue;
       const isBoss = spawn.monsterId.startsWith('boss_');
       const template = isBoss ? BOSS_TEMPLATES[spawn.monsterId] : MONSTER_TEMPLATES[spawn.monsterId];
       if (!template) continue;
@@ -497,7 +502,7 @@ export class ArpgGameSession {
     const minute = Math.floor(now / 60_000);
     if (minute === this.lastBossWindowMinute) return;
     this.lastBossWindowMinute = minute;
-    if (this.mapId !== 'map_thanh_khe_rung') return;
+    if (canonicalMapId(this.mapId) !== 'map_thanh_khe_rung') return;
     const empowered = activeWorldEvent(new Date(now))?.id === 'world-boss';
     for (const monster of this.monsters) {
       if (monster.templateId !== 'boss_001') continue;
@@ -851,7 +856,7 @@ export class ArpgGameSession {
               update: { flagValue: String(Number(prior?.flagValue ?? 0) + 1) } });
           }
         }
-        if (this.mapId === 'map_tran_yeu_thap') {
+        if (canonicalMapId(this.mapId) === 'map_tran_yeu_thap') {
           const floor = TOWER_FLOORS.find((entry) => entry.bossId === monster.templateId);
           if (floor) await tx.storyFlag.upsert({
             where: { characterId_flagKey: { characterId: this.characterId, flagKey: `TOWER_FLOOR_${floor.floor}` } },
@@ -1321,7 +1326,7 @@ export class ArpgSessionManager {
       session = new ArpgGameSession(character, mapId);
       this.sessions.set(character.id, session);
     } else {
-      const map = getMapTemplate(mapId);
+      const map = getMapTemplate(mapId, character.alignment);
       if (session.mapId !== map.id) {
         session.transitionToMap(map, getSavedPosition(character, map));
       }

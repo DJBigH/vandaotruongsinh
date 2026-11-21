@@ -4,6 +4,7 @@
 // ============================================================
 
 import { MapData, MapCollisionZone, MapDecorativeProp, MapSpawnZone } from '@shared';
+import { DEMONIC_MAPS, canonicalMapId, lineageMapId, isLineageMap } from '@shared';
 
 function generateBaseLayer(w: number, h: number, fillTile: number): number[] {
   return new Array(w * h).fill(fillTile);
@@ -671,13 +672,42 @@ MAP_TEMPLATES.map_huyen_u_khe = {
     { key: 'prop_ancient_rock', x: 55, y: 34, originY: 0.9 },
   ],
 };
+const MA_NPC_NAMES: Record<string, string> = {
+  npc_elder: 'Huyền U Lão Giả', npc_healer: 'Dược Sư U Lan', npc_guard: 'Huyền Giáp Vệ',
+  npc_mentor: 'Ma Sư Vô Trần', npc_sect_master: 'Huyền Ma Tông Chủ',
+  npc_dan_ton: 'Huyết Đan Tôn', npc_sword_spirit: 'Huyết Kiếm Tàn Hồn',
+  npc_rebel_cultivator: 'Cửu U Hộ Pháp', npc_inner_voice: 'Hồn Kính Chi Ảnh',
+  npc_mountain_god: 'Huyết Mạch Sơn Linh', npc_covenant_arbiter: 'Ma Khế Chấp Pháp',
+  npc_tower_keeper: 'Trấn Hồn Tháp Linh',
+};
+
+for (const [originalId, demonic] of Object.entries(DEMONIC_MAPS)) {
+  const original = MAP_TEMPLATES[originalId];
+  const base = originalId === 'map_thanh_khe' ? MAP_TEMPLATES.map_huyen_u_khe : original;
+  MAP_TEMPLATES[demonic.id] = {
+    ...base,
+    id: demonic.id,
+    name: demonic.name,
+    npcs: base.npcs.map(npc => ({ ...npc, name: MA_NPC_NAMES[npc.id] ?? npc.name,
+      dialogueId: originalId === 'map_thanh_khe' ? npc.dialogueId : `${npc.dialogueId}_ma` })),
+    portals: original.portals.map(portal => ({ ...portal,
+      targetMapId: lineageMapId(portal.targetMapId, 'DEMONIC'),
+      label: DEMONIC_MAPS[portal.targetMapId]?.name ?? portal.label,
+    })),
+    decorativeProps: [
+      ...(base.decorativeProps ?? []),
+      { key: `prop_ma_${originalId}`, x: Math.min(base.width - 4, base.spawnPoint.x + 4),
+        y: Math.min(base.height - 4, base.spawnPoint.y + 3), originY: 0.92, scale: 0.56 },
+    ],
+  };
+}
+
 export const MAP_DATA = MAP_TEMPLATES;
 
-/** Keep one return gate in the shared forest, pointing to each hero's birthplace. */
+/** Resolve old Ma save IDs into their own graph; never hand a Tiên character a Ma map. */
 export function mapForAlignment(mapId: string, alignment: 'IMMORTAL' | 'DEMONIC') {
-  const map = Object.hasOwn(MAP_TEMPLATES, mapId) ? MAP_TEMPLATES[mapId] : undefined;
-  if (!map || mapId !== 'map_thanh_khe_rung' || alignment !== 'DEMONIC') return map;
-  return { ...map, portals: map.portals.map(portal => portal.id === 'portal_back_to_village'
-    ? { ...portal, label: 'Huyền U Khê', targetMapId: 'map_huyen_u_khe' }
-    : portal) };
+  if (alignment === 'IMMORTAL' && canonicalMapId(mapId) !== mapId) return undefined;
+  const selectedId = lineageMapId(mapId, alignment);
+  return isLineageMap(selectedId, alignment) && Object.hasOwn(MAP_TEMPLATES, selectedId)
+    ? MAP_TEMPLATES[selectedId] : undefined;
 }

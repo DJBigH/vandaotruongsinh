@@ -1,0 +1,1396 @@
+{
+  "npc": [
+    {
+      "id": "npc_elder",
+      "alignment": "demonic",
+      "sprite": "assets/v170/npc_elder_demonic.png",
+      "avatar": "assets/v170/avatar_npc_elder_demonic.png"
+    },
+    {
+      "id": "npc_healer",
+      "alignment": "demonic",
+      "sprite": "assets/v170/npc_healer_demonic.png",
+      "avatar": "assets/v170/avatar_npc_healer_demonic.png"
+    },
+    {
+      "id": "npc_guard",
+      "alignment": "demonic",
+      "sprite": "assets/v170/npc_guard_demonic.png",
+      "avatar": "assets/v170/avatar_npc_guard_demonic.png"
+    },
+    {
+      "id": "npc_mentor",
+      "alignment": "demonic",
+      "sprite": "assets/v170/npc_mentor_demonic.png",
+      "avatar": "assets/v170/avatar_npc_mentor_demonic.png"
+    },
+    {
+      "id": "npc_sect_master",
+      "alignment": "demonic",
+      "sprite": "assets/v170/npc_sect_master_demonic.png",
+      "avatar": "assets/v170/avatar_npc_sect_master_demonic.png"
+    },
+    {
+      "id": "npc_sword_spirit",
+      "alignment": "demonic",
+      "sprite": "assets/v170/npc_sword_spirit_demonic.png",
+      "avatar": "assets/v170/avatar_npc_sword_spirit_demonic.png"
+    },
+    {
+      "id": "npc_rebel_cultivator",
+      "alignment": "demonic",
+      "sprite": "assets/v170/npc_rebel_cultivator_demonic.png",
+      "avatar": "assets/v170/avatar_npc_rebel_cultivator_demonic.png"
+    },
+    {
+      "id": "npc_mountain_god",
+      "alignment": "demonic",
+      "sprite": "assets/v170/npc_mountain_god_demonic.png",
+      "avatar": "assets/v170/avatar_npc_mountain_god_demonic.png"
+    },
+    {
+      "id": "npc_dan_ton",
+      "alignment": "demonic",
+      "sprite": "assets/v170/npc_dan_ton_demonic.png",
+      "avatar": "assets/v170/avatar_npc_dan_ton_demonic.png"
+    },
+    {
+      "id": "npc_inner_voice",
+      "alignment": "demonic",
+      "sprite": "assets/v170/npc_inner_voice_demonic.png",
+      "avatar": "assets/v170/avatar_npc_inner_voice_demonic.png"
+    },
+    {
+      "id": "npc_covenant_arbiter",
+      "alignment": "demonic",
+      "sprite": "assets/v170/npc_covenant_arbiter_demonic.png",
+      "avatar": "assets/v170/avatar_npc_covenant_arbiter_demonic.png"
+    },
+    {
+      "id": "npc_tower_keeper",
+      "alignment": "demonic",
+      "sprite": "assets/v170/npc_tower_keeper_demonic.png",
+      "avatar": "assets/v170/avatar_npc_tower_keeper_demonic.png"
+    }
+  ],
+  "monster": [
+    {
+      "id": "mon_001",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_001_immortal.png",
+      "avatar": "assets/v170/avatar_mon_001_immortal.png"
+    },
+    {
+      "id": "mon_001",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_001_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_001_elite_immortal.png"
+    },
+    {
+      "id": "mon_001",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_001_demonic.png",
+      "avatar": "assets/v170/avatar_mon_001_demonic.png"
+    },
+    {
+      "id": "mon_001",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_001_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_001_elite_demonic.png"
+    },
+    {
+      "id": "mon_002",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_002_immortal.png",
+      "avatar": "assets/v170/avatar_mon_002_immortal.png"
+    },
+    {
+      "id": "mon_002",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_002_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_002_elite_immortal.png"
+    },
+    {
+      "id": "mon_002",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_002_demonic.png",
+      "avatar": "assets/v170/avatar_mon_002_demonic.png"
+    },
+    {
+      "id": "mon_002",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_002_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_002_elite_demonic.png"
+    },
+    {
+      "id": "mon_003",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_003_immortal.png",
+      "avatar": "assets/v170/avatar_mon_003_immortal.png"
+    },
+    {
+      "id": "mon_003",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_003_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_003_elite_immortal.png"
+    },
+    {
+      "id": "mon_003",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_003_demonic.png",
+      "avatar": "assets/v170/avatar_mon_003_demonic.png"
+    },
+    {
+      "id": "mon_003",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_003_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_003_elite_demonic.png"
+    },
+    {
+      "id": "mon_004",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_004_immortal.png",
+      "avatar": "assets/v170/avatar_mon_004_immortal.png"
+    },
+    {
+      "id": "mon_004",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_004_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_004_elite_immortal.png"
+    },
+    {
+      "id": "mon_004",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_004_demonic.png",
+      "avatar": "assets/v170/avatar_mon_004_demonic.png"
+    },
+    {
+      "id": "mon_004",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_004_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_004_elite_demonic.png"
+    },
+    {
+      "id": "mon_005",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_005_immortal.png",
+      "avatar": "assets/v170/avatar_mon_005_immortal.png"
+    },
+    {
+      "id": "mon_005",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_005_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_005_elite_immortal.png"
+    },
+    {
+      "id": "mon_005",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_005_demonic.png",
+      "avatar": "assets/v170/avatar_mon_005_demonic.png"
+    },
+    {
+      "id": "mon_005",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_005_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_005_elite_demonic.png"
+    },
+    {
+      "id": "mon_006",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_006_immortal.png",
+      "avatar": "assets/v170/avatar_mon_006_immortal.png"
+    },
+    {
+      "id": "mon_006",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_006_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_006_elite_immortal.png"
+    },
+    {
+      "id": "mon_006",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_006_demonic.png",
+      "avatar": "assets/v170/avatar_mon_006_demonic.png"
+    },
+    {
+      "id": "mon_006",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_006_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_006_elite_demonic.png"
+    },
+    {
+      "id": "mon_007",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_007_immortal.png",
+      "avatar": "assets/v170/avatar_mon_007_immortal.png"
+    },
+    {
+      "id": "mon_007",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_007_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_007_elite_immortal.png"
+    },
+    {
+      "id": "mon_007",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_007_demonic.png",
+      "avatar": "assets/v170/avatar_mon_007_demonic.png"
+    },
+    {
+      "id": "mon_007",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_007_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_007_elite_demonic.png"
+    },
+    {
+      "id": "mon_008",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_008_immortal.png",
+      "avatar": "assets/v170/avatar_mon_008_immortal.png"
+    },
+    {
+      "id": "mon_008",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_008_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_008_elite_immortal.png"
+    },
+    {
+      "id": "mon_008",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_008_demonic.png",
+      "avatar": "assets/v170/avatar_mon_008_demonic.png"
+    },
+    {
+      "id": "mon_008",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_008_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_008_elite_demonic.png"
+    },
+    {
+      "id": "mon_009",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_009_immortal.png",
+      "avatar": "assets/v170/avatar_mon_009_immortal.png"
+    },
+    {
+      "id": "mon_009",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_009_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_009_elite_immortal.png"
+    },
+    {
+      "id": "mon_009",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_009_demonic.png",
+      "avatar": "assets/v170/avatar_mon_009_demonic.png"
+    },
+    {
+      "id": "mon_009",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_009_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_009_elite_demonic.png"
+    },
+    {
+      "id": "mon_010",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_010_immortal.png",
+      "avatar": "assets/v170/avatar_mon_010_immortal.png"
+    },
+    {
+      "id": "mon_010",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_010_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_010_elite_immortal.png"
+    },
+    {
+      "id": "mon_010",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_010_demonic.png",
+      "avatar": "assets/v170/avatar_mon_010_demonic.png"
+    },
+    {
+      "id": "mon_010",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_010_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_010_elite_demonic.png"
+    },
+    {
+      "id": "mon_011",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_011_immortal.png",
+      "avatar": "assets/v170/avatar_mon_011_immortal.png"
+    },
+    {
+      "id": "mon_011",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_011_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_011_elite_immortal.png"
+    },
+    {
+      "id": "mon_011",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_011_demonic.png",
+      "avatar": "assets/v170/avatar_mon_011_demonic.png"
+    },
+    {
+      "id": "mon_011",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_011_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_011_elite_demonic.png"
+    },
+    {
+      "id": "mon_012",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_012_immortal.png",
+      "avatar": "assets/v170/avatar_mon_012_immortal.png"
+    },
+    {
+      "id": "mon_012",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_012_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_012_elite_immortal.png"
+    },
+    {
+      "id": "mon_012",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_012_demonic.png",
+      "avatar": "assets/v170/avatar_mon_012_demonic.png"
+    },
+    {
+      "id": "mon_012",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_012_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_012_elite_demonic.png"
+    },
+    {
+      "id": "mon_013",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_013_immortal.png",
+      "avatar": "assets/v170/avatar_mon_013_immortal.png"
+    },
+    {
+      "id": "mon_013",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_013_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_013_elite_immortal.png"
+    },
+    {
+      "id": "mon_013",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_013_demonic.png",
+      "avatar": "assets/v170/avatar_mon_013_demonic.png"
+    },
+    {
+      "id": "mon_013",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_013_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_013_elite_demonic.png"
+    },
+    {
+      "id": "mon_014",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_014_immortal.png",
+      "avatar": "assets/v170/avatar_mon_014_immortal.png"
+    },
+    {
+      "id": "mon_014",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_014_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_014_elite_immortal.png"
+    },
+    {
+      "id": "mon_014",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_014_demonic.png",
+      "avatar": "assets/v170/avatar_mon_014_demonic.png"
+    },
+    {
+      "id": "mon_014",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_014_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_014_elite_demonic.png"
+    },
+    {
+      "id": "mon_015",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_015_immortal.png",
+      "avatar": "assets/v170/avatar_mon_015_immortal.png"
+    },
+    {
+      "id": "mon_015",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_015_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_015_elite_immortal.png"
+    },
+    {
+      "id": "mon_015",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_015_demonic.png",
+      "avatar": "assets/v170/avatar_mon_015_demonic.png"
+    },
+    {
+      "id": "mon_015",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_015_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_015_elite_demonic.png"
+    },
+    {
+      "id": "mon_016",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_016_immortal.png",
+      "avatar": "assets/v170/avatar_mon_016_immortal.png"
+    },
+    {
+      "id": "mon_016",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_016_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_016_elite_immortal.png"
+    },
+    {
+      "id": "mon_016",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_016_demonic.png",
+      "avatar": "assets/v170/avatar_mon_016_demonic.png"
+    },
+    {
+      "id": "mon_016",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_016_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_016_elite_demonic.png"
+    },
+    {
+      "id": "mon_017",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_017_immortal.png",
+      "avatar": "assets/v170/avatar_mon_017_immortal.png"
+    },
+    {
+      "id": "mon_017",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_017_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_017_elite_immortal.png"
+    },
+    {
+      "id": "mon_017",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_017_demonic.png",
+      "avatar": "assets/v170/avatar_mon_017_demonic.png"
+    },
+    {
+      "id": "mon_017",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_017_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_017_elite_demonic.png"
+    },
+    {
+      "id": "mon_018",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_018_immortal.png",
+      "avatar": "assets/v170/avatar_mon_018_immortal.png"
+    },
+    {
+      "id": "mon_018",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_018_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_018_elite_immortal.png"
+    },
+    {
+      "id": "mon_018",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_018_demonic.png",
+      "avatar": "assets/v170/avatar_mon_018_demonic.png"
+    },
+    {
+      "id": "mon_018",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_018_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_018_elite_demonic.png"
+    },
+    {
+      "id": "mon_019",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_019_immortal.png",
+      "avatar": "assets/v170/avatar_mon_019_immortal.png"
+    },
+    {
+      "id": "mon_019",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_019_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_019_elite_immortal.png"
+    },
+    {
+      "id": "mon_019",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_019_demonic.png",
+      "avatar": "assets/v170/avatar_mon_019_demonic.png"
+    },
+    {
+      "id": "mon_019",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_019_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_019_elite_demonic.png"
+    },
+    {
+      "id": "mon_020",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_020_immortal.png",
+      "avatar": "assets/v170/avatar_mon_020_immortal.png"
+    },
+    {
+      "id": "mon_020",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_020_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_020_elite_immortal.png"
+    },
+    {
+      "id": "mon_020",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_020_demonic.png",
+      "avatar": "assets/v170/avatar_mon_020_demonic.png"
+    },
+    {
+      "id": "mon_020",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_020_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_020_elite_demonic.png"
+    },
+    {
+      "id": "mon_021",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_021_immortal.png",
+      "avatar": "assets/v170/avatar_mon_021_immortal.png"
+    },
+    {
+      "id": "mon_021",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_021_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_021_elite_immortal.png"
+    },
+    {
+      "id": "mon_021",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_021_demonic.png",
+      "avatar": "assets/v170/avatar_mon_021_demonic.png"
+    },
+    {
+      "id": "mon_021",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_021_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_021_elite_demonic.png"
+    },
+    {
+      "id": "mon_022",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_022_immortal.png",
+      "avatar": "assets/v170/avatar_mon_022_immortal.png"
+    },
+    {
+      "id": "mon_022",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_022_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_022_elite_immortal.png"
+    },
+    {
+      "id": "mon_022",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_022_demonic.png",
+      "avatar": "assets/v170/avatar_mon_022_demonic.png"
+    },
+    {
+      "id": "mon_022",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_022_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_022_elite_demonic.png"
+    },
+    {
+      "id": "mon_023",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_023_immortal.png",
+      "avatar": "assets/v170/avatar_mon_023_immortal.png"
+    },
+    {
+      "id": "mon_023",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_023_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_023_elite_immortal.png"
+    },
+    {
+      "id": "mon_023",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_023_demonic.png",
+      "avatar": "assets/v170/avatar_mon_023_demonic.png"
+    },
+    {
+      "id": "mon_023",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_023_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_023_elite_demonic.png"
+    },
+    {
+      "id": "mon_024",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_024_immortal.png",
+      "avatar": "assets/v170/avatar_mon_024_immortal.png"
+    },
+    {
+      "id": "mon_024",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_024_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_024_elite_immortal.png"
+    },
+    {
+      "id": "mon_024",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_024_demonic.png",
+      "avatar": "assets/v170/avatar_mon_024_demonic.png"
+    },
+    {
+      "id": "mon_024",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_024_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_024_elite_demonic.png"
+    },
+    {
+      "id": "mon_025",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_025_immortal.png",
+      "avatar": "assets/v170/avatar_mon_025_immortal.png"
+    },
+    {
+      "id": "mon_025",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_025_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_025_elite_immortal.png"
+    },
+    {
+      "id": "mon_025",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_025_demonic.png",
+      "avatar": "assets/v170/avatar_mon_025_demonic.png"
+    },
+    {
+      "id": "mon_025",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_025_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_025_elite_demonic.png"
+    },
+    {
+      "id": "mon_026",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_026_immortal.png",
+      "avatar": "assets/v170/avatar_mon_026_immortal.png"
+    },
+    {
+      "id": "mon_026",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_026_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_026_elite_immortal.png"
+    },
+    {
+      "id": "mon_026",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_026_demonic.png",
+      "avatar": "assets/v170/avatar_mon_026_demonic.png"
+    },
+    {
+      "id": "mon_026",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_026_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_026_elite_demonic.png"
+    },
+    {
+      "id": "mon_027",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_027_immortal.png",
+      "avatar": "assets/v170/avatar_mon_027_immortal.png"
+    },
+    {
+      "id": "mon_027",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_027_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_027_elite_immortal.png"
+    },
+    {
+      "id": "mon_027",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_027_demonic.png",
+      "avatar": "assets/v170/avatar_mon_027_demonic.png"
+    },
+    {
+      "id": "mon_027",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_027_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_027_elite_demonic.png"
+    },
+    {
+      "id": "mon_028",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_028_immortal.png",
+      "avatar": "assets/v170/avatar_mon_028_immortal.png"
+    },
+    {
+      "id": "mon_028",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_028_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_028_elite_immortal.png"
+    },
+    {
+      "id": "mon_028",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_028_demonic.png",
+      "avatar": "assets/v170/avatar_mon_028_demonic.png"
+    },
+    {
+      "id": "mon_028",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_028_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_028_elite_demonic.png"
+    },
+    {
+      "id": "mon_029",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_029_immortal.png",
+      "avatar": "assets/v170/avatar_mon_029_immortal.png"
+    },
+    {
+      "id": "mon_029",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_029_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_029_elite_immortal.png"
+    },
+    {
+      "id": "mon_029",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_029_demonic.png",
+      "avatar": "assets/v170/avatar_mon_029_demonic.png"
+    },
+    {
+      "id": "mon_029",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_029_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_029_elite_demonic.png"
+    },
+    {
+      "id": "mon_030",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_030_immortal.png",
+      "avatar": "assets/v170/avatar_mon_030_immortal.png"
+    },
+    {
+      "id": "mon_030",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_030_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_030_elite_immortal.png"
+    },
+    {
+      "id": "mon_030",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_030_demonic.png",
+      "avatar": "assets/v170/avatar_mon_030_demonic.png"
+    },
+    {
+      "id": "mon_030",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_030_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_030_elite_demonic.png"
+    },
+    {
+      "id": "mon_031",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_031_immortal.png",
+      "avatar": "assets/v170/avatar_mon_031_immortal.png"
+    },
+    {
+      "id": "mon_031",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_031_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_031_elite_immortal.png"
+    },
+    {
+      "id": "mon_031",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_031_demonic.png",
+      "avatar": "assets/v170/avatar_mon_031_demonic.png"
+    },
+    {
+      "id": "mon_031",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_031_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_031_elite_demonic.png"
+    },
+    {
+      "id": "mon_032",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_032_immortal.png",
+      "avatar": "assets/v170/avatar_mon_032_immortal.png"
+    },
+    {
+      "id": "mon_032",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_032_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_032_elite_immortal.png"
+    },
+    {
+      "id": "mon_032",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_032_demonic.png",
+      "avatar": "assets/v170/avatar_mon_032_demonic.png"
+    },
+    {
+      "id": "mon_032",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_032_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_032_elite_demonic.png"
+    },
+    {
+      "id": "mon_033",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_033_immortal.png",
+      "avatar": "assets/v170/avatar_mon_033_immortal.png"
+    },
+    {
+      "id": "mon_033",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_033_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_033_elite_immortal.png"
+    },
+    {
+      "id": "mon_033",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_033_demonic.png",
+      "avatar": "assets/v170/avatar_mon_033_demonic.png"
+    },
+    {
+      "id": "mon_033",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_033_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_033_elite_demonic.png"
+    },
+    {
+      "id": "mon_034",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_034_immortal.png",
+      "avatar": "assets/v170/avatar_mon_034_immortal.png"
+    },
+    {
+      "id": "mon_034",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_034_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_034_elite_immortal.png"
+    },
+    {
+      "id": "mon_034",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_034_demonic.png",
+      "avatar": "assets/v170/avatar_mon_034_demonic.png"
+    },
+    {
+      "id": "mon_034",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_034_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_034_elite_demonic.png"
+    },
+    {
+      "id": "mon_035",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_035_immortal.png",
+      "avatar": "assets/v170/avatar_mon_035_immortal.png"
+    },
+    {
+      "id": "mon_035",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_035_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_035_elite_immortal.png"
+    },
+    {
+      "id": "mon_035",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_035_demonic.png",
+      "avatar": "assets/v170/avatar_mon_035_demonic.png"
+    },
+    {
+      "id": "mon_035",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_035_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_035_elite_demonic.png"
+    },
+    {
+      "id": "mon_036",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_036_immortal.png",
+      "avatar": "assets/v170/avatar_mon_036_immortal.png"
+    },
+    {
+      "id": "mon_036",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_036_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_036_elite_immortal.png"
+    },
+    {
+      "id": "mon_036",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_036_demonic.png",
+      "avatar": "assets/v170/avatar_mon_036_demonic.png"
+    },
+    {
+      "id": "mon_036",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_036_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_036_elite_demonic.png"
+    },
+    {
+      "id": "mon_037",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_037_immortal.png",
+      "avatar": "assets/v170/avatar_mon_037_immortal.png"
+    },
+    {
+      "id": "mon_037",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_037_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_037_elite_immortal.png"
+    },
+    {
+      "id": "mon_037",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_037_demonic.png",
+      "avatar": "assets/v170/avatar_mon_037_demonic.png"
+    },
+    {
+      "id": "mon_037",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_037_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_037_elite_demonic.png"
+    },
+    {
+      "id": "mon_038",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_038_immortal.png",
+      "avatar": "assets/v170/avatar_mon_038_immortal.png"
+    },
+    {
+      "id": "mon_038",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_038_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_038_elite_immortal.png"
+    },
+    {
+      "id": "mon_038",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_038_demonic.png",
+      "avatar": "assets/v170/avatar_mon_038_demonic.png"
+    },
+    {
+      "id": "mon_038",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_038_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_038_elite_demonic.png"
+    },
+    {
+      "id": "mon_039",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_039_immortal.png",
+      "avatar": "assets/v170/avatar_mon_039_immortal.png"
+    },
+    {
+      "id": "mon_039",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_039_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_039_elite_immortal.png"
+    },
+    {
+      "id": "mon_039",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_039_demonic.png",
+      "avatar": "assets/v170/avatar_mon_039_demonic.png"
+    },
+    {
+      "id": "mon_039",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_039_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_039_elite_demonic.png"
+    },
+    {
+      "id": "mon_040",
+      "alignment": "immortal",
+      "elite": false,
+      "sprite": "assets/v170/mon_040_immortal.png",
+      "avatar": "assets/v170/avatar_mon_040_immortal.png"
+    },
+    {
+      "id": "mon_040",
+      "alignment": "immortal",
+      "elite": true,
+      "sprite": "assets/v170/mon_040_elite_immortal.png",
+      "avatar": "assets/v170/avatar_mon_040_elite_immortal.png"
+    },
+    {
+      "id": "mon_040",
+      "alignment": "demonic",
+      "elite": false,
+      "sprite": "assets/v170/mon_040_demonic.png",
+      "avatar": "assets/v170/avatar_mon_040_demonic.png"
+    },
+    {
+      "id": "mon_040",
+      "alignment": "demonic",
+      "elite": true,
+      "sprite": "assets/v170/mon_040_elite_demonic.png",
+      "avatar": "assets/v170/avatar_mon_040_elite_demonic.png"
+    }
+  ],
+  "map": [
+    {
+      "id": "map_huyen_u_khe",
+      "alignment": "demonic",
+      "ground": "assets/v170/mapground_map_huyen_u_khe_demonic.png",
+      "avatar": "assets/v170/avatar_map_huyen_u_khe_demonic.png"
+    },
+    {
+      "id": "map_u_lam",
+      "alignment": "demonic",
+      "ground": "assets/v170/mapground_map_u_lam_demonic.png",
+      "avatar": "assets/v170/avatar_map_u_lam_demonic.png"
+    },
+    {
+      "id": "map_huyen_ma_tong",
+      "alignment": "demonic",
+      "ground": "assets/v170/mapground_map_huyen_ma_tong_demonic.png",
+      "avatar": "assets/v170/avatar_map_huyen_ma_tong_demonic.png"
+    },
+    {
+      "id": "map_huyet_dan_coc",
+      "alignment": "demonic",
+      "ground": "assets/v170/mapground_map_huyet_dan_coc_demonic.png",
+      "avatar": "assets/v170/avatar_map_huyet_dan_coc_demonic.png"
+    },
+    {
+      "id": "map_huyet_kiem_di_tich",
+      "alignment": "demonic",
+      "ground": "assets/v170/mapground_map_huyet_kiem_di_tich_demonic.png",
+      "avatar": "assets/v170/avatar_map_huyet_kiem_di_tich_demonic.png"
+    },
+    {
+      "id": "map_cuu_u_vuc",
+      "alignment": "demonic",
+      "ground": "assets/v170/mapground_map_cuu_u_vuc_demonic.png",
+      "avatar": "assets/v170/avatar_map_cuu_u_vuc_demonic.png"
+    },
+    {
+      "id": "map_vong_tam_canh",
+      "alignment": "demonic",
+      "ground": "assets/v170/mapground_map_vong_tam_canh_demonic.png",
+      "avatar": "assets/v170/avatar_map_vong_tam_canh_demonic.png"
+    },
+    {
+      "id": "map_huyet_mach_thien_son",
+      "alignment": "demonic",
+      "ground": "assets/v170/mapground_map_huyet_mach_thien_son_demonic.png",
+      "avatar": "assets/v170/avatar_map_huyet_mach_thien_son_demonic.png"
+    },
+    {
+      "id": "map_huyet_khe_dai",
+      "alignment": "demonic",
+      "ground": "assets/v170/mapground_map_huyet_khe_dai_demonic.png",
+      "avatar": "assets/v170/avatar_map_huyet_khe_dai_demonic.png"
+    },
+    {
+      "id": "map_tran_hon_thap",
+      "alignment": "demonic",
+      "ground": "assets/v170/mapground_map_tran_hon_thap_demonic.png",
+      "avatar": "assets/v170/avatar_map_tran_hon_thap_demonic.png"
+    }
+  ],
+  "portal": [
+    {
+      "alignment": "immortal",
+      "sprite": "assets/v170/prop_portal_immortal.png",
+      "avatar": "assets/v170/avatar_prop_portal_immortal.png"
+    },
+    {
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_portal_demonic.png",
+      "avatar": "assets/v170/avatar_prop_portal_demonic.png"
+    }
+  ],
+  "prop": [
+    {
+      "id": "prop_ma_map_thanh_khe",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_ma_map_thanh_khe.png",
+      "avatar": "assets/v170/avatar_prop_ma_map_thanh_khe.png"
+    },
+    {
+      "id": "prop_ma_map_thanh_khe_rung",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_ma_map_thanh_khe_rung.png",
+      "avatar": "assets/v170/avatar_prop_ma_map_thanh_khe_rung.png"
+    },
+    {
+      "id": "prop_ma_map_thanh_van",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_ma_map_thanh_van.png",
+      "avatar": "assets/v170/avatar_prop_ma_map_thanh_van.png"
+    },
+    {
+      "id": "prop_ma_map_dan_ha",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_ma_map_dan_ha.png",
+      "avatar": "assets/v170/avatar_prop_ma_map_dan_ha.png"
+    },
+    {
+      "id": "prop_ma_map_co_kiem_di_tich",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_ma_map_co_kiem_di_tich.png",
+      "avatar": "assets/v170/avatar_prop_ma_map_co_kiem_di_tich.png"
+    },
+    {
+      "id": "prop_ma_map_u_minh_vuc",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_ma_map_u_minh_vuc.png",
+      "avatar": "assets/v170/avatar_prop_ma_map_u_minh_vuc.png"
+    },
+    {
+      "id": "prop_ma_map_kinh_tam_canh",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_ma_map_kinh_tam_canh.png",
+      "avatar": "assets/v170/avatar_prop_ma_map_kinh_tam_canh.png"
+    },
+    {
+      "id": "prop_ma_map_long_mach_thien_son",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_ma_map_long_mach_thien_son.png",
+      "avatar": "assets/v170/avatar_prop_ma_map_long_mach_thien_son.png"
+    },
+    {
+      "id": "prop_ma_map_thien_khe_dai",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_ma_map_thien_khe_dai.png",
+      "avatar": "assets/v170/avatar_prop_ma_map_thien_khe_dai.png"
+    },
+    {
+      "id": "prop_ma_map_tran_yeu_thap",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_ma_map_tran_yeu_thap.png",
+      "avatar": "assets/v170/avatar_prop_ma_map_tran_yeu_thap.png"
+    }
+  ],
+  "environment": [
+    {
+      "id": "building_hall",
+      "alignment": "demonic",
+      "sprite": "assets/v170/building_hall_demonic.png",
+      "avatar": "assets/v170/avatar_building_hall_demonic.png"
+    },
+    {
+      "id": "building_herbalist",
+      "alignment": "demonic",
+      "sprite": "assets/v170/building_herbalist_demonic.png",
+      "avatar": "assets/v170/avatar_building_herbalist_demonic.png"
+    },
+    {
+      "id": "building_barracks",
+      "alignment": "demonic",
+      "sprite": "assets/v170/building_barracks_demonic.png",
+      "avatar": "assets/v170/avatar_building_barracks_demonic.png"
+    },
+    {
+      "id": "building_house",
+      "alignment": "demonic",
+      "sprite": "assets/v170/building_house_demonic.png",
+      "avatar": "assets/v170/avatar_building_house_demonic.png"
+    },
+    {
+      "id": "prop_pine_tree",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_pine_tree_demonic.png",
+      "avatar": "assets/v170/avatar_prop_pine_tree_demonic.png"
+    },
+    {
+      "id": "prop_broadleaf_tree",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_broadleaf_tree_demonic.png",
+      "avatar": "assets/v170/avatar_prop_broadleaf_tree_demonic.png"
+    },
+    {
+      "id": "prop_ancient_rock",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_ancient_rock_demonic.png",
+      "avatar": "assets/v170/avatar_prop_ancient_rock_demonic.png"
+    },
+    {
+      "id": "prop_stone_lantern",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_stone_lantern_demonic.png",
+      "avatar": "assets/v170/avatar_prop_stone_lantern_demonic.png"
+    },
+    {
+      "id": "prop_shrine",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_shrine_demonic.png",
+      "avatar": "assets/v170/avatar_prop_shrine_demonic.png"
+    },
+    {
+      "id": "prop_sect_gate",
+      "alignment": "demonic",
+      "sprite": "assets/v170/prop_sect_gate_demonic.png",
+      "avatar": "assets/v170/avatar_prop_sect_gate_demonic.png"
+    }
+  ]
+}
