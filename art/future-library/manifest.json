@@ -1,0 +1,1422 @@
+[
+  {
+    "key": "npc_sect_master",
+    "file": "avatar_npc_sect_master.png",
+    "source": "npc-portraits-a.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "npc_sword_spirit",
+    "file": "avatar_npc_sword_spirit.png",
+    "source": "npc-portraits-a.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "npc_rebel_cultivator",
+    "file": "avatar_npc_rebel_cultivator.png",
+    "source": "npc-portraits-a.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "npc_mountain_god",
+    "file": "avatar_npc_mountain_god.png",
+    "source": "npc-portraits-a.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "npc_dan_ton",
+    "file": "avatar_npc_dan_ton.png",
+    "source": "npc-portraits-b.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "npc_inner_voice",
+    "file": "avatar_npc_inner_voice.png",
+    "source": "npc-portraits-b.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "npc_covenant_arbiter",
+    "file": "avatar_npc_covenant_arbiter.png",
+    "source": "npc-portraits-b.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "npc_tower_keeper",
+    "file": "avatar_npc_tower_keeper.png",
+    "source": "npc-portraits-b.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "npc_elder",
+    "file": "avatar_npc_elder.png",
+    "source": "npc-portraits-c.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "npc_healer",
+    "file": "avatar_npc_healer.png",
+    "source": "npc-portraits-c.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "npc_guard",
+    "file": "avatar_npc_guard.png",
+    "source": "npc-portraits-c.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "disciple_lieu_muoi",
+    "file": "avatar_disciple_lieu_muoi.png",
+    "source": "npc-portraits-c.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "hero_sword_male_immortal",
+    "file": "avatar_hero_sword_male_immortal.png",
+    "source": "hero-portraits-sword.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "hero_sword_female_immortal",
+    "file": "avatar_hero_sword_female_immortal.png",
+    "source": "hero-portraits-sword.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "hero_sword_male_demonic",
+    "file": "avatar_hero_sword_male_demonic.png",
+    "source": "hero-portraits-sword.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "hero_sword_female_demonic",
+    "file": "avatar_hero_sword_female_demonic.png",
+    "source": "hero-portraits-sword.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "hero_spell_male_immortal",
+    "file": "avatar_hero_spell_male_immortal.png",
+    "source": "hero-portraits-spell.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "hero_spell_female_immortal",
+    "file": "avatar_hero_spell_female_immortal.png",
+    "source": "hero-portraits-spell.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "hero_spell_male_demonic",
+    "file": "avatar_hero_spell_male_demonic.png",
+    "source": "hero-portraits-spell.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "hero_spell_female_demonic",
+    "file": "avatar_hero_spell_female_demonic.png",
+    "source": "hero-portraits-spell.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "hero_body_male_immortal",
+    "file": "avatar_hero_body_male_immortal.png",
+    "source": "hero-portraits-body.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "hero_body_female_immortal",
+    "file": "avatar_hero_body_female_immortal.png",
+    "source": "hero-portraits-body.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "hero_body_male_demonic",
+    "file": "avatar_hero_body_male_demonic.png",
+    "source": "hero-portraits-body.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "hero_body_female_demonic",
+    "file": "avatar_hero_body_female_demonic.png",
+    "source": "hero-portraits-body.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_001",
+    "file": "avatar_boss_001.png",
+    "source": "boss-portraits-01.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_002",
+    "file": "avatar_boss_002.png",
+    "source": "boss-portraits-01.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_003",
+    "file": "avatar_boss_003.png",
+    "source": "boss-portraits-01.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_004",
+    "file": "avatar_boss_004.png",
+    "source": "boss-portraits-01.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_005",
+    "file": "avatar_boss_005.png",
+    "source": "boss-portraits-02.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_006",
+    "file": "avatar_boss_006.png",
+    "source": "boss-portraits-02.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_007",
+    "file": "avatar_boss_007.png",
+    "source": "boss-portraits-02.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_008",
+    "file": "avatar_boss_008.png",
+    "source": "boss-portraits-02.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_009",
+    "file": "avatar_boss_009.png",
+    "source": "boss-portraits-03.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_010",
+    "file": "avatar_boss_010.png",
+    "source": "boss-portraits-03.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_011",
+    "file": "avatar_boss_011.png",
+    "source": "boss-portraits-03.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_012",
+    "file": "avatar_boss_012.png",
+    "source": "boss-portraits-03.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_013",
+    "file": "avatar_boss_013.png",
+    "source": "boss-portraits-04.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_014",
+    "file": "avatar_boss_014.png",
+    "source": "boss-portraits-04.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_015",
+    "file": "avatar_boss_015.png",
+    "source": "boss-portraits-04.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_016",
+    "file": "avatar_boss_016.png",
+    "source": "boss-portraits-04.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_017",
+    "file": "avatar_boss_017.png",
+    "source": "boss-portraits-05.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_018",
+    "file": "avatar_boss_018.png",
+    "source": "boss-portraits-05.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_019",
+    "file": "avatar_boss_019.png",
+    "source": "boss-portraits-05.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_020",
+    "file": "avatar_boss_020.png",
+    "source": "boss-portraits-05.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_001_phase",
+    "file": "avatar_boss_001_phase.png",
+    "source": "boss-phase-portraits-01.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_002_phase",
+    "file": "avatar_boss_002_phase.png",
+    "source": "boss-phase-portraits-01.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_003_phase",
+    "file": "avatar_boss_003_phase.png",
+    "source": "boss-phase-portraits-01.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_004_phase",
+    "file": "avatar_boss_004_phase.png",
+    "source": "boss-phase-portraits-01.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_005_phase",
+    "file": "avatar_boss_005_phase.png",
+    "source": "boss-phase-portraits-02.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_006_phase",
+    "file": "avatar_boss_006_phase.png",
+    "source": "boss-phase-portraits-02.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_007_phase",
+    "file": "avatar_boss_007_phase.png",
+    "source": "boss-phase-portraits-02.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_008_phase",
+    "file": "avatar_boss_008_phase.png",
+    "source": "boss-phase-portraits-02.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_009_phase",
+    "file": "avatar_boss_009_phase.png",
+    "source": "boss-phase-portraits-03.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_010_phase",
+    "file": "avatar_boss_010_phase.png",
+    "source": "boss-phase-portraits-03.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_011_phase",
+    "file": "avatar_boss_011_phase.png",
+    "source": "boss-phase-portraits-03.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_012_phase",
+    "file": "avatar_boss_012_phase.png",
+    "source": "boss-phase-portraits-03.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_013_phase",
+    "file": "avatar_boss_013_phase.png",
+    "source": "boss-phase-portraits-04.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_014_phase",
+    "file": "avatar_boss_014_phase.png",
+    "source": "boss-phase-portraits-04.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_015_phase",
+    "file": "avatar_boss_015_phase.png",
+    "source": "boss-phase-portraits-04.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_016_phase",
+    "file": "avatar_boss_016_phase.png",
+    "source": "boss-phase-portraits-04.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_017_phase",
+    "file": "avatar_boss_017_phase.png",
+    "source": "boss-phase-portraits-05.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_018_phase",
+    "file": "avatar_boss_018_phase.png",
+    "source": "boss-phase-portraits-05.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_019_phase",
+    "file": "avatar_boss_019_phase.png",
+    "source": "boss-phase-portraits-05.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_020_phase",
+    "file": "avatar_boss_020_phase.png",
+    "source": "boss-phase-portraits-05.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "npc_mentor",
+    "file": "avatar_npc_mentor.png",
+    "source": "legacy-portraits-a.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_lang_vuong",
+    "file": "avatar_boss_lang_vuong.png",
+    "source": "legacy-portraits-a.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "boss_turtle",
+    "file": "avatar_boss_turtle.png",
+    "source": "legacy-portraits-a.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "monster_puppet",
+    "file": "avatar_monster_puppet.png",
+    "source": "legacy-portraits-a.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "monster_wolf",
+    "file": "avatar_monster_wolf.png",
+    "source": "legacy-portraits-b.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "monster_snake",
+    "file": "avatar_monster_snake.png",
+    "source": "legacy-portraits-b.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "monster_fox",
+    "file": "avatar_monster_fox.png",
+    "source": "legacy-portraits-b.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "monster_treant",
+    "file": "avatar_monster_treant.png",
+    "source": "legacy-portraits-b.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "mount_crane",
+    "file": "mount_crane_wild.png",
+    "source": "mount-crane-wild-tame-avatar.png",
+    "size": [
+      512,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      128,
+      96
+    ],
+    "kind": "wild"
+  },
+  {
+    "key": "mount_crane",
+    "file": "mount_crane_tame.png",
+    "source": "mount-crane-wild-tame-avatar.png",
+    "size": [
+      512,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      128,
+      96
+    ],
+    "kind": "tame"
+  },
+  {
+    "key": "mount_crane_wild",
+    "file": "avatar_mount_crane_wild.png",
+    "source": "mount-crane-wild-tame-avatar.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "mount_crane_bonded",
+    "file": "avatar_mount_crane_bonded.png",
+    "source": "mount-crane-wild-tame-avatar.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "mount_fox",
+    "file": "mount_fox_wild.png",
+    "source": "mount-fox-wild-tame-avatar.png",
+    "size": [
+      512,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      128,
+      96
+    ],
+    "kind": "wild"
+  },
+  {
+    "key": "mount_fox",
+    "file": "mount_fox_tame.png",
+    "source": "mount-fox-wild-tame-avatar.png",
+    "size": [
+      512,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      128,
+      96
+    ],
+    "kind": "tame"
+  },
+  {
+    "key": "mount_fox_wild",
+    "file": "avatar_mount_fox_wild.png",
+    "source": "mount-fox-wild-tame-avatar.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "mount_fox_bonded",
+    "file": "avatar_mount_fox_bonded.png",
+    "source": "mount-fox-wild-tame-avatar.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "mount_shadow_wolf",
+    "file": "mount_shadow_wolf_wild.png",
+    "source": "mount-shadow_wolf-wild-tame-avatar.png",
+    "size": [
+      512,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      128,
+      96
+    ],
+    "kind": "wild"
+  },
+  {
+    "key": "mount_shadow_wolf",
+    "file": "mount_shadow_wolf_tame.png",
+    "source": "mount-shadow_wolf-wild-tame-avatar.png",
+    "size": [
+      512,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      128,
+      96
+    ],
+    "kind": "tame"
+  },
+  {
+    "key": "mount_shadow_wolf_wild",
+    "file": "avatar_mount_shadow_wolf_wild.png",
+    "source": "mount-shadow_wolf-wild-tame-avatar.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "mount_shadow_wolf_bonded",
+    "file": "avatar_mount_shadow_wolf_bonded.png",
+    "source": "mount-shadow_wolf-wild-tame-avatar.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "mount_stag",
+    "file": "mount_stag_wild.png",
+    "source": "mount-stag-wild-tame-avatar.png",
+    "size": [
+      512,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      128,
+      96
+    ],
+    "kind": "wild"
+  },
+  {
+    "key": "mount_stag",
+    "file": "mount_stag_tame.png",
+    "source": "mount-stag-wild-tame-avatar.png",
+    "size": [
+      512,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      128,
+      96
+    ],
+    "kind": "tame"
+  },
+  {
+    "key": "mount_stag_wild",
+    "file": "avatar_mount_stag_wild.png",
+    "source": "mount-stag-wild-tame-avatar.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "mount_stag_bonded",
+    "file": "avatar_mount_stag_bonded.png",
+    "source": "mount-stag-wild-tame-avatar.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "mount_turtle",
+    "file": "mount_turtle_wild.png",
+    "source": "mount-turtle-wild-tame-avatar.png",
+    "size": [
+      512,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      128,
+      96
+    ],
+    "kind": "wild"
+  },
+  {
+    "key": "mount_turtle",
+    "file": "mount_turtle_tame.png",
+    "source": "mount-turtle-wild-tame-avatar.png",
+    "size": [
+      512,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      128,
+      96
+    ],
+    "kind": "tame"
+  },
+  {
+    "key": "mount_turtle_wild",
+    "file": "avatar_mount_turtle_wild.png",
+    "source": "mount-turtle-wild-tame-avatar.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "mount_turtle_bonded",
+    "file": "avatar_mount_turtle_bonded.png",
+    "source": "mount-turtle-wild-tame-avatar.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "mount_underworld_horse",
+    "file": "mount_underworld_horse_wild.png",
+    "source": "mount-underworld_horse-wild-tame-avatar-v2.png",
+    "size": [
+      512,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      128,
+      96
+    ],
+    "kind": "wild"
+  },
+  {
+    "key": "mount_underworld_horse",
+    "file": "mount_underworld_horse_tame.png",
+    "source": "mount-underworld_horse-wild-tame-avatar-v2.png",
+    "size": [
+      512,
+      96
+    ],
+    "frames": 4,
+    "frame_size": [
+      128,
+      96
+    ],
+    "kind": "tame"
+  },
+  {
+    "key": "mount_underworld_horse_wild",
+    "file": "avatar_mount_underworld_horse_wild.png",
+    "source": "mount-underworld_horse-wild-tame-avatar-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "mount_underworld_horse_bonded",
+    "file": "avatar_mount_underworld_horse_bonded.png",
+    "source": "mount-underworld_horse-wild-tame-avatar-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "npc_sect_master",
+    "file": "npc_sect_master_walk.png",
+    "source": "npc-walk-01.png",
+    "size": [
+      256,
+      64
+    ],
+    "frames": 4,
+    "frame_size": [
+      64,
+      64
+    ],
+    "kind": "walk"
+  },
+  {
+    "key": "npc_sword_spirit",
+    "file": "npc_sword_spirit_walk.png",
+    "source": "npc-sword-spirit-walk-v2.png",
+    "size": [
+      256,
+      64
+    ],
+    "frames": 4,
+    "frame_size": [
+      64,
+      64
+    ],
+    "kind": "walk"
+  },
+  {
+    "key": "npc_rebel_cultivator",
+    "file": "npc_rebel_cultivator_walk.png",
+    "source": "npc-walk-02.png",
+    "size": [
+      256,
+      64
+    ],
+    "frames": 4,
+    "frame_size": [
+      64,
+      64
+    ],
+    "kind": "walk"
+  },
+  {
+    "key": "npc_mountain_god",
+    "file": "npc_mountain_god_walk.png",
+    "source": "npc-walk-02.png",
+    "size": [
+      256,
+      64
+    ],
+    "frames": 4,
+    "frame_size": [
+      64,
+      64
+    ],
+    "kind": "walk"
+  },
+  {
+    "key": "npc_dan_ton",
+    "file": "npc_dan_ton_walk.png",
+    "source": "npc-walk-03.png",
+    "size": [
+      256,
+      64
+    ],
+    "frames": 4,
+    "frame_size": [
+      64,
+      64
+    ],
+    "kind": "walk"
+  },
+  {
+    "key": "npc_inner_voice",
+    "file": "npc_inner_voice_walk.png",
+    "source": "npc-walk-03.png",
+    "size": [
+      256,
+      64
+    ],
+    "frames": 4,
+    "frame_size": [
+      64,
+      64
+    ],
+    "kind": "walk"
+  },
+  {
+    "key": "npc_covenant_arbiter",
+    "file": "npc_covenant_arbiter_walk.png",
+    "source": "npc-walk-04.png",
+    "size": [
+      256,
+      64
+    ],
+    "frames": 4,
+    "frame_size": [
+      64,
+      64
+    ],
+    "kind": "walk"
+  },
+  {
+    "key": "npc_tower_keeper",
+    "file": "npc_tower_keeper_walk.png",
+    "source": "npc-walk-04.png",
+    "size": [
+      256,
+      64
+    ],
+    "frames": 4,
+    "frame_size": [
+      64,
+      64
+    ],
+    "kind": "walk"
+  },
+  {
+    "key": "landmark_realm_gate",
+    "file": "landmark_realm_gate_ambient.png",
+    "source": "landmarks-01-v2.png",
+    "size": [
+      768,
+      192
+    ],
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "kind": "ambient"
+  },
+  {
+    "key": "landmark_realm_gate",
+    "file": "avatar_landmark_realm_gate.png",
+    "source": "landmarks-01-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "landmark_spirit_spring",
+    "file": "landmark_spirit_spring_ambient.png",
+    "source": "landmarks-01-v2.png",
+    "size": [
+      768,
+      192
+    ],
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "kind": "ambient"
+  },
+  {
+    "key": "landmark_spirit_spring",
+    "file": "avatar_landmark_spirit_spring.png",
+    "source": "landmarks-01-v2.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "landmark_forge",
+    "file": "landmark_forge_ambient.png",
+    "source": "landmarks-02.png",
+    "size": [
+      768,
+      192
+    ],
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "kind": "ambient"
+  },
+  {
+    "key": "landmark_forge",
+    "file": "avatar_landmark_forge.png",
+    "source": "landmarks-02.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "landmark_cave_entrance",
+    "file": "landmark_cave_entrance_ambient.png",
+    "source": "landmarks-02.png",
+    "size": [
+      768,
+      192
+    ],
+    "frames": 4,
+    "frame_size": [
+      192,
+      192
+    ],
+    "kind": "ambient"
+  },
+  {
+    "key": "landmark_cave_entrance",
+    "file": "avatar_landmark_cave_entrance.png",
+    "source": "landmarks-02.png",
+    "size": [
+      192,
+      192
+    ],
+    "kind": "avatar"
+  },
+  {
+    "key": "menu_quest",
+    "file": "icon_menu_quest.png",
+    "source": "menu-icons-a.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_map",
+    "file": "icon_menu_map.png",
+    "source": "menu-icons-a.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_story",
+    "file": "icon_menu_story.png",
+    "source": "menu-icons-a.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_events",
+    "file": "icon_menu_events.png",
+    "source": "menu-icons-a.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_tower",
+    "file": "icon_menu_tower.png",
+    "source": "menu-icons-a.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_character",
+    "file": "icon_menu_character.png",
+    "source": "menu-icons-a.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_skills",
+    "file": "icon_menu_skills.png",
+    "source": "menu-icons-a.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_crafting",
+    "file": "icon_menu_crafting.png",
+    "source": "menu-icons-a.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_offline",
+    "file": "icon_menu_offline.png",
+    "source": "menu-icons-a.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_disciple",
+    "file": "icon_menu_disciple.png",
+    "source": "menu-icons-b.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_pets",
+    "file": "icon_menu_pets.png",
+    "source": "menu-icons-b.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_mount",
+    "file": "icon_menu_mount.png",
+    "source": "menu-icons-b.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_sect",
+    "file": "icon_menu_sect.png",
+    "source": "menu-icons-b.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_cave",
+    "file": "icon_menu_cave.png",
+    "source": "menu-icons-b.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_inventory",
+    "file": "icon_menu_inventory.png",
+    "source": "menu-icons-b.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_settings",
+    "file": "icon_menu_settings.png",
+    "source": "menu-icons-b.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_guide",
+    "file": "icon_menu_guide.png",
+    "source": "menu-icons-b.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  },
+  {
+    "key": "menu_admin",
+    "file": "icon_menu_admin.png",
+    "source": "menu-icons-b.png",
+    "size": [
+      64,
+      64
+    ],
+    "kind": "icon"
+  }
+]
