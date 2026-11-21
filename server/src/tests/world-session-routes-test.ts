@@ -699,7 +699,7 @@ test('breakthrough checks and updates the active second slot', async (t) => {
   const active = await prisma.character.create({
     data: {
       accountId: game.character.accountId, name: `${game.character.name}_2`, slot: 1, isActive: true,
-      cultivationPath: CultivationPath.BODY, realmTier: 2, cultivationExp: 600, gold: 300, stats: { ...initialStats },
+      cultivationPath: CultivationPath.BODY, realmTier: 2, cultivationExp: 600, exp: 700, gold: 1000, stats: { ...initialStats },
     },
   });
 
@@ -723,7 +723,7 @@ for (const [path, skillId] of [
     const game = await setup(t);
     await prisma.character.update({
       where: { id: game.character.id },
-      data: { cultivationPath: path, realmTier: 2, cultivationExp: 600, gold: 300 },
+      data: { cultivationPath: path, realmTier: 2, cultivationExp: 600, exp: 700, gold: 1000 },
     });
     const starterId = skillId.replace('_03', '_01');
     await prisma.characterSkill.create({
@@ -850,7 +850,7 @@ test('offline shrine uses locked saved stats and preserves unrelated fields', as
 test('breakthrough retry targets its original character and starting stage', async (t) => {
   t.mock.method(breakthroughRng, 'roll', () => 0);
   const game = await setup(t);
-  await prisma.character.update({ where: { id: game.character.id }, data: { cultivationExp: 950 } });
+  await prisma.character.update({ where: { id: game.character.id }, data: { cultivationExp: 950, exp: 250, gold: 1000 } });
   const target = { characterId: game.character.id, realmIndex: 0, realmTier: 0 };
   const advance = (payload: Record<string, unknown>) => game.post('/character/breakthrough', payload);
   assert.equal((await advance(target)).statusCode, 200);

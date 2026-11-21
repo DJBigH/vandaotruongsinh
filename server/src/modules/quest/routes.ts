@@ -14,6 +14,7 @@ import { authenticate } from '../../middleware/auth';
 import { QUEST_TEMPLATES, ITEM_TEMPLATES, getQuestRewards, reconcileQuestObjectives } from '../../data/game-content';
 import { initQuestObjectives, areObjectivesComplete, getQuestPrerequisites } from './quest-engine';
 import { getActiveCharacter } from '../character/helpers';
+import { syncCharacterLevel } from '../../engine/character-level';
 
 export async function questRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
   const { prisma } = options;
@@ -223,7 +224,7 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
           },
         });
 
-        await tx.character.update({
+        const rewardedCharacter = await tx.character.update({
           where: { id: char.id },
           data: {
             gold: { increment: rewards.gold },
@@ -231,6 +232,7 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
             cultivationExp: { increment: BigInt(rewards.cultivationExp) },
           },
         });
+        await syncCharacterLevel(tx, rewardedCharacter);
 
         await tx.characterQuest.update({
           where: { id: cq.id },

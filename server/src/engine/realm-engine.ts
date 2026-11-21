@@ -17,14 +17,25 @@ export interface BreakthroughStatus {
   nextRealmName: string;
   requiredExp: number;
   currentExp: number;
+  currentLevel: number;
+  requiredLevel: number;
+  currentGold: number;
+  requiredGold: number;
   missingItems: { itemId: string; name: string; quantity: number }[];
   message: string;
 }
 
 export function getBreakthroughRequirement(realmIndex: number, realmTier: number) {
+  if (realmIndex === RealmIndex.DO_KIEP && realmTier === MAX_REALM_TIER) return undefined;
   return BREAKTHROUGH_REQUIREMENTS.find(
     (r) => r.realmIndex === realmIndex && r.tier === realmTier,
   );
+}
+
+export function breakthroughGoldCost(realmIndex: number, realmTier: number): number {
+  if (!getBreakthroughRequirement(realmIndex, realmTier)) return 0;
+  const requiredLevel = 2 + realmIndex * (MAX_REALM_TIER + 1) + realmTier;
+  return 30 * requiredLevel * requiredLevel;
 }
 
 export function checkBreakthroughEligibility(
@@ -32,6 +43,8 @@ export function checkBreakthroughEligibility(
   realmTier: number,
   cultivationExp: bigint | number,
   inventoryItems: { templateId: string; quantity: number }[],
+  level: number,
+  gold: number,
 ): BreakthroughStatus {
   const req = getBreakthroughRequirement(realmIndex, realmTier);
   const currentExp = Number(cultivationExp);
@@ -44,6 +57,10 @@ export function checkBreakthroughEligibility(
       nextRealmName: 'Đỉnh phong thế giới',
       requiredExp: 0,
       currentExp,
+      currentLevel: level,
+      requiredLevel: 0,
+      currentGold: gold,
+      requiredGold: 0,
       missingItems: [],
       message: 'Đã đạt đến cực hạn tu vi hiện tại!',
     };
@@ -77,11 +94,19 @@ export function checkBreakthroughEligibility(
   }
 
   const expMet = currentExp >= req.cultivationExp;
+  const requiredLevel = 2 + realmIndex * (MAX_REALM_TIER + 1) + realmTier;
+  const requiredGold = breakthroughGoldCost(realmIndex, realmTier);
+  const levelMet = level >= requiredLevel;
+  const goldMet = gold >= requiredGold;
   const itemsMet = missingItems.length === 0;
-  const canBreakthrough = expMet && itemsMet;
+  const canBreakthrough = expMet && levelMet && goldMet && itemsMet;
 
   let message = 'Có thể tiến hành đột phá!';
-  if (!expMet) {
+  if (!levelMet) {
+    message = `Cần đạt cấp ${requiredLevel} để đột phá.`;
+  } else if (!goldMet) {
+    message = `Cần thêm ${requiredGold - gold} linh thạch để đột phá.`;
+  } else if (!expMet) {
     message = `Chưa đủ tu vi! Cần thêm ${req.cultivationExp - currentExp} điểm tu vi.`;
   } else if (!itemsMet) {
     message = `Thiếu đan dược/vật phẩm phụ trợ để đột phá an toàn!`;
@@ -93,6 +118,10 @@ export function checkBreakthroughEligibility(
     nextRealmName,
     requiredExp: req.cultivationExp,
     currentExp,
+    currentLevel: level,
+    requiredLevel,
+    currentGold: gold,
+    requiredGold,
     missingItems,
     message,
   };

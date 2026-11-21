@@ -11,6 +11,7 @@ import { disconnectAccountSockets } from '../arpg/ws-handler';
 import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
 import { z } from 'zod';
 import { gmRoutes } from './gm-routes';
+import { levelForExperience } from '../../engine/character-level';
 import {
   ITEM_TEMPLATES,
   MONSTER_TEMPLATES,
@@ -160,6 +161,7 @@ export async function adminRoutes(fastify: FastifyInstance, options: { prisma: P
                 realmIndex: true,
                 realmTier: true,
                 level: true,
+                exp: true,
                 gold: true,
               },
             },
@@ -182,7 +184,7 @@ export async function adminRoutes(fastify: FastifyInstance, options: { prisma: P
             cultivationPath: char.cultivationPath,
             realmIndex: char.realmIndex,
             realmTier: char.realmTier,
-            level: char.level,
+            level: levelForExperience(char.exp),
             gold: char.gold,
           } : undefined,
         };
@@ -242,7 +244,7 @@ export async function adminRoutes(fastify: FastifyInstance, options: { prisma: P
             cultivationPath: char.cultivationPath,
             realmIndex: char.realmIndex,
             realmTier: char.realmTier,
-            level: char.level,
+            level: levelForExperience(char.exp),
             gold: char.gold,
             stats: char.stats,
             inventory: char.inventory,
@@ -372,6 +374,7 @@ export async function adminRoutes(fastify: FastifyInstance, options: { prisma: P
         updateData.cultivationExp = BigInt(c);
       }
 
+      if (updateData.exp !== undefined) updateData.level = levelForExperience(updateData.exp);
       await prisma.character.update({
         where: { id: char.id },
         data: updateData,

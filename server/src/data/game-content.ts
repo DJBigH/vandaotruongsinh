@@ -107,7 +107,6 @@ export const BREAKTHROUGH_REQUIREMENTS: BreakthroughRequirement[] = [
   { realmIndex: 8, tier: 0, cultivationExp: 920000, requiredItems: [{ itemId: 'item_073', quantity: 1 }], statBonusPercent: 250 },
   { realmIndex: 8, tier: 1, cultivationExp: 1060000, statBonusPercent: 275 },
   { realmIndex: 8, tier: 2, cultivationExp: 1220000, statBonusPercent: 300 },
-  { realmIndex: 8, tier: 3, cultivationExp: 1400000, requiredItems: [{ itemId: 'item_074', quantity: 5 }], statBonusPercent: 350 },
 ];
 
 // === 3 Môn Phái (Sects) ===

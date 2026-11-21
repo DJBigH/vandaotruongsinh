@@ -1,7 +1,7 @@
 # VẠN ĐẠO TRƯỜNG SINH (萬道長生)
 
 > **Tác giả:** BigK  
-> **Phiên bản:** 1.3.1
+> **Phiên bản:** 1.4.0
 > **Kho lưu trữ mã nguồn:** [DJBigH/vandaotruongsinh](https://github.com/DJBigH/vandaotruongsinh)
 > **Hướng dẫn cài đặt:** [HUONG_DAN_CAI_DAT.md](HUONG_DAN_CAI_DAT.md)
 > **Hướng dẫn Launcher:** [LAUNCHER_GUIDE.md](LAUNCHER_GUIDE.md)
@@ -168,7 +168,7 @@ Mở trình duyệt truy cập: `http://localhost:5173`.
 
 ## 4. Chạy Bộ Kiểm Thử Tự Động (Test Suite)
 
-Dự án có các bộ kiểm thử ARPG, nội dung, bảo mật và launcher. Chạy `npm run test:all`, `npm run test:v120`, `npm run test:v130` và `npm run test:v131` ở thư mục gốc. Bản 1.3.1 tải hình theo bản đồ, báo tiến độ/lỗi có nút thử lại và sửa hướng dẫn tới hang thú. Xem [ghi chú phát hành](docs/checkpoints/1.3.1-release.md) và [quy ước phiên bản](docs/VERSIONING.md).
+Dự án có các bộ kiểm thử ARPG, nội dung, bảo mật và launcher. Chạy `npm run test:all`, `npm run test:v120`, `npm run test:v130`, `npm run test:v131` và `npm run test:v140` ở thư mục gốc. Bản 1.4.0 có 9 cảnh giới, 36 tầng; EXP tăng cấp nhân vật, mỗi lần đột phá hợp lệ cần cấp, tu vi, linh thạch và vật phẩm theo tầng. Xem [ghi chú phát hành](docs/checkpoints/1.4.0-release.md) và [quy ước phiên bản](docs/VERSIONING.md).
 
 ```bash
 cd server

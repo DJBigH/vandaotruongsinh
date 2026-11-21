@@ -24,7 +24,7 @@ test('v1.0.4 protects GM commands, applies equipment runes, and records failed b
   const [player, owner] = accounts;
   const char = await prisma.character.create({ data: {
     accountId: owner.id, name: `GM_${suffix}`, isActive: true, cultivationPath: CultivationPath.SWORD,
-    realmIndex: 0, realmTier: 0, cultivationExp: 1000n, gold: 2000,
+    realmIndex: 0, realmTier: 0, cultivationExp: 1000n, exp: 50n, gold: 2000,
     stats: { ...computeCharacterStats(CultivationPath.SWORD, 0, 0) },
   } });
   t.after(() => ArpgSessionManager.getInstance().removeSession(char.id));

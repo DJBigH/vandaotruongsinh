@@ -31,6 +31,7 @@ import { updateQuestProgressBatch } from '../modules/quest/quest-engine';
 import { DISCIPLE_NAME, DISCIPLE_TEMPLATE_ID, discipleAttack } from '../modules/disciple/disciple';
 import { TOWER_FLOORS } from '../data/tower';
 import { activeWorldEvent, eventClaimKey, eventKillReward } from '../modules/events/schedule';
+import { syncCharacterLevel } from './character-level';
 
 interface SessionCharacter {
   id: string;
@@ -789,7 +790,7 @@ export class ArpgGameSession {
     try {
       await prisma.$transaction(async (tx) => {
         // Add EXP & Gold
-        await tx.character.update({
+        const rewardedCharacter = await tx.character.update({
           where: { id: this.characterId },
           data: {
             exp: { increment: exp },
@@ -797,6 +798,7 @@ export class ArpgGameSession {
             cultivationExp: { increment: monster.template.cultivationExpReward },
           },
         });
+        await syncCharacterLevel(tx, rewardedCharacter);
 
         const event = activeWorldEvent();
         const timedReward = event ? eventKillReward(event, this.mapId, monster.templateId) : null;

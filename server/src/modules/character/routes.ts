@@ -32,6 +32,7 @@ import {
 } from '../../data/game-content';
 import { initQuestObjectives } from '../quest/quest-engine';
 import { breakthroughChance, breakthroughOutcome, breakthroughRng } from '../../engine/breakthrough-chance';
+import { levelForExperience, levelProgress } from '../../engine/character-level';
 
 const createCharacterSchema = z.object({
   name: z.string().min(2, 'Tên nhân vật tối thiểu 2 ký tự').max(20, 'Tên nhân vật tối đa 20 ký tự'),
@@ -63,9 +64,13 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
     const items = await prisma.inventoryItem.findMany({ where: { characterId: char.id },
       select: { templateId: true, quantity: true } });
     const requirement = getBreakthroughRequirement(char.realmIndex, char.realmTier);
-    const status = checkBreakthroughEligibility(char.realmIndex, char.realmTier, char.cultivationExp, items);
+    const progress = levelProgress(char.exp);
+    const status = checkBreakthroughEligibility(char.realmIndex, char.realmTier, char.cultivationExp, items,
+      progress.level, char.gold);
     return reply.send({ success: true, data: {
       ...status,
+      levelExperience: progress.current,
+      levelExperienceRequired: progress.required,
       chance: breakthroughChance(char.realmIndex, char.realmTier),
       cooldownSeconds: Math.max(0, Math.ceil((15_000 - (Date.now() - (char.lastBreakthroughAt?.getTime() ?? 0))) / 1000)),
       stages: REALM_TIERS.map((tier, index) => ({ name: tier, reached: index <= char.realmTier })),
@@ -122,7 +127,8 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         realmIndex: character.realmIndex,
         realmTier: character.realmTier,
         realmName: `${REALM_NAMES[character.realmIndex]} - ${REALM_TIERS[character.realmTier]}`,
-        level: character.level,
+        level: levelForExperience(character.exp),
+        exp: Number(character.exp),
         stats: effectiveStats,
         currentMapId: character.currentMapId,
         gold: character.gold,
@@ -264,6 +270,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         realmTier: newChar.realmTier,
         realmName: `${REALM_NAMES[newChar.realmIndex]} - ${REALM_TIERS[newChar.realmTier]}`,
         level: newChar.level,
+        exp: Number(newChar.exp),
         stats: initialStats,
         currentMapId: newChar.currentMapId,
         gold: newChar.gold,
@@ -322,6 +329,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
 
         const check = checkBreakthroughEligibility(
           character.realmIndex, character.realmTier, character.cultivationExp, character.inventory,
+          levelForExperience(character.exp), character.gold,
         );
         if (!check.canBreakthrough) {
           return { success: false as const, status: 400, error: check.message, data: check };
@@ -336,7 +344,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         const newCultExp = character.cultivationExp - BigInt(outcome.lostExp);
         if (!outcome.success) {
           await tx.character.update({ where: { id: character.id }, data: {
-            cultivationExp: newCultExp, lastBreakthroughAt: new Date(),
+            cultivationExp: newCultExp, gold: { decrement: check.requiredGold }, lastBreakthroughAt: new Date(),
           } });
           await tx.breakthroughAttempt.create({ data: {
             characterId: character.id, requestId, success: false,
@@ -356,6 +364,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
             realmIndex: nextRealm,
             realmTier: nextTier,
             cultivationExp: newCultExp < BigInt(0) ? BigInt(0) : newCultExp,
+            gold: { decrement: check.requiredGold },
             lastBreakthroughAt: new Date(),
             stats: { ...newStats },
           },
@@ -380,7 +389,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
           expSpent: result.spentExp,
           message: result.advanced
             ? `Chúc mừng đạo hữu! Đã đột phá thành công cảnh giới [${newRealmName}]! Thần thức mở rộng, linh lực tăng vọt!`
-            : `Đột phá thất bại. Tâm mạch đã ổn định, hao ${result.spentExp} tu vi; có thể thử lại sau 15 giây.`,
+            : `Đột phá thất bại. Hao ${result.spentExp} tu vi và linh thạch đã dùng; có thể thử lại sau 15 giây.`,
         },
       });
     } catch (err: any) {
@@ -407,7 +416,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
           cultivationPath: char?.cultivationPath,
           realmIndex: char?.realmIndex,
           realmTier: char?.realmTier,
-          level: char?.level,
+          level: char ? levelForExperience(char.exp) : undefined,
           spiritStones: char?.gold,
           isActive: char?.isActive ?? false,
           updatedAt: char?.createdAt.toISOString(),

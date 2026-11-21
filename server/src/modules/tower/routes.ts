@@ -10,6 +10,7 @@ import { getActiveCharacter } from '../character/helpers';
 import { TOWER_FLOORS } from '../../data/tower';
 import { MAP_TEMPLATES } from '../../data/maps';
 import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
+import { syncCharacterLevel } from '../../engine/character-level';
 export { TOWER_FLOORS } from '../../data/tower';
 
 export async function towerRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
@@ -128,7 +129,7 @@ export async function towerRoutes(fastify: FastifyInstance, options: { prisma: P
         await tx.rewardClaim.create({ data: { characterId: char.id, eventKey: `tower_floor_${floorNum}_reward` } });
 
         // Grant exp, gold, cultExp
-        await tx.character.update({
+        const rewardedCharacter = await tx.character.update({
           where: { id: char.id },
           data: {
             exp: { increment: floorConfig.firstClearRewards.exp },
@@ -136,6 +137,7 @@ export async function towerRoutes(fastify: FastifyInstance, options: { prisma: P
             cultivationExp: { increment: floorConfig.firstClearRewards.cultivationExp },
           },
         });
+        await syncCharacterLevel(tx, rewardedCharacter);
 
         // Add items
         for (const item of floorConfig.firstClearRewards.items) {

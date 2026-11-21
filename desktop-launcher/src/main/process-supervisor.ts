@@ -232,8 +232,8 @@ export class ProcessSupervisor {
 
   public getStatusSnapshot(): SystemStatusSnapshot {
     return {
-      launcherVersion: '1.3.1',
-      gameVersion: '1.3.1',
+      launcherVersion: '1.4.0',
+      gameVersion: '1.4.0',
       isPackaged: app?.isPackaged ?? false,
       osInfo: {
         platform: process.platform,

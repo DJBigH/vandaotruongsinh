@@ -8,6 +8,7 @@ import { OfflineStatus, OfflineClaimResult } from '@shared';
 import { authenticate } from '../../middleware/auth';
 import { getActiveCharacter } from '../character/helpers';
 import { ArpgSessionManager } from '../../engine/realtime-arpg-engine';
+import { syncCharacterLevel } from '../../engine/character-level';
 
 export async function offlineRoutes(fastify: FastifyInstance, options: { prisma: PrismaClient }) {
   const { prisma } = options;
@@ -117,6 +118,8 @@ export async function offlineRoutes(fastify: FastifyInstance, options: { prisma:
         if (updateRes.count === 0) {
           throw new Error('Phần thưởng đã được kết toán ở một yêu cầu khác!');
         }
+        const rewardedCharacter = await tx.character.findUniqueOrThrow({ where: { id: char.id } });
+        await syncCharacterLevel(tx, rewardedCharacter);
       });
 
       const hours = Math.floor(gains.effectiveMinutes / 60);

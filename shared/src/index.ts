@@ -365,6 +365,7 @@ export interface CharacterSummary {
   realmTier: number;
   realmName: string;
   level: number;
+  exp: number;
   stats: CharacterStats;
   currentMapId: string;
   gold: number;

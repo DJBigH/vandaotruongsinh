@@ -258,7 +258,7 @@ async function runTests() {
     data: { cultivationExp: BigInt(150) },
   });
 
-  const breakCheck = checkBreakthroughEligibility(0, 0, 150, []);
+  const breakCheck = checkBreakthroughEligibility(0, 0, 150, [], 2, 120);
   assert(breakCheck.canBreakthrough, 'Đủ điều kiện đột phá Luyện Khí Sơ Kỳ lên Trung Kỳ');
 
   // Thực hiện đột phá (giữ trang bị)

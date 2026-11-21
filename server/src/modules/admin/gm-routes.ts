@@ -9,6 +9,7 @@ import { SKILL_TEMPLATES } from '../../data/skills';
 import { MAP_TEMPLATES } from '../../data/maps';
 import { MOUNTS, mountOwnedKey } from '../mount/mounts';
 import { computeCharacterStats } from '../character/stats';
+import { levelForExperience, syncCharacterLevel } from '../../engine/character-level';
 
 const targetId = z.string().uuid();
 const commandSchema = z.discriminatedUnion('kind', [
@@ -63,7 +64,7 @@ export async function gmRoutes(fastify: FastifyInstance, { prisma }: { prisma: P
       id: character.id, name: character.name, cultivationPath: character.cultivationPath,
       alignment: character.alignment, gold: character.gold, exp: character.exp.toString(),
       cultivationExp: character.cultivationExp.toString(), realmIndex: character.realmIndex,
-      realmTier: character.realmTier, level: character.level, godMode: character.godMode,
+      realmTier: character.realmTier, level: levelForExperience(character.exp), godMode: character.godMode,
       currentMapId: character.currentMapId, activeMount: character.activeMount,
       inventory: character.inventory.map(({ id, templateId, quantity, enhanceLevel }) => ({ id, templateId, quantity, enhanceLevel })),
       skills: character.skills.map(({ skillId, level }) => ({ skillId, level })),
@@ -107,10 +108,13 @@ export async function gmRoutes(fastify: FastifyInstance, { prisma }: { prisma: P
           if (command.kind === 'resources' && current.gold + command.gold > 1_000_000_000)
             return { success: false as const, status: 400, error: 'Linh thạch vượt giới hạn' };
           if (command.kind === 'godMode') await tx.character.update({ where: { id: characterId }, data: { godMode: command.value } });
-          if (command.kind === 'resources') await tx.character.update({ where: { id: characterId }, data: {
-            gold: { increment: command.gold }, exp: { increment: BigInt(command.exp) },
-            cultivationExp: { increment: BigInt(command.cultivationExp) },
-          } });
+          if (command.kind === 'resources') {
+            const rewardedCharacter = await tx.character.update({ where: { id: characterId }, data: {
+              gold: { increment: command.gold }, exp: { increment: BigInt(command.exp) },
+              cultivationExp: { increment: BigInt(command.cultivationExp) },
+            } });
+            await syncCharacterLevel(tx, rewardedCharacter);
+          }
           if (command.kind === 'realm') {
             const stats = computeCharacterStats(current.cultivationPath as CultivationPath,
               command.realmIndex, command.realmTier, current.inventory.filter((item) => item.isEquipped), current.sectId);

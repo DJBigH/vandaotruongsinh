@@ -12,6 +12,7 @@ export default function CharacterPanel() {
   const { character, loadCharacter, setActivePanel, addNotification } = useGameStore();
   const [breakthroughLoading, setBreakthroughLoading] = useState(false);
   const [breakthroughInfo, setBreakthroughInfo] = useState<gameApi.BreakthroughInfo | null>(null);
+  const [remainingCooldown, setRemainingCooldown] = useState(0);
   const [breakthroughScene, setBreakthroughScene] = useState<{ success: boolean; message: string } | null>(null);
 
   useEffect(() => {
@@ -20,7 +21,26 @@ export default function CharacterPanel() {
       if (mounted && res.success) setBreakthroughInfo(res.data ?? null);
     }).catch(() => { if (mounted) setBreakthroughInfo(null); });
     return () => { mounted = false; };
-  }, [character?.id, character?.realmIndex, character?.realmTier, character?.cultivationExp]);
+  }, [character?.id, character?.realmIndex, character?.realmTier, character?.cultivationExp,
+    character?.exp, character?.gold]);
+
+  useEffect(() => {
+    let active = true;
+    let remaining = breakthroughInfo?.cooldownSeconds ?? 0;
+    setRemainingCooldown(remaining);
+    if (!remaining) return;
+    const timer = window.setInterval(() => {
+      remaining = Math.max(0, remaining - 1);
+      setRemainingCooldown(remaining);
+      if (remaining === 0) {
+        window.clearInterval(timer);
+        void gameApi.getBreakthroughInfo().then((res) => {
+          if (active && res.success) setBreakthroughInfo(res.data ?? null);
+        }).catch(() => {});
+      }
+    }, 1000);
+    return () => { active = false; window.clearInterval(timer); };
+  }, [breakthroughInfo]);
 
   if (!character) return null;
 
@@ -128,7 +148,7 @@ export default function CharacterPanel() {
           <div>
             <h3 style={{ margin: '0 0 12px 0', color: '#c5a059', fontSize: '1rem' }}>Tiến Cảnh Tu Luyện</h3>
             <p style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.5, marginBottom: '16px' }}>
-              Hấp thu thiên địa linh khí thông qua chiến đấu, làm nhiệm vụ và dùng đan dược. Khi tu vi viên mãn, có thể dẫn động lôi kiếp đột phá cảnh giới mới.
+              Chiến đấu và làm nhiệm vụ để tăng cấp. Tích lũy tu vi và linh thạch để đột phá; mỗi lần thử đều có thể thất bại.
             </p>
 
             <div style={{ background: '#1e293b', padding: '12px', borderRadius: '6px', marginBottom: '16px' }}>
@@ -141,20 +161,39 @@ export default function CharacterPanel() {
                   <div className="realm-stages" aria-label="Các tầng của cảnh giới hiện tại">
                     {breakthroughInfo.stages.map((stage) => <span key={stage.name} className={stage.reached ? 'reached' : ''}>{stage.name}</span>)}
                   </div>
-                  <p style={{ color: '#d8c18c', fontSize: '0.82rem', margin: '8px 0 0' }}>
+                  {breakthroughInfo.requiredLevel > 0 && <p style={{ color: '#d8c18c', fontSize: '0.82rem', margin: '8px 0 0' }}>
                     Tỉ lệ thành công: {Math.round(breakthroughInfo.chance * 100)}%. Thất bại hao 15% tu vi cần cho tầng này.
-                    {breakthroughInfo.cooldownSeconds > 0 ? ` Tâm mạch hồi phục sau ${breakthroughInfo.cooldownSeconds} giây.` : ''}
-                  </p>
+                    {remainingCooldown > 0 ? ` Tâm mạch hồi phục sau ${remainingCooldown} giây.` : ''}
+                  </p>}
                   <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: '0.82rem', marginTop: 12 }}>
+                    <span>Cấp nhân vật</span>
+                    <strong style={{ color: breakthroughInfo.currentLevel >= breakthroughInfo.requiredLevel ? '#81c784' : '#f1b96b' }}>
+                      {breakthroughInfo.currentLevel}{breakthroughInfo.requiredLevel > 0 ? ` / ${breakthroughInfo.requiredLevel}` : ' (tối đa)'}
+                    </strong>
+                  </div>
+                  <progress aria-label="Kinh nghiệm lên cấp" value={breakthroughInfo.levelExperienceRequired ? breakthroughInfo.levelExperience : 1}
+                    max={breakthroughInfo.levelExperienceRequired || 1} style={{ width: '100%', height: 10, accentColor: '#81c784', marginTop: 6 }} />
+                  <div style={{ fontSize: '0.76rem', color: '#a9bac9', textAlign: 'right' }}>
+                    {breakthroughInfo.levelExperienceRequired
+                      ? `${breakthroughInfo.levelExperience.toLocaleString('vi-VN')} / ${breakthroughInfo.levelExperienceRequired.toLocaleString('vi-VN')} EXP lên cấp`
+                      : 'Đã đạt cấp tối đa'}
+                  </div>
+                  {breakthroughInfo.requiredLevel > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: '0.82rem', marginTop: 12 }}>
                     <span>Tu vi tích lũy</span>
                     <strong>{breakthroughInfo.currentExp.toLocaleString('vi-VN')} / {breakthroughInfo.requiredExp.toLocaleString('vi-VN')}</strong>
-                  </div>
-                  <div role="progressbar" aria-label="Tiến độ tu vi" aria-valuenow={Math.min(breakthroughInfo.currentExp, breakthroughInfo.requiredExp)}
-                    aria-valuemin={0} aria-valuemax={Math.max(1, breakthroughInfo.requiredExp)}
-                    style={{ height: 10, background: '#334155', borderRadius: 999, overflow: 'hidden', marginTop: 6 }}>
-                    <div style={{ height: '100%', width: `${breakthroughInfo.requiredExp ? Math.min(100, breakthroughInfo.currentExp / breakthroughInfo.requiredExp * 100) : 100}%`, background: '#c5a059' }} />
-                  </div>
-                  <p style={{ margin: '10px 0 0', color: '#c5a059', fontSize: '0.82rem' }}>Mốc tiếp: {breakthroughInfo.nextRealmName}</p>
+                  </div>}
+                  {breakthroughInfo.requiredLevel > 0 && <progress aria-label="Tiến độ tu vi" value={Math.min(breakthroughInfo.currentExp, breakthroughInfo.requiredExp)}
+                    max={breakthroughInfo.requiredExp} style={{ width: '100%', height: 10, accentColor: '#c5a059', marginTop: 6 }} />}
+                  {breakthroughInfo.requiredLevel > 0 && <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: '0.82rem', marginTop: 12 }}>
+                    <span>Linh thạch mỗi lần thử</span>
+                    <strong style={{ color: breakthroughInfo.currentGold >= breakthroughInfo.requiredGold ? '#81c784' : '#f1b96b' }}>
+                      {breakthroughInfo.currentGold.toLocaleString('vi-VN')} / {breakthroughInfo.requiredGold.toLocaleString('vi-VN')}
+                    </strong>
+                  </div>}
+                  <p role="status" style={{ margin: '10px 0 0', color: breakthroughInfo.canBreakthrough ? '#81c784' : '#f1b96b', fontSize: '0.82rem' }}>
+                    {breakthroughInfo.message}
+                  </p>
+                  {breakthroughInfo.requiredLevel > 0 && <p style={{ margin: '10px 0 0', color: '#c5a059', fontSize: '0.82rem' }}>Mốc tiếp: {breakthroughInfo.nextRealmName}</p>}
                   {breakthroughInfo.requiredItems.map((item) => (
                     <div key={item.itemId} style={{ fontSize: '0.8rem', color: item.owned >= item.quantity ? '#81c784' : '#f1b96b', marginTop: 4 }}>
                       {item.name}: {item.owned}/{item.quantity}
@@ -170,7 +209,7 @@ export default function CharacterPanel() {
 
           <button
             onClick={handleBreakthrough}
-            disabled={breakthroughLoading || !breakthroughInfo?.canBreakthrough || breakthroughInfo.cooldownSeconds > 0}
+            disabled={breakthroughLoading || !breakthroughInfo?.canBreakthrough || remainingCooldown > 0}
             style={{
               width: '100%',
               padding: '12px',

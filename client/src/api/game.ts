@@ -77,6 +77,12 @@ export interface BreakthroughInfo {
   nextRealmName: string;
   requiredExp: number;
   currentExp: number;
+  currentLevel: number;
+  requiredLevel: number;
+  levelExperience: number;
+  levelExperienceRequired: number;
+  currentGold: number;
+  requiredGold: number;
   message: string;
   chance: number;
   cooldownSeconds: number;
