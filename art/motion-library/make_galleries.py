@@ -30,7 +30,10 @@ def gallery(name: str, pattern: str, cell: int, columns: int) -> None:
 
 
 if __name__ == '__main__':
-    gallery('bosses', 'boss_*.png', 128, 5)
+    gallery('bosses', 'boss_*_idle_windup_attack_hurt.png', 128, 5)
+    gallery('boss-move', 'boss_*_move.png', 128, 5)
+    gallery('boss-death', 'boss_*_death.png', 128, 5)
+    gallery('boss-phase', 'boss_*_phase.png', 128, 5)
     gallery('npcs', 'npc_*.png', 64, 4)
     gallery('props', 'prop_*.png', 128, 4)
     gallery('vfx', 'vfx_*.png', 96, 4)

@@ -5,7 +5,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parent
 SHEETS = ROOT / 'sheets'
-EXPECTED = {'boss_': (20, 128), 'npc_': (8, 64), 'prop_': (4, 128), 'vfx_': (38, 96)}
+EXPECTED = {'boss_': (80, 128), 'npc_': (8, 64), 'prop_': (4, 128), 'vfx_': (38, 96)}
 
 
 def validate() -> None:
@@ -29,6 +29,8 @@ def validate() -> None:
         assert totals[category] == expected, (category, totals[category], expected)
     for school in ('sword', 'spell', 'body'):
         assert len(list(SHEETS.glob(f'vfx_skill_{school}_*.png'))) == 12, school
+    for sequence in ('idle_windup_attack_hurt', 'move', 'death', 'phase'):
+        assert len(list(SHEETS.glob(f'boss_*_{sequence}.png'))) == 20, sequence
     print('PASS:', ', '.join(f'{category}{totals[category]}' for category in EXPECTED),
           f'= {sum(totals.values())} sheets / {sum(totals.values()) * 4} frames')
 
