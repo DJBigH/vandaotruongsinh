@@ -15,6 +15,7 @@ import {
   REALM_NAMES,
   REALM_TIERS,
   realmTitle,
+  TITLE_CATALOG,
 } from '@shared';
 import { retireOtherSlots, withAccountSlot } from '../arpg/ws-handler';
 import { authenticate } from '../../middleware/auth';
@@ -108,6 +109,10 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         return reply.send({ success: true, data: null });
       }
 
+      const titleFlag = await prisma.storyFlag.findUnique({ where: {
+        characterId_flagKey: { characterId: character.id, flagKey: 'EQUIPPED_TITLE' },
+      } });
+
       const equippedItems = character.inventory.map((i) => ({ templateId: i.templateId, enhanceLevel: i.enhanceLevel }));
       const effectiveStats = computeCharacterStats(
         character.cultivationPath as CultivationPath,
@@ -125,6 +130,9 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         gender: character.gender as CharacterGender,
         alignment: character.alignment as DaoAlignment,
         activeMount: character.activeMount,
+        equippedTitleId: titleFlag
+          ? TITLE_CATALOG.some(title => title.id === titleFlag.flagValue) ? titleFlag.flagValue : null
+          : 'heir',
         realmIndex: character.realmIndex,
         realmTier: character.realmTier,
         realmName: realmTitle(character.realmIndex, character.realmTier, character.alignment as DaoAlignment),
@@ -208,9 +216,9 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
             exp: BigInt(0),
             level: 1,
             stats: initialStats as any,
-            currentMapId: 'map_thanh_khe',
-            positionX: 400,
-            positionY: 300,
+            currentMapId: alignment === DaoAlignment.DEMONIC ? 'map_huyen_u_khe' : 'map_thanh_khe',
+            positionX: 32 * 32,
+            positionY: 40 * 32,
             gold: 50,
             appearance,
           },
@@ -267,6 +275,7 @@ export async function characterRoutes(fastify: FastifyInstance, options: { prism
         gender: newChar.gender as CharacterGender,
         alignment: newChar.alignment as DaoAlignment,
         activeMount: newChar.activeMount,
+        equippedTitleId: 'heir',
         realmIndex: newChar.realmIndex,
         realmTier: newChar.realmTier,
         realmName: realmTitle(newChar.realmIndex, newChar.realmTier, newChar.alignment as DaoAlignment),

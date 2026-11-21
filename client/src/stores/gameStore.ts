@@ -42,7 +42,7 @@ interface GameState {
   closeDialogue: () => void;
 
   // UI Panel states
-  activePanel: 'inventory' | 'character' | 'quest' | 'map' | 'crafting' | 'settings' | 'sect' | 'cave' | 'pets' | 'disciple' | 'offline' | 'story' | 'tower' | 'guide' | 'events' | 'mount' | 'skills' | null;
+  activePanel: 'inventory' | 'character' | 'quest' | 'map' | 'crafting' | 'settings' | 'sect' | 'cave' | 'pets' | 'disciple' | 'offline' | 'story' | 'tower' | 'guide' | 'events' | 'mount' | 'skills' | 'titles' | null;
   setActivePanel: (panel: GameState['activePanel']) => void;
   menuOpen: boolean;
   setMenuOpen: (open: boolean) => void;

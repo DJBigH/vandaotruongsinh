@@ -1,6 +1,6 @@
 // ============================================================
-// VẠN ĐẠO TRƯỜNG SINH - 10 Bản Đồ Thế Giới (Maps)
-// 8 Khu Vực Cốt Truyện + Rừng Săn + Trấn Yêu Tháp
+// VẠN ĐẠO TRƯỜNG SINH - 11 Bản Đồ Thế Giới (Maps)
+// Hai nơi xuất sinh, tám khu vực cốt truyện, rừng săn và Trấn Yêu Tháp.
 // ============================================================
 
 import { MapData, MapCollisionZone, MapDecorativeProp, MapSpawnZone } from '@shared';
@@ -647,4 +647,37 @@ export const MAP_TEMPLATES: Record<string, MapData> = {
   },
 };
 
+// The same walkable village footprint keeps the chapter-one objectives reachable
+// while the Ma birth settlement has its own art, NPC identity, and return portal.
+const immortalVillage = MAP_TEMPLATES.map_thanh_khe;
+MAP_TEMPLATES.map_huyen_u_khe = {
+  ...immortalVillage,
+  id: 'map_huyen_u_khe',
+  name: 'Huyền U Khê',
+  npcs: immortalVillage.npcs.map(npc => ({ ...npc,
+    name: npc.id === 'npc_elder' ? 'Huyền U Lão Giả'
+      : npc.id === 'npc_healer' ? 'Dược Sư U Lan' : 'Huyền Giáp Vệ',
+    dialogueId: npc.id === 'npc_elder' ? 'dlg_elder_ma_01'
+      : npc.id === 'npc_healer' ? 'dlg_healer_ma_01' : 'dlg_guard_ma_01',
+  })),
+  portals: immortalVillage.portals.map(portal => ({ ...portal,
+    label: portal.targetMapId === 'map_thanh_khe_rung' ? 'U Lâm Ngoại Vực' : 'Thanh Vân Kiếm Tông',
+  })),
+  decorativeProps: [
+    ...(immortalVillage.decorativeProps ?? []),
+    { key: 'prop_stone_lantern', x: 26, y: 23, originY: 0.9 },
+    { key: 'prop_stone_lantern', x: 38, y: 23, originY: 0.9 },
+    { key: 'prop_ancient_rock', x: 8, y: 34, originY: 0.9 },
+    { key: 'prop_ancient_rock', x: 55, y: 34, originY: 0.9 },
+  ],
+};
 export const MAP_DATA = MAP_TEMPLATES;
+
+/** Keep one return gate in the shared forest, pointing to each hero's birthplace. */
+export function mapForAlignment(mapId: string, alignment: 'IMMORTAL' | 'DEMONIC') {
+  const map = Object.hasOwn(MAP_TEMPLATES, mapId) ? MAP_TEMPLATES[mapId] : undefined;
+  if (!map || mapId !== 'map_thanh_khe_rung' || alignment !== 'DEMONIC') return map;
+  return { ...map, portals: map.portals.map(portal => portal.id === 'portal_back_to_village'
+    ? { ...portal, label: 'Huyền U Khê', targetMapId: 'map_huyen_u_khe' }
+    : portal) };
+}

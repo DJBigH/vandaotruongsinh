@@ -15,7 +15,7 @@ interface Asset {
   key: string;
   file: string;
   type: 'image' | 'spritesheet' | 'audio';
-  provenance: 'original-M1' | 'legacy' | 'v104-derived' | 'v105-original' | 'v110-original' | 'v120-original' | 'v130-original' | 'v150-original';
+  provenance: 'original-M1' | 'legacy' | 'v104-derived' | 'v105-original' | 'v110-original' | 'v120-original' | 'v130-original' | 'v150-original' | 'v160-original';
 }
 export interface SpritesheetAsset extends Asset {
   type: 'spritesheet';
@@ -211,6 +211,51 @@ for (const alignment of ['immortal', 'demonic']) for (let rank = 0; rank <= 11; 
   assets.push({ key: `${stem}_breakthrough`, file: `assets/v150/${stem}_breakthrough.png`, type: 'spritesheet',
     frameWidth: 96, frameHeight: 96, provenance: 'v150-original',
     animations: [{ key: `${stem}_breakthrough_play`, frameStart: 0, frameEnd: 3, duration: 880, repeat: 0 }] });
+}
+
+// Separate, authored Tiên/Ma variants; the suffix is selected from the active character.
+for (const alignment of ['immortal', 'demonic']) {
+  for (const name of ['elder', 'healer', 'guard', 'mentor', 'sect_master', 'sword_spirit',
+    'rebel_cultivator', 'mountain_god', 'dan_ton', 'inner_voice', 'covenant_arbiter', 'tower_keeper']) {
+    const key = `npc_${name}_${alignment}`;
+    assets.push({ key, file: `assets/v160/${key}.png`, type: 'spritesheet', frameWidth: 64, frameHeight: 64,
+      provenance: 'v160-original', animations: [{ key: `${key}_idle`, frameStart: 0, frameEnd: name === 'elder' || name === 'healer' || name === 'guard' || name === 'mentor' ? 3 : 0,
+        duration: 800, repeat: -1 }] });
+    if (!['elder', 'healer', 'guard', 'mentor'].includes(name)) {
+      const gestureKey = `npc_${name}_gestures_${alignment}`;
+      assets.push({ key: gestureKey, file: `assets/v160/${gestureKey}.png`, type: 'spritesheet', frameWidth: 64, frameHeight: 64,
+        provenance: 'v160-original', animations: [{ key: `${gestureKey}_greet`, frameStart: 0, frameEnd: 2, duration: 450, repeat: 0 }] });
+    }
+  }
+  for (const mount of ['mount_crane', 'mount_shadow_wolf', 'mount_fox', 'mount_turtle', 'mount_stag', 'mount_underworld_horse'])
+    for (const state of ['ride', 'wild']) {
+      const key = `${mount}_${state}_${alignment}`;
+      assets.push({ key, file: `assets/v160/${key}.png`, type: 'spritesheet', frameWidth: 128, frameHeight: 96,
+        provenance: 'v160-original', animations: [{ key: `${key}_walk`, frameStart: 0, frameEnd: 3,
+          duration: state === 'ride' ? 480 : 640, repeat: -1 }] });
+    }
+  for (let number = 1; number <= 20; number++) for (const state of ['actions', 'move', 'phase', 'death']) {
+    const key = `boss_${String(number).padStart(3, '0')}_${state}_${alignment}`;
+    assets.push({ key, file: `assets/v160/${key}.png`, type: 'spritesheet', frameWidth: 128, frameHeight: 128,
+      provenance: 'v160-original', animations: state === 'actions' ? [] : [{ key: `${key}_${state === 'move' ? 'walk' : 'play'}`,
+        frameStart: 0, frameEnd: 3, duration: state === 'death' ? 760 : 600, repeat: state === 'move' ? -1 : 0 }] });
+  }
+  for (const prop of ['building_hall', 'building_herbalist', 'building_barracks', 'building_house',
+    'prop_pine_tree', 'prop_broadleaf_tree', 'prop_ancient_rock', 'prop_stone_lantern', 'prop_shrine', 'prop_sect_gate', 'prop_portal']) {
+    const key = `${prop}_${alignment}`;
+    assets.push({ key, file: `assets/v160/${key}.png`, type: 'image', provenance: 'v160-original' });
+  }
+  for (const map of ['map_thanh_khe', 'map_huyen_u_khe', 'map_thanh_khe_rung', 'map_thanh_van',
+    'map_dan_ha', 'map_co_kiem_di_tich', 'map_u_minh_vuc', 'map_kinh_tam_canh',
+    'map_long_mach_thien_son', 'map_thien_khe_dai', 'map_tran_yeu_thap']) {
+    const key = `mapground_${map}_${alignment}`;
+    assets.push({ key, file: `assets/v160/${key}.png`, type: 'image', provenance: 'v160-original' });
+  }
+  for (const title of ['heir', 'wanderer', 'guardian', 'dragon', 'sovereign', 'ascendant']) {
+    const key = `title_${alignment}_${title}_banner`;
+    assets.push({ key, file: `assets/v160/${key}.png`, type: 'spritesheet', frameWidth: 192, frameHeight: 48,
+      provenance: 'v160-original', animations: [{ key: `${key}_play`, frameStart: 0, frameEnd: 3, duration: 1100, repeat: -1 }] });
+  }
 }
 
 for (const key of ['tile_grass', 'tile_grass_flower', 'tile_path', 'tile_water', 'tile_dirt',

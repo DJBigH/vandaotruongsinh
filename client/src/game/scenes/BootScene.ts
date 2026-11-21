@@ -25,7 +25,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.on(Phaser.Loader.Events.PROGRESS, (progress: number) =>
       eventBridge.emit('gameLoadProgress', { label: 'Đang tải hình nhân vật và kỹ năng', progress: Math.round(progress * 100) }));
     this.load.on(Phaser.Loader.Events.FILE_LOAD_ERROR, (file: Phaser.Loader.File) => this.failed.push(file.key));
-    for (const asset of bootAssets(identity)) queueAsset(this, asset);
+    for (const asset of bootAssets(identity, character?.alignment)) queueAsset(this, asset);
   }
 
   create() {

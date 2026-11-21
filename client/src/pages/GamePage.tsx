@@ -29,10 +29,15 @@ import GuidePanel from '../components/game/GuidePanel';
 import EventsPanel from '../components/game/EventsPanel';
 import MountPanel from '../components/game/MountPanel';
 import SkillPanel from '../components/game/SkillPanel';
+import OriginCinematic from '../components/game/OriginCinematic';
+import TitlesPanel from '../components/game/TitlesPanel';
+import { clearOriginCinematic, hasOriginCinematic } from '../game/originCinematic';
 
 export default function GamePage() {
   const navigate = useNavigate();
   const [endedSession, setEndedSession] = useState('');
+  const [originIntro, setOriginIntro] = useState<string | null>(null);
+  const [gameDataReady, setGameDataReady] = useState(false);
   const [loading, setLoading] = useState<{ label: string; progress?: number; error?: string }>(
     { label: 'Đang kiểm tra nhân vật…' });
   const gameContainerRef = useRef<HTMLDivElement>(null);
@@ -52,11 +57,17 @@ export default function GamePage() {
   } = useGameStore();
 
   useEffect(() => {
-    if (!character || !currentMap || activePanel || useGameStore.getState().dialogueState) return;
+    if (originIntro || !character || !currentMap || activePanel || useGameStore.getState().dialogueState) return;
     if (!window.localStorage.getItem(`vandao-guide-v105:${character.id}`)) {
       useGameStore.getState().setActivePanel('guide');
     }
-  }, [character?.id, currentMap?.id, activePanel]);
+  }, [character?.id, currentMap?.id, activePanel, originIntro]);
+
+  useEffect(() => {
+    if (!gameDataReady || originIntro || !gameContainerRef.current || phaserGameRef.current) return;
+    setLoading({ label: 'Đang tải hình nhân vật và kỹ năng…', progress: 0 });
+    phaserGameRef.current = createPhaserGame(gameContainerRef.current.id);
+  }, [gameDataReady, originIntro]);
 
   useEffect(() => {
     if (!loading.label || loading.error) return;
@@ -88,11 +99,11 @@ export default function GamePage() {
         return;
       }
 
-      // Initialize Phaser canvas
-      if (isMounted && gameContainerRef.current && !phaserGameRef.current) {
-        setLoading({ label: 'Đang tải hình nhân vật và kỹ năng…', progress: 0 });
-        phaserGameRef.current = createPhaserGame(gameContainerRef.current.id);
+      if (hasOriginCinematic(characterResult.character.id)) {
+        setOriginIntro(characterResult.character.alignment);
+        setLoading({ label: '' });
       }
+      setGameDataReady(true);
     }
 
     initGameData();
@@ -191,6 +202,9 @@ export default function GamePage() {
         }}
       />
 
+      {originIntro && <OriginCinematic alignment={originIntro} onComplete={() => {
+        clearOriginCinematic(); setOriginIntro(null);
+      }} />}
       {endedSession ? (
         <section role="alert" aria-label="Phiên chơi đã kết thúc" style={{
           position: 'absolute', inset: 0, display: 'grid', placeContent: 'center', justifyItems: 'center',
@@ -200,7 +214,7 @@ export default function GamePage() {
           <p>{endedSession}</p>
           <button type="button" onClick={() => window.location.reload()}>Tải lại nhân vật đang chọn</button>
         </section>
-      ) : (
+      ) : !originIntro && (
         <>
           <HUD />
           <DialogueModal />
@@ -223,9 +237,10 @@ export default function GamePage() {
           {activePanel === 'events' && <EventsPanel />}
           {activePanel === 'mount' && <MountPanel />}
           {activePanel === 'skills' && <SkillPanel />}
+          {activePanel === 'titles' && <TitlesPanel />}
         </>
       )}
-      {!endedSession && (loading.label || loading.error) && (
+      {!originIntro && !endedSession && (loading.label || loading.error) && (
         <section role={loading.error ? 'alert' : 'status'} aria-live="polite" aria-label="Trạng thái tải trò chơi" style={{
           position: 'absolute', inset: 0, zIndex: 10000, display: 'grid', placeContent: 'center',
           justifyItems: 'center', gap: 14, padding: 24, textAlign: 'center',

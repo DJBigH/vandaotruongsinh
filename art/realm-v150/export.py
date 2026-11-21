@@ -6,7 +6,6 @@ Only realm ornaments, costumes and four-frame effects are painted here.
 from __future__ import annotations
 
 import json
-import math
 import shutil
 import sys
 from pathlib import Path
@@ -23,6 +22,7 @@ VNEXT = ROOT / 'client' / 'public' / 'assets' / 'vnext'
 V120 = ROOT / 'client' / 'public' / 'assets' / 'v120'
 sys.path.insert(0, str(ROOT / 'art' / 'vnext'))
 from generate_v104_variants import BASES, POSES, recolor  # noqa: E402
+from organic_crest import organic_crest  # noqa: E402
 
 NAMES = {
     'immortal': ('Luyện Khí', 'Trúc Cơ', 'Kim Đan', 'Nguyên Anh', 'Hóa Thần', 'Luyện Hư',
@@ -51,103 +51,6 @@ def darker(color: tuple[int, int, int, int], amount: float) -> tuple[int, int, i
     return tuple(round(channel * (1 - amount)) for channel in color[:3]) + (255,)
 
 
-def motif(draw: ImageDraw.ImageDraw, rank: int, alignment: str,
-          cx: int, cy: int, scale: int, color: tuple[int, int, int, int],
-          highlight: tuple[int, int, int, int]) -> None:
-    """Twelve readable silhouettes, with curved Tiên and angular Ma strokes."""
-    s = scale
-    if rank == 0:  # breath / awakened claw
-        for offset in (-1, 0, 1):
-            draw.arc((cx - s + offset * 2, cy - s, cx + s - 2 + offset * 2, cy + s),
-                     45 if alignment == 'immortal' else 175, 295 if alignment == 'immortal' else 425,
-                     fill=color, width=2)
-        draw.ellipse((cx-2, cy-2, cx+2, cy+2), fill=highlight)
-    elif rank == 1:  # foundation pillar / fetter
-        draw.polygon([(cx, cy-s), (cx+s//2, cy-s//2), (cx+s//2, cy+s//2),
-                      (cx, cy+s), (cx-s//2, cy+s//2), (cx-s//2, cy-s//2)], outline=color)
-        draw.line((cx, cy-s+3, cx, cy+s-3), fill=highlight, width=3)
-        draw.line((cx-s+2, cy, cx+s-2, cy), fill=color, width=2)
-    elif rank == 2:  # golden core / abyssal eye
-        draw.ellipse((cx-s, cy-s, cx+s, cy+s), outline=color, width=3)
-        draw.ellipse((cx-s//2, cy-s//2, cx+s//2, cy+s//2), fill=highlight)
-        draw.arc((cx-s+4, cy-s+4, cx+s-4, cy+s-4), 25, 205, fill=darker(color, .35), width=2)
-        if alignment == 'demonic':
-            draw.line((cx-s, cy, cx+s, cy), fill=darker(color, .35), width=2)
-    elif rank == 3:  # nascent soul / masked spirit
-        draw.polygon([(cx, cy-s), (cx+s//2, cy-s//3), (cx+s//3, cy+s//2),
-                      (cx, cy+s), (cx-s//3, cy+s//2), (cx-s//2, cy-s//3)], fill=color)
-        draw.polygon([(cx, cy-s+4), (cx+s//4, cy), (cx, cy+s//2), (cx-s//4, cy)], fill=highlight)
-        draw.point((cx-4, cy+2), fill=darker(color, .6))
-        draw.point((cx+4, cy+2), fill=darker(color, .6))
-    elif rank == 4:  # ascendant wings / paired horns
-        for side in (-1, 1):
-            draw.polygon([(cx+side*3, cy+4), (cx+side*s, cy-s), (cx+side*(s-3), cy+4),
-                          (cx+side*7, cy+s//2)], fill=color)
-            draw.line((cx+side*5, cy+1, cx+side*(s-4), cy-5), fill=highlight, width=2)
-        draw.ellipse((cx-3, cy-4, cx+3, cy+4), fill=highlight)
-    elif rank == 5:  # split void
-        draw.polygon([(cx, cy-s), (cx+s, cy), (cx, cy+s), (cx-s, cy)], outline=color, width=3)
-        draw.line((cx+4, cy-s+2, cx-3, cy-1, cx+2, cy+2, cx-5, cy+s-2), fill=highlight, width=3)
-        draw.line((cx-s+1, cy+s//2, cx-4, cy+s//2), fill=color, width=2)
-    elif rank == 6:  # union knot / sealed shell
-        for angle in (0, 120, 240):
-            radians = math.radians(angle)
-            ox, oy = round(math.cos(radians)*s*.55), round(math.sin(radians)*s*.55)
-            draw.ellipse((cx+ox-5, cy+oy-5, cx+ox+5, cy+oy+5), outline=color, width=3)
-        draw.polygon([(cx, cy-5), (cx+5, cy), (cx, cy+5), (cx-5, cy)], fill=highlight)
-    elif rank == 7:  # great path / warlord trident
-        draw.line((cx, cy-s, cx, cy+s), fill=color, width=3)
-        for side in (-1, 1):
-            draw.line((cx, cy-4, cx+side*(s-2), cy-s+2, cx+side*(s-2), cy+3), fill=color, width=3)
-            draw.line((cx, cy+5, cx+side*(s-2), cy+s-2), fill=highlight, width=2)
-        draw.ellipse((cx-3, cy-3, cx+3, cy+3), fill=highlight)
-    elif rank == 8:  # tribulation bolt
-        draw.polygon([(cx-2, cy-s), (cx+s//2, cy-s//3), (cx+1, cy-2),
-                      (cx+s//3, cy+2), (cx-s//2, cy+s), (cx-3, cy+2),
-                      (cx-s//2, cy-2)], fill=color)
-        draw.line((cx-1, cy-s+3, cx+3, cy-3, cx-2, cy+s-4), fill=highlight, width=2)
-    elif rank == 9:  # wandering lotus / horned mantle
-        for side in (-1, 1):
-            draw.polygon([(cx, cy+4), (cx+side*4, cy-s//2), (cx+side*s, cy-3),
-                          (cx+side*(s-3), cy+s//2)], fill=color)
-        draw.polygon([(cx, cy-s), (cx+5, cy), (cx, cy+s//2), (cx-5, cy)], fill=highlight)
-        draw.line((cx-s, cy+s-2, cx+s, cy+s-2), fill=highlight, width=2)
-    elif rank == 10:  # perfected sun / infernal gate
-        draw.ellipse((cx-s+3, cy-s+3, cx+s-3, cy+s-3), outline=color, width=3)
-        for angle in range(0, 360, 45):
-            radians = math.radians(angle)
-            draw.line((cx+round(math.cos(radians)*(s-1)), cy+round(math.sin(radians)*(s-1)),
-                       cx+round(math.cos(radians)*(s+3)), cy+round(math.sin(radians)*(s+3))),
-                      fill=highlight, width=2)
-        draw.polygon([(cx, cy-7), (cx+7, cy), (cx, cy+7), (cx-7, cy)], fill=highlight)
-    else:  # immortal seal / demon throne
-        draw.polygon([(cx-s, cy-s//2), (cx-s//2, cy-s), (cx, cy-s//2),
-                      (cx+s//2, cy-s), (cx+s, cy-s//2), (cx+s-3, cy+s//2),
-                      (cx, cy+s), (cx-s+3, cy+s//2)], fill=color)
-        draw.polygon([(cx, cy-s//2), (cx+s//3, cy), (cx, cy+s//2), (cx-s//3, cy)], fill=highlight)
-        draw.line((cx-s+3, cy+s//2, cx+s-3, cy+s//2), fill=darker(color, .55), width=2)
-
-
-def crest(rank: int, alignment: str) -> Image.Image:
-    color = rgb(PALETTES[alignment][rank])
-    bright = lighter(color, .38)
-    shadow = darker(color, .65)
-    image = Image.new('RGBA', (64, 64))
-    draw = ImageDraw.Draw(image)
-    # Chiseled medallion; the inner emblem, not the tint, identifies the realm.
-    draw.polygon([(32, 3), (48, 8), (57, 20), (60, 32), (57, 44), (48, 56),
-                  (32, 61), (16, 56), (7, 44), (4, 32), (7, 20), (16, 8)], fill=shadow)
-    draw.polygon([(32, 6), (47, 11), (54, 22), (57, 32), (54, 42), (47, 53),
-                  (32, 58), (17, 53), (10, 42), (7, 32), (10, 22), (17, 11)],
-                 outline=color, fill=(23, 30, 37, 255) if alignment == 'immortal' else (31, 21, 29, 255))
-    draw.arc((9, 9, 55, 55), 192, 350, fill=bright, width=2)
-    draw.arc((9, 9, 55, 55), 10, 165, fill=darker(color, .3), width=2)
-    for x, y in ((32, 8), (55, 32), (32, 55), (9, 32)):
-        draw.polygon([(x, y-2), (x+2, y), (x, y+2), (x-2, y)], fill=bright)
-    motif(draw, rank, alignment, 32, 32, 16, color, bright)
-    return image
-
-
 def breakthrough_strip(rank: int, alignment: str, sigil: Image.Image) -> Image.Image:
     color = rgb(PALETTES[alignment][rank])
     bright = lighter(color, .45)
@@ -158,15 +61,14 @@ def breakthrough_strip(rank: int, alignment: str, sigil: Image.Image) -> Image.I
         size = (31, 48, 62, 42)[frame]
         resized = sigil.resize((size, size), Image.Resampling.NEAREST)
         cell.alpha_composite(resized, (48-size//2, 46-size//2))
-        rays = (2, 4, 8, 3)[frame]
-        for ray in range(rays):
-            angle = math.radians(ray * 360 / rays + rank * 13 + frame * 7)
-            inner = (27, 32, 35, 28)[frame]
-            outer = (37, 42, 47, 38)[frame]
-            ax, ay = 48+round(math.cos(angle)*inner), 46+round(math.sin(angle)*inner)
-            bx, by = 48+round(math.cos(angle)*outer), 46+round(math.sin(angle)*outer)
-            draw.line((ax, ay, bx, by), fill=bright if ray % 2 else color, width=2)
-            draw.rectangle((bx-1, by-1, bx+1, by+1), fill=bright)
+        # Ink scrolls and drifting petals give motion without a mechanical radial burst.
+        for ribbon in range(2 + frame):
+            side = -1 if ribbon % 2 else 1
+            x = 48 + side * (24 + ribbon * 4)
+            y = 28 + ribbon * 10 - frame * 2
+            draw.arc((x-13, y-8, x+9, y+12), 15 if side > 0 else 165,
+                     208 if side > 0 else 350, fill=bright if ribbon % 2 else color, width=2)
+            draw.polygon(((x, y-4), (x+side*4, y), (x, y+3)), fill=bright)
         draw.arc((14, 65, 82, 84), 20+frame*12, 160+frame*12, fill=color, width=2)
         draw.arc((19, 68, 77, 81), 198-frame*10, 340-frame*10, fill=bright, width=2)
         if frame == 2:
@@ -299,7 +201,7 @@ def main() -> None:
     for alignment in NAMES:
         for rank, name in enumerate(NAMES[alignment]):
             stem = f'realm_{alignment}_{rank:02}'
-            sigil = crest(rank, alignment)
+            sigil = organic_crest(rank, alignment, PALETTES[alignment][rank])
             crests[(alignment, rank)] = sigil
             crest_path = save_art(sigil, f'{stem}_crest.png')
             fx_path = save_art(breakthrough_strip(rank, alignment, sigil), f'{stem}_breakthrough.png')

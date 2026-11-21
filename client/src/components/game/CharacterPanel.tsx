@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import * as gameApi from '../../api/game';
-import { CULTIVATION_PATH_NAMES, MAX_REALM_INDEX, realmName } from '@shared/index';
+import { CULTIVATION_PATH_NAMES, MAX_REALM_INDEX, realmName, titleName } from '@shared/index';
 import { heroAvatarUrl, realmArtUrl } from '../../game/assets/hero-variants';
 import UpgradeOutcome from './UpgradeOutcome';
 
@@ -98,6 +98,9 @@ export default function CharacterPanel() {
             <span style={{ fontSize: '0.85rem', color: '#94a3b8' }}>
               {CULTIVATION_PATH_NAMES[character.cultivationPath]} • {character.realmName}
             </span>
+            {character.equippedTitleId && <div style={{ color: '#e4c78c', fontFamily: 'serif' }}>
+              {titleName(character.equippedTitleId, character.alignment)}
+            </div>}
           </div>
         </div>
         <button

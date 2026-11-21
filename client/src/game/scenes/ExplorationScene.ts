@@ -19,6 +19,9 @@ import type { HeroPose } from '../assets/AssetManifest';
 import { heroVariantKey } from '../assets/hero-variants';
 import { MapLoad } from '../exploration/mapLoad';
 import { heroAssets, mapAssets } from '../assets/loadPlan';
+import { lineageKey } from '../assets/lineage';
+import { alignmentSlug } from '../assets/lineage';
+import { titleName } from '@shared/index';
 import { loadSceneAssets } from '../assets/sceneAssetLoader';
 import { cameraFollowLerp, predictPosition } from '../exploration/prediction';
 import { panelForShortcut } from '../../components/game/menuShortcuts';
@@ -39,6 +42,9 @@ export default class ExplorationScene extends Phaser.Scene {
   private mountSprite: Phaser.GameObjects.Sprite | null = null;
   private riderSprite: Phaser.GameObjects.Sprite | null = null;
   private saddleSprite: Phaser.GameObjects.Sprite | null = null;
+  private titleBanner: Phaser.GameObjects.Sprite | null = null;
+  private titleLabel: Phaser.GameObjects.Text | null = null;
+  private displayedTitleId: string | null = null;
   private readonly controls = new GameControls();
   private actorAction = new ActionAnimationLock();
   private readonly actionConfirmation = new ActionConfirmation();
@@ -115,7 +121,8 @@ export default class ExplorationScene extends Phaser.Scene {
     const mapLoader = new MapLoad(async (mapId: string) => {
       const res = await gameApi.getMap(mapId);
       if (!res.success || res.data?.id !== mapId) throw new Error('Lỗi khi tải bản đồ');
-      await loadSceneAssets(this, mapAssets(res.data, this.latestEntities), `Đang tải cảnh ${res.data.name}`);
+      await loadSceneAssets(this, mapAssets(res.data, this.latestEntities,
+        useGameStore.getState().character?.alignment), `Đang tải cảnh ${res.data.name}`);
       AnimationManager.registerAll(this);
       return res.data;
     });
@@ -406,6 +413,9 @@ export default class ExplorationScene extends Phaser.Scene {
     this.mountSprite = null;
     this.riderSprite = null;
     this.saddleSprite = null;
+    this.titleBanner = null;
+    this.titleLabel = null;
+    this.displayedTitleId = null;
     this.mapData = null;
     useGameStore.setState({ currentMap: null });
   }
@@ -433,6 +443,9 @@ export default class ExplorationScene extends Phaser.Scene {
     this.mountSprite = null;
     this.riderSprite = null;
     this.saddleSprite = null;
+    this.titleBanner = null;
+    this.titleLabel = null;
+    this.displayedTitleId = null;
     this.latestServerPlayer = null;
     this.latestEntities = [];
     this.latestProjectiles = [];
@@ -466,9 +479,11 @@ export default class ExplorationScene extends Phaser.Scene {
 
     // 6. Spawn NPCs với Chibi / Anime Spritesheets & Visual Clarity
     for (const npc of map.npcs) {
-      const gestures = `${npc.spriteKey}_gestures`;
+      const alignment = useGameStore.getState().character?.alignment;
+      const gestures = lineageKey(`${npc.spriteKey}_gestures`, alignment);
       const hasGestures = this.textures.exists(gestures);
-      const spriteKey = hasGestures ? gestures : this.textures.exists(npc.spriteKey) ? npc.spriteKey : 'npc_elder';
+      const variant = lineageKey(npc.spriteKey, alignment);
+      const spriteKey = hasGestures ? gestures : this.textures.exists(variant) ? variant : npc.spriteKey;
       const animKey = `${spriteKey}_idle`;
 
       const sprite = this.npcsGroup.create(npc.position.x * tileSize, npc.position.y * tileSize, spriteKey) as Phaser.Physics.Arcade.Sprite;
@@ -485,7 +500,7 @@ export default class ExplorationScene extends Phaser.Scene {
           const dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, sprite.x, sprite.y);
           if (dist <= 115) {
             if (hasGestures && !sprite.anims.isPlaying && !usePresentationSettings.getState().reducedEffects) {
-              const greet = `${npc.spriteKey}_greet`;
+              const greet = `${gestures}_greet`;
               sprite.play(greet);
               sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE_KEY + greet, () => sprite.setFrame(0));
             }
@@ -544,11 +559,11 @@ export default class ExplorationScene extends Phaser.Scene {
         label = 'Rương Bí Cảnh';
         originY = 0.90;
       } else if (item.type === 'SHRINE') {
-        texture = 'prop_shrine';
+        texture = lineageKey('prop_shrine', useGameStore.getState().character?.alignment);
         label = 'Linh Miếu';
         originY = 0.88;
       } else if (item.type === 'MOUNT' && item.mountId) {
-        texture = `${item.mountId}_wild`;
+        texture = lineageKey(`${item.mountId}_wild`, useGameStore.getState().character?.alignment);
         label = 'Linh Thú Chờ Thu Phục';
         originY = 0.88;
       }
@@ -559,7 +574,7 @@ export default class ExplorationScene extends Phaser.Scene {
       sprite.setDepth(sprite.y);
       if (item.type === 'MOUNT') {
         sprite.setScale(0.72);
-        const walk = `${item.mountId}_wild_walk`;
+        const walk = `${texture}_walk`;
         if (this.anims.exists(walk) && !usePresentationSettings.getState().reducedEffects) sprite.play(walk);
       }
 
@@ -574,16 +589,15 @@ export default class ExplorationScene extends Phaser.Scene {
 
     // 8. Spawn Portals (Cổng Không Gian)
     for (const portal of map.portals) {
-      const sprite = this.portalsGroup.create(portal.position.x * tileSize, portal.position.y * tileSize, 'prop_portal') as Phaser.Physics.Arcade.Sprite;
+      const portalArt = lineageKey('prop_portal', useGameStore.getState().character?.alignment);
+      const sprite = this.portalsGroup.create(portal.position.x * tileSize, portal.position.y * tileSize,
+        this.textures.exists(portalArt) ? portalArt : 'prop_portal') as Phaser.Physics.Arcade.Sprite;
       sprite.setData('portalData', portal);
       sprite.setOrigin(0.5, 0.5);
       sprite.setDepth(sprite.y);
 
-      this.ambientTweens.push(this.tweens.add({
-        targets: sprite,
-        angle: 360,
-        duration: 16000,
-        repeat: -1,
+      if (!usePresentationSettings.getState().reducedEffects) this.ambientTweens.push(this.tweens.add({
+        targets: sprite, alpha: .75, y: sprite.y - 2, yoyo: true, duration: 1700, repeat: -1,
       }));
 
       const sign = this.worldRenderer.portalSign(sprite.x, sprite.y);
@@ -603,6 +617,7 @@ export default class ExplorationScene extends Phaser.Scene {
     this.worldRenderer.setReducedMotion(reduced);
     if (reduced) for (const tween of this.ambientTweens) tween.pause();
     this.player.setDepth(initialPlayer.y);
+    this.syncTitle();
     this.currentFacing = 'down';
     this.playLocomotion(this.player, { x: 0, y: 0 });
 
@@ -641,6 +656,7 @@ export default class ExplorationScene extends Phaser.Scene {
       const position = predictPosition(this.mapData, player, velocity, sample, now, delta);
       player.setPosition(position.x, position.y).setDepth(position.y);
       this.updateMountAppearance(now);
+      this.syncTitle();
       this.worldRenderer?.updateOcclusion(player);
       this.cameras.main.setLerp(cameraFollowLerp(this.game.loop.rawDelta));
       if (magnitude && !this.actorAction.active) {
@@ -721,7 +737,7 @@ export default class ExplorationScene extends Phaser.Scene {
 
   private updateMountAppearance(now: number) {
     const mountId = useGameStore.getState().character?.activeMount;
-    const key = `${mountId}_ride`;
+    const key = lineageKey(`${mountId}_ride`, useGameStore.getState().character?.alignment);
     if (!mountId || !this.player || !this.textures.exists(key)) {
       this.mountSprite?.destroy();
       this.riderSprite?.destroy();
@@ -754,6 +770,31 @@ export default class ExplorationScene extends Phaser.Scene {
     this.riderSprite.setTexture(this.player.texture.key, this.player.frame.name)
       .setPosition(this.player.x + (flip ? 4 : -4), this.player.y - 21 + (moving ? Math.sin(now / 95) * 1.5 : 0))
       .setScale(0.85, 0.7).setTint(this.player.tintTopLeft).setDepth(this.player.y + 1);
+  }
+
+  private syncTitle() {
+    if (!this.player) return;
+    const character = useGameStore.getState().character;
+    const id = character?.equippedTitleId ?? null;
+    if (id !== this.displayedTitleId) {
+      this.titleBanner?.destroy(); this.titleLabel?.destroy();
+      this.titleBanner = null; this.titleLabel = null; this.displayedTitleId = id;
+      if (id && character) {
+        const key = `title_${alignmentSlug(character.alignment)}_${id}_banner`;
+        if (this.textures.exists(key)) {
+          this.titleBanner = this.add.sprite(0,0,key).setScale(.82);
+          if (!usePresentationSettings.getState().reducedEffects && this.anims.exists(`${key}_play`))
+            this.titleBanner.play(`${key}_play`);
+          this.titleLabel = this.add.text(0,0,titleName(id,character.alignment),{
+            fontFamily:'serif',fontSize:'13px',fontStyle:'bold',color:'#f8eaca',
+            stroke:'#14121b',strokeThickness:2,
+          }).setOrigin(.5);
+        }
+      }
+    }
+    const y = this.player.y - (character?.activeMount ? 125 : 88);
+    this.titleBanner?.setPosition(this.player.x,y).setDepth(this.player.y+5);
+    this.titleLabel?.setPosition(this.player.x,y).setDepth(this.player.y+6);
   }
 
   private playPose(pose: HeroPose) {
@@ -827,7 +868,10 @@ export default class ExplorationScene extends Phaser.Scene {
           ? { texture: 'disciple_lieu_muoi_idle', walk: '', scale: 1 }
           : creatureAppearance(ent);
         const fallback = isBoss ? 'boss_lang_vuong' : 'monster_wolf';
-        const texture = this.textures.exists(look.texture) ? look.texture : fallback;
+        const bossVariant = motionBoss && !eventWolf
+          ? lineageKey(`${ent.templateId}_actions`, useGameStore.getState().character?.alignment) : '';
+        const texture = bossVariant && this.textures.exists(bossVariant) ? bossVariant
+          : this.textures.exists(look.texture) ? look.texture : fallback;
         const sprite = this.add.sprite(0, 0, texture).setOrigin(0.5, 0.875).setScale(look.scale);
         if (look.tint) sprite.setTint(look.tint);
         container.add(sprite);
@@ -895,22 +939,25 @@ export default class ExplorationScene extends Phaser.Scene {
           continue;
         }
         if (ent.type === 'BOSS' && /^boss_\d{3}$/.test(ent.templateId ?? '')) {
-          const prefix = eventWolf ? 'event_boss_001_covenant_' : `${ent.templateId}_`;
+          const prefix = eventWolf ? 'event_boss_001_covenant_' :
+            `${ent.templateId}_`;
+          const variant = (state: string) => eventWolf ? `${prefix}${state}` :
+            lineageKey(`${prefix}${state}`, useGameStore.getState().character?.alignment);
           const current = sprite.anims.currentAnim?.key;
           if (ent.state === 'DEAD') {
             if (!container.getData('bossDeathStarted')) {
               container.setData('bossDeathStarted', true);
-              sprite.play(`${prefix}death_play`);
-              sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE_KEY + `${prefix}death_play`, () =>
+              sprite.play(`${variant('death')}_play`);
+              sprite.once(Phaser.Animations.Events.ANIMATION_COMPLETE_KEY + `${variant('death')}_play`, () =>
                 container!.setData('bossDeathDone', true));
             }
           } else if (ent.state === 'ENRAGED' && !container.getData('bossPhasePlayed')) {
             container.setData('bossPhasePlayed', true);
-            sprite.play(`${prefix}phase_play`);
-          } else if (sprite.anims.isPlaying && current === `${prefix}phase_play`) {
+            sprite.play(`${variant('phase')}_play`);
+          } else if (sprite.anims.isPlaying && current === `${variant('phase')}_play`) {
             // Let the one-shot transformation finish even if the server advances state.
           } else if (ent.state === 'MOVING' || ent.state === 'CHASE' || ent.state === 'RETURN') {
-            sprite.play(`${prefix}move_walk`, true);
+            sprite.play(`${variant('move')}_walk`, true);
           } else {
             if (sprite.anims.isPlaying) sprite.stop();
             sprite.setTexture(`${prefix}actions`, ent.state === 'WINDUP' ? 1

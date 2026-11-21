@@ -21,15 +21,16 @@ test('boot loads a bounded set and every playable map loads its own visible art'
     const mapKeys = new Set(mapAssets(map).map(asset => asset.key));
     for (const asset of mapAssets(map)) assert.ok(existsSync(resolve('../client/public', asset.file)), asset.file);
     for (const npc of map.npcs) {
-      assert.ok(bootKeys.has(npc.spriteKey) || mapKeys.has(npc.spriteKey), `${map.id}: ${npc.spriteKey}`);
-      if (manifestKeys.has(`${npc.spriteKey}_gestures`)) assert.ok(mapKeys.has(`${npc.spriteKey}_gestures`));
+      assert.ok(mapKeys.has(`${npc.spriteKey}_immortal`), `${map.id}: Tiên ${npc.spriteKey}`);
+      if (manifestKeys.has(`${npc.spriteKey}_gestures_immortal`))
+        assert.ok(mapKeys.has(`${npc.spriteKey}_gestures_immortal`));
     }
     for (const { monsterId } of map.monsters.filter(monster => /^boss_\d{3}$/.test(monster.monsterId))) {
       for (const state of ['actions', 'move', 'phase', 'death'])
-        assert.ok(mapKeys.has(`${monsterId}_${state}`), `${map.id}: ${monsterId}_${state}`);
+        assert.ok(mapKeys.has(`${monsterId}_${state}_immortal`), `${map.id}: ${monsterId}_${state}_immortal`);
     }
     for (const item of map.interactables.filter(item => item.type === 'MOUNT'))
-      assert.ok(mapKeys.has(`${item.mountId}_wild`), `${map.id}: ${item.mountId}_wild`);
+      assert.ok(mapKeys.has(`${item.mountId}_wild_immortal`), `${map.id}: ${item.mountId}_wild_immortal`);
   }
   assert.ok(mapAssets(MAP_TEMPLATES.map_thanh_khe_rung).some(asset => asset.key === 'event_boss_001_covenant_death'));
   assert.ok(!mapAssets(MAP_TEMPLATES.map_thanh_khe).some(asset => asset.key === 'boss_020_actions'));

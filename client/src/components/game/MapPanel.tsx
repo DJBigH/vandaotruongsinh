@@ -5,6 +5,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useGameStore } from '../../stores/gameStore';
 import * as gameApi from '../../api/game';
+import { alignmentSlug } from '../../game/assets/lineage';
 
 interface MapMeta {
   desc: string;
@@ -22,6 +23,11 @@ interface WorldMapOverview {
 }
 
 const MAP_METADATA: Record<string, MapMeta> = {
+  map_huyen_u_khe: {
+    desc: 'Nơi xuất sinh của huyết mạch Ma Tôn. Huyền U Lão Giả che giấu di vật của người, mở đường ra U Lâm.',
+    realm: 'Luyện Khí · Sơ Kỳ',
+    icon: '/assets/v160/prop_shrine_demonic.png',
+  },
   map_thanh_khe: {
     desc: 'Tân Thủ Thôn an bình dưới chân núi, có Trưởng Lão chỉ dẫn, Dược Sĩ bốc thuốc và Vệ Binh bảo hộ.',
     realm: 'Luyện Khí · Sơ Kỳ',
@@ -188,12 +194,12 @@ export default function MapPanel() {
                   flexShrink: 0,
                 }}>
                   <img
-                    src={meta.icon}
+                    src={`/assets/v160/avatar_${m.id}_${alignmentSlug(character?.alignment)}.png`}
                     alt={m.name}
                     style={{
-                      height: '36px',
-                      maxWidth: '36px',
-                      imageRendering: 'pixelated',
+                      height: '44px',
+                      maxWidth: '44px',
+                      filter: m.discovered ? 'none' : 'grayscale(1) brightness(.45)',
                       objectFit: 'contain',
                     }}
                   />

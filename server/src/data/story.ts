@@ -189,6 +189,16 @@ export const DIALOGUE_DATA: Record<string, any[]> = {
     { speaker: 'Trưởng Lão Thanh Khê', text: 'Sói rừng phát cuồng từ đêm linh khí đổi dòng. Hãy cứu người hái thuốc và trở về kể ta nghe điều đạo hữu tìm thấy.' },
     { speaker: 'Trưởng Lão Thanh Khê', text: 'Tên của một người cũng là nhà của họ. Nếu mảnh ngọc thật sự nhớ được, xin đừng bỏ nó.' },
   ],
+  dlg_elder_ma_01: [
+    { speaker: 'Huyền U Lão Giả', text: 'Đêm nguyệt thực ta nhặt được con và huyết ngọc của Ma Tôn. U Lâm đang gọi tên con; trước khi đi, hãy xem phong ấn ở linh miếu.' },
+    { speaker: 'Huyền U Lão Giả', text: 'Huyết mạch không quyết định thiện ác. Tìm ba dấu vết của đàn sói, rồi tự chọn con đường.' },
+  ],
+  dlg_healer_ma_01: [
+    { speaker: 'Dược Sư U Lan', text: 'Huyết ngọc của con làm linh dược đổi màu. Ta sẽ giữ người ở Huyền U Khê bình an khi con vào U Lâm.' },
+  ],
+  dlg_guard_ma_01: [
+    { speaker: 'Huyền Giáp Vệ', text: 'Ta từng phục vụ Ma Tôn. Nếu U Lâm nổi loạn, hãy trở về kể đúng những gì con thấy.' },
+  ],
   dlg_healer_01: [
     { speaker: 'Dược Sĩ Liễu Muội', text: 'Ta ghi tên từng người được cứu. Thuốc là để họ sống tiếp, ký ức là để họ biết mình đang sống vì ai.' },
   ],

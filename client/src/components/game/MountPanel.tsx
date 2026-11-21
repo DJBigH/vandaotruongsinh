@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { realmName } from '@shared';
 import { equipMount, getMounts, type MountInfo } from '../../api/game';
 import { useGameStore } from '../../stores/gameStore';
+import { alignmentSlug } from '../../game/assets/lineage';
 
 type MountState = { mounts: MountInfo[]; activeMount: string | null };
 
@@ -48,12 +49,12 @@ export default function MountPanel() {
       <div className="mount-list" aria-label="Danh sách linh thú">
         {state.mounts.map((entry) => <button key={entry.id} type="button" className={entry.id === selected ? 'selected' : ''}
           onClick={() => setSelected(entry.id)} aria-current={entry.id === selected ? 'true' : undefined}>
-          <img src={`/assets/v120/avatar_${entry.id}_${entry.owned ? 'bonded' : 'wild'}.png`} alt="" width="192" height="192" />
+          <img src={`/assets/v160/avatar_${entry.id}_${entry.owned ? 'bonded' : 'wild'}_${alignmentSlug(character?.alignment)}.png`} alt="" width="192" height="192" />
           <span><strong>{entry.name}</strong><small>{entry.owned ? 'ĐÃ THU PHỤC' : `${Math.min(entry.huntProgress, entry.requiredKills)}/${entry.requiredKills} dấu vết`}</small></span>
         </button>)}
       </div>
       {mount && <div className="mount-detail">
-        <img className="mount-portrait" src={`/assets/v120/avatar_${mount.id}_${mount.owned ? 'bonded' : 'wild'}.png`}
+        <img className="mount-portrait" src={`/assets/v160/avatar_${mount.id}_${mount.owned ? 'bonded' : 'wild'}_${alignmentSlug(character?.alignment)}.png`}
           alt={mount.name} width="192" height="192" />
         <h3>{mount.name}</h3><p>{mount.description}</p>
         <div className="mount-facts"><span>Địa điểm <strong>{mount.mapName}</strong></span>

@@ -16,8 +16,9 @@ import { getActiveCharacter } from '../character/helpers';
 import { ArpgSessionManager, RestorationConflict } from '../../engine/realtime-arpg-engine';
 import { resolvePortalTravel } from './portal-travel';
 import { discoveryKey, discoveryReward } from './discoveries';
+import { mapForAlignment } from '../../data/maps';
 
-type CharacterLocation = Pick<Character, 'id' | 'currentMapId' | 'positionX' | 'positionY'>;
+type CharacterLocation = Pick<Character, 'id' | 'alignment' | 'currentMapId' | 'positionX' | 'positionY'>;
 
 function worldDistance(map: MapData, position: Position, target: Position): number {
   return Math.hypot(position.x - target.x * map.tileSize, position.y - target.y * map.tileSize);
@@ -43,7 +44,7 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
   function getLocation(character: CharacterLocation) {
     const session = sessions.getSession(character.id);
     const mapId = session?.mapId ?? character.currentMapId;
-    const map = Object.hasOwn(MAP_DATA, mapId) ? MAP_DATA[mapId] : undefined;
+    const map = Object.hasOwn(MAP_DATA, mapId) ? mapForAlignment(mapId, character.alignment) : undefined;
     const position = session?.player ?? { x: character.positionX, y: character.positionY };
     const canInteract = !!map && (!session || session.player.hp > 0) && isWorldPositionWalkable(map, position);
     return { map, position, canInteract };
@@ -69,7 +70,8 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
     const maps = Object.values(MAP_DATA).map((m) => ({
       id: m.id,
       name: m.name,
-      discovered: m.id === 'map_thanh_khe' || m.id === char.currentMapId || claimed.has(`visit_${m.id}`),
+      discovered: m.id === (char.alignment === 'DEMONIC' ? 'map_huyen_u_khe' : 'map_thanh_khe') ||
+        m.id === char.currentMapId || claimed.has(`visit_${m.id}`),
       clueFound: claimed.has(discoveryKey(m.id)),
       clue: claimed.has(discoveryKey(m.id)) ? discoveryReward(m.id)?.clue : undefined,
       clueSite: m.interactables.find((entry) => entry.type === 'SHRINE')?.position,
@@ -80,7 +82,11 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
   // GET /api/game/maps/:id
   fastify.get('/maps/:id', { preHandler: authenticate }, async (request: FastifyRequest, reply: FastifyReply) => {
     const { id } = request.params as any;
-    const map = MAP_DATA[id] || MAP_DATA['map_thanh_khe'];
+    const user = (request as any).user;
+    const char = await getCharacter(user.userId);
+    if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
+    const map = mapForAlignment(id, char.alignment) ||
+      mapForAlignment(char.alignment === 'DEMONIC' ? 'map_huyen_u_khe' : 'map_thanh_khe', char.alignment);
     return reply.send({ success: true, data: map });
   });
 
@@ -114,8 +120,12 @@ export async function worldRoutes(fastify: FastifyInstance, options: { prisma: P
       if (!char) return reply.status(404).send({ success: false, error: 'Chưa có nhân vật' });
 
       const { targetMapId, portalId } = (request.body as any) || {};
+      if ((targetMapId === 'map_thanh_khe' && char.alignment === 'DEMONIC') ||
+          (targetMapId === 'map_huyen_u_khe' && char.alignment === 'IMMORTAL')) {
+        return reply.status(403).send({ success: false, error: 'Không thể vào nơi khởi sinh của đạo mạch đối lập' });
+      }
       const targetMap = typeof targetMapId === 'string' && Object.hasOwn(MAP_DATA, targetMapId)
-        ? MAP_DATA[targetMapId] : undefined;
+        ? mapForAlignment(targetMapId, char.alignment) : undefined;
       if (!targetMap) return reply.status(404).send({ success: false, error: 'Bản đồ đích không tồn tại' });
       let arrival: Position | undefined;
       if (portalId !== undefined) {

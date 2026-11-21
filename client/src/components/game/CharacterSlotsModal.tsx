@@ -7,6 +7,7 @@ import * as gameApi from '../../api/game';
 import { CharacterGender, CultivationPath, DaoAlignment, CULTIVATION_PATH_NAMES, REALM_TIERS, realmName } from '@shared/index';
 import CharacterIdentityPicker from './CharacterIdentityPicker';
 import { heroAvatarUrl } from '../../game/assets/hero-variants';
+import { markOriginCinematic } from '../../game/originCinematic';
 
 interface SlotData {
   slot: number;
@@ -62,6 +63,7 @@ export default function CharacterSlotsModal({ onClose }: Props) {
     try {
       const res = await gameApi.switchCharacter(characterId);
       if (res.success) {
+        if (res.data) markOriginCinematic(res.data.id);
         window.location.reload();
       }
     } catch (e: any) {

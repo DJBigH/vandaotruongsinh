@@ -383,6 +383,7 @@ export interface CharacterSummary {
   gender: CharacterGender;
   alignment: DaoAlignment;
   activeMount?: string | null;
+  equippedTitleId?: string | null;
   realmIndex: number;
   realmTier: number;
   realmName: string;
@@ -856,3 +857,5 @@ export interface AccountCharactersResponse {
 
 export { isWorldPositionWalkable, resolveWorldMovement } from './world-collision';
 export { MAX_ENHANCEMENT, enhancementChance } from './enhancement';
+export { TITLE_CATALOG, titleName } from './titles';
+export type { TitleId } from './titles';

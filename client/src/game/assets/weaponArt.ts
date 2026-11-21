@@ -17,10 +17,12 @@ export function weaponArt(templateId: string, name = '', enhanceLevel = 0) {
           /cung/.test(name.toLowerCase()) ? 'bow' :
             /phủ|rìu/.test(name.toLowerCase()) ? 'axe' : 'sword');
   const stage = Math.max(0, Math.min(10, Math.trunc(enhanceLevel || 0)));
-  return stage <= 5 ? `/assets/v110/weapon_${kind}_${stage}.png` : `/assets/v130/weapon_${kind}_${stage}.png`;
+  return `/assets/v160/weapon_${kind}_${stage}_${alignmentSlug(useGameStore.getState().character?.alignment)}.png`;
 }
 
 export function weaponPortrait(templateId: string, name = '', enhanceLevel = 0) {
   const icon = weaponArt(templateId, name, enhanceLevel);
-  return enhanceLevel <= 5 ? icon : icon.replace('/weapon_', '/avatar_weapon_');
+  return icon.replace('/weapon_', '/avatar_weapon_');
 }
+import { useGameStore } from '../../stores/gameStore';
+import { alignmentSlug } from './lineage';

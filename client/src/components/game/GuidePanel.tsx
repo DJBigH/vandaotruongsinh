@@ -33,7 +33,12 @@ export default function GuidePanel({ characterId }: { characterId: string }) {
   const [index, setIndex] = useState(0);
   const nextRef = useRef<HTMLButtonElement>(null);
   const setActivePanel = useGameStore((state) => state.setActivePanel);
-  const step = STEPS[index];
+  const alignment = useGameStore((state) => state.character?.alignment);
+  const step = index === 0 && alignment === 'DEMONIC' ? {
+    title: 'Huyết ngọc gọi từ U Lâm',
+    body: 'Huyền U Lão Giả đã che giấu con của Ma Tôn ở Huyền U Khê. U Lâm dị biến khiến huyết ngọc thức giấc; mỗi hồi truyện sẽ hé lộ một lời chứng về Thiên Khế.',
+    action: 'Bắt đầu bằng nhiệm vụ chính ở góc phải. Gặp Huyền U Lão Giả phía bắc khe.',
+  } : STEPS[index];
 
   useEffect(() => { nextRef.current?.focus(); }, [index]);
 

@@ -26,6 +26,7 @@ export const MENU_GROUPS: readonly MenuGroup[] = [
   ] },
   { title: 'Hành trang', entries: [
     { panel: 'inventory', label: 'Túi đồ', code: 'KeyI', key: 'I' },
+    { panel: 'titles', label: 'Danh hiệu', code: 'KeyY', key: 'Y' },
     { panel: 'settings', label: 'Thiết lập', code: 'KeyZ', key: 'Z' },
     { panel: 'guide', label: 'Hướng dẫn', code: 'F1', key: 'F1' },
   ] },

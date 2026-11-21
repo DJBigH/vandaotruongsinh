@@ -4,6 +4,7 @@ import { BASE_STATS, CharacterGender, CultivationPath, DaoAlignment } from '@sha
 import { createCharacter } from '../api/game';
 import { useGameStore } from '../stores/gameStore';
 import CharacterIdentityPicker from '../components/game/CharacterIdentityPicker';
+import { markOriginCinematic } from '../game/originCinematic';
 
 export default function CharacterCreatePage() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export default function CharacterCreatePage() {
     try {
       const result = await createCharacter({ name: name.trim(), cultivationPath: path, gender, alignment, appearance: 0 });
       if (!result.success) return setError(result.error || 'Không thể tạo nhân vật.');
+      if (result.data) markOriginCinematic(result.data.id);
       await loadCharacter();
       navigate('/game');
     } catch (problem: any) {
@@ -53,7 +55,8 @@ export default function CharacterCreatePage() {
           <span>Tốc <strong>{stats.spd}</strong></span>
         </div>
         <button className="character-create-submit" type="submit" disabled={loading}>
-          {loading ? 'Đang khởi tạo đạo thân…' : 'Bước vào Thanh Khê'}
+          {loading ? 'Đang khởi tạo đạo thân…' : alignment === DaoAlignment.DEMONIC
+            ? 'Bước vào Huyền U Khê' : 'Bước vào Thanh Khê'}
         </button>
       </form>
     </section>

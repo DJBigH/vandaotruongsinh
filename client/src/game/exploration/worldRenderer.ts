@@ -3,6 +3,8 @@ import type { MapCollisionZone, MapData, Position } from '@shared/index';
 import { buildingScale, buildingTexture, isForest, isSect, isVillage, isWater, worldTrails } from './worldLayout';
 import { worldDetails } from './v110WorldProps';
 import { usePresentationSettings } from './settings';
+import { useGameStore } from '../../stores/gameStore';
+import { alignmentSlug, lineageKey } from '../assets/lineage';
 
 type Occluder = {
   sprite: Phaser.GameObjects.Sprite;
@@ -48,6 +50,11 @@ export class WorldRenderer {
   private rotating: Phaser.Tweens.Tween[] = [];
   private gate?: Phaser.GameObjects.Sprite;
   private readonly groundKey: string;
+  private readonly alignment = useGameStore.getState().character?.alignment;
+  private variant(key: string): string {
+    const selected = lineageKey(key, this.alignment);
+    return this.scene.textures.exists(selected) ? selected : key;
+  }
 
   constructor(private scene: Phaser.Scene, private map: MapData) {
     this.groundKey = 'terrain:' + map.id;
@@ -64,7 +71,7 @@ export class WorldRenderer {
       placed.add(id);
       if (occupied.has(location) && ['prop_portal', 'prop_shrine', 'prop_chest', 'prop_herb', 'prop_ore'].includes(prop.key)) continue;
       const ambient = `${prop.key}_loop`;
-      const texture = scene.textures.exists(ambient) ? ambient : prop.key;
+      const texture = scene.textures.exists(ambient) ? ambient : this.variant(prop.key);
       const sprite = scene.add.sprite(prop.x * size, prop.y * size, texture)
         .setOrigin(0.5, prop.originY ?? 0.9).setScale(prop.scale ?? 1)
         .setDepth(prop.depth ?? prop.y * size).setAlpha(prop.alpha ?? 1);
@@ -115,7 +122,7 @@ export class WorldRenderer {
     if (!isVillage(this.map) && !isForest(this.map)) return;
     const building = buildingTexture(zone);
     if (building) {
-      const sprite = this.scene.add.sprite((zone.x + zone.w / 2) * s, (zone.y + zone.h) * s, building)
+      const sprite = this.scene.add.sprite((zone.x + zone.w / 2) * s, (zone.y + zone.h) * s, this.variant(building))
         .setOrigin(0.5, 1);
       sprite.setScale(buildingScale(zone, s, sprite.width, sprite.height)).setDepth(sprite.y);
       this.track(sprite);
@@ -128,7 +135,7 @@ export class WorldRenderer {
         const key = trees ? ((row + col) % 3 ? 'prop_pine_tree' : 'prop_broadleaf_tree') : 'prop_ancient_rock';
         const x = zone.x * s + (col + 0.5) * width / cols;
         const y = zone.y * s + (row + 1) * height / rows - 3;
-        const sprite = this.scene.add.sprite(x, y, key).setOrigin(0.5, 0.94).setDepth(y);
+        const sprite = this.scene.add.sprite(x, y, this.variant(key)).setOrigin(0.5, 0.94).setDepth(y);
         sprite.setScale((width / cols + (trees ? 30 : 14)) / sprite.width);
         sprite.setFlipX((row + col) % 2 === 1);
         this.track(sprite);
@@ -158,7 +165,7 @@ export class WorldRenderer {
         ctx.drawImage(scene.textures.get(key).getSourceImage() as HTMLImageElement, x * s, y * s, s, s);
       }
     } else {
-      const material = (key: string, color: string, opacity: number, side: number) => {
+      const material = (key: string, color: string, opacity: number, side: number, sourceKey = 'ground_' + key) => {
         // Mirror adjacent swatches to avoid visible seams. Blend the original pigment into a local base tone.
         const tile = document.createElement('canvas');
         tile.width = tile.height = side * 2;
@@ -166,7 +173,7 @@ export class WorldRenderer {
         c.fillStyle = color;
         c.fillRect(0, 0, tile.width, tile.height);
         c.globalAlpha = opacity;
-        const source = scene.textures.get('ground_' + key).getSourceImage() as HTMLImageElement;
+        const source = scene.textures.get(sourceKey).getSourceImage() as HTMLImageElement;
         for (let y = 0; y < 2; y++) for (let x = 0; x < 2; x++) {
           c.save();
           c.translate(x * 2 * side, y * 2 * side);
@@ -184,7 +191,10 @@ export class WorldRenderer {
       const stoneTone = sect ? '#4b5563' : map.id === 'map_u_minh_vuc' ? '#2e1065' : map.id === 'map_long_mach_thien_son' ? '#475569' : '#64748b';
       const stone = material('stone', stoneTone, 0.68, 174);
       const water = material('water', '#3c6868', 0.63, 126);
-      ctx.fillStyle = isStoneMap ? stone : isDirtMap ? dirt : grass;
+      const lineageGround = `mapground_${map.id}_${alignmentSlug(this.alignment)}`;
+      const lineageBase = scene.textures.exists(lineageGround)
+        ? material('grass', stoneTone, .98, 256, lineageGround) : null;
+      ctx.fillStyle = lineageBase ?? (isStoneMap ? stone : isDirtMap ? dirt : grass);
       ctx.fillRect(0, 0, w, h);
       // Broad tonal changes keep the open grass readable at both desktop sizes.
       for (let i = 0; i < 26; i++) {

@@ -101,12 +101,19 @@ export async function questRoutes(fastify: FastifyInstance, options: { prisma: P
         responseQuests.push({
           id: cq ? cq.id : tmplId,
           templateId: tmpl.id,
-          name: tmpl.name,
-          description: tmpl.description,
+          name: char.alignment === 'DEMONIC' && tmplId === 'quest_main_01'
+            ? 'Huyết Ngọc Huyền U: Tiếng Gọi U Lâm' : tmpl.name,
+          description: char.alignment === 'DEMONIC' && tmplId === 'quest_main_01'
+            ? 'Di vật Ma Tôn thức giấc khi U Lâm dị biến. Tìm người đã nuôi mình và điều tra dấu vết trong rừng.'
+            : tmpl.description,
           type: tmpl.type,
           chapter: tmpl.chapter,
           status,
-          objectives,
+          objectives: char.alignment === 'DEMONIC' && tmplId === 'quest_main_01'
+            ? objectives.map(objective => ({ ...objective, description:
+              objective.id === 'obj_talk_elder' ? 'Hỏi Huyền U Lão Giả về huyết ngọc'
+              : objective.id === 'obj_shrine_village' ? 'Xem phong ấn tại linh miếu Huyền U Khê'
+              : 'Tiêu diệt 3 Sói Xám ở U Lâm' })) : objectives,
           rewards: {
             exp: tmpl.rewards.exp,
             gold: tmpl.rewards.gold,

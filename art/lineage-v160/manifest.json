@@ -1,0 +1,2346 @@
+{
+  "npc": [
+    {
+      "id": "npc_elder",
+      "alignment": "immortal",
+      "sprite": "assets/v160/npc_elder_immortal.png",
+      "avatar": "assets/v160/avatar_npc_elder_immortal.png"
+    },
+    {
+      "id": "npc_elder",
+      "alignment": "demonic",
+      "sprite": "assets/v160/npc_elder_demonic.png",
+      "avatar": "assets/v160/avatar_npc_elder_demonic.png"
+    },
+    {
+      "id": "npc_healer",
+      "alignment": "immortal",
+      "sprite": "assets/v160/npc_healer_immortal.png",
+      "avatar": "assets/v160/avatar_npc_healer_immortal.png"
+    },
+    {
+      "id": "npc_healer",
+      "alignment": "demonic",
+      "sprite": "assets/v160/npc_healer_demonic.png",
+      "avatar": "assets/v160/avatar_npc_healer_demonic.png"
+    },
+    {
+      "id": "npc_guard",
+      "alignment": "immortal",
+      "sprite": "assets/v160/npc_guard_immortal.png",
+      "avatar": "assets/v160/avatar_npc_guard_immortal.png"
+    },
+    {
+      "id": "npc_guard",
+      "alignment": "demonic",
+      "sprite": "assets/v160/npc_guard_demonic.png",
+      "avatar": "assets/v160/avatar_npc_guard_demonic.png"
+    },
+    {
+      "id": "npc_mentor",
+      "alignment": "immortal",
+      "sprite": "assets/v160/npc_mentor_immortal.png",
+      "avatar": "assets/v160/avatar_npc_mentor_immortal.png"
+    },
+    {
+      "id": "npc_mentor",
+      "alignment": "demonic",
+      "sprite": "assets/v160/npc_mentor_demonic.png",
+      "avatar": "assets/v160/avatar_npc_mentor_demonic.png"
+    },
+    {
+      "id": "npc_sect_master",
+      "alignment": "immortal",
+      "sprite": "assets/v160/npc_sect_master_immortal.png",
+      "avatar": "assets/v160/avatar_npc_sect_master_immortal.png",
+      "gestures": "assets/v160/npc_sect_master_gestures_immortal.png"
+    },
+    {
+      "id": "npc_sect_master",
+      "alignment": "demonic",
+      "sprite": "assets/v160/npc_sect_master_demonic.png",
+      "avatar": "assets/v160/avatar_npc_sect_master_demonic.png",
+      "gestures": "assets/v160/npc_sect_master_gestures_demonic.png"
+    },
+    {
+      "id": "npc_sword_spirit",
+      "alignment": "immortal",
+      "sprite": "assets/v160/npc_sword_spirit_immortal.png",
+      "avatar": "assets/v160/avatar_npc_sword_spirit_immortal.png",
+      "gestures": "assets/v160/npc_sword_spirit_gestures_immortal.png"
+    },
+    {
+      "id": "npc_sword_spirit",
+      "alignment": "demonic",
+      "sprite": "assets/v160/npc_sword_spirit_demonic.png",
+      "avatar": "assets/v160/avatar_npc_sword_spirit_demonic.png",
+      "gestures": "assets/v160/npc_sword_spirit_gestures_demonic.png"
+    },
+    {
+      "id": "npc_rebel_cultivator",
+      "alignment": "immortal",
+      "sprite": "assets/v160/npc_rebel_cultivator_immortal.png",
+      "avatar": "assets/v160/avatar_npc_rebel_cultivator_immortal.png",
+      "gestures": "assets/v160/npc_rebel_cultivator_gestures_immortal.png"
+    },
+    {
+      "id": "npc_rebel_cultivator",
+      "alignment": "demonic",
+      "sprite": "assets/v160/npc_rebel_cultivator_demonic.png",
+      "avatar": "assets/v160/avatar_npc_rebel_cultivator_demonic.png",
+      "gestures": "assets/v160/npc_rebel_cultivator_gestures_demonic.png"
+    },
+    {
+      "id": "npc_mountain_god",
+      "alignment": "immortal",
+      "sprite": "assets/v160/npc_mountain_god_immortal.png",
+      "avatar": "assets/v160/avatar_npc_mountain_god_immortal.png",
+      "gestures": "assets/v160/npc_mountain_god_gestures_immortal.png"
+    },
+    {
+      "id": "npc_mountain_god",
+      "alignment": "demonic",
+      "sprite": "assets/v160/npc_mountain_god_demonic.png",
+      "avatar": "assets/v160/avatar_npc_mountain_god_demonic.png",
+      "gestures": "assets/v160/npc_mountain_god_gestures_demonic.png"
+    },
+    {
+      "id": "npc_dan_ton",
+      "alignment": "immortal",
+      "sprite": "assets/v160/npc_dan_ton_immortal.png",
+      "avatar": "assets/v160/avatar_npc_dan_ton_immortal.png",
+      "gestures": "assets/v160/npc_dan_ton_gestures_immortal.png"
+    },
+    {
+      "id": "npc_dan_ton",
+      "alignment": "demonic",
+      "sprite": "assets/v160/npc_dan_ton_demonic.png",
+      "avatar": "assets/v160/avatar_npc_dan_ton_demonic.png",
+      "gestures": "assets/v160/npc_dan_ton_gestures_demonic.png"
+    },
+    {
+      "id": "npc_inner_voice",
+      "alignment": "immortal",
+      "sprite": "assets/v160/npc_inner_voice_immortal.png",
+      "avatar": "assets/v160/avatar_npc_inner_voice_immortal.png",
+      "gestures": "assets/v160/npc_inner_voice_gestures_immortal.png"
+    },
+    {
+      "id": "npc_inner_voice",
+      "alignment": "demonic",
+      "sprite": "assets/v160/npc_inner_voice_demonic.png",
+      "avatar": "assets/v160/avatar_npc_inner_voice_demonic.png",
+      "gestures": "assets/v160/npc_inner_voice_gestures_demonic.png"
+    },
+    {
+      "id": "npc_covenant_arbiter",
+      "alignment": "immortal",
+      "sprite": "assets/v160/npc_covenant_arbiter_immortal.png",
+      "avatar": "assets/v160/avatar_npc_covenant_arbiter_immortal.png",
+      "gestures": "assets/v160/npc_covenant_arbiter_gestures_immortal.png"
+    },
+    {
+      "id": "npc_covenant_arbiter",
+      "alignment": "demonic",
+      "sprite": "assets/v160/npc_covenant_arbiter_demonic.png",
+      "avatar": "assets/v160/avatar_npc_covenant_arbiter_demonic.png",
+      "gestures": "assets/v160/npc_covenant_arbiter_gestures_demonic.png"
+    },
+    {
+      "id": "npc_tower_keeper",
+      "alignment": "immortal",
+      "sprite": "assets/v160/npc_tower_keeper_immortal.png",
+      "avatar": "assets/v160/avatar_npc_tower_keeper_immortal.png",
+      "gestures": "assets/v160/npc_tower_keeper_gestures_immortal.png"
+    },
+    {
+      "id": "npc_tower_keeper",
+      "alignment": "demonic",
+      "sprite": "assets/v160/npc_tower_keeper_demonic.png",
+      "avatar": "assets/v160/avatar_npc_tower_keeper_demonic.png",
+      "gestures": "assets/v160/npc_tower_keeper_gestures_demonic.png"
+    }
+  ],
+  "mount": [
+    {
+      "id": "mount_crane",
+      "alignment": "immortal",
+      "ride": "assets/v160/mount_crane_ride_immortal.png",
+      "wild": "assets/v160/mount_crane_wild_immortal.png",
+      "avatar_wild": "assets/v160/avatar_mount_crane_wild_immortal.png",
+      "avatar_bonded": "assets/v160/avatar_mount_crane_bonded_immortal.png"
+    },
+    {
+      "id": "mount_crane",
+      "alignment": "demonic",
+      "ride": "assets/v160/mount_crane_ride_demonic.png",
+      "wild": "assets/v160/mount_crane_wild_demonic.png",
+      "avatar_wild": "assets/v160/avatar_mount_crane_wild_demonic.png",
+      "avatar_bonded": "assets/v160/avatar_mount_crane_bonded_demonic.png"
+    },
+    {
+      "id": "mount_shadow_wolf",
+      "alignment": "immortal",
+      "ride": "assets/v160/mount_shadow_wolf_ride_immortal.png",
+      "wild": "assets/v160/mount_shadow_wolf_wild_immortal.png",
+      "avatar_wild": "assets/v160/avatar_mount_shadow_wolf_wild_immortal.png",
+      "avatar_bonded": "assets/v160/avatar_mount_shadow_wolf_bonded_immortal.png"
+    },
+    {
+      "id": "mount_shadow_wolf",
+      "alignment": "demonic",
+      "ride": "assets/v160/mount_shadow_wolf_ride_demonic.png",
+      "wild": "assets/v160/mount_shadow_wolf_wild_demonic.png",
+      "avatar_wild": "assets/v160/avatar_mount_shadow_wolf_wild_demonic.png",
+      "avatar_bonded": "assets/v160/avatar_mount_shadow_wolf_bonded_demonic.png"
+    },
+    {
+      "id": "mount_fox",
+      "alignment": "immortal",
+      "ride": "assets/v160/mount_fox_ride_immortal.png",
+      "wild": "assets/v160/mount_fox_wild_immortal.png",
+      "avatar_wild": "assets/v160/avatar_mount_fox_wild_immortal.png",
+      "avatar_bonded": "assets/v160/avatar_mount_fox_bonded_immortal.png"
+    },
+    {
+      "id": "mount_fox",
+      "alignment": "demonic",
+      "ride": "assets/v160/mount_fox_ride_demonic.png",
+      "wild": "assets/v160/mount_fox_wild_demonic.png",
+      "avatar_wild": "assets/v160/avatar_mount_fox_wild_demonic.png",
+      "avatar_bonded": "assets/v160/avatar_mount_fox_bonded_demonic.png"
+    },
+    {
+      "id": "mount_turtle",
+      "alignment": "immortal",
+      "ride": "assets/v160/mount_turtle_ride_immortal.png",
+      "wild": "assets/v160/mount_turtle_wild_immortal.png",
+      "avatar_wild": "assets/v160/avatar_mount_turtle_wild_immortal.png",
+      "avatar_bonded": "assets/v160/avatar_mount_turtle_bonded_immortal.png"
+    },
+    {
+      "id": "mount_turtle",
+      "alignment": "demonic",
+      "ride": "assets/v160/mount_turtle_ride_demonic.png",
+      "wild": "assets/v160/mount_turtle_wild_demonic.png",
+      "avatar_wild": "assets/v160/avatar_mount_turtle_wild_demonic.png",
+      "avatar_bonded": "assets/v160/avatar_mount_turtle_bonded_demonic.png"
+    },
+    {
+      "id": "mount_stag",
+      "alignment": "immortal",
+      "ride": "assets/v160/mount_stag_ride_immortal.png",
+      "wild": "assets/v160/mount_stag_wild_immortal.png",
+      "avatar_wild": "assets/v160/avatar_mount_stag_wild_immortal.png",
+      "avatar_bonded": "assets/v160/avatar_mount_stag_bonded_immortal.png"
+    },
+    {
+      "id": "mount_stag",
+      "alignment": "demonic",
+      "ride": "assets/v160/mount_stag_ride_demonic.png",
+      "wild": "assets/v160/mount_stag_wild_demonic.png",
+      "avatar_wild": "assets/v160/avatar_mount_stag_wild_demonic.png",
+      "avatar_bonded": "assets/v160/avatar_mount_stag_bonded_demonic.png"
+    },
+    {
+      "id": "mount_underworld_horse",
+      "alignment": "immortal",
+      "ride": "assets/v160/mount_underworld_horse_ride_immortal.png",
+      "wild": "assets/v160/mount_underworld_horse_wild_immortal.png",
+      "avatar_wild": "assets/v160/avatar_mount_underworld_horse_wild_immortal.png",
+      "avatar_bonded": "assets/v160/avatar_mount_underworld_horse_bonded_immortal.png"
+    },
+    {
+      "id": "mount_underworld_horse",
+      "alignment": "demonic",
+      "ride": "assets/v160/mount_underworld_horse_ride_demonic.png",
+      "wild": "assets/v160/mount_underworld_horse_wild_demonic.png",
+      "avatar_wild": "assets/v160/avatar_mount_underworld_horse_wild_demonic.png",
+      "avatar_bonded": "assets/v160/avatar_mount_underworld_horse_bonded_demonic.png"
+    }
+  ],
+  "weapon": [
+    {
+      "id": "weapon_sword_0",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_sword_0_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_sword_0_immortal.png"
+    },
+    {
+      "id": "weapon_sword_0",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_sword_0_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_sword_0_demonic.png"
+    },
+    {
+      "id": "weapon_sword_1",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_sword_1_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_sword_1_immortal.png"
+    },
+    {
+      "id": "weapon_sword_1",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_sword_1_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_sword_1_demonic.png"
+    },
+    {
+      "id": "weapon_sword_2",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_sword_2_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_sword_2_immortal.png"
+    },
+    {
+      "id": "weapon_sword_2",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_sword_2_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_sword_2_demonic.png"
+    },
+    {
+      "id": "weapon_sword_3",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_sword_3_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_sword_3_immortal.png"
+    },
+    {
+      "id": "weapon_sword_3",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_sword_3_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_sword_3_demonic.png"
+    },
+    {
+      "id": "weapon_sword_4",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_sword_4_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_sword_4_immortal.png"
+    },
+    {
+      "id": "weapon_sword_4",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_sword_4_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_sword_4_demonic.png"
+    },
+    {
+      "id": "weapon_sword_5",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_sword_5_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_sword_5_immortal.png"
+    },
+    {
+      "id": "weapon_sword_5",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_sword_5_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_sword_5_demonic.png"
+    },
+    {
+      "id": "weapon_sword_6",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_sword_6_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_sword_6_immortal.png"
+    },
+    {
+      "id": "weapon_sword_6",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_sword_6_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_sword_6_demonic.png"
+    },
+    {
+      "id": "weapon_sword_7",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_sword_7_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_sword_7_immortal.png"
+    },
+    {
+      "id": "weapon_sword_7",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_sword_7_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_sword_7_demonic.png"
+    },
+    {
+      "id": "weapon_sword_8",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_sword_8_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_sword_8_immortal.png"
+    },
+    {
+      "id": "weapon_sword_8",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_sword_8_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_sword_8_demonic.png"
+    },
+    {
+      "id": "weapon_sword_9",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_sword_9_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_sword_9_immortal.png"
+    },
+    {
+      "id": "weapon_sword_9",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_sword_9_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_sword_9_demonic.png"
+    },
+    {
+      "id": "weapon_sword_10",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_sword_10_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_sword_10_immortal.png"
+    },
+    {
+      "id": "weapon_sword_10",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_sword_10_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_sword_10_demonic.png"
+    },
+    {
+      "id": "weapon_staff_0",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_staff_0_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_staff_0_immortal.png"
+    },
+    {
+      "id": "weapon_staff_0",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_staff_0_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_staff_0_demonic.png"
+    },
+    {
+      "id": "weapon_staff_1",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_staff_1_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_staff_1_immortal.png"
+    },
+    {
+      "id": "weapon_staff_1",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_staff_1_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_staff_1_demonic.png"
+    },
+    {
+      "id": "weapon_staff_2",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_staff_2_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_staff_2_immortal.png"
+    },
+    {
+      "id": "weapon_staff_2",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_staff_2_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_staff_2_demonic.png"
+    },
+    {
+      "id": "weapon_staff_3",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_staff_3_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_staff_3_immortal.png"
+    },
+    {
+      "id": "weapon_staff_3",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_staff_3_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_staff_3_demonic.png"
+    },
+    {
+      "id": "weapon_staff_4",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_staff_4_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_staff_4_immortal.png"
+    },
+    {
+      "id": "weapon_staff_4",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_staff_4_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_staff_4_demonic.png"
+    },
+    {
+      "id": "weapon_staff_5",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_staff_5_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_staff_5_immortal.png"
+    },
+    {
+      "id": "weapon_staff_5",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_staff_5_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_staff_5_demonic.png"
+    },
+    {
+      "id": "weapon_staff_6",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_staff_6_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_staff_6_immortal.png"
+    },
+    {
+      "id": "weapon_staff_6",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_staff_6_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_staff_6_demonic.png"
+    },
+    {
+      "id": "weapon_staff_7",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_staff_7_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_staff_7_immortal.png"
+    },
+    {
+      "id": "weapon_staff_7",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_staff_7_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_staff_7_demonic.png"
+    },
+    {
+      "id": "weapon_staff_8",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_staff_8_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_staff_8_immortal.png"
+    },
+    {
+      "id": "weapon_staff_8",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_staff_8_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_staff_8_demonic.png"
+    },
+    {
+      "id": "weapon_staff_9",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_staff_9_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_staff_9_immortal.png"
+    },
+    {
+      "id": "weapon_staff_9",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_staff_9_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_staff_9_demonic.png"
+    },
+    {
+      "id": "weapon_staff_10",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_staff_10_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_staff_10_immortal.png"
+    },
+    {
+      "id": "weapon_staff_10",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_staff_10_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_staff_10_demonic.png"
+    },
+    {
+      "id": "weapon_fists_0",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_fists_0_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_fists_0_immortal.png"
+    },
+    {
+      "id": "weapon_fists_0",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_fists_0_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_fists_0_demonic.png"
+    },
+    {
+      "id": "weapon_fists_1",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_fists_1_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_fists_1_immortal.png"
+    },
+    {
+      "id": "weapon_fists_1",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_fists_1_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_fists_1_demonic.png"
+    },
+    {
+      "id": "weapon_fists_2",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_fists_2_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_fists_2_immortal.png"
+    },
+    {
+      "id": "weapon_fists_2",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_fists_2_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_fists_2_demonic.png"
+    },
+    {
+      "id": "weapon_fists_3",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_fists_3_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_fists_3_immortal.png"
+    },
+    {
+      "id": "weapon_fists_3",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_fists_3_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_fists_3_demonic.png"
+    },
+    {
+      "id": "weapon_fists_4",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_fists_4_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_fists_4_immortal.png"
+    },
+    {
+      "id": "weapon_fists_4",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_fists_4_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_fists_4_demonic.png"
+    },
+    {
+      "id": "weapon_fists_5",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_fists_5_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_fists_5_immortal.png"
+    },
+    {
+      "id": "weapon_fists_5",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_fists_5_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_fists_5_demonic.png"
+    },
+    {
+      "id": "weapon_fists_6",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_fists_6_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_fists_6_immortal.png"
+    },
+    {
+      "id": "weapon_fists_6",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_fists_6_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_fists_6_demonic.png"
+    },
+    {
+      "id": "weapon_fists_7",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_fists_7_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_fists_7_immortal.png"
+    },
+    {
+      "id": "weapon_fists_7",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_fists_7_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_fists_7_demonic.png"
+    },
+    {
+      "id": "weapon_fists_8",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_fists_8_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_fists_8_immortal.png"
+    },
+    {
+      "id": "weapon_fists_8",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_fists_8_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_fists_8_demonic.png"
+    },
+    {
+      "id": "weapon_fists_9",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_fists_9_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_fists_9_immortal.png"
+    },
+    {
+      "id": "weapon_fists_9",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_fists_9_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_fists_9_demonic.png"
+    },
+    {
+      "id": "weapon_fists_10",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_fists_10_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_fists_10_immortal.png"
+    },
+    {
+      "id": "weapon_fists_10",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_fists_10_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_fists_10_demonic.png"
+    },
+    {
+      "id": "weapon_spear_0",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_spear_0_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_spear_0_immortal.png"
+    },
+    {
+      "id": "weapon_spear_0",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_spear_0_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_spear_0_demonic.png"
+    },
+    {
+      "id": "weapon_spear_1",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_spear_1_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_spear_1_immortal.png"
+    },
+    {
+      "id": "weapon_spear_1",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_spear_1_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_spear_1_demonic.png"
+    },
+    {
+      "id": "weapon_spear_2",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_spear_2_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_spear_2_immortal.png"
+    },
+    {
+      "id": "weapon_spear_2",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_spear_2_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_spear_2_demonic.png"
+    },
+    {
+      "id": "weapon_spear_3",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_spear_3_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_spear_3_immortal.png"
+    },
+    {
+      "id": "weapon_spear_3",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_spear_3_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_spear_3_demonic.png"
+    },
+    {
+      "id": "weapon_spear_4",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_spear_4_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_spear_4_immortal.png"
+    },
+    {
+      "id": "weapon_spear_4",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_spear_4_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_spear_4_demonic.png"
+    },
+    {
+      "id": "weapon_spear_5",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_spear_5_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_spear_5_immortal.png"
+    },
+    {
+      "id": "weapon_spear_5",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_spear_5_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_spear_5_demonic.png"
+    },
+    {
+      "id": "weapon_spear_6",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_spear_6_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_spear_6_immortal.png"
+    },
+    {
+      "id": "weapon_spear_6",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_spear_6_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_spear_6_demonic.png"
+    },
+    {
+      "id": "weapon_spear_7",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_spear_7_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_spear_7_immortal.png"
+    },
+    {
+      "id": "weapon_spear_7",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_spear_7_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_spear_7_demonic.png"
+    },
+    {
+      "id": "weapon_spear_8",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_spear_8_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_spear_8_immortal.png"
+    },
+    {
+      "id": "weapon_spear_8",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_spear_8_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_spear_8_demonic.png"
+    },
+    {
+      "id": "weapon_spear_9",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_spear_9_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_spear_9_immortal.png"
+    },
+    {
+      "id": "weapon_spear_9",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_spear_9_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_spear_9_demonic.png"
+    },
+    {
+      "id": "weapon_spear_10",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_spear_10_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_spear_10_immortal.png"
+    },
+    {
+      "id": "weapon_spear_10",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_spear_10_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_spear_10_demonic.png"
+    },
+    {
+      "id": "weapon_bow_0",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_bow_0_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_bow_0_immortal.png"
+    },
+    {
+      "id": "weapon_bow_0",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_bow_0_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_bow_0_demonic.png"
+    },
+    {
+      "id": "weapon_bow_1",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_bow_1_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_bow_1_immortal.png"
+    },
+    {
+      "id": "weapon_bow_1",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_bow_1_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_bow_1_demonic.png"
+    },
+    {
+      "id": "weapon_bow_2",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_bow_2_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_bow_2_immortal.png"
+    },
+    {
+      "id": "weapon_bow_2",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_bow_2_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_bow_2_demonic.png"
+    },
+    {
+      "id": "weapon_bow_3",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_bow_3_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_bow_3_immortal.png"
+    },
+    {
+      "id": "weapon_bow_3",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_bow_3_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_bow_3_demonic.png"
+    },
+    {
+      "id": "weapon_bow_4",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_bow_4_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_bow_4_immortal.png"
+    },
+    {
+      "id": "weapon_bow_4",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_bow_4_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_bow_4_demonic.png"
+    },
+    {
+      "id": "weapon_bow_5",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_bow_5_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_bow_5_immortal.png"
+    },
+    {
+      "id": "weapon_bow_5",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_bow_5_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_bow_5_demonic.png"
+    },
+    {
+      "id": "weapon_bow_6",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_bow_6_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_bow_6_immortal.png"
+    },
+    {
+      "id": "weapon_bow_6",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_bow_6_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_bow_6_demonic.png"
+    },
+    {
+      "id": "weapon_bow_7",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_bow_7_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_bow_7_immortal.png"
+    },
+    {
+      "id": "weapon_bow_7",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_bow_7_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_bow_7_demonic.png"
+    },
+    {
+      "id": "weapon_bow_8",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_bow_8_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_bow_8_immortal.png"
+    },
+    {
+      "id": "weapon_bow_8",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_bow_8_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_bow_8_demonic.png"
+    },
+    {
+      "id": "weapon_bow_9",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_bow_9_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_bow_9_immortal.png"
+    },
+    {
+      "id": "weapon_bow_9",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_bow_9_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_bow_9_demonic.png"
+    },
+    {
+      "id": "weapon_bow_10",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_bow_10_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_bow_10_immortal.png"
+    },
+    {
+      "id": "weapon_bow_10",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_bow_10_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_bow_10_demonic.png"
+    },
+    {
+      "id": "weapon_axe_0",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_axe_0_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_axe_0_immortal.png"
+    },
+    {
+      "id": "weapon_axe_0",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_axe_0_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_axe_0_demonic.png"
+    },
+    {
+      "id": "weapon_axe_1",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_axe_1_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_axe_1_immortal.png"
+    },
+    {
+      "id": "weapon_axe_1",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_axe_1_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_axe_1_demonic.png"
+    },
+    {
+      "id": "weapon_axe_2",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_axe_2_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_axe_2_immortal.png"
+    },
+    {
+      "id": "weapon_axe_2",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_axe_2_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_axe_2_demonic.png"
+    },
+    {
+      "id": "weapon_axe_3",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_axe_3_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_axe_3_immortal.png"
+    },
+    {
+      "id": "weapon_axe_3",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_axe_3_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_axe_3_demonic.png"
+    },
+    {
+      "id": "weapon_axe_4",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_axe_4_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_axe_4_immortal.png"
+    },
+    {
+      "id": "weapon_axe_4",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_axe_4_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_axe_4_demonic.png"
+    },
+    {
+      "id": "weapon_axe_5",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_axe_5_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_axe_5_immortal.png"
+    },
+    {
+      "id": "weapon_axe_5",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_axe_5_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_axe_5_demonic.png"
+    },
+    {
+      "id": "weapon_axe_6",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_axe_6_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_axe_6_immortal.png"
+    },
+    {
+      "id": "weapon_axe_6",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_axe_6_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_axe_6_demonic.png"
+    },
+    {
+      "id": "weapon_axe_7",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_axe_7_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_axe_7_immortal.png"
+    },
+    {
+      "id": "weapon_axe_7",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_axe_7_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_axe_7_demonic.png"
+    },
+    {
+      "id": "weapon_axe_8",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_axe_8_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_axe_8_immortal.png"
+    },
+    {
+      "id": "weapon_axe_8",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_axe_8_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_axe_8_demonic.png"
+    },
+    {
+      "id": "weapon_axe_9",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_axe_9_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_axe_9_immortal.png"
+    },
+    {
+      "id": "weapon_axe_9",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_axe_9_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_axe_9_demonic.png"
+    },
+    {
+      "id": "weapon_axe_10",
+      "alignment": "immortal",
+      "icon": "assets/v160/weapon_axe_10_immortal.png",
+      "avatar": "assets/v160/avatar_weapon_axe_10_immortal.png"
+    },
+    {
+      "id": "weapon_axe_10",
+      "alignment": "demonic",
+      "icon": "assets/v160/weapon_axe_10_demonic.png",
+      "avatar": "assets/v160/avatar_weapon_axe_10_demonic.png"
+    }
+  ],
+  "equipment": [
+    {
+      "id": "equipment_robe_0",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_robe_0_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_robe_0_immortal.png"
+    },
+    {
+      "id": "equipment_robe_0",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_robe_0_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_robe_0_demonic.png"
+    },
+    {
+      "id": "equipment_robe_1",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_robe_1_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_robe_1_immortal.png"
+    },
+    {
+      "id": "equipment_robe_1",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_robe_1_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_robe_1_demonic.png"
+    },
+    {
+      "id": "equipment_robe_2",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_robe_2_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_robe_2_immortal.png"
+    },
+    {
+      "id": "equipment_robe_2",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_robe_2_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_robe_2_demonic.png"
+    },
+    {
+      "id": "equipment_robe_3",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_robe_3_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_robe_3_immortal.png"
+    },
+    {
+      "id": "equipment_robe_3",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_robe_3_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_robe_3_demonic.png"
+    },
+    {
+      "id": "equipment_robe_4",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_robe_4_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_robe_4_immortal.png"
+    },
+    {
+      "id": "equipment_robe_4",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_robe_4_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_robe_4_demonic.png"
+    },
+    {
+      "id": "equipment_robe_5",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_robe_5_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_robe_5_immortal.png"
+    },
+    {
+      "id": "equipment_robe_5",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_robe_5_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_robe_5_demonic.png"
+    },
+    {
+      "id": "equipment_robe_6",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_robe_6_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_robe_6_immortal.png"
+    },
+    {
+      "id": "equipment_robe_6",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_robe_6_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_robe_6_demonic.png"
+    },
+    {
+      "id": "equipment_robe_7",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_robe_7_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_robe_7_immortal.png"
+    },
+    {
+      "id": "equipment_robe_7",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_robe_7_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_robe_7_demonic.png"
+    },
+    {
+      "id": "equipment_robe_8",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_robe_8_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_robe_8_immortal.png"
+    },
+    {
+      "id": "equipment_robe_8",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_robe_8_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_robe_8_demonic.png"
+    },
+    {
+      "id": "equipment_robe_9",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_robe_9_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_robe_9_immortal.png"
+    },
+    {
+      "id": "equipment_robe_9",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_robe_9_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_robe_9_demonic.png"
+    },
+    {
+      "id": "equipment_robe_10",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_robe_10_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_robe_10_immortal.png"
+    },
+    {
+      "id": "equipment_robe_10",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_robe_10_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_robe_10_demonic.png"
+    },
+    {
+      "id": "equipment_armor_0",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_armor_0_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_armor_0_immortal.png"
+    },
+    {
+      "id": "equipment_armor_0",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_armor_0_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_armor_0_demonic.png"
+    },
+    {
+      "id": "equipment_armor_1",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_armor_1_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_armor_1_immortal.png"
+    },
+    {
+      "id": "equipment_armor_1",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_armor_1_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_armor_1_demonic.png"
+    },
+    {
+      "id": "equipment_armor_2",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_armor_2_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_armor_2_immortal.png"
+    },
+    {
+      "id": "equipment_armor_2",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_armor_2_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_armor_2_demonic.png"
+    },
+    {
+      "id": "equipment_armor_3",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_armor_3_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_armor_3_immortal.png"
+    },
+    {
+      "id": "equipment_armor_3",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_armor_3_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_armor_3_demonic.png"
+    },
+    {
+      "id": "equipment_armor_4",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_armor_4_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_armor_4_immortal.png"
+    },
+    {
+      "id": "equipment_armor_4",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_armor_4_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_armor_4_demonic.png"
+    },
+    {
+      "id": "equipment_armor_5",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_armor_5_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_armor_5_immortal.png"
+    },
+    {
+      "id": "equipment_armor_5",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_armor_5_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_armor_5_demonic.png"
+    },
+    {
+      "id": "equipment_armor_6",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_armor_6_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_armor_6_immortal.png"
+    },
+    {
+      "id": "equipment_armor_6",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_armor_6_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_armor_6_demonic.png"
+    },
+    {
+      "id": "equipment_armor_7",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_armor_7_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_armor_7_immortal.png"
+    },
+    {
+      "id": "equipment_armor_7",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_armor_7_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_armor_7_demonic.png"
+    },
+    {
+      "id": "equipment_armor_8",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_armor_8_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_armor_8_immortal.png"
+    },
+    {
+      "id": "equipment_armor_8",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_armor_8_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_armor_8_demonic.png"
+    },
+    {
+      "id": "equipment_armor_9",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_armor_9_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_armor_9_immortal.png"
+    },
+    {
+      "id": "equipment_armor_9",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_armor_9_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_armor_9_demonic.png"
+    },
+    {
+      "id": "equipment_armor_10",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_armor_10_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_armor_10_immortal.png"
+    },
+    {
+      "id": "equipment_armor_10",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_armor_10_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_armor_10_demonic.png"
+    },
+    {
+      "id": "equipment_boots_0",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_boots_0_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_boots_0_immortal.png"
+    },
+    {
+      "id": "equipment_boots_0",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_boots_0_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_boots_0_demonic.png"
+    },
+    {
+      "id": "equipment_boots_1",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_boots_1_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_boots_1_immortal.png"
+    },
+    {
+      "id": "equipment_boots_1",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_boots_1_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_boots_1_demonic.png"
+    },
+    {
+      "id": "equipment_boots_2",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_boots_2_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_boots_2_immortal.png"
+    },
+    {
+      "id": "equipment_boots_2",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_boots_2_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_boots_2_demonic.png"
+    },
+    {
+      "id": "equipment_boots_3",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_boots_3_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_boots_3_immortal.png"
+    },
+    {
+      "id": "equipment_boots_3",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_boots_3_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_boots_3_demonic.png"
+    },
+    {
+      "id": "equipment_boots_4",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_boots_4_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_boots_4_immortal.png"
+    },
+    {
+      "id": "equipment_boots_4",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_boots_4_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_boots_4_demonic.png"
+    },
+    {
+      "id": "equipment_boots_5",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_boots_5_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_boots_5_immortal.png"
+    },
+    {
+      "id": "equipment_boots_5",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_boots_5_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_boots_5_demonic.png"
+    },
+    {
+      "id": "equipment_boots_6",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_boots_6_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_boots_6_immortal.png"
+    },
+    {
+      "id": "equipment_boots_6",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_boots_6_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_boots_6_demonic.png"
+    },
+    {
+      "id": "equipment_boots_7",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_boots_7_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_boots_7_immortal.png"
+    },
+    {
+      "id": "equipment_boots_7",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_boots_7_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_boots_7_demonic.png"
+    },
+    {
+      "id": "equipment_boots_8",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_boots_8_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_boots_8_immortal.png"
+    },
+    {
+      "id": "equipment_boots_8",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_boots_8_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_boots_8_demonic.png"
+    },
+    {
+      "id": "equipment_boots_9",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_boots_9_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_boots_9_immortal.png"
+    },
+    {
+      "id": "equipment_boots_9",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_boots_9_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_boots_9_demonic.png"
+    },
+    {
+      "id": "equipment_boots_10",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_boots_10_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_boots_10_immortal.png"
+    },
+    {
+      "id": "equipment_boots_10",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_boots_10_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_boots_10_demonic.png"
+    },
+    {
+      "id": "equipment_ring_0",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_ring_0_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_ring_0_immortal.png"
+    },
+    {
+      "id": "equipment_ring_0",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_ring_0_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_ring_0_demonic.png"
+    },
+    {
+      "id": "equipment_ring_1",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_ring_1_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_ring_1_immortal.png"
+    },
+    {
+      "id": "equipment_ring_1",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_ring_1_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_ring_1_demonic.png"
+    },
+    {
+      "id": "equipment_ring_2",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_ring_2_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_ring_2_immortal.png"
+    },
+    {
+      "id": "equipment_ring_2",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_ring_2_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_ring_2_demonic.png"
+    },
+    {
+      "id": "equipment_ring_3",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_ring_3_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_ring_3_immortal.png"
+    },
+    {
+      "id": "equipment_ring_3",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_ring_3_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_ring_3_demonic.png"
+    },
+    {
+      "id": "equipment_ring_4",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_ring_4_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_ring_4_immortal.png"
+    },
+    {
+      "id": "equipment_ring_4",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_ring_4_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_ring_4_demonic.png"
+    },
+    {
+      "id": "equipment_ring_5",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_ring_5_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_ring_5_immortal.png"
+    },
+    {
+      "id": "equipment_ring_5",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_ring_5_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_ring_5_demonic.png"
+    },
+    {
+      "id": "equipment_ring_6",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_ring_6_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_ring_6_immortal.png"
+    },
+    {
+      "id": "equipment_ring_6",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_ring_6_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_ring_6_demonic.png"
+    },
+    {
+      "id": "equipment_ring_7",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_ring_7_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_ring_7_immortal.png"
+    },
+    {
+      "id": "equipment_ring_7",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_ring_7_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_ring_7_demonic.png"
+    },
+    {
+      "id": "equipment_ring_8",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_ring_8_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_ring_8_immortal.png"
+    },
+    {
+      "id": "equipment_ring_8",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_ring_8_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_ring_8_demonic.png"
+    },
+    {
+      "id": "equipment_ring_9",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_ring_9_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_ring_9_immortal.png"
+    },
+    {
+      "id": "equipment_ring_9",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_ring_9_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_ring_9_demonic.png"
+    },
+    {
+      "id": "equipment_ring_10",
+      "alignment": "immortal",
+      "icon": "assets/v160/icon_equipment_ring_10_immortal.png",
+      "avatar": "assets/v160/avatar_equipment_ring_10_immortal.png"
+    },
+    {
+      "id": "equipment_ring_10",
+      "alignment": "demonic",
+      "icon": "assets/v160/icon_equipment_ring_10_demonic.png",
+      "avatar": "assets/v160/avatar_equipment_ring_10_demonic.png"
+    }
+  ],
+  "boss": [
+    {
+      "id": "boss_001",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_001_actions_immortal.png",
+      "move": "assets/v160/boss_001_move_immortal.png",
+      "phase": "assets/v160/boss_001_phase_immortal.png",
+      "death": "assets/v160/boss_001_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_001_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_001_phase_immortal.png"
+    },
+    {
+      "id": "boss_001",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_001_actions_demonic.png",
+      "move": "assets/v160/boss_001_move_demonic.png",
+      "phase": "assets/v160/boss_001_phase_demonic.png",
+      "death": "assets/v160/boss_001_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_001_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_001_phase_demonic.png"
+    },
+    {
+      "id": "boss_002",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_002_actions_immortal.png",
+      "move": "assets/v160/boss_002_move_immortal.png",
+      "phase": "assets/v160/boss_002_phase_immortal.png",
+      "death": "assets/v160/boss_002_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_002_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_002_phase_immortal.png"
+    },
+    {
+      "id": "boss_002",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_002_actions_demonic.png",
+      "move": "assets/v160/boss_002_move_demonic.png",
+      "phase": "assets/v160/boss_002_phase_demonic.png",
+      "death": "assets/v160/boss_002_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_002_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_002_phase_demonic.png"
+    },
+    {
+      "id": "boss_003",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_003_actions_immortal.png",
+      "move": "assets/v160/boss_003_move_immortal.png",
+      "phase": "assets/v160/boss_003_phase_immortal.png",
+      "death": "assets/v160/boss_003_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_003_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_003_phase_immortal.png"
+    },
+    {
+      "id": "boss_003",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_003_actions_demonic.png",
+      "move": "assets/v160/boss_003_move_demonic.png",
+      "phase": "assets/v160/boss_003_phase_demonic.png",
+      "death": "assets/v160/boss_003_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_003_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_003_phase_demonic.png"
+    },
+    {
+      "id": "boss_004",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_004_actions_immortal.png",
+      "move": "assets/v160/boss_004_move_immortal.png",
+      "phase": "assets/v160/boss_004_phase_immortal.png",
+      "death": "assets/v160/boss_004_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_004_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_004_phase_immortal.png"
+    },
+    {
+      "id": "boss_004",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_004_actions_demonic.png",
+      "move": "assets/v160/boss_004_move_demonic.png",
+      "phase": "assets/v160/boss_004_phase_demonic.png",
+      "death": "assets/v160/boss_004_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_004_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_004_phase_demonic.png"
+    },
+    {
+      "id": "boss_005",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_005_actions_immortal.png",
+      "move": "assets/v160/boss_005_move_immortal.png",
+      "phase": "assets/v160/boss_005_phase_immortal.png",
+      "death": "assets/v160/boss_005_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_005_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_005_phase_immortal.png"
+    },
+    {
+      "id": "boss_005",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_005_actions_demonic.png",
+      "move": "assets/v160/boss_005_move_demonic.png",
+      "phase": "assets/v160/boss_005_phase_demonic.png",
+      "death": "assets/v160/boss_005_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_005_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_005_phase_demonic.png"
+    },
+    {
+      "id": "boss_006",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_006_actions_immortal.png",
+      "move": "assets/v160/boss_006_move_immortal.png",
+      "phase": "assets/v160/boss_006_phase_immortal.png",
+      "death": "assets/v160/boss_006_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_006_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_006_phase_immortal.png"
+    },
+    {
+      "id": "boss_006",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_006_actions_demonic.png",
+      "move": "assets/v160/boss_006_move_demonic.png",
+      "phase": "assets/v160/boss_006_phase_demonic.png",
+      "death": "assets/v160/boss_006_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_006_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_006_phase_demonic.png"
+    },
+    {
+      "id": "boss_007",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_007_actions_immortal.png",
+      "move": "assets/v160/boss_007_move_immortal.png",
+      "phase": "assets/v160/boss_007_phase_immortal.png",
+      "death": "assets/v160/boss_007_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_007_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_007_phase_immortal.png"
+    },
+    {
+      "id": "boss_007",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_007_actions_demonic.png",
+      "move": "assets/v160/boss_007_move_demonic.png",
+      "phase": "assets/v160/boss_007_phase_demonic.png",
+      "death": "assets/v160/boss_007_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_007_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_007_phase_demonic.png"
+    },
+    {
+      "id": "boss_008",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_008_actions_immortal.png",
+      "move": "assets/v160/boss_008_move_immortal.png",
+      "phase": "assets/v160/boss_008_phase_immortal.png",
+      "death": "assets/v160/boss_008_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_008_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_008_phase_immortal.png"
+    },
+    {
+      "id": "boss_008",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_008_actions_demonic.png",
+      "move": "assets/v160/boss_008_move_demonic.png",
+      "phase": "assets/v160/boss_008_phase_demonic.png",
+      "death": "assets/v160/boss_008_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_008_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_008_phase_demonic.png"
+    },
+    {
+      "id": "boss_009",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_009_actions_immortal.png",
+      "move": "assets/v160/boss_009_move_immortal.png",
+      "phase": "assets/v160/boss_009_phase_immortal.png",
+      "death": "assets/v160/boss_009_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_009_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_009_phase_immortal.png"
+    },
+    {
+      "id": "boss_009",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_009_actions_demonic.png",
+      "move": "assets/v160/boss_009_move_demonic.png",
+      "phase": "assets/v160/boss_009_phase_demonic.png",
+      "death": "assets/v160/boss_009_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_009_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_009_phase_demonic.png"
+    },
+    {
+      "id": "boss_010",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_010_actions_immortal.png",
+      "move": "assets/v160/boss_010_move_immortal.png",
+      "phase": "assets/v160/boss_010_phase_immortal.png",
+      "death": "assets/v160/boss_010_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_010_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_010_phase_immortal.png"
+    },
+    {
+      "id": "boss_010",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_010_actions_demonic.png",
+      "move": "assets/v160/boss_010_move_demonic.png",
+      "phase": "assets/v160/boss_010_phase_demonic.png",
+      "death": "assets/v160/boss_010_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_010_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_010_phase_demonic.png"
+    },
+    {
+      "id": "boss_011",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_011_actions_immortal.png",
+      "move": "assets/v160/boss_011_move_immortal.png",
+      "phase": "assets/v160/boss_011_phase_immortal.png",
+      "death": "assets/v160/boss_011_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_011_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_011_phase_immortal.png"
+    },
+    {
+      "id": "boss_011",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_011_actions_demonic.png",
+      "move": "assets/v160/boss_011_move_demonic.png",
+      "phase": "assets/v160/boss_011_phase_demonic.png",
+      "death": "assets/v160/boss_011_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_011_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_011_phase_demonic.png"
+    },
+    {
+      "id": "boss_012",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_012_actions_immortal.png",
+      "move": "assets/v160/boss_012_move_immortal.png",
+      "phase": "assets/v160/boss_012_phase_immortal.png",
+      "death": "assets/v160/boss_012_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_012_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_012_phase_immortal.png"
+    },
+    {
+      "id": "boss_012",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_012_actions_demonic.png",
+      "move": "assets/v160/boss_012_move_demonic.png",
+      "phase": "assets/v160/boss_012_phase_demonic.png",
+      "death": "assets/v160/boss_012_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_012_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_012_phase_demonic.png"
+    },
+    {
+      "id": "boss_013",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_013_actions_immortal.png",
+      "move": "assets/v160/boss_013_move_immortal.png",
+      "phase": "assets/v160/boss_013_phase_immortal.png",
+      "death": "assets/v160/boss_013_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_013_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_013_phase_immortal.png"
+    },
+    {
+      "id": "boss_013",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_013_actions_demonic.png",
+      "move": "assets/v160/boss_013_move_demonic.png",
+      "phase": "assets/v160/boss_013_phase_demonic.png",
+      "death": "assets/v160/boss_013_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_013_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_013_phase_demonic.png"
+    },
+    {
+      "id": "boss_014",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_014_actions_immortal.png",
+      "move": "assets/v160/boss_014_move_immortal.png",
+      "phase": "assets/v160/boss_014_phase_immortal.png",
+      "death": "assets/v160/boss_014_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_014_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_014_phase_immortal.png"
+    },
+    {
+      "id": "boss_014",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_014_actions_demonic.png",
+      "move": "assets/v160/boss_014_move_demonic.png",
+      "phase": "assets/v160/boss_014_phase_demonic.png",
+      "death": "assets/v160/boss_014_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_014_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_014_phase_demonic.png"
+    },
+    {
+      "id": "boss_015",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_015_actions_immortal.png",
+      "move": "assets/v160/boss_015_move_immortal.png",
+      "phase": "assets/v160/boss_015_phase_immortal.png",
+      "death": "assets/v160/boss_015_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_015_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_015_phase_immortal.png"
+    },
+    {
+      "id": "boss_015",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_015_actions_demonic.png",
+      "move": "assets/v160/boss_015_move_demonic.png",
+      "phase": "assets/v160/boss_015_phase_demonic.png",
+      "death": "assets/v160/boss_015_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_015_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_015_phase_demonic.png"
+    },
+    {
+      "id": "boss_016",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_016_actions_immortal.png",
+      "move": "assets/v160/boss_016_move_immortal.png",
+      "phase": "assets/v160/boss_016_phase_immortal.png",
+      "death": "assets/v160/boss_016_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_016_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_016_phase_immortal.png"
+    },
+    {
+      "id": "boss_016",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_016_actions_demonic.png",
+      "move": "assets/v160/boss_016_move_demonic.png",
+      "phase": "assets/v160/boss_016_phase_demonic.png",
+      "death": "assets/v160/boss_016_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_016_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_016_phase_demonic.png"
+    },
+    {
+      "id": "boss_017",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_017_actions_immortal.png",
+      "move": "assets/v160/boss_017_move_immortal.png",
+      "phase": "assets/v160/boss_017_phase_immortal.png",
+      "death": "assets/v160/boss_017_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_017_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_017_phase_immortal.png"
+    },
+    {
+      "id": "boss_017",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_017_actions_demonic.png",
+      "move": "assets/v160/boss_017_move_demonic.png",
+      "phase": "assets/v160/boss_017_phase_demonic.png",
+      "death": "assets/v160/boss_017_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_017_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_017_phase_demonic.png"
+    },
+    {
+      "id": "boss_018",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_018_actions_immortal.png",
+      "move": "assets/v160/boss_018_move_immortal.png",
+      "phase": "assets/v160/boss_018_phase_immortal.png",
+      "death": "assets/v160/boss_018_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_018_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_018_phase_immortal.png"
+    },
+    {
+      "id": "boss_018",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_018_actions_demonic.png",
+      "move": "assets/v160/boss_018_move_demonic.png",
+      "phase": "assets/v160/boss_018_phase_demonic.png",
+      "death": "assets/v160/boss_018_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_018_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_018_phase_demonic.png"
+    },
+    {
+      "id": "boss_019",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_019_actions_immortal.png",
+      "move": "assets/v160/boss_019_move_immortal.png",
+      "phase": "assets/v160/boss_019_phase_immortal.png",
+      "death": "assets/v160/boss_019_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_019_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_019_phase_immortal.png"
+    },
+    {
+      "id": "boss_019",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_019_actions_demonic.png",
+      "move": "assets/v160/boss_019_move_demonic.png",
+      "phase": "assets/v160/boss_019_phase_demonic.png",
+      "death": "assets/v160/boss_019_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_019_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_019_phase_demonic.png"
+    },
+    {
+      "id": "boss_020",
+      "alignment": "immortal",
+      "actions": "assets/v160/boss_020_actions_immortal.png",
+      "move": "assets/v160/boss_020_move_immortal.png",
+      "phase": "assets/v160/boss_020_phase_immortal.png",
+      "death": "assets/v160/boss_020_death_immortal.png",
+      "avatar_normal": "assets/v160/avatar_boss_020_immortal.png",
+      "avatar_phase": "assets/v160/avatar_boss_020_phase_immortal.png"
+    },
+    {
+      "id": "boss_020",
+      "alignment": "demonic",
+      "actions": "assets/v160/boss_020_actions_demonic.png",
+      "move": "assets/v160/boss_020_move_demonic.png",
+      "phase": "assets/v160/boss_020_phase_demonic.png",
+      "death": "assets/v160/boss_020_death_demonic.png",
+      "avatar_normal": "assets/v160/avatar_boss_020_demonic.png",
+      "avatar_phase": "assets/v160/avatar_boss_020_phase_demonic.png"
+    }
+  ],
+  "prop": [
+    {
+      "id": "building_hall",
+      "alignment": "immortal",
+      "sprite": "assets/v160/building_hall_immortal.png"
+    },
+    {
+      "id": "building_hall",
+      "alignment": "demonic",
+      "sprite": "assets/v160/building_hall_demonic.png"
+    },
+    {
+      "id": "building_herbalist",
+      "alignment": "immortal",
+      "sprite": "assets/v160/building_herbalist_immortal.png"
+    },
+    {
+      "id": "building_herbalist",
+      "alignment": "demonic",
+      "sprite": "assets/v160/building_herbalist_demonic.png"
+    },
+    {
+      "id": "building_barracks",
+      "alignment": "immortal",
+      "sprite": "assets/v160/building_barracks_immortal.png"
+    },
+    {
+      "id": "building_barracks",
+      "alignment": "demonic",
+      "sprite": "assets/v160/building_barracks_demonic.png"
+    },
+    {
+      "id": "building_house",
+      "alignment": "immortal",
+      "sprite": "assets/v160/building_house_immortal.png"
+    },
+    {
+      "id": "building_house",
+      "alignment": "demonic",
+      "sprite": "assets/v160/building_house_demonic.png"
+    },
+    {
+      "id": "prop_pine_tree",
+      "alignment": "immortal",
+      "sprite": "assets/v160/prop_pine_tree_immortal.png"
+    },
+    {
+      "id": "prop_pine_tree",
+      "alignment": "demonic",
+      "sprite": "assets/v160/prop_pine_tree_demonic.png"
+    },
+    {
+      "id": "prop_broadleaf_tree",
+      "alignment": "immortal",
+      "sprite": "assets/v160/prop_broadleaf_tree_immortal.png"
+    },
+    {
+      "id": "prop_broadleaf_tree",
+      "alignment": "demonic",
+      "sprite": "assets/v160/prop_broadleaf_tree_demonic.png"
+    },
+    {
+      "id": "prop_ancient_rock",
+      "alignment": "immortal",
+      "sprite": "assets/v160/prop_ancient_rock_immortal.png"
+    },
+    {
+      "id": "prop_ancient_rock",
+      "alignment": "demonic",
+      "sprite": "assets/v160/prop_ancient_rock_demonic.png"
+    },
+    {
+      "id": "prop_stone_lantern",
+      "alignment": "immortal",
+      "sprite": "assets/v160/prop_stone_lantern_immortal.png"
+    },
+    {
+      "id": "prop_stone_lantern",
+      "alignment": "demonic",
+      "sprite": "assets/v160/prop_stone_lantern_demonic.png"
+    },
+    {
+      "id": "prop_shrine",
+      "alignment": "immortal",
+      "sprite": "assets/v160/prop_shrine_immortal.png",
+      "avatar": "assets/v160/avatar_prop_shrine_immortal.png"
+    },
+    {
+      "id": "prop_shrine",
+      "alignment": "demonic",
+      "sprite": "assets/v160/prop_shrine_demonic.png",
+      "avatar": "assets/v160/avatar_prop_shrine_demonic.png"
+    },
+    {
+      "id": "prop_sect_gate",
+      "alignment": "immortal",
+      "sprite": "assets/v160/prop_sect_gate_immortal.png"
+    },
+    {
+      "id": "prop_sect_gate",
+      "alignment": "demonic",
+      "sprite": "assets/v160/prop_sect_gate_demonic.png"
+    },
+    {
+      "id": "prop_portal",
+      "alignment": "immortal",
+      "sprite": "assets/v160/prop_portal_immortal.png",
+      "avatar": "assets/v160/avatar_prop_portal_immortal.png"
+    },
+    {
+      "id": "prop_portal",
+      "alignment": "demonic",
+      "sprite": "assets/v160/prop_portal_demonic.png",
+      "avatar": "assets/v160/avatar_prop_portal_demonic.png"
+    }
+  ],
+  "map": [
+    {
+      "id": "map_thanh_khe",
+      "alignment": "immortal",
+      "ground": "assets/v160/mapground_map_thanh_khe_immortal.png",
+      "avatar": "assets/v160/avatar_map_thanh_khe_immortal.png"
+    },
+    {
+      "id": "map_thanh_khe",
+      "alignment": "demonic",
+      "ground": "assets/v160/mapground_map_thanh_khe_demonic.png",
+      "avatar": "assets/v160/avatar_map_thanh_khe_demonic.png"
+    },
+    {
+      "id": "map_huyen_u_khe",
+      "alignment": "immortal",
+      "ground": "assets/v160/mapground_map_huyen_u_khe_immortal.png",
+      "avatar": "assets/v160/avatar_map_huyen_u_khe_immortal.png"
+    },
+    {
+      "id": "map_huyen_u_khe",
+      "alignment": "demonic",
+      "ground": "assets/v160/mapground_map_huyen_u_khe_demonic.png",
+      "avatar": "assets/v160/avatar_map_huyen_u_khe_demonic.png"
+    },
+    {
+      "id": "map_thanh_khe_rung",
+      "alignment": "immortal",
+      "ground": "assets/v160/mapground_map_thanh_khe_rung_immortal.png",
+      "avatar": "assets/v160/avatar_map_thanh_khe_rung_immortal.png"
+    },
+    {
+      "id": "map_thanh_khe_rung",
+      "alignment": "demonic",
+      "ground": "assets/v160/mapground_map_thanh_khe_rung_demonic.png",
+      "avatar": "assets/v160/avatar_map_thanh_khe_rung_demonic.png"
+    },
+    {
+      "id": "map_thanh_van",
+      "alignment": "immortal",
+      "ground": "assets/v160/mapground_map_thanh_van_immortal.png",
+      "avatar": "assets/v160/avatar_map_thanh_van_immortal.png"
+    },
+    {
+      "id": "map_thanh_van",
+      "alignment": "demonic",
+      "ground": "assets/v160/mapground_map_thanh_van_demonic.png",
+      "avatar": "assets/v160/avatar_map_thanh_van_demonic.png"
+    },
+    {
+      "id": "map_dan_ha",
+      "alignment": "immortal",
+      "ground": "assets/v160/mapground_map_dan_ha_immortal.png",
+      "avatar": "assets/v160/avatar_map_dan_ha_immortal.png"
+    },
+    {
+      "id": "map_dan_ha",
+      "alignment": "demonic",
+      "ground": "assets/v160/mapground_map_dan_ha_demonic.png",
+      "avatar": "assets/v160/avatar_map_dan_ha_demonic.png"
+    },
+    {
+      "id": "map_co_kiem_di_tich",
+      "alignment": "immortal",
+      "ground": "assets/v160/mapground_map_co_kiem_di_tich_immortal.png",
+      "avatar": "assets/v160/avatar_map_co_kiem_di_tich_immortal.png"
+    },
+    {
+      "id": "map_co_kiem_di_tich",
+      "alignment": "demonic",
+      "ground": "assets/v160/mapground_map_co_kiem_di_tich_demonic.png",
+      "avatar": "assets/v160/avatar_map_co_kiem_di_tich_demonic.png"
+    },
+    {
+      "id": "map_u_minh_vuc",
+      "alignment": "immortal",
+      "ground": "assets/v160/mapground_map_u_minh_vuc_immortal.png",
+      "avatar": "assets/v160/avatar_map_u_minh_vuc_immortal.png"
+    },
+    {
+      "id": "map_u_minh_vuc",
+      "alignment": "demonic",
+      "ground": "assets/v160/mapground_map_u_minh_vuc_demonic.png",
+      "avatar": "assets/v160/avatar_map_u_minh_vuc_demonic.png"
+    },
+    {
+      "id": "map_kinh_tam_canh",
+      "alignment": "immortal",
+      "ground": "assets/v160/mapground_map_kinh_tam_canh_immortal.png",
+      "avatar": "assets/v160/avatar_map_kinh_tam_canh_immortal.png"
+    },
+    {
+      "id": "map_kinh_tam_canh",
+      "alignment": "demonic",
+      "ground": "assets/v160/mapground_map_kinh_tam_canh_demonic.png",
+      "avatar": "assets/v160/avatar_map_kinh_tam_canh_demonic.png"
+    },
+    {
+      "id": "map_long_mach_thien_son",
+      "alignment": "immortal",
+      "ground": "assets/v160/mapground_map_long_mach_thien_son_immortal.png",
+      "avatar": "assets/v160/avatar_map_long_mach_thien_son_immortal.png"
+    },
+    {
+      "id": "map_long_mach_thien_son",
+      "alignment": "demonic",
+      "ground": "assets/v160/mapground_map_long_mach_thien_son_demonic.png",
+      "avatar": "assets/v160/avatar_map_long_mach_thien_son_demonic.png"
+    },
+    {
+      "id": "map_thien_khe_dai",
+      "alignment": "immortal",
+      "ground": "assets/v160/mapground_map_thien_khe_dai_immortal.png",
+      "avatar": "assets/v160/avatar_map_thien_khe_dai_immortal.png"
+    },
+    {
+      "id": "map_thien_khe_dai",
+      "alignment": "demonic",
+      "ground": "assets/v160/mapground_map_thien_khe_dai_demonic.png",
+      "avatar": "assets/v160/avatar_map_thien_khe_dai_demonic.png"
+    },
+    {
+      "id": "map_tran_yeu_thap",
+      "alignment": "immortal",
+      "ground": "assets/v160/mapground_map_tran_yeu_thap_immortal.png",
+      "avatar": "assets/v160/avatar_map_tran_yeu_thap_immortal.png"
+    },
+    {
+      "id": "map_tran_yeu_thap",
+      "alignment": "demonic",
+      "ground": "assets/v160/mapground_map_tran_yeu_thap_demonic.png",
+      "avatar": "assets/v160/avatar_map_tran_yeu_thap_demonic.png"
+    }
+  ],
+  "title": [
+    {
+      "id": "heir",
+      "alignment": "immortal",
+      "crest": "assets/v160/title_immortal_heir_crest.png",
+      "banner": "assets/v160/title_immortal_heir_banner.png",
+      "avatar": "assets/v160/avatar_title_immortal_heir.png"
+    },
+    {
+      "id": "wanderer",
+      "alignment": "immortal",
+      "crest": "assets/v160/title_immortal_wanderer_crest.png",
+      "banner": "assets/v160/title_immortal_wanderer_banner.png",
+      "avatar": "assets/v160/avatar_title_immortal_wanderer.png"
+    },
+    {
+      "id": "guardian",
+      "alignment": "immortal",
+      "crest": "assets/v160/title_immortal_guardian_crest.png",
+      "banner": "assets/v160/title_immortal_guardian_banner.png",
+      "avatar": "assets/v160/avatar_title_immortal_guardian.png"
+    },
+    {
+      "id": "dragon",
+      "alignment": "immortal",
+      "crest": "assets/v160/title_immortal_dragon_crest.png",
+      "banner": "assets/v160/title_immortal_dragon_banner.png",
+      "avatar": "assets/v160/avatar_title_immortal_dragon.png"
+    },
+    {
+      "id": "sovereign",
+      "alignment": "immortal",
+      "crest": "assets/v160/title_immortal_sovereign_crest.png",
+      "banner": "assets/v160/title_immortal_sovereign_banner.png",
+      "avatar": "assets/v160/avatar_title_immortal_sovereign.png"
+    },
+    {
+      "id": "ascendant",
+      "alignment": "immortal",
+      "crest": "assets/v160/title_immortal_ascendant_crest.png",
+      "banner": "assets/v160/title_immortal_ascendant_banner.png",
+      "avatar": "assets/v160/avatar_title_immortal_ascendant.png"
+    },
+    {
+      "id": "heir",
+      "alignment": "demonic",
+      "crest": "assets/v160/title_demonic_heir_crest.png",
+      "banner": "assets/v160/title_demonic_heir_banner.png",
+      "avatar": "assets/v160/avatar_title_demonic_heir.png"
+    },
+    {
+      "id": "wanderer",
+      "alignment": "demonic",
+      "crest": "assets/v160/title_demonic_wanderer_crest.png",
+      "banner": "assets/v160/title_demonic_wanderer_banner.png",
+      "avatar": "assets/v160/avatar_title_demonic_wanderer.png"
+    },
+    {
+      "id": "guardian",
+      "alignment": "demonic",
+      "crest": "assets/v160/title_demonic_guardian_crest.png",
+      "banner": "assets/v160/title_demonic_guardian_banner.png",
+      "avatar": "assets/v160/avatar_title_demonic_guardian.png"
+    },
+    {
+      "id": "dragon",
+      "alignment": "demonic",
+      "crest": "assets/v160/title_demonic_dragon_crest.png",
+      "banner": "assets/v160/title_demonic_dragon_banner.png",
+      "avatar": "assets/v160/avatar_title_demonic_dragon.png"
+    },
+    {
+      "id": "sovereign",
+      "alignment": "demonic",
+      "crest": "assets/v160/title_demonic_sovereign_crest.png",
+      "banner": "assets/v160/title_demonic_sovereign_banner.png",
+      "avatar": "assets/v160/avatar_title_demonic_sovereign.png"
+    },
+    {
+      "id": "ascendant",
+      "alignment": "demonic",
+      "crest": "assets/v160/title_demonic_ascendant_crest.png",
+      "banner": "assets/v160/title_demonic_ascendant_banner.png",
+      "avatar": "assets/v160/avatar_title_demonic_ascendant.png"
+    }
+  ],
+  "cinematic": [
+    {
+      "alignment": "immortal",
+      "moment": "birth",
+      "file": "assets/v160/intro_immortal_birth.webp"
+    },
+    {
+      "alignment": "immortal",
+      "moment": "arrival",
+      "file": "assets/v160/intro_immortal_arrival.webp"
+    },
+    {
+      "alignment": "demonic",
+      "moment": "birth",
+      "file": "assets/v160/intro_demonic_birth.webp"
+    },
+    {
+      "alignment": "demonic",
+      "moment": "arrival",
+      "file": "assets/v160/intro_demonic_arrival.webp"
+    }
+  ]
+}

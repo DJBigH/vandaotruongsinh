@@ -5,5 +5,8 @@ const portraitKeys = new Set([
 ]);
 
 export function npcAvatar(spriteKey?: string): string | null {
-  return spriteKey && portraitKeys.has(spriteKey) ? `/assets/v120/avatar_${spriteKey}.png` : null;
+  return spriteKey && portraitKeys.has(spriteKey)
+    ? `/assets/v160/avatar_${spriteKey}_${alignmentSlug(useGameStore.getState().character?.alignment)}.png` : null;
 }
+import { useGameStore } from '../../stores/gameStore';
+import { alignmentSlug } from './lineage';

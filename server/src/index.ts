@@ -16,6 +16,7 @@ import { eventRoutes } from './modules/events/routes';
 import { mountRoutes } from './modules/mount/routes';
 import { skillRoutes } from './modules/skills/routes';
 import { characterRoutes } from './modules/character/routes';
+import { titleRoutes } from './modules/title/routes';
 import { inventoryRoutes } from './modules/inventory/routes';
 import { combatRoutes } from './modules/combat/routes';
 import { questRoutes } from './modules/quest/routes';
@@ -105,6 +106,7 @@ async function buildServer(options: { databaseProbe?: () => Promise<unknown> } =
       await api.register(mountRoutes, { prefix: '/game', prisma });
       await api.register(skillRoutes, { prefix: '/game', prisma });
       await api.register(characterRoutes, { prefix: '/game', prisma });
+      await api.register(titleRoutes, { prefix: '/game', prisma });
       await api.register(inventoryRoutes, { prefix: '/game', prisma });
       await api.register(combatRoutes, { prefix: '/game', prisma });
       await api.register(questRoutes, { prefix: '/game', prisma });

@@ -15,3 +15,5 @@ Không tự động nhảy sang `2.0.0` khi số patch tới 9. Script `nextGame
 **1.4.0** bổ sung cấp nhân vật theo EXP và yêu cầu đủ cấp, tu vi, linh thạch cùng vật phẩm để đột phá. Linh thạch bị trừ cho mỗi lần thử hợp lệ, kể cả khi thất bại. Có 9 cảnh giới, mỗi cảnh giới 4 tầng; Độ Kiếp Đại Viên Mãn là giới hạn hiện tại. Save cũ được tính lại cấp từ EXP, không đổi schema.
 
 **1.5.0** mở cả Tiên đạo và Ma đạo lên 12 cảnh giới, 48 tầng, cấp tối đa 48. Tiên kết ở Tiên Nhân, Ma kết ở Ma Tôn; tên gọi, huy hiệu, hiệu ứng và chân dung tách theo từng nhánh. Giữ chỉ số cảnh giới trong save cũ và toàn bộ giá đột phá đã phát hành. Đây là minor update vì có nội dung tiến trình mới nhưng tương thích save.
+
+**1.6.0** là minor update về mỹ thuật và mở đầu: huy hiệu cảnh giới vẽ lại, có bộ tài nguyên Tiên/Ma riêng cho NPC, thú, boss, vũ khí và môi trường; người tạo nhân vật Ma xuất sinh ở Huyền U Khê. Thêm danh hiệu có ảnh động, điều kiện mở từ cấp và cảnh giới, đoạn kể nguồn gốc có nhạc và nút bỏ qua. Không đổi schema hay làm mất save cũ.

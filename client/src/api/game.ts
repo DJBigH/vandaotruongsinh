@@ -18,6 +18,14 @@ export async function getCharacter(): Promise<ApiResponse<CharacterSummary>> {
   return res.data;
 }
 
+export interface TitleInfo { id: string; name: string; level: number; realmIndex: number; unlocked: boolean }
+export async function getTitles(): Promise<ApiResponse<{ equippedTitleId: string | null; titles: TitleInfo[] }>> {
+  const res = await apiClient.get('/game/titles'); return res.data;
+}
+export async function equipTitle(titleId: string | null): Promise<ApiResponse<{ equippedTitleId: string | null }>> {
+  const res = await apiClient.post('/game/titles/equip', { titleId }); return res.data;
+}
+
 export interface TimedEvent {
   id: 'noon-meditation' | 'world-boss' | 'night-hunt';
   title: string;

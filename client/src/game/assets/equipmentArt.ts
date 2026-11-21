@@ -5,5 +5,7 @@ export function equipmentArt(type: string, name: string, enhanceLevel: number, k
     : type === 'SHOES' ? 'boots' : type === 'ACCESSORY' ? 'ring' : null;
   if (!family) return null;
   const tier = Math.max(0, Math.min(10, Math.floor(Number.isFinite(enhanceLevel) ? enhanceLevel : 0)));
-  return `/assets/${tier <= 5 ? 'v120' : 'v130'}/${kind}_equipment_${family}_${tier}.png`;
+  return `/assets/v160/${kind}_equipment_${family}_${tier}_${alignmentSlug(useGameStore.getState().character?.alignment)}.png`;
 }
+import { useGameStore } from '../../stores/gameStore';
+import { alignmentSlug } from './lineage';

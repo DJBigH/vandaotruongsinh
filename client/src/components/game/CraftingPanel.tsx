@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { realmName } from '@shared/index';
 import { useGameStore } from '../../stores/gameStore';
 import { craftItem, getRecipes, type CraftingRecipe } from '../../api/game';
-import { weaponArt } from '../../game/assets/weaponArt';
+import { weaponArt, weaponPortrait } from '../../game/assets/weaponArt';
 
 export default function CraftingPanel() {
   const { inventory, character, loadInventory, setActivePanel, addNotification } = useGameStore();
@@ -48,7 +48,7 @@ export default function CraftingPanel() {
             ? `${realmName(recipe.minRealmIndex, character?.alignment)} trở lên` : `${realmName(0, character?.alignment)} trở lên`}</small></span></button>)}
       </div>
       <div className="craft-detail">{selected ? <>
-        <img className="craft-portrait" src={isWeapon ? weaponArt(selected.result.itemTemplateId, selected.result.name)
+        <img className="craft-portrait" src={isWeapon ? weaponPortrait(selected.result.itemTemplateId, selected.result.name)
           : '/assets/vnext/icon_item_pill_gold.png'} alt={selected.result.name} />
         <h3>{selected.result.name}</h3><p>{selected.result.description}</p>
         <p><strong>Phẩm cấp:</strong> {selected.result.quality} · <strong>Cảnh giới:</strong> {realmName(selected.minRealmIndex ?? 0, character?.alignment)}</p>

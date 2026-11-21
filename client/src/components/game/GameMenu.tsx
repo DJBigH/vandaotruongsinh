@@ -2,11 +2,13 @@ import { useEffect } from 'react';
 import { eventBridge } from '../../game/EventBridge';
 import { useGameStore } from '../../stores/gameStore';
 import { MENU_ENTRIES, MENU_GROUPS, QUICK_PANELS } from './menuShortcuts';
+import { alignmentSlug } from '../../game/assets/lineage';
 
 export default function GameMenu() {
   const expanded = useGameStore((state) => state.menuOpen);
   const setExpanded = useGameStore((state) => state.setMenuOpen);
   const activePanel = useGameStore((state) => state.activePanel);
+  const alignment = useGameStore((state) => state.character?.alignment);
   const dialogueOpen = useGameStore((state) => Boolean(state.dialogueState?.isOpen));
   const setActivePanel = useGameStore((state) => state.setActivePanel);
 
@@ -50,7 +52,7 @@ export default function GameMenu() {
                     aria-current={activePanel === entry.panel ? 'page' : undefined}
                     onClick={() => openPanel(entry.panel)}
                   >
-                    <span className="game-menu-entry-label"><img src={`/assets/v120/icon_menu_${entry.panel}.png`}
+                    <span className="game-menu-entry-label"><img src={entry.panel === 'titles' ? `/assets/v160/title_${alignmentSlug(alignment)}_heir_crest.png` : `/assets/v120/icon_menu_${entry.panel}.png`}
                       width="32" height="32" alt="" loading="lazy" />{entry.label}</span><kbd>{entry.key}</kbd>
                   </button>
                 ))}
